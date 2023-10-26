@@ -5,12 +5,12 @@ import { css } from '@emotion/react';
 import { LINE_HEIGHT } from '@styles/font';
 
 type Textprops = {
-  children: React.ReactNode;
+  children: string;
   size?: number | string;
   weight?: 300 | 500 | 700;
   lineHeight?: string;
   ellipsis?: number;
-} & HTMLAttributes<HTMLParagraphElement>;
+} & Omit<HTMLAttributes<HTMLParagraphElement>, 'children'>;
 
 export const Text = ({
   children,
