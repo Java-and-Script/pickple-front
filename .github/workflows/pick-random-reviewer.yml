@@ -1,0 +1,39 @@
+name: 'Pick Random Reviwer'
+
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - dev
+
+jobs:
+  pick-random-reviwer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: pick_random_reviwer
+        id: pick_random_reviwer
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.ACTION_TOKEN}}
+          script: |
+            const candidate = ['1g2g','imb96','dlwl98','1eecan'];
+            const randomReviewer = candidate[Math.floor(Math.random() * candidate.length)];
+            const comment = `🎉 @${randomReviewer} 님 랜덤 리뷰어로 당첨되셨습니다! 리뷰를 부탁드립니다. 🙏`
+            core.setOutput('comment', comment)
+            core.setOutput('reviewer', randomReviewer)
+
+      - name: comment PR
+        uses: mshick/add-pr-comment@v1
+        with:
+          message: |
+            ${{ steps.pick_random_reviwer.outputs.comment }}
+          repo-token: ${{ secrets.ACTION_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
+
+      - name: Add Pull Request Reviewer
+        uses: madrapps/add-reviewers@v1
+        with:
+          reviewers: ${{ steps.pick_random_reviwer.outputs.reviewer }}
+          token: ${{ secrets.ACTION_TOKEN }}
