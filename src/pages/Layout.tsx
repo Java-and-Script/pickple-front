@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 export const Layout = () => {
   return (
     <>
+      <Header>헤더</Header>
       <LayoutWrapper>
         <Outlet />
       </LayoutWrapper>
@@ -14,11 +15,20 @@ export const Layout = () => {
 };
 
 const LayoutWrapper = styled.div`
-  margin: 0 16px;
+  margin: 50px 16px 0 16px;
+`;
+
+const Header = styled.div`
+  position: fixed;
+  height: 40px;
+  top: 0;
+  left: 0;
+  background-color: aqua;
+  width: 100%;
 `;
 
 const Nav = styled.div`
-  position: absolute;
+  position: fixed;
   width: 100%;
   left: 0;
   bottom: 0;
