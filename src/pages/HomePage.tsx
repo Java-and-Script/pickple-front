@@ -12,5 +12,9 @@ export const HomePage = () => {
     });
   }, []);
 
+  if (data === null) {
+    return null;
+  }
+
   return <h1>{data}</h1>;
 };
