@@ -1,11 +1,11 @@
-import { BrowserRouter } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 
 import { ThemeProvider } from '@emotion/react';
 import { QueryClient } from '@tanstack/react-query';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import { Router } from '@routes/router';
+import { router } from '@routes/router';
 
 import GlobalStyle from '@styles/globalStyle';
 import { theme } from '@styles/theme';
@@ -16,11 +16,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Router />
-          <ReactQueryDevtools />
-          <GlobalStyle />
-        </BrowserRouter>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools />
+        <GlobalStyle />
       </ThemeProvider>
     </QueryClientProvider>
   );

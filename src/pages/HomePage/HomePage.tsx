@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import styled from '@emotion/styled';
 import axios from 'axios';
 
 export const HomePage = () => {
@@ -12,5 +13,19 @@ export const HomePage = () => {
     });
   }, []);
 
-  return <h1>{data}</h1>;
+  return (
+    <>
+      <Header>임시 헤더</Header>
+      <h1>{data}</h1>
+    </>
+  );
 };
+
+const Header = styled.div`
+  position: fixed;
+  height: 40px;
+  top: 0;
+  left: 0;
+  background-color: aqua;
+  width: 100%;
+`;
