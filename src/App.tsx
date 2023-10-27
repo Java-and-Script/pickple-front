@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { router } from '@routes/router';
 
+import GlobalStyle from '@styles/globalStyle';
 import { theme } from '@styles/theme';
 
 const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <RouterProvider router={router} />
         <ReactQueryDevtools />
+        <GlobalStyle />
       </ThemeProvider>
     </QueryClientProvider>
   );
