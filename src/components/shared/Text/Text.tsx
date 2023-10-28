@@ -1,8 +1,8 @@
 import { HTMLAttributes } from 'react';
 
-import { css } from '@emotion/react';
-
 import { LINE_HEIGHT } from '@styles/font';
+
+import { StyledParagraph } from './Text.styles';
 
 type Textprops = {
   children: string;
@@ -22,26 +22,23 @@ export const Text = ({
 }: Textprops) => {
   const stringifiedSize = typeof size === 'number' ? `${size / 16}rem` : size;
   const lineClamp = ellipsis
-    ? css`
+    ? `
         overflow: hidden;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: ${ellipsis};
       `
-    : css``;
+    : '';
 
   return (
-    <p
-      css={css`
-        margin: 0;
-        font-size: ${stringifiedSize};
-        font-weight: ${weight};
-        line-height: ${lineHeight};
-        ${lineClamp}
-      `}
+    <StyledParagraph
+      size={stringifiedSize}
+      weight={weight}
+      lineHeight={lineHeight}
+      lineClamp={lineClamp}
       {...props}
     >
       {children}
-    </p>
+    </StyledParagraph>
   );
 };
