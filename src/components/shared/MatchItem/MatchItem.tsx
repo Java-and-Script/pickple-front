@@ -1,3 +1,6 @@
+import { useNavigate } from 'react-router-dom';
+
+import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
 
 import {
@@ -14,6 +17,7 @@ import {
 } from './MatchItem.styles';
 
 type MatchItemProps = {
+  matchId: string;
   startTime: Date;
   timeMinutes: number;
   mainAddress: string;
@@ -24,6 +28,7 @@ type MatchItemProps = {
 
 /** TODO: Text 컴포넌트로 대체해야함 */
 export const MatchItem = ({
+  matchId,
   startTime,
   timeMinutes,
   mainAddress,
@@ -31,9 +36,13 @@ export const MatchItem = ({
   maxMemberCount,
   membersProfileImageUrls,
 }: MatchItemProps) => {
+  const navigate = useNavigate();
+
   membersProfileImageUrls;
   return (
-    <MatchItemWrapper>
+    <MatchItemWrapper
+      onClick={() => navigate(PATH_NAME.GET_GAMES_PATH(matchId))}
+    >
       <MatchStatus>
         <MatchStartTime>
           {`${startTime.toTimeString().slice(0, 5)}`}
