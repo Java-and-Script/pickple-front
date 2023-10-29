@@ -14,3 +14,9 @@ export const FlexBox = styled.div`
   display: flex;
   gap: 0.31rem;
 `;
+
+export const AllowCardGroupContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+`;
