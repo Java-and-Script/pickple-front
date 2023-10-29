@@ -57,6 +57,11 @@ export const BackwardIcon = styled.button`
 
 export const Title = styled.div`
   color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
 `;
 
 export const RightContainer = styled.div`
