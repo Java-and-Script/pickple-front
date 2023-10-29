@@ -61,17 +61,17 @@ const StyledModalBottom = styled.div`
   }
 `;
 
-const BottomSheet = ({ children }: { children: React.ReactNode }) => {
-  return <StyledBottomSheet>{children}</StyledBottomSheet>;
-};
+const BottomSheet = ({ children }: { children: React.ReactNode }) => (
+  <StyledBottomSheet>{children}</StyledBottomSheet>
+);
 
 export const ModalBottomSheet = (props: ModalBottomProps) => {
   const [isModalVisible, setIsModalVisible] = useState(true);
-
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+
     const handleScroll = () => {
       if (window.scrollY < 0) {
         setIsModalVisible(false);
@@ -86,8 +86,11 @@ export const ModalBottomSheet = (props: ModalBottomProps) => {
         setIsModalVisible(false);
         props.setShowModal(false);
 
-        modalRef.current.style.animation = 'bottom-sheet-down 0.2s ease-in-out';
-        modalRef.current.style.transform = 'translateY(100%)';
+        if (modalRef.current.style) {
+          modalRef.current.style.animation =
+            'bottom-sheet-down 0.2s ease-in-out';
+          modalRef.current.style.transform = 'translateY(100%)';
+        }
 
         setTimeout(() => {
           setIsModalVisible(false);
@@ -119,8 +122,8 @@ export const ModalBottomSheet = (props: ModalBottomProps) => {
           <StyledDeemBackground />
           <div
             ref={modalRef}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
+            onTouchStart={() => handleTouchStart}
+            onTouchMove={() => handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
             <BottomSheet {...props}>
