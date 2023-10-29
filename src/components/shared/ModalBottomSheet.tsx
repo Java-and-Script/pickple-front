@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 import { useBottomSheet } from '@hooks/useBottomSheet';
 
-type ModalBottomProps = {
+type ModalBottomSheetProps = {
   children: React.ReactNode;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -25,7 +25,7 @@ const StyledBottomSheet = styled.div`
   left: 0;
   width: 100%;
   height: 75%;
-  ${({ theme }) => theme.STYLES.FLEX_CENTER}
+  ${({ theme }) => theme.STYLES.FLEX_CENTER};
   flex-direction: column;
   background-color: white;
   border-top-left-radius: 0.75rem;
@@ -65,7 +65,7 @@ const BottomSheet = ({ children }: { children: React.ReactNode }) => (
   <StyledBottomSheet>{children}</StyledBottomSheet>
 );
 
-export const ModalBottomSheet = (props: ModalBottomProps) => {
+export const ModalBottomSheet = (props: ModalBottomSheetProps) => {
   const [isModalVisible, setIsModalVisible] = useState(true);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -115,22 +115,24 @@ export const ModalBottomSheet = (props: ModalBottomProps) => {
     }
   );
 
+  const BottomSheetContainer = styled.div``;
+
   return (
     <StyledModalBottom>
       {isModalVisible && (
         <>
           <StyledDeemBackground />
-          <div
+          <BottomSheetContainer
             ref={modalRef}
-            onTouchStart={() => handleTouchStart}
-            onTouchMove={() => handleTouchMove}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
             <BottomSheet {...props}>
               <StyledModalHeader />
               {props.children}
             </BottomSheet>
-          </div>
+          </BottomSheetContainer>
         </>
       )}
     </StyledModalBottom>

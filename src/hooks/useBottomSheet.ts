@@ -6,11 +6,11 @@ export const useBottomSheet = (closeModal: () => void) => {
     move: 0,
   });
 
-  const handleTouchStart = (event: TouchEvent) => {
+  const handleTouchStart = (event: React.TouchEvent) => {
     record.current.first = event.touches[0].screenY;
   };
 
-  const handleTouchMove = useCallback((event: TouchEvent) => {
+  const handleTouchMove = useCallback((event: React.TouchEvent) => {
     if (!record.current.move) {
       record.current.move = event.touches[0].screenY;
     }
