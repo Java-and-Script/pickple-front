@@ -74,7 +74,7 @@ export const Header = ({
             </BackwardWrapper>
           )}
           {title === '' ? <></> : <Title>{title}</Title>}
-          <RightContainer className={isRightContainer ? '' : 'invincible'}>
+          <RightContainer className={isRightContainer ? '' : 'invisible'}>
             <SearchIconWrapper>
               <SearchIcon onClick={() => handleSearchIconClick()}>
                 <img src={searchIcon} alt="" />

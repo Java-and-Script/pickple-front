@@ -69,7 +69,7 @@ export const RightContainer = styled.div`
   ${({ theme }) => theme.STYLES.FLEX_JUSTIFY_CENTER}
   justify-content: space-between;
 
-  &.invincible {
+  &.invisible {
     visibility: hidden;
   }
 `;
