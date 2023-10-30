@@ -2,6 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import styled from '@emotion/styled';
 
+type VirtualScrollProps = {
+  list: string[];
+  onItemSelected: (item: string) => void;
+};
+
 const StyledVirtualScrollWrapper = styled.div`
   width: 17.5rem;
   height: 8rem;
@@ -29,8 +34,7 @@ const StyledCenterItem = styled(StyledItem)`
   background-color: rgba(200, 200, 200, 0.3);
 `;
 
-export const VirtualScroll = ({ list }: { list: string[] }) => {
-  const [selectedItem, setSelectedItem] = useState<string | null>('');
+export const VirtualScroll = ({ list, onItemSelected }: VirtualScrollProps) => {
   const scrollList = useMemo(() => [null, ...list, null], [list]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [centerIndex, setCenterIndex] = useState(0);
@@ -47,7 +51,7 @@ export const VirtualScroll = ({ list }: { list: string[] }) => {
           (scrollTop + centerScroll) / itemHeight
         );
         setCenterIndex(centerItemIndex);
-        setSelectedItem(scrollList[centerItemIndex]);
+        onItemSelected(scrollList[centerItemIndex] as string);
       };
       scrollContainer.addEventListener('scroll', updateCenterItemWithRef);
 
@@ -57,7 +61,7 @@ export const VirtualScroll = ({ list }: { list: string[] }) => {
         scrollContainer.removeEventListener('scroll', updateCenterItemWithRef);
       };
     }
-  }, [scrollList, selectedItem]);
+  }, [scrollList, onItemSelected]);
 
   return (
     <StyledVirtualScrollWrapper ref={scrollRef}>
