@@ -9,6 +9,7 @@ type ToggleButtonProps = {
   width?: number | string;
   height?: number | string;
   fontSize?: string;
+  border?: string;
   onToggle: (value: string) => void;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
