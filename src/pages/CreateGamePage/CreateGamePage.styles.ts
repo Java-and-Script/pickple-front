@@ -16,6 +16,16 @@ export const StyledSubTitle = styled.div`
   margin-bottom: 8px;
 `;
 
-export const StyledInput = styled.div`
+export const StyledInput = styled.input`
+  height: 30px;
+  border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_300};
+  border-radius: 4px;
   margin-bottom: 8px;
 `;
+
+export const StyledPositionsWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+export const StyledCreateForm = styled.div``;
