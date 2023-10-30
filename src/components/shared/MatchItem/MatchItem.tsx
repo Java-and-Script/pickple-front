@@ -53,18 +53,27 @@ const MatchItem = ({
   membersProfileImageUrls,
 }: MatchItemProps) => {
   const navigate = useNavigate();
-
   membersProfileImageUrls;
+
+  const endTimeNumber = startTime.getTime() + timeMinutes * 60000;
+  const isMatchEnd = endTimeNumber <= new Date().getTime();
+
   return (
     <MatchItemWrapper>
       <MatchItemInnerWrapper
         onClick={() => navigate(PATH_NAME.GET_GAMES_PATH(matchId))}
       >
         <MatchStatus>
-          <MatchStartTime>
-            {`${startTime.toTimeString().slice(0, 5)}`}
-          </MatchStartTime>
-          <MatchDuration>{`${timeMinutes / 60}h`}</MatchDuration>
+          {isMatchEnd ? (
+            <MatchStartTime>종료</MatchStartTime>
+          ) : (
+            <>
+              <MatchStartTime>
+                {`${startTime.toTimeString().slice(0, 5)}`}
+              </MatchStartTime>
+              <MatchDuration>{`${timeMinutes / 60}h`}</MatchDuration>
+            </>
+          )}
         </MatchStatus>
         <MatchDescription>
           <MatchDate>
