@@ -6,7 +6,15 @@ import { STYLES } from '@styles/styles';
 export const MatchItemWrapper = styled.div`
   background-color: white;
   display: flex;
+  flex-direction: column;
   padding: 12px;
+  gap: 10px;
+  border-radius: 8px;
+`;
+
+export const MatchItemInnerWrapper = styled.div`
+  background-color: white;
+  display: flex;
   gap: 10px;
   border-radius: 8px;
 `;

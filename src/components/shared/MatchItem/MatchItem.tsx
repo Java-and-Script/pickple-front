@@ -1,3 +1,4 @@
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { PATH_NAME } from '@consts/pathName';
@@ -9,12 +10,26 @@ import {
   MatchDate,
   MatchDescription,
   MatchDuration,
+  MatchItemInnerWrapper,
   MatchItemWrapper,
   MatchPlayerInfo,
   MatchRecruitmentStatus,
   MatchStartTime,
   MatchStatus,
 } from './MatchItem.styles';
+
+type ManageBtnProps = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+/** TODO: 버튼 컴포넌트로 대체 */
+const ManageBtn = ({ onClick, ...props }: ManageBtnProps) => {
+  return (
+    <button onClick={onClick} {...props}>
+      매치 관리
+    </button>
+  );
+};
 
 type MatchItemProps = {
   matchId: string;
@@ -24,10 +39,11 @@ type MatchItemProps = {
   memberCount: number;
   maxMemberCount: number;
   membersProfileImageUrls: string[];
-};
+} & PropsWithChildren;
 
 /** TODO: Text 컴포넌트로 대체해야함 */
-export const MatchItem = ({
+const MatchItem = ({
+  children,
   matchId,
   startTime,
   timeMinutes,
@@ -40,27 +56,35 @@ export const MatchItem = ({
 
   membersProfileImageUrls;
   return (
-    <MatchItemWrapper
-      onClick={() => navigate(PATH_NAME.GET_GAMES_PATH(matchId))}
-    >
-      <MatchStatus>
-        <MatchStartTime>
-          {`${startTime.toTimeString().slice(0, 5)}`}
-        </MatchStartTime>
-        <MatchDuration>{`${timeMinutes / 60}h`}</MatchDuration>
-      </MatchStatus>
-      <MatchDescription>
-        <MatchDate>
-          {`${startTime.toLocaleDateString()} ${
-            WEEKDAY[startTime.getDay()]
-          }요일`}
-        </MatchDate>
-        <MatchAddress>{mainAddress}</MatchAddress>
-        <MatchPlayerInfo>
-          <AvatarGroupWrapper /> {/* TODO: 아바타그룹 컴포넌트로 대체해야함 */}
-          <MatchRecruitmentStatus>{`${memberCount}/${maxMemberCount}`}</MatchRecruitmentStatus>
-        </MatchPlayerInfo>
-      </MatchDescription>
+    <MatchItemWrapper>
+      <MatchItemInnerWrapper
+        onClick={() => navigate(PATH_NAME.GET_GAMES_PATH(matchId))}
+      >
+        <MatchStatus>
+          <MatchStartTime>
+            {`${startTime.toTimeString().slice(0, 5)}`}
+          </MatchStartTime>
+          <MatchDuration>{`${timeMinutes / 60}h`}</MatchDuration>
+        </MatchStatus>
+        <MatchDescription>
+          <MatchDate>
+            {`${startTime.toLocaleDateString()} ${
+              WEEKDAY[startTime.getDay()]
+            }요일`}
+          </MatchDate>
+          <MatchAddress>{mainAddress}</MatchAddress>
+          <MatchPlayerInfo>
+            <AvatarGroupWrapper />{' '}
+            {/* TODO: 아바타그룹 컴포넌트로 대체해야함 */}
+            <MatchRecruitmentStatus>{`${memberCount}/${maxMemberCount}`}</MatchRecruitmentStatus>
+          </MatchPlayerInfo>
+        </MatchDescription>
+      </MatchItemInnerWrapper>
+      {children}
     </MatchItemWrapper>
   );
 };
+
+MatchItem.ManageBtn = ManageBtn;
+
+export { MatchItem };
