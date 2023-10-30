@@ -52,11 +52,7 @@ export const MatchAddress = styled.span`
 export const MatchPlayerInfo = styled.div`
   display: flex;
   align-items: center;
-`;
-
-export const AvatarGroupWrapper = styled.div`
-  flex-grow: 1;
-  height: 30px;
+  justify-content: space-between;
 `;
 
 export const MatchRecruitmentStatus = styled.span`
