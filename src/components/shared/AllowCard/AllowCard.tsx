@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import { Avatar } from '@components/shared/Avatar';
-import { Button } from '@components/shared/Button/Button';
+import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 
 import { theme } from '@styles/theme';
@@ -21,8 +21,8 @@ type Player = {
 };
 
 const buttonOverlappedProps = {
-  width: 3.5,
-  height: 2.5,
+  width: '3.5rem',
+  height: '2.5rem',
   fontSize: theme.FONT_SIZE.MD,
   fontWeight: theme.FONT_WEIGHT.bold,
   backgroundColor: 'white',
