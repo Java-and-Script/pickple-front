@@ -24,7 +24,7 @@ const buttonOverlappedProps = {
   width: '3.5rem',
   height: '2.5rem',
   fontSize: theme.FONT_SIZE.MD,
-  fontWeight: theme.FONT_WEIGHT.bold,
+  fontWeight: theme.FONT_WEIGHT.BOLD,
   backgroundColor: 'white',
 };
 
