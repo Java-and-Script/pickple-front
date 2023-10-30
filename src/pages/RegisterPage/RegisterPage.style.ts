@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { Image } from '@components/shared/Image';
+
 import { theme } from '@styles/theme';
 
 export const RegisterContainer = styled.div`
@@ -8,19 +10,23 @@ export const RegisterContainer = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   gap: 30px;
-  height: auto;
-  margin-top: 100px;
+  margin: 50px 0;
 `;
+
+export const StyledImage = styled(Image)`
+  margin-bottom: 20px;
+`;
+
 export const ScrollBox = styled.div`
   height: 300px;
   overflow: scroll;
   border-radius: 30px;
-  border: 1px solid gray;
 `;
+
 export const FieldContainer = styled.div`
   width: 100%;
   display: flex;
-  gap: 10px;
+  gap: 20px;
   flex-direction: column;
 `;
 

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
+import { RemoveLayout } from '@pages/LoginPage/LoginPage.style';
+
 import { Button } from '@components/shared/Button';
 import { Header } from '@components/shared/Header';
-import { Image } from '@components/shared/Image';
 import { SelectBox } from '@components/shared/SelectBox';
 import { Text } from '@components/shared/Text';
 import {
@@ -21,6 +22,7 @@ import {
   RegisterContainer,
   ScrollBox,
   StyledButtonGroup,
+  StyledImage,
 } from './RegisterPage.style';
 
 const positions = ['C', 'PF', 'SF', 'PG', 'SG', '없음'];
@@ -46,10 +48,15 @@ export const RegisterPage = () => {
   });
 
   return (
-    <>
+    <RemoveLayout>
       <Header isLogo={false} title="정보 입력" isRightContainer={false} />
       <RegisterContainer>
-        <Image src={LOGO_SRC} width="30%" height="auto" alt="pickle logo" />
+        <StyledImage
+          src={LOGO_SRC}
+          width="30%"
+          height="auto"
+          alt="pickle logo"
+        />
         <FieldContainer>
           <Text size="1.2rem" weight={700}>
             주 활동 지역
@@ -93,6 +100,6 @@ export const RegisterPage = () => {
           />
         </FieldContainer>
       </RegisterContainer>
-    </>
+    </RemoveLayout>
   );
 };

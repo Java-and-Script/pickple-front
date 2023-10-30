@@ -6,11 +6,11 @@ import { IMG_SRC } from '@consts/imageSource';
 import KAKAO_LOGIN_SRC from '@assets/kakao_login_large_wide.png';
 import LOGO_SRC from '@assets/pickple_logo.png';
 
-import { LoginContainer, MainImage } from './LoginPage.style';
+import { LoginContainer, MainImage, RemoveLayout } from './LoginPage.style';
 
 export const LoginPage = () => {
   return (
-    <>
+    <RemoveLayout>
       <Header isLogo={false} title="로그인" isRightContainer={false} />
       <LoginContainer>
         <Image src={LOGO_SRC} width="30%" height="auto" alt="pickle logo" />
@@ -27,6 +27,6 @@ export const LoginPage = () => {
           alt="kakao login"
         />
       </LoginContainer>
-    </>
+    </RemoveLayout>
   );
 };
