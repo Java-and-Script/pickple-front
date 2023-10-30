@@ -1,8 +1,8 @@
 import { StyledButton } from './Button.styles';
 
 export type ButtonProps = {
-  width: number;
-  height: number;
+  width: string;
+  height: string;
   text: string;
   fontSize: number;
   fontWeight: number;
