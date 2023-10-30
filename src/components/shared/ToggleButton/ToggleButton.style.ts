@@ -5,16 +5,17 @@ export const StyledToggleButton = styled('button')<{
   width: string;
   height: string;
   fontSize: string;
-}>(({ width, height, fontSize, theme, isActive }) => ({
+  border?: string;
+}>(({ width, height, fontSize, theme, isActive, border }) => ({
   backgroundColor: 'white',
   width: width,
   height: height,
   fontWeight: theme.FONT_WEIGHT.BOLD,
   fontSize: fontSize,
   color: isActive ? theme.PALETTE.RED_400 : theme.PALETTE.GRAY_400,
-  border: `1px solid ${
-    isActive ? theme.PALETTE.RED_400 : theme.PALETTE.GRAY_400
-  }`,
+  border: border
+    ? border
+    : `1px solid ${isActive ? theme.PALETTE.RED_400 : theme.PALETTE.GRAY_400}`,
   lineHeight: theme.LINE_HEIGHT,
   borderRadius: '0.75rem',
   cursor: 'pointer',
