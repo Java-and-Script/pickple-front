@@ -16,8 +16,8 @@ export const StyledSubTitle = styled.div`
   margin-bottom: 8px;
 `;
 
-export const StyledInput = styled.input`
-  height: 30px;
+export const StyledInput = styled.input<{ height?: string }>`
+  height: ${({ height }) => (height ? height : '30px')};
   border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_300};
   border-radius: 4px;
   margin-bottom: 8px;
@@ -26,6 +26,11 @@ export const StyledInput = styled.input`
 export const StyledPositionsWrapper = styled.div`
   display: flex;
   justify-content: space-around;
+  margin-bottom: 8px;
 `;
 
 export const StyledCreateForm = styled.div``;
+
+export const StyledEmptyContainer = styled.div`
+  height: 150px;
+`;

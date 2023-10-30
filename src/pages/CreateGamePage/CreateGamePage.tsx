@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { Button } from '@components/shared/Button';
 import { Header } from '@components/shared/Header';
 import { Text } from '@components/shared/Text';
 import { ToggleButton } from '@components/shared/ToggleButton';
 import { useToggleButtons } from '@components/shared/ToggleButton';
 
+import { theme } from '@styles/theme';
+
 import {
   StyledContainer,
   StyledCreateForm,
+  StyledEmptyContainer,
   StyledInput,
   StyledPositionsWrapper,
   StyledSubTitle,
@@ -104,6 +108,60 @@ export const CreateGamePage = () => {
           </Text>
         </StyledSubTitle>
         <PositionComponent />
+        <StyledSubTitle>
+          <Text size={16} weight={300}>
+            주소를 입력해 주세요!
+          </Text>
+        </StyledSubTitle>
+        <StyledInput
+          {...register('play-time')}
+          readOnly={true}
+          onClick={() => console.log('hi')}
+        />
+        <StyledSubTitle>
+          <Text size={16} weight={300}>
+            상세장소를 입력해 주세요!(ex. 1층 201호)
+          </Text>
+        </StyledSubTitle>
+        <StyledInput
+          {...register('play-time')}
+          readOnly={true}
+          onClick={() => console.log('hi')}
+        />
+        <StyledSubTitle>
+          <Text size={16} weight={300}>
+            참가 비용을 입력해 주세요!
+          </Text>
+        </StyledSubTitle>
+        <StyledInput
+          {...register('play-time')}
+          readOnly={true}
+          onClick={() => console.log('hi')}
+        />
+        <StyledSubTitle>
+          <Text size={16} weight={300}>
+            상세설명을 입력해 주세요!
+          </Text>
+        </StyledSubTitle>
+        <StyledInput
+          {...register('play-time')}
+          readOnly={true}
+          height="340px"
+          onClick={() => console.log('hi')}
+        />
+        <Button
+          text={'모집하기'}
+          width="100%"
+          height="50px"
+          fontSize="20px"
+          fontWeight={700}
+          textColor={'white'}
+          backgroundColor={theme.PALETTE.RED_600}
+          handleClick={() => {
+            console.log('모집하기');
+          }}
+        />
+        <StyledEmptyContainer />
       </StyledContainer>
     </StyledCreateForm>
   );
