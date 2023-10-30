@@ -10,7 +10,7 @@ export const ManagePage = ({ manageType }: ManagePageProps) => {
 
   return (
     <RemoveLayout>
-      <Header isLogo={false} title="로그인" isRightContainer={true} />
+      <Header isLogo={false} title="10.21 송파구" isRightContainer={true} />
       <div>
         <AllowCardGroup>
           <AllowCard
