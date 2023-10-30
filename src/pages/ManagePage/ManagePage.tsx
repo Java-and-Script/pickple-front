@@ -15,24 +15,8 @@ export const ManagePage = ({ manageType }: ManagePageProps) => {
         <AllowCardGroup>
           <AllowCard
             player={{
-              id: 'hi',
-              nickname: '자바',
-              profileImageUrl:
-                'https://i.ytimg.com/vi/scxNCuffq-0/maxresdefault.jpg',
-            }}
-          />
-          <AllowCard
-            player={{
-              id: 'hi',
-              nickname: '자바와 스크립트',
-              profileImageUrl:
-                'https://i.ytimg.com/vi/scxNCuffq-0/maxresdefault.jpg',
-            }}
-          />
-          <AllowCard
-            player={{
-              id: 'hi',
-              nickname: '자바와 스크립트자바와 스크립트자바와 스크립트',
+              id: '234908390',
+              nickname: '막내 백둥이',
               profileImageUrl:
                 'https://i.ytimg.com/vi/scxNCuffq-0/maxresdefault.jpg',
             }}
