@@ -19,7 +19,7 @@ export const StyledSubTitle = styled.div`
 export const StyledInput = styled.input<{ height?: string }>`
   height: ${({ height }) => (height ? height : '30px')};
   border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_300};
-  border-radius: 4px;
+  border-radius: 8px;
   margin-bottom: 8px;
 `;
 

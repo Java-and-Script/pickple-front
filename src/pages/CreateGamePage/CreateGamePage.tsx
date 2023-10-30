@@ -120,7 +120,7 @@ export const CreateGamePage = () => {
         />
         <StyledSubTitle>
           <Text size={16} weight={300}>
-            상세장소를 입력해 주세요!(ex. 1층 201호)
+            상세장소를 입력해 주세요! (ex. 1층 201호)
           </Text>
         </StyledSubTitle>
         <StyledInput
