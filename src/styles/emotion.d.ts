@@ -7,6 +7,7 @@ type Styles = typeof theme.STYLES;
 type FontSize = typeof theme.FONT_SIZE;
 type FontWeight = typeof theme.FONT_WEIGHT;
 type LineHeight = typeof theme.LINE_HEIGHT;
+type Button = typeof theme.BUTTON_PROPS;
 
 declare module '@emotion/react' {
   export interface Theme
@@ -14,7 +15,8 @@ declare module '@emotion/react' {
       Styles,
       FontSize,
       FontWeight,
-      LineHeight {
+      LineHeight,
+      Button {
     PALETTE: {
       [key in keyof Palette]: string;
     };
@@ -29,6 +31,9 @@ declare module '@emotion/react' {
     };
     LINE_HEIGHT: {
       [key in keyof LineHeight]: string;
+    };
+    BUTTON_PROPS: {
+      [key in keyof Button]: string;
     };
   }
 }

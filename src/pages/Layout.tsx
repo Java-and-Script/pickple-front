@@ -2,25 +2,20 @@ import { Outlet } from 'react-router-dom';
 
 import styled from '@emotion/styled';
 
+import { Navbar } from '@components/shared/Navbar/Navbar';
+
 export const Layout = () => {
   return (
     <>
       <LayoutWrapper>
         <Outlet />
       </LayoutWrapper>
-      <Nav>하단 NAV바</Nav>
+      <Navbar />
     </>
   );
 };
 
 const LayoutWrapper = styled.div`
   margin: 50px 16px 0 16px;
-`;
-
-const Nav = styled.div`
-  position: fixed;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  background-color: aqua;
+  height: 100%;
 `;
