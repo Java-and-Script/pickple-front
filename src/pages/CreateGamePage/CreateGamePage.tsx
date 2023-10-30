@@ -3,9 +3,11 @@ import { useForm } from 'react-hook-form';
 
 import { Button } from '@components/shared/Button';
 import { Header } from '@components/shared/Header';
+import { Modal } from '@components/shared/Modal';
 import { Text } from '@components/shared/Text';
 import { ToggleButton } from '@components/shared/ToggleButton';
 import { useToggleButtons } from '@components/shared/ToggleButton';
+import { VirtualScroll } from '@components/shared/VirtualScroll';
 
 import { theme } from '@styles/theme';
 
@@ -34,6 +36,7 @@ const PositionComponent = () => {
   });
 
   console.log(selectedPosition);
+
   return (
     <StyledPositionsWrapper>
       {positions.map((position) => (
@@ -52,6 +55,20 @@ const PositionComponent = () => {
 
 export const CreateGamePage = () => {
   const { register } = useForm();
+  const [selectedItem, setSelectedItem] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleItemSelected = (item: string) => {
+    setSelectedItem(item);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <StyledCreateForm>
@@ -70,8 +87,32 @@ export const CreateGamePage = () => {
         <StyledInput
           {...register('guest-count')}
           readOnly={true}
-          onClick={() => console.log('hi')}
+          onClick={openModal}
+          value={selectedItem}
         />
+        <Modal isOpen={isModalOpen} close={closeModal} header={true}>
+          <VirtualScroll
+            width="100%"
+            list={[
+              '1명',
+              '2명',
+              '3명',
+              '4명',
+              '5명',
+              '6명',
+              '7명',
+              '8명',
+              '9명',
+              '10명',
+              '11명',
+              '12명',
+              '13명',
+              '14명',
+              '15명',
+            ]}
+            onItemSelected={handleItemSelected}
+          />
+        </Modal>
         <StyledSubTitle>
           <Text size={16} weight={300}>
             게스트 매치 날짜를 선택해 주세요!
