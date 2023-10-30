@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import { CreateGamePage } from '@pages/CreateGamePage';
 import { HomePage } from '@pages/HomePage';
 import { Layout } from '@pages/Layout';
 
@@ -63,7 +64,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'create/game',
-        element: <h3>create/game</h3>,
+        element: <CreateGamePage />,
       },
       {
         path: 'create/crew',
