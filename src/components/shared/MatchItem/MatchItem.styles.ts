@@ -1,8 +1,5 @@
 import styled from '@emotion/styled';
 
-import { PALETTE } from '@styles/palette';
-import { STYLES } from '@styles/styles';
-
 export const MatchItemWrapper = styled.div`
   background-color: white;
   display: flex;
@@ -20,9 +17,9 @@ export const MatchItemInnerWrapper = styled.div`
 `;
 
 export const MatchStatus = styled.div`
-  ${STYLES.FLEX_CENTER}
+  ${({ theme }) => theme.STYLES.FLEX_CENTER}
   flex-direction: column;
-  background-color: ${PALETTE.GRAY_100};
+  background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
   padding: 10px;
   width: 82px;
   height: 82px;
@@ -36,7 +33,7 @@ export const MatchStartTime = styled.span`
 `;
 
 export const MatchDuration = styled.span`
-  color: ${PALETTE.GRAY_400};
+  color: ${({ theme }) => theme.PALETTE.GRAY_400};
   font-size: 14px;
   font-weight: 700;
   line-height: 143%;
