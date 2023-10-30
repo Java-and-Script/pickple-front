@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { PALETTE } from '@styles/palette';
 
 export const NavbarContainer = styled.div`
-  max-width: 375px;
   height: 4.375rem;
   display: flex;
   justify-content: space-evenly;
