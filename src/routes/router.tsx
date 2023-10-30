@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { HomePage } from '@pages/HomePage';
 import { Layout } from '@pages/Layout';
+import { ManagePage } from '@pages/ManagePage';
 
 export const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'games/:id/manage',
-        element: <h3>manage</h3>,
+        element: <ManagePage manageType="games" />,
       },
       {
         path: 'games/:id/review',
@@ -55,7 +56,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/:id/manage',
-        element: <h3>crews/:id/manage</h3>,
+        element: <ManagePage manageType="crews" />,
       },
       {
         path: 'create',
