@@ -4,9 +4,9 @@ export type ButtonProps = {
   width: string;
   height: string;
   text: string;
-  fontSize: number;
+  fontSize?: number | string;
   fontWeight: number;
-  lineHeight?: number;
+  lineHeight?: number | string;
   textColor: string;
   borderColor?: string;
   backgroundColor: string;
