@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import { GamesNearPage } from '@pages/GamesNearPage';
 import { HomePage } from '@pages/HomePage';
 import { Layout } from '@pages/Layout';
 
@@ -15,7 +16,7 @@ export const router = createBrowserRouter([
       { path: 'players/:id', element: <h1>players</h1> },
       {
         path: 'games/near',
-        element: <h2>near</h2>,
+        element: <GamesNearPage />,
       },
       {
         path: 'games/host',
