@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { RemoveLayout } from '@pages/LoginPage/LoginPage.style';
-
 import { Button } from '@components/shared/Button';
 import { Header } from '@components/shared/Header';
 import { SelectBox } from '@components/shared/SelectBox';
@@ -20,6 +18,7 @@ import LOGO_SRC from '@assets/pickple_logo.png';
 import {
   FieldContainer,
   RegisterContainer,
+  RegisterWrapper,
   ScrollBox,
   StyledButtonGroup,
   StyledImage,
@@ -48,12 +47,12 @@ export const RegisterPage = () => {
   });
 
   return (
-    <RemoveLayout>
+    <RegisterWrapper>
       <Header isLogo={false} title="정보 입력" isRightContainer={false} />
       <RegisterContainer>
         <StyledImage
           src={LOGO_SRC}
-          width="30%"
+          width="35%"
           height="auto"
           alt="pickle logo"
         />
@@ -100,6 +99,6 @@ export const RegisterPage = () => {
           />
         </FieldContainer>
       </RegisterContainer>
-    </RemoveLayout>
+    </RegisterWrapper>
   );
 };

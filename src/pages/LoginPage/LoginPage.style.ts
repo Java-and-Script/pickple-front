@@ -23,17 +23,9 @@ export const MainImage = styled(Image)`
 `;
 
 export const LogoImage = styled(Image)`
-  max-width: 767px;
-`;
-
-export const KakaoLoginImage = styled(Image)`
   margin-bottom: 20px;
 `;
 
-export const RemoveLayout = styled.div`
-  margin: -50px -16px 0 -16px;
-  padding: 50px 16px 80px 16px;
-  background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
-  display: flex;
-  min-height: 100%;
+export const KakaoLoginImage = styled(Image)`
+  max-width: 767px;
 `;

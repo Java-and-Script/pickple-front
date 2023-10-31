@@ -4,6 +4,12 @@ import { Image } from '@components/shared/Image';
 
 import { theme } from '@styles/theme';
 
+export const RegisterWrapper = styled.div`
+  ${({ theme }) => theme.STYLES.LAYOUT}
+  min-height: 100dvh;
+  background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
+`;
+
 export const RegisterContainer = styled.div`
   background-color: ${theme.PALETTE.GRAY_100};
   ${({ theme }) => theme.STYLES.FLEX_CENTER};
