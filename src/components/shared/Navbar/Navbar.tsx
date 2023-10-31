@@ -29,7 +29,12 @@ export const Navbar = () => {
       {navbarMenu.map(({ name, page, image }) =>
         `/${page}` === pathname ? (
           <NavbarButton key={image} onClick={() => handleNavbarClick(page)}>
-            <img className={`${page} currentPage`} src={image} alt={name} />
+            <img
+              key={location.pathname}
+              className={`${page} currentPage`}
+              src={image}
+              alt={name}
+            />
             <p className="currentPage">{name}</p>
           </NavbarButton>
         ) : (
