@@ -4,7 +4,11 @@ import ReactDOM from 'react-dom/client';
 import App from '@/App';
 
 async function deferRender() {
-  if (process.env.NODE_ENV !== 'development') {
+  if (import.meta.env.MODE !== 'development') {
+    return;
+  }
+
+  if (import.meta.env.VITE_USE_MSW === 'false') {
     return;
   }
 
