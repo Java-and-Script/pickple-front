@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import bellIcon from '@assets/bell.svg';
 import leftArrowIcon from '@assets/leftArrow.svg';
-import logoImg from '@assets/logo.png';
+import logoSvg from '@assets/logoSvg.svg';
 import profileIcon from '@assets/profile.svg';
 import searchIcon from '@assets/search.svg';
 
@@ -59,7 +59,7 @@ export const Header = ({
           {isLogo ? (
             <LogoWrapper>
               <LogoIcon onClick={() => handleLogoClick()}>
-                <img src={logoImg} alt="" />
+                <img src={logoSvg} alt="" />
               </LogoIcon>
             </LogoWrapper>
           ) : (

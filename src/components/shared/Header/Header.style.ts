@@ -63,6 +63,12 @@ export const Title = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 40%;
+  height: 100%;
+  line-height: 2.5rem;
+  text-align: center;
 `;
 
 export const RightSideContainer = styled.div`
