@@ -23,4 +23,7 @@ export const STYLES = {
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	`,
+  LAYOUT: `
+  padding: 2.5rem 1rem 4.375rem 1rem;
+	`,
 } as const;
