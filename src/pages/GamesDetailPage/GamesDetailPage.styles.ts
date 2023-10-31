@@ -8,11 +8,15 @@ export const TextWrapper = styled.div`
   gap: 5px;
 `;
 
+export const PageLayout = styled.div`
+  ${({ theme }) => theme.STYLES.LAYOUT}
+`;
+
 export const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-bottom: 80px;
   gap: 20px;
+  padding: 10px 0 1rem 0;
 `;
 
 export const UserDataWrapper = styled.div`

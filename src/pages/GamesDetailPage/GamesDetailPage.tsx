@@ -24,6 +24,7 @@ import {
   Guests,
   GuestsContainer,
   InfoItem,
+  PageLayout,
   PageWrapper,
   TextWrapper,
   UserDataWrapper,
@@ -48,7 +49,7 @@ export const GamesDetailPage = () => {
     navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
 
   return (
-    <>
+    <PageLayout>
       <Header />
       <PageWrapper>
         <div>
@@ -169,6 +170,6 @@ export const GamesDetailPage = () => {
           // TODO: 클릭 핸들러
         />
       </PageWrapper>
-    </>
+    </PageLayout>
   );
 };
