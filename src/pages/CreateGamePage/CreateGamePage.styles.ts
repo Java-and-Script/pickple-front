@@ -34,3 +34,10 @@ export const StyledCreateForm = styled.div``;
 export const StyledEmptyContainer = styled.div`
   height: 150px;
 `;
+
+export const StyledTextArea = styled.textarea`
+  border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_300};
+  border-radius: 8px;
+  height: 340px;
+  padding: 8px;
+`;

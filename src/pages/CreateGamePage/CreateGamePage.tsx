@@ -18,6 +18,7 @@ import {
   StyledInput,
   StyledPositionsWrapper,
   StyledSubTitle,
+  StyledTextArea,
   StyledTitle,
 } from './CreateGamePage.styles';
 
@@ -303,9 +304,8 @@ export const CreateGamePage = () => {
             상세설명을 입력해 주세요!
           </Text>
         </StyledSubTitle>
-        <StyledInput
+        <StyledTextArea
           {...register('description')}
-          height="340px"
           onChange={(e) => setInputDescription(e.target.value)}
         />
         <Button
