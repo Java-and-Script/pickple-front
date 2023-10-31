@@ -1,4 +1,5 @@
 import { Crew } from './Crew';
+import { Position } from './Position';
 
 export type MemberProfile = {
   id: number;
@@ -10,6 +11,6 @@ export type MemberProfile = {
   mannerScoreCount: number;
   addressDepth1: string;
   addressDepth2: string;
-  positions: string[];
+  positions: Position[];
   crews: Crew[];
 };

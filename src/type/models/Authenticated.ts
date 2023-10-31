@@ -6,7 +6,7 @@ export type Authenticated = {
   profileImageUrl: string;
   email: string;
   oauthId: number;
-  oauthProvider: string;
+  oauthProvider: 'KAKAO';
   addressDepth1: string;
   addressDepth2: string;
 };

@@ -1,3 +1,5 @@
+import { Position } from './Position';
+
 export type Member = {
   id: number;
   email: string;
@@ -8,5 +10,5 @@ export type Member = {
   mannerScoreCount: number;
   addressDepth1: string;
   addressDepth2: string;
-  positions: string[];
+  positions: Position[];
 };

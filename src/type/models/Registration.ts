@@ -6,7 +6,7 @@ export type Registration = {
   profileImageUrl: string;
   email: string;
   oauthId: number;
-  oauthProvider: string;
+  oauthProvider: 'KAKAO';
   addressDepth1: null;
   addressDepth2: null;
 };

@@ -1,4 +1,5 @@
 import { Member } from './Member';
+import { Position } from './Position';
 
 export type Game = {
   id: number;
@@ -19,6 +20,6 @@ export type Game = {
   host: Member;
   addressDepth1: string;
   addressDepth2: string;
-  positions: string[];
+  positions: Position[];
   members: Member[];
 };
