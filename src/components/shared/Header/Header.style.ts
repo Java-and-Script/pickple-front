@@ -3,9 +3,10 @@ import styled from '@emotion/styled';
 export const HeaderBackground = styled.div`
   position: fixed;
   top: 0;
+  left: 0;
+  padding: 0 16px;
   z-index: 888;
   height: 2.5rem;
-  max-width: 375px;
   width: 100%;
   background-color: #ffffff;
 `;
@@ -62,9 +63,15 @@ export const Title = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 40%;
+  height: 100%;
+  line-height: 2.5rem;
+  text-align: center;
 `;
 
-export const RightContainer = styled.div`
+export const RightSideContainer = styled.div`
   width: 5.5rem;
   ${({ theme }) => theme.STYLES.FLEX_JUSTIFY_CENTER}
   justify-content: space-between;
@@ -74,50 +81,12 @@ export const RightContainer = styled.div`
   }
 `;
 
-export const SearchIconWrapper = styled.div`
+export const RightSideIconWrapper = styled.div`
   width: 1.5rem;
   height: 1.5rem;
 `;
 
-export const SearchIcon = styled.button`
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  background-color: #ffffff;
-  cursor: pointer;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-export const BellIconWrapper = styled.div`
-  width: 1.5rem;
-  height: 1.5rem;
-`;
-
-export const BellIcon = styled.button`
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  background-color: #ffffff;
-  cursor: pointer;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-export const ProfileIconWrapper = styled.div`
-  width: 1.5rem;
-  height: 1.5rem;
-`;
-
-export const ProfileIcon = styled.button`
+export const RightSideIcon = styled.button`
   width: 100%;
   height: 100%;
   padding: 0;
