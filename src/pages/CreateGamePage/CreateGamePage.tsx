@@ -45,6 +45,7 @@ const PositionComponent = ({
       {positions.map((position) => (
         <ToggleButton
           type="button"
+          fontSize="12px"
           width="47px"
           height="32px"
           key={position}
