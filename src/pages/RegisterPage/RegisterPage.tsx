@@ -16,7 +16,7 @@ import { theme } from '@styles/theme';
 import { SEOUL } from '@consts/location';
 import { POSITIONS } from '@consts/positions';
 
-import LOGO_SRC from '@assets/pickple_logo.png';
+import LOGO_SRC from '@assets/logoSvg.svg';
 
 import {
   FieldContainer,
