@@ -74,7 +74,7 @@ export const RegisterPage = () => {
             주 포지션
           </Text>
           <PositionButtonGroup>
-            {Object.keys(POSITIONS).map((position) => (
+            {POSITIONS.map((position) => (
               <ToggleButton
                 key={position}
                 value={position}
