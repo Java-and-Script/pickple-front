@@ -16,6 +16,5 @@ export const Layout = () => {
 };
 
 const LayoutWrapper = styled.div`
-  margin: 50px 16px 0 16px;
-  height: 100%;
+  min-height: 100%;
 `;

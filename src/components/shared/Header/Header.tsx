@@ -2,24 +2,20 @@ import { useNavigate } from 'react-router-dom';
 
 import bellIcon from '@assets/bell.svg';
 import leftArrowIcon from '@assets/leftArrow.svg';
-import logoImg from '@assets/logo.png';
+import logoSvg from '@assets/logoSvg.svg';
 import profileIcon from '@assets/profile.svg';
 import searchIcon from '@assets/search.svg';
 
 import {
   BackwardIcon,
   BackwardWrapper,
-  BellIcon,
-  BellIconWrapper,
   HeaderBackground,
   HeaderContainer,
   LogoIcon,
   LogoWrapper,
-  ProfileIcon,
-  ProfileIconWrapper,
-  RightContainer,
-  SearchIcon,
-  SearchIconWrapper,
+  RightSideContainer,
+  RightSideIcon,
+  RightSideIconWrapper,
   Title,
 } from './Header.style';
 
@@ -63,7 +59,7 @@ export const Header = ({
           {isLogo ? (
             <LogoWrapper>
               <LogoIcon onClick={() => handleLogoClick()}>
-                <img src={logoImg} alt="" />
+                <img src={logoSvg} alt="" />
               </LogoIcon>
             </LogoWrapper>
           ) : (
@@ -74,23 +70,23 @@ export const Header = ({
             </BackwardWrapper>
           )}
           {title === '' ? <></> : <Title>{title}</Title>}
-          <RightContainer className={isRightContainer ? '' : 'invisible'}>
-            <SearchIconWrapper>
-              <SearchIcon onClick={() => handleSearchIconClick()}>
+          <RightSideContainer className={isRightContainer ? '' : 'invisible'}>
+            <RightSideIconWrapper>
+              <RightSideIcon onClick={() => handleSearchIconClick()}>
                 <img src={searchIcon} alt="" />
-              </SearchIcon>
-            </SearchIconWrapper>
-            <BellIconWrapper>
-              <BellIcon onClick={() => handleBellIconClick()}>
+              </RightSideIcon>
+            </RightSideIconWrapper>
+            <RightSideIconWrapper>
+              <RightSideIcon onClick={() => handleBellIconClick()}>
                 <img src={bellIcon} alt="" />
-              </BellIcon>
-            </BellIconWrapper>
-            <ProfileIconWrapper>
-              <ProfileIcon onClick={() => handleProfileIconClick()}>
+              </RightSideIcon>
+            </RightSideIconWrapper>
+            <RightSideIconWrapper>
+              <RightSideIcon onClick={() => handleProfileIconClick()}>
                 <img src={profileIcon} alt="" />
-              </ProfileIcon>
-            </ProfileIconWrapper>
-          </RightContainer>
+              </RightSideIcon>
+            </RightSideIconWrapper>
+          </RightSideContainer>
         </HeaderContainer>
       </HeaderBackground>
     </>
