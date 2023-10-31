@@ -21,10 +21,12 @@ import {
   StyledTitle,
 } from './CreateGamePage.styles';
 
-const PositionComponent = () => {
+const PositionComponent = ({
+  setSelectedPosition,
+}: {
+  setSelectedPosition: (value: string[]) => void;
+}) => {
   const positions = ['C', 'PF', 'SF', 'PG', 'SG', '없음'];
-
-  const [selectedPosition, setSelectedPosition] = useState<string[]>();
 
   const handledToggle = (value: string[]) => {
     setSelectedPosition(value);
@@ -34,8 +36,6 @@ const PositionComponent = () => {
     onToggle: handledToggle,
     isMultipleSelect: true,
   });
-
-  console.log(selectedPosition);
 
   return (
     <StyledPositionsWrapper>
@@ -54,24 +54,86 @@ const PositionComponent = () => {
 };
 
 export const CreateGamePage = () => {
-  const { register } = useForm();
-  const [selectedItem, setSelectedItem] = useState<string>('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { register, handleSubmit } = useForm();
 
-  const handleItemSelected = (item: string) => {
-    setSelectedItem(item);
+  const [selectedGuestCount, setSelectedGuestCount] = useState<string>('');
+  const [selectedMatchDate, setSelectedMatchDate] = useState<string>('');
+  const [selectedStartTime, setSelectedStartTime] = useState<string>('');
+  const [selectedPlayTime, setSelectedPlayTime] = useState<string>('');
+  const [selectedPosition, setSelectedPosition] = useState<string[]>([]);
+
+  const [inputAddress, setInputAddress] = useState<string>('');
+  const [inputAddressDetail, setInputAddressDetail] = useState<string>('');
+  const [inputPrice, setInputPrice] = useState<string>('');
+  const [inputDescription, setInputDescription] = useState<string>('');
+
+  const [isGuestCountModalOpen, setIsGuestCountModalOpen] = useState(false);
+  const [isMatchDateModalOpen, setIsMatchDateModalOpen] = useState(false);
+  const [isStartTimeModalOpen, setIsStartTimeModalOpen] = useState(false);
+  const [isPlayTimeModalOpen, setIsPlayTimeModalOpen] = useState(false);
+
+  const onSubmit = () => {
+    alert(
+      JSON.stringify({
+        inputAddress,
+        inputAddressDetail,
+        inputPrice,
+        inputDescription,
+        selectedPosition,
+      })
+    );
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const handleGuestCountSelect = (item: string) => {
+    setSelectedGuestCount(item);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const openGuestCountModal = () => {
+    setIsGuestCountModalOpen(true);
+  };
+
+  const closeGuestCountModal = () => {
+    setIsGuestCountModalOpen(false);
+  };
+
+  const handleMatchDateSelect = (item: string) => {
+    setSelectedMatchDate(item);
+  };
+
+  const openMatchDateModal = () => {
+    setIsMatchDateModalOpen(true);
+  };
+
+  const closeMatchDateModal = () => {
+    setIsMatchDateModalOpen(false);
+  };
+
+  const handleStartTimeSelect = (item: string) => {
+    setSelectedStartTime(item);
+  };
+
+  const openStartTimeModal = () => {
+    setIsStartTimeModalOpen(true);
+  };
+
+  const closeStartTimeModal = () => {
+    setIsStartTimeModalOpen(false);
+  };
+
+  const handlePlayTimeSelect = (item: string) => {
+    setSelectedPlayTime(item);
+  };
+
+  const openPlayTimeModal = () => {
+    setIsPlayTimeModalOpen(true);
+  };
+
+  const closePlayTimeModal = () => {
+    setIsPlayTimeModalOpen(false);
   };
 
   return (
-    <StyledCreateForm>
+    <StyledCreateForm onSubmit={handleSubmit(onSubmit)}>
       <StyledContainer>
         <Header title="게스트 모집하기" />
         <StyledTitle>
@@ -87,10 +149,14 @@ export const CreateGamePage = () => {
         <StyledInput
           {...register('guest-count')}
           readOnly={true}
-          onClick={openModal}
-          value={selectedItem}
+          onClick={openGuestCountModal}
+          value={selectedGuestCount}
         />
-        <Modal isOpen={isModalOpen} close={closeModal} header={true}>
+        <Modal
+          isOpen={isGuestCountModalOpen}
+          close={closeGuestCountModal}
+          header={true}
+        >
           <VirtualScroll
             width="100%"
             list={[
@@ -110,7 +176,7 @@ export const CreateGamePage = () => {
               '14명',
               '15명',
             ]}
-            onItemSelected={handleItemSelected}
+            onItemSelected={handleGuestCountSelect}
           />
         </Modal>
         <StyledSubTitle>
@@ -121,8 +187,26 @@ export const CreateGamePage = () => {
         <StyledInput
           {...register('match-date')}
           readOnly={true}
-          onClick={() => console.log('hi')}
+          onClick={openMatchDateModal}
+          value={selectedMatchDate}
         />
+        <Modal
+          isOpen={isMatchDateModalOpen}
+          close={closeMatchDateModal}
+          header={true}
+        >
+          <VirtualScroll
+            width="100%"
+            list={[
+              '2022년 9월 1일',
+              '2022년 9월 2일',
+              '2022년 9월 3일',
+              '2022년 9월 4일',
+              '2022년 9월 5일',
+            ]}
+            onItemSelected={handleMatchDateSelect}
+          />
+        </Modal>
         <StyledSubTitle>
           <Text size={16} weight={300}>
             경기 시작 시간을 선택해 주세요!
@@ -131,8 +215,33 @@ export const CreateGamePage = () => {
         <StyledInput
           {...register('start-time')}
           readOnly={true}
-          onClick={() => console.log('hi')}
+          onClick={openStartTimeModal}
+          value={selectedStartTime}
         />
+        <Modal
+          isOpen={isStartTimeModalOpen}
+          close={closeStartTimeModal}
+          header={true}
+        >
+          <VirtualScroll
+            width="100%"
+            list={[
+              '09:00',
+              '10:00',
+              '11:00',
+              '12:00',
+              '13:00',
+              '14:00',
+              '15:00',
+              '16:00',
+              '17:00',
+              '18:00',
+              '19:00',
+              '20:00',
+            ]}
+            onItemSelected={handleStartTimeSelect}
+          />
+        </Modal>
         <StyledSubTitle>
           <Text size={16} weight={300}>
             경기 플레이타임을 선택해 주세요!
@@ -141,23 +250,34 @@ export const CreateGamePage = () => {
         <StyledInput
           {...register('play-time')}
           readOnly={true}
-          onClick={() => console.log('hi')}
+          onClick={openPlayTimeModal}
+          value={selectedPlayTime}
         />
+        <Modal
+          isOpen={isPlayTimeModalOpen}
+          close={closePlayTimeModal}
+          header={true}
+        >
+          <VirtualScroll
+            width="100%"
+            list={['30분', '60분', '90분', '120분', '150분', '180분', '210분']}
+            onItemSelected={handlePlayTimeSelect}
+          />
+        </Modal>
         <StyledSubTitle>
           <Text size={16} weight={300}>
             선호하는 포지션을 선택해 주세요!
           </Text>
         </StyledSubTitle>
-        <PositionComponent />
+        <PositionComponent setSelectedPosition={setSelectedPosition} />
         <StyledSubTitle>
           <Text size={16} weight={300}>
             주소를 입력해 주세요!
           </Text>
         </StyledSubTitle>
         <StyledInput
-          {...register('play-time')}
-          readOnly={true}
-          onClick={() => console.log('hi')}
+          {...register('address')}
+          onChange={(e) => setInputAddress(e.target.value)}
         />
         <StyledSubTitle>
           <Text size={16} weight={300}>
@@ -165,9 +285,8 @@ export const CreateGamePage = () => {
           </Text>
         </StyledSubTitle>
         <StyledInput
-          {...register('play-time')}
-          readOnly={true}
-          onClick={() => console.log('hi')}
+          {...register('address-detail')}
+          onChange={(e) => setInputAddressDetail(e.target.value)}
         />
         <StyledSubTitle>
           <Text size={16} weight={300}>
@@ -175,9 +294,9 @@ export const CreateGamePage = () => {
           </Text>
         </StyledSubTitle>
         <StyledInput
-          {...register('play-time')}
-          readOnly={true}
-          onClick={() => console.log('hi')}
+          {...register('price')}
+          type="number"
+          onChange={(e) => setInputPrice(e.target.value)}
         />
         <StyledSubTitle>
           <Text size={16} weight={300}>
@@ -185,10 +304,9 @@ export const CreateGamePage = () => {
           </Text>
         </StyledSubTitle>
         <StyledInput
-          {...register('play-time')}
-          readOnly={true}
+          {...register('description')}
           height="340px"
-          onClick={() => console.log('hi')}
+          onChange={(e) => setInputDescription(e.target.value)}
         />
         <Button
           text={'모집하기'}
@@ -198,9 +316,7 @@ export const CreateGamePage = () => {
           fontWeight={700}
           textColor={'white'}
           backgroundColor={theme.PALETTE.RED_600}
-          handleClick={() => {
-            console.log('모집하기');
-          }}
+          handleClick={handleSubmit(onSubmit)}
         />
         <StyledEmptyContainer />
       </StyledContainer>
