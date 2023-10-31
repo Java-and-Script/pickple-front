@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 
-export const StyledContainer = styled.div`
-  width: 100%;
-  height: 100%;
+export const PageLayout = styled.div`
+  ${({ theme }) => theme.STYLES.LAYOUT}
+  background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
+`;
+
+export const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
 `;
 
 export const StyledTitle = styled.div`
@@ -17,6 +19,7 @@ export const StyledSubTitle = styled.div`
 `;
 
 export const StyledInput = styled.input<{ height?: string }>`
+  width: 100%;
   height: ${({ height }) => (height ? height : '30px')};
   border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_300};
   border-radius: 8px;
@@ -32,12 +35,13 @@ export const StyledPositionsWrapper = styled.div`
 export const StyledCreateForm = styled.form``;
 
 export const StyledEmptyContainer = styled.div`
-  height: 150px;
+  height: 16px;
 `;
 
 export const StyledTextArea = styled.textarea`
   border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_300};
   border-radius: 8px;
+  width: 100%;
   height: 340px;
   padding: 8px;
   margin-bottom: 16px;
