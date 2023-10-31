@@ -42,3 +42,9 @@ export const StyledTextArea = styled.textarea`
   padding: 8px;
   margin-bottom: 16px;
 `;
+
+export const StyledModalHeader = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

@@ -16,6 +16,7 @@ import {
   StyledCreateForm,
   StyledEmptyContainer,
   StyledInput,
+  StyledModalHeader,
   StyledPositionsWrapper,
   StyledSubTitle,
   StyledTextArea,
@@ -163,6 +164,11 @@ export const CreateGamePage = () => {
           close={closeGuestCountModal}
           header={true}
         >
+          <StyledModalHeader>
+            <Text size={20} weight={700}>
+              게스트 인원을 선택해 주세요!
+            </Text>
+          </StyledModalHeader>
           <VirtualScroll
             width="100%"
             list={[
@@ -201,6 +207,11 @@ export const CreateGamePage = () => {
           close={closeMatchDateModal}
           header={true}
         >
+          <StyledModalHeader>
+            <Text size={20} weight={700}>
+              게스트 매치 날짜를 선택해 주세요!
+            </Text>
+          </StyledModalHeader>
           <VirtualScroll
             width="100%"
             list={[
@@ -229,6 +240,11 @@ export const CreateGamePage = () => {
           close={closeStartTimeModal}
           header={true}
         >
+          <StyledModalHeader>
+            <Text size={20} weight={700}>
+              경기 시작 시간을 선택해 주세요!
+            </Text>
+          </StyledModalHeader>
           <VirtualScroll
             width="100%"
             list={[
@@ -264,6 +280,11 @@ export const CreateGamePage = () => {
           close={closePlayTimeModal}
           header={true}
         >
+          <StyledModalHeader>
+            <Text size={20} weight={700}>
+              경기 플레이타임을 선택해 주세요!
+            </Text>
+          </StyledModalHeader>
           <VirtualScroll
             width="100%"
             list={['30분', '60분', '90분', '120분', '150분', '180분', '210분']}
