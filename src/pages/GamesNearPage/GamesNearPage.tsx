@@ -4,21 +4,19 @@ import { Text } from '@components/shared/Text';
 
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
-import { PageWrapper } from './GamesNearPage.styles';
+import { PageContent, PageLayout } from './GamesNearPage.styles';
 
 export const GamesNearPage = () => {
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
   return (
-    <>
+    <PageLayout>
       <Header title={showHeaderTitle ? '내 근처 게스트 매치' : ''} />
-      <PageWrapper>
+      <PageContent>
         <div ref={entryRef}>
-          {showHeaderTitle || (
-            <Text size={20} weight={700}>
-              내 근처 게스트 매치
-            </Text>
-          )}
+          <Text size={20} weight={700}>
+            내 근처 게스트 매치
+          </Text>
         </div>
         {Array(20)
           .fill(null)
@@ -41,7 +39,7 @@ export const GamesNearPage = () => {
               ]}
             />
           ))}
-      </PageWrapper>
-    </>
+      </PageContent>
+    </PageLayout>
   );
 };
