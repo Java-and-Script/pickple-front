@@ -14,6 +14,7 @@ import {
 import { theme } from '@styles/theme';
 
 import { SEOUL } from '@consts/location';
+import { POSITIONS } from '@consts/positions';
 
 import LOGO_SRC from '@assets/pickple_logo.png';
 
@@ -24,8 +25,6 @@ import {
   RegisterWrapper,
   ScrollBox,
 } from './RegisterPage.style';
-
-const positions = ['C', 'PF', 'SF', 'PG', 'SG', '없음'];
 
 export const RegisterPage = () => {
   const [selectedLocation, setSelectedLocation] = useState<string[]>();
@@ -75,7 +74,7 @@ export const RegisterPage = () => {
             주 포지션
           </Text>
           <PositionButtonGroup>
-            {positions.map((position) => (
+            {Object.keys(POSITIONS).map((position) => (
               <ToggleButton
                 key={position}
                 value={position}

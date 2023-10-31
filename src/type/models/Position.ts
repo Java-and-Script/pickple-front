@@ -1,1 +1,3 @@
-export type Position = 'C' | 'PF' | 'SF' | 'PG' | 'SG';
+import { POSITIONS } from '@consts/positions';
+
+export type Position = keyof typeof POSITIONS;
