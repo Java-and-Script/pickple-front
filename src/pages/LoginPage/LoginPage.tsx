@@ -7,17 +7,17 @@ import LOGO_SRC from '@assets/pickple_logo.png';
 
 import {
   KakaoLoginImage,
-  LoginContainer,
+  LoginWrapper,
   LogoImage,
+  Main,
   MainImage,
-  Wrapper,
 } from './LoginPage.style';
 
 export const LoginPage = () => {
   return (
-    <Wrapper className="hi">
+    <LoginWrapper className="hi">
       <Header isLogo={false} title="로그인" isRightContainer={false} />
-      <LoginContainer>
+      <Main>
         <LogoImage src={LOGO_SRC} width="35%" height="auto" alt="pickle logo" />
         <MainImage
           src={IMG_SRC.LOGIN_MAIN}
@@ -31,7 +31,7 @@ export const LoginPage = () => {
           height="auto"
           alt="kakao login"
         />
-      </LoginContainer>
-    </Wrapper>
+      </Main>
+    </LoginWrapper>
   );
 };

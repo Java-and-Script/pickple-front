@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { LogoImage } from '@pages/LoginPage/LoginPage.style';
+
 import { Button } from '@components/shared/Button';
 import { Header } from '@components/shared/Header';
 import { SelectBox } from '@components/shared/SelectBox';
@@ -17,11 +19,10 @@ import LOGO_SRC from '@assets/pickple_logo.png';
 
 import {
   FieldContainer,
-  RegisterContainer,
+  Main,
+  PositionButtonGroup,
   RegisterWrapper,
   ScrollBox,
-  StyledButtonGroup,
-  StyledImage,
 } from './RegisterPage.style';
 
 const positions = ['C', 'PF', 'SF', 'PG', 'SG', '없음'];
@@ -49,13 +50,8 @@ export const RegisterPage = () => {
   return (
     <RegisterWrapper>
       <Header isLogo={false} title="정보 입력" isRightContainer={false} />
-      <RegisterContainer>
-        <StyledImage
-          src={LOGO_SRC}
-          width="35%"
-          height="auto"
-          alt="pickle logo"
-        />
+      <Main>
+        <LogoImage src={LOGO_SRC} width="35%" height="auto" alt="pickle logo" />
         <FieldContainer>
           <Text size="1.2rem" weight={700}>
             주 활동 지역
@@ -78,7 +74,7 @@ export const RegisterPage = () => {
           <Text size="1.2rem" weight={700}>
             주 포지션
           </Text>
-          <StyledButtonGroup>
+          <PositionButtonGroup>
             {positions.map((position) => (
               <ToggleButton
                 key={position}
@@ -87,7 +83,7 @@ export const RegisterPage = () => {
                 onToggle={handleTogglePosition}
               />
             ))}
-          </StyledButtonGroup>
+          </PositionButtonGroup>
         </FieldContainer>
         <FieldContainer>
           <Button
@@ -98,7 +94,7 @@ export const RegisterPage = () => {
             onClick={() => console.log(selectedLocation, selectedPosition)}
           />
         </FieldContainer>
-      </RegisterContainer>
+      </Main>
     </RegisterWrapper>
   );
 };
