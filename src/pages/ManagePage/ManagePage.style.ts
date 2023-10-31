@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
 
-export const RemoveLayout = styled.div`
-  margin: -50px -16px 0 -16px;
-  padding: 50px 16px 80px 16px;
+export const ManageWrapper = styled.div`
+  ${({ theme }) => theme.STYLES.LAYOUT}
+  min-height: 100dvh;
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
-  min-height: 100%;
+`;
+
+export const Main = styled.div`
+  margin: 10px 0;
 `;

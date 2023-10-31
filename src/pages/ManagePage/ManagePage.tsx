@@ -1,7 +1,7 @@
 import { AllowCard, AllowCardGroup } from '@components/shared/AllowCard';
 import { Header } from '@components/shared/Header';
 
-import { RemoveLayout } from './ManagePage.style';
+import { Main, ManageWrapper } from './ManagePage.style';
 
 type ManagePageProps = { manageType: 'games' | 'crews' };
 
@@ -9,9 +9,9 @@ export const ManagePage = ({ manageType }: ManagePageProps) => {
   console.log(manageType);
 
   return (
-    <RemoveLayout>
+    <ManageWrapper>
       <Header isLogo={false} title="10.21 송파구" isRightContainer={true} />
-      <div>
+      <Main>
         <AllowCardGroup>
           <AllowCard
             player={{
@@ -22,7 +22,7 @@ export const ManagePage = ({ manageType }: ManagePageProps) => {
             }}
           />
         </AllowCardGroup>
-      </div>
-    </RemoveLayout>
+      </Main>
+    </ManageWrapper>
   );
 };
