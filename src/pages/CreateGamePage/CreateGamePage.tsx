@@ -42,6 +42,7 @@ const PositionComponent = ({
     <StyledPositionsWrapper>
       {positions.map((position) => (
         <ToggleButton
+          type="button"
           width="47px"
           height="32px"
           key={position}
@@ -76,11 +77,15 @@ export const CreateGamePage = () => {
   const onSubmit = () => {
     alert(
       JSON.stringify({
+        selectedGuestCount,
+        selectedMatchDate,
+        selectedStartTime,
+        selectedPlayTime,
+        selectedPosition,
         inputAddress,
         inputAddressDetail,
         inputPrice,
         inputDescription,
-        selectedPosition,
       })
     );
   };

@@ -29,7 +29,7 @@ export const StyledPositionsWrapper = styled.div`
   margin-bottom: 8px;
 `;
 
-export const StyledCreateForm = styled.div``;
+export const StyledCreateForm = styled.form``;
 
 export const StyledEmptyContainer = styled.div`
   height: 150px;
