@@ -2,12 +2,13 @@ import { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { CreateGamePage } from '@pages/CreateGamePage';
+import { CreatePage } from '@pages/CreatePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesNearPage } from '@pages/GamesNearPage';
 import { Layout } from '@pages/Layout';
-import { ManagePage } from '@pages/ManagePage';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
+import { ManagePage } from '@pages/ManagePage';
 import { RegisterPage } from '@pages/RegisterPage';
 
 export const router = createBrowserRouter([
