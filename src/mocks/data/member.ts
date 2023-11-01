@@ -1,40 +1,12 @@
-export const AUTH_LOGIN_MEMBER = {
-  accessToken:
-    'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4NTA1NzM2LCJleHAiOjE2OTg1MDU4NTZ9.E0p1V4PiBDmZIZqglGjQFWh-bgbA7n7qryYnOZ3cxMuaBvp-ejkXC2b-bA5kDjZrlzyyiWuTwe-sbYk73tIR0w',
-  refreshToken:
-    'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg1MDU3MzYsImV4cCI6MTY5ODUwNjczNn0.GIybXCnow3xx7B6phYfSqvpVV2GB9ieos7t-ciGSCEJMIZqeEk9DcJcLsfHNUISTf4-xWTtnZ7_OVR9WAm3AfA',
-  id: 1,
-  nickname: '창현',
-  profileImageUrl:
-    'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
-  email: 'changhyeon.h@kakao.com',
-  oAuthId: 32014123,
-  oAuthProvider: 'KAKAO',
-  addressDepth1: '서울시',
-  addressDepth2: '영등포구',
-};
+import {
+  GetJoinedCrewsResponse,
+  GetLoginResponse,
+  PostRefreshAccessTokenResponse,
+  PostRegistrationResponse,
+} from '@type/api/member';
+import { CrewProfile, Game, MemberProfile } from '@type/models';
 
-export const AUTH_LOGIN_NON_MEMBER = {
-  accessToken:
-    'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4NTA1NzM2LCJleHAiOjE2OTg1MDU4NTZ9.E0p1V4PiBDmZIZqglGjQFWh-bgbA7n7qryYnOZ3cxMuaBvp-ejkXC2b-bA5kDjZrlzyyiWuTwe-sbYk73tIR0w',
-  refreshToken: null,
-  id: null,
-  nickname: '창현',
-  profileImageUrl:
-    'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
-  email: 'changhyeon.h@kakao.com',
-  oAuthId: 32014123,
-  oAuthProvider: 'KAKAO',
-  addressDepth1: null,
-  addressDepth2: null,
-};
-
-export const ACCESS_TOKEN = {
-  accessToken:
-    'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4NTA1NzM2LCJleHAiOjE2OTg1MDU4NTZ9.E0p1V4PiBDmZIZqglGjQFWh-bgbA7n7qryYnOZ3cxMuaBvp-ejkXC2b-bA5kDjZrlzyyiWuTwe-sbYk73tIR0w',
-};
-
-export const MEMBERS = {
+export const AUTH_LOGIN_MEMBER: GetLoginResponse = {
   accessToken:
     'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4NTA1NzM2LCJleHAiOjE2OTg1MDU4NTZ9.E0p1V4PiBDmZIZqglGjQFWh-bgbA7n7qryYnOZ3cxMuaBvp-ejkXC2b-bA5kDjZrlzyyiWuTwe-sbYk73tIR0w',
   refreshToken:
@@ -50,7 +22,43 @@ export const MEMBERS = {
   addressDepth2: '영등포구',
 };
 
-export const MEMBERS_MEMBERID = {
+export const AUTH_LOGIN_NON_MEMBER: GetLoginResponse = {
+  accessToken:
+    'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4NTA1NzM2LCJleHAiOjE2OTg1MDU4NTZ9.E0p1V4PiBDmZIZqglGjQFWh-bgbA7n7qryYnOZ3cxMuaBvp-ejkXC2b-bA5kDjZrlzyyiWuTwe-sbYk73tIR0w',
+  refreshToken: null,
+  id: null,
+  nickname: '창현',
+  profileImageUrl:
+    'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
+  email: 'changhyeon.h@kakao.com',
+  oauthId: 32014123,
+  oauthProvider: 'KAKAO',
+  addressDepth1: null,
+  addressDepth2: null,
+};
+
+export const ACCESS_TOKEN: PostRefreshAccessTokenResponse = {
+  accessToken:
+    'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4NTA1NzM2LCJleHAiOjE2OTg1MDU4NTZ9.E0p1V4PiBDmZIZqglGjQFWh-bgbA7n7qryYnOZ3cxMuaBvp-ejkXC2b-bA5kDjZrlzyyiWuTwe-sbYk73tIR0w',
+};
+
+export const MEMBERS: PostRegistrationResponse = {
+  accessToken:
+    'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4NTA1NzM2LCJleHAiOjE2OTg1MDU4NTZ9.E0p1V4PiBDmZIZqglGjQFWh-bgbA7n7qryYnOZ3cxMuaBvp-ejkXC2b-bA5kDjZrlzyyiWuTwe-sbYk73tIR0w',
+  refreshToken:
+    'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg1MDU3MzYsImV4cCI6MTY5ODUwNjczNn0.GIybXCnow3xx7B6phYfSqvpVV2GB9ieos7t-ciGSCEJMIZqeEk9DcJcLsfHNUISTf4-xWTtnZ7_OVR9WAm3AfA',
+  id: 1,
+  nickname: '창현',
+  profileImageUrl:
+    'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
+  email: 'changhyeon.h@kakao.com',
+  oauthId: 32014123,
+  oauthProvider: 'KAKAO',
+  addressDepth1: '서울시',
+  addressDepth2: '영등포구',
+};
+
+export const MEMBERS_MEMBERID: MemberProfile = {
   id: 1,
   email: 'james123@pickple.kr',
   nickname: 'james123',
@@ -121,7 +129,7 @@ export const MEMBERS_MEMBERID = {
   ],
 };
 
-export const MEMBERS_MEMBERID_CONFIRMED_GAMES = [
+export const MEMBERS_MEMBERID_CONFIRMED_GAMES: Game[] = [
   {
     id: 1,
     content: '같이 즐거운 게임 해요~',
@@ -182,7 +190,7 @@ export const MEMBERS_MEMBERID_CONFIRMED_GAMES = [
   },
 ];
 
-export const MEMBERS_MEMBERID_CREATED_GAMES = [
+export const MEMBERS_MEMBERID_CREATED_GAMES: Game[] = [
   {
     id: 1,
     content: '같이 즐거운 게임 해요~',
@@ -243,7 +251,7 @@ export const MEMBERS_MEMBERID_CREATED_GAMES = [
   },
 ];
 
-export const MEMBERS_MEMBERID_JOINED_CREWS = [
+export const MEMBERS_MEMBERID_JOINED_CREWS: GetJoinedCrewsResponse = [
   {
     id: 1,
     name: '노드크루',
@@ -352,7 +360,7 @@ export const MEMBERS_MEMBERID_JOINED_CREWS = [
   },
 ];
 
-export const MEMBERS_MEMBERID_CREATED_CREWS = [
+export const MEMBERS_MEMBERID_CREATED_CREWS: CrewProfile[] = [
   {
     id: 1,
     name: '노드크루',
