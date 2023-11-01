@@ -1,4 +1,4 @@
-import { Game } from '@type/models';
+import { Game, Member } from '@type/models';
 
 export const games: Game[] = Array(100)
   .fill({
@@ -63,3 +63,25 @@ export const games: Game[] = Array(100)
     ...game,
     id: index + 1,
   }));
+
+export const pendingMembers: Member[] = Array(5)
+  .fill({
+    id: 0,
+    email: 'james123@pickple.kr',
+    nickname: 'james123',
+    introduction: '안녕하십니까. 제임스입니다. 아이고~ 사장님~~',
+    profileImageUrl: 'https://s3.amazonaws.com/pickple/james123.jpg',
+    mannerScore: 21,
+    mannerScoreCount: 30,
+    addressDepth1: '서울시',
+    addressDepth2: '강남구',
+    positions: ['C', 'PF'],
+  })
+  .map((member: Member, index) => ({
+    ...member,
+    id: index + 1,
+  }));
+
+export const pendingMembersMap: Member[][] = Array(101)
+  .fill(null)
+  .map(() => pendingMembers);
