@@ -1,9 +1,14 @@
-import { HttpResponse, http } from 'msw';
+import { DefaultBodyType, HttpResponse, http } from 'msw';
 
-import { PostGameRequest, PostGameResponse } from '@type/api/games';
+import { CommonErrorResponse } from '@type/api/error';
+import {
+  GetGameMembersResponse,
+  PostGameRequest,
+  PostGameResponse,
+} from '@type/api/games';
 import { Game, Member } from '@type/models';
 
-import { games } from '@mocks/data/game';
+import { games, pendingMembersMap } from '@mocks/data/game';
 
 const mockPostGame = http.post<
   { gameId: string },
@@ -59,4 +64,30 @@ const mockGetGames = http.get('/api/games', ({ request }) => {
   return HttpResponse.json(games.slice(startIndex, startIndex + size));
 });
 
-export const gameHandlers = [mockPostGame, mockGetGames];
+const mockGetGameMembers = http.get<
+  { gameId: string },
+  DefaultBodyType,
+  GetGameMembersResponse | CommonErrorResponse
+>('/api/games/:gameId/members', ({ params, request }) => {
+  const { searchParams } = new URL(request.url);
+  const status = searchParams.get('status');
+  const gameId = Number(params.gameId);
+
+  if (!status || (status !== '대기' && status !== '확정')) {
+    return HttpResponse.json({ code: 'COM-002' }, { status: 400 });
+  }
+  const game = games.find((game) => game.id === gameId);
+  if (!game) {
+    return HttpResponse.json({ code: 'COM-004' }, { status: 400 });
+  }
+
+  if (status === '대기') {
+    return HttpResponse.json({
+      ...game,
+      members: pendingMembersMap[gameId],
+    });
+  }
+  return HttpResponse.json(game);
+});
+
+export const gameHandlers = [mockPostGame, mockGetGames, mockGetGameMembers];
