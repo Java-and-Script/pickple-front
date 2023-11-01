@@ -1,15 +1,14 @@
 import styled from '@emotion/styled';
 
-import { theme } from '@styles/theme';
-
 export const CreatePageContainer = styled.div`
   width: 100%;
-  height: 100vh;
-  background-color: ${theme.PALETTE.GRAY_100};
-  padding: 0 1rem;
+  height: 100dvh;
+  background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
   display: flex;
   flex-direction: column;
   gap: 10px;
+  ${({ theme }) => theme.STYLES.LAYOUT}
+  padding-top: 3.1rem;
 `;
 
 export const CreatePageCard = styled.div`
