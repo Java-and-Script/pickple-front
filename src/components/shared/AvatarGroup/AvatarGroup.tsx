@@ -27,9 +27,10 @@ export const AvatarGroup = ({
       }
       return true;
     })
-    .map(({ props }) => (
+    .map(({ props }, index) => (
       <OverlapedAvatar
         {...props}
+        key={index}
         size={size}
         border={border}
         radius={radius}
