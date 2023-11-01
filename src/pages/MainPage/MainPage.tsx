@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import { Button } from '@components/shared/Button';
 import { Header } from '@components/shared/Header';
 import { MatchItem } from '@components/shared/MatchItem';
@@ -5,9 +7,12 @@ import { Text } from '@components/shared/Text';
 
 import { theme } from '@styles/theme';
 
+import { PATH_NAME } from '@consts/pathName';
+
 import { MainPageContainer, MainPageSubContainer } from './MainPage.style';
 
 export const MainPage = () => {
+  const navigate = useNavigate();
   return (
     <MainPageContainer>
       <Header isLogo={true} />
@@ -35,7 +40,10 @@ export const MainPage = () => {
             />
           )
         )}
-        <Button {...MAIN_PAGE_BUTTON_PROP}></Button>
+        <Button
+          {...MAIN_PAGE_BUTTON_PROP}
+          handleClick={() => navigate(PATH_NAME.GAMES_NEAR)}
+        ></Button>
       </MainPageSubContainer>
       <MainPageSubContainer>
         <Text children={'추천 크루'} weight={700} size={'1.25rem'} />
@@ -61,7 +69,10 @@ export const MainPage = () => {
             />
           )
         )}
-        <Button {...MAIN_PAGE_BUTTON_PROP}></Button>
+        <Button
+          {...MAIN_PAGE_BUTTON_PROP}
+          handleClick={() => console.log('hi')}
+        ></Button>
       </MainPageSubContainer>
     </MainPageContainer>
   );
@@ -116,5 +127,4 @@ const MAIN_PAGE_BUTTON_PROP = {
   textColor: `${theme.PALETTE.RED_400}`,
   borderColor: `${theme.PALETTE.RED_400}`,
   backgroundColor: 'white',
-  handleClick: () => console.log('hi'),
 };
