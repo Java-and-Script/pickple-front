@@ -5,6 +5,7 @@ import { CreateGamePage } from '@pages/CreateGamePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesNearPage } from '@pages/GamesNearPage';
 import { Layout } from '@pages/Layout';
+import { ManagePage } from '@pages/ManagePage';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { RegisterPage } from '@pages/RegisterPage';
@@ -41,7 +42,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'games/:id/manage',
-        element: <h3>manage</h3>,
+        element: <ManagePage manageType="games" />,
       },
       {
         path: 'games/:id/review',
@@ -65,7 +66,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/:id/manage',
-        element: <h3>crews/:id/manage</h3>,
+        element: <ManagePage manageType="crews" />,
       },
       {
         path: 'create',
