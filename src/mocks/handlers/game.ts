@@ -73,7 +73,7 @@ const mockGetGameDetail = http.get<
   const game = games.find((game) => game.id === gameId);
 
   if (!game) {
-    return HttpResponse.json({ code: 'MEM-001' }, { status: 400 });
+    return HttpResponse.json({ code: 'COM-002' }, { status: 400 });
   }
 
   return HttpResponse.json(game);
