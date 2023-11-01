@@ -1,1 +1,1 @@
-export const WEEKDAY = ['일', '월', '와', '수', '목', '금', '토'];
+export const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];

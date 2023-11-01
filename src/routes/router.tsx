@@ -1,22 +1,27 @@
+import { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { CreatePage } from '@pages/CreatePage';
-import { HomePage } from '@pages/HomePage';
+import { CreateGamePage } from '@pages/CreateGamePage';
+import { GamesDetailPage } from '@pages/GamesDetailPage';
+import { GamesNearPage } from '@pages/GamesNearPage';
 import { Layout } from '@pages/Layout';
+import { LoginPage } from '@pages/LoginPage';
+import { MainPage } from '@pages/MainPage';
+import { RegisterPage } from '@pages/RegisterPage';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
-      { path: '', element: <HomePage /> },
-      { path: 'login', element: <h1>login</h1> },
-      { path: 'register', element: <h1>register</h1> },
+      { path: '', element: <MainPage /> },
+      { path: 'login', element: <LoginPage /> },
+      { path: 'register', element: <RegisterPage /> },
       { path: 'all-services', element: <h1>all-services</h1> },
       { path: 'players/:id', element: <h1>players</h1> },
       {
         path: 'games/near',
-        element: <h2>near</h2>,
+        element: <GamesNearPage />,
       },
       {
         path: 'games/host',
@@ -28,7 +33,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'games/:id',
-        element: <h2>id</h2>,
+        element: (
+          <Suspense fallback={null}>
+            <GamesDetailPage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/:id/manage',
@@ -64,7 +73,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'create/game',
-        element: <h3>create/game</h3>,
+        element: <CreateGamePage />,
       },
       {
         path: 'create/crew',

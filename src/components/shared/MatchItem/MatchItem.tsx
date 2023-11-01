@@ -104,8 +104,8 @@ const MatchItem = ({
               overlap={5}
               border={`1px solid ${theme.PALETTE.GRAY_400}`}
             >
-              {membersProfileImageUrls.slice(0, 6).map((url) => (
-                <Avatar src={url} />
+              {membersProfileImageUrls.slice(0, 6).map((url, index) => (
+                <Avatar key={index} src={url} />
               ))}
             </AvatarGroup>
             <MatchRecruitmentStatus>{`${memberCount}/${maxMemberCount}`}</MatchRecruitmentStatus>
