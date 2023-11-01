@@ -46,4 +46,17 @@ const mockPostGame = http.post<
   return HttpResponse.json({ gameId });
 });
 
-export const gameHandlers = [mockPostGame];
+/** TODO: category, value 구현해야함 */
+const mockGetGames = http.get('/api/games', ({ request }) => {
+  const { searchParams } = new URL(request.url);
+  // const category = searchParams.get('category');
+  // const value = searchParams.get('value');
+  const page = Number(searchParams.get('page'));
+  const size = Number(searchParams.get('size'));
+
+  const startIndex = page * size;
+
+  return HttpResponse.json(games.slice(startIndex, startIndex + size));
+});
+
+export const gameHandlers = [mockPostGame, mockGetGames];
