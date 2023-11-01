@@ -3,7 +3,7 @@ import { axiosInstance } from '@api/axiosInstance';
 import { PatchGameParticipateApplyRequest } from '@type/api/games';
 import { Game, Member } from '@type/models';
 
-export const patchMannerScoreReview = async ({
+export const patchGameParticipate = async ({
   payload,
   gameId,
   memberId,
