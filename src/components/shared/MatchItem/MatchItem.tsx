@@ -1,11 +1,18 @@
 import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import styled from '@emotion/styled';
+
+import { Button } from '@components/shared/Button';
+
+import { theme } from '@styles/theme';
+
 import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
 
+import { Avatar } from '../Avatar';
+import { AvatarGroup } from '../AvatarGroup';
 import {
-  AvatarGroupWrapper,
   MatchAddress,
   MatchDate,
   MatchDescription,
@@ -18,16 +25,26 @@ import {
   MatchStatus,
 } from './MatchItem.styles';
 
-type ManageBtnProps = {
+type MatchItemBtnProps = {
+  text: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-/** TODO: 버튼 컴포넌트로 대체 */
-const ManageBtn = ({ onClick, ...props }: ManageBtnProps) => {
+const StyledButton = styled(Button)`
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 1rem;
+  font-family: 'GmarketSans';
+`;
+
+const BottomBtn = ({ onClick, text, ...props }: MatchItemBtnProps) => {
   return (
-    <button onClick={onClick} {...props}>
-      매치 관리
-    </button>
+    <StyledButton
+      {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
+      text={text}
+      onClick={onClick}
+      {...props}
+    />
   );
 };
 
@@ -53,7 +70,6 @@ const MatchItem = ({
   membersProfileImageUrls,
 }: MatchItemProps) => {
   const navigate = useNavigate();
-  membersProfileImageUrls;
 
   const endTimeNumber = startTime.getTime() + timeMinutes * 60000;
   const isMatchEnd = endTimeNumber <= new Date().getTime();
@@ -83,8 +99,15 @@ const MatchItem = ({
           </MatchDate>
           <MatchAddress>{mainAddress}</MatchAddress>
           <MatchPlayerInfo>
-            <AvatarGroupWrapper />{' '}
-            {/* TODO: 아바타그룹 컴포넌트로 대체해야함 */}
+            <AvatarGroup
+              size={30}
+              overlap={5}
+              border={`1px solid ${theme.PALETTE.GRAY_400}`}
+            >
+              {membersProfileImageUrls.slice(0, 6).map((url) => (
+                <Avatar src={url} />
+              ))}
+            </AvatarGroup>
             <MatchRecruitmentStatus>{`${memberCount}/${maxMemberCount}`}</MatchRecruitmentStatus>
           </MatchPlayerInfo>
         </MatchDescription>
@@ -94,6 +117,6 @@ const MatchItem = ({
   );
 };
 
-MatchItem.ManageBtn = ManageBtn;
+MatchItem.BottomBtn = BottomBtn;
 
 export { MatchItem };

@@ -1,9 +1,6 @@
 import styled from '@emotion/styled';
 
-import { PALETTE } from '@styles/palette';
-
 export const NavbarContainer = styled.div`
-  max-width: 375px;
   height: 4.375rem;
   display: flex;
   justify-content: space-evenly;
@@ -15,7 +12,7 @@ export const NavbarContainer = styled.div`
   background-color: #ffffff;
   border-top-right-radius: 1rem;
   border-top-left-radius: 1rem;
-  border-top: 1px solid ${PALETTE.GRAY_500};
+  border-top: ${({ theme }) => `1px solid ${theme.PALETTE.GRAY_500}`};
   padding-bottom: 1rem;
 `;
 
@@ -43,9 +40,9 @@ export const NavbarButton = styled.button`
     }
   }
   p {
-    color: ${PALETTE.GRAY_500};
+    color: ${({ theme }) => `${theme.PALETTE.GRAY_500}`};
     &.currentPage {
-      color: ${PALETTE.RED_600};
+      color: ${({ theme }) => `${theme.PALETTE.RED_600}`};
     }
   }
 `;
