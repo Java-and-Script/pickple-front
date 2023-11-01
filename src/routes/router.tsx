@@ -1,5 +1,7 @@
+import { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
+import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesNearPage } from '@pages/GamesNearPage';
 import { HomePage } from '@pages/HomePage';
 import { Layout } from '@pages/Layout';
@@ -30,7 +32,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'games/:id',
-        element: <h2>id</h2>,
+        element: (
+          <Suspense fallback={null}>
+            <GamesDetailPage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/:id/manage',
