@@ -1,13 +1,12 @@
 import { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { Layout } from '@pages/Layout';
-import { MainPage } from '@pages/MainPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesNearPage } from '@pages/GamesNearPage';
 import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
+import { MainPage } from '@pages/MainPage';
 import { RegisterPage } from '@pages/RegisterPage';
 
 export const router = createBrowserRouter([
@@ -70,7 +69,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'create',
-        element: <h3>create</h3>,
+        element: <CreatePage />,
       },
       {
         path: 'create/game',
