@@ -10,9 +10,14 @@ import {
 type VirtualScrollProps = {
   list: string[];
   onItemSelected: (item: string) => void;
+  width: string;
 };
 
-export const VirtualScroll = ({ list, onItemSelected }: VirtualScrollProps) => {
+export const VirtualScroll = ({
+  list,
+  onItemSelected,
+  width,
+}: VirtualScrollProps) => {
   const scrollList = useMemo(() => [null, ...list, null], [list]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [centerIndex, setCenterIndex] = useState(0);
@@ -42,7 +47,7 @@ export const VirtualScroll = ({ list, onItemSelected }: VirtualScrollProps) => {
   }, [scrollList, onItemSelected]);
 
   return (
-    <StyledVirtualScrollWrapper ref={scrollRef}>
+    <StyledVirtualScrollWrapper ref={scrollRef} width={width}>
       <StyledList>
         {scrollList.map((item, index) => (
           <div key={index}>
