@@ -1,10 +1,11 @@
 import {
   GetJoinedCrewsResponse,
   GetLoginResponse,
+  GetMemberProfileResponse,
   PostRefreshAccessTokenResponse,
   PostRegistrationResponse,
 } from '@type/api/member';
-import { CrewProfile, Game, MemberProfile } from '@type/models';
+import { CrewProfile, Game } from '@type/models';
 
 export const AUTH_LOGIN_MEMBER: GetLoginResponse = {
   accessToken:
@@ -58,7 +59,7 @@ export const MEMBERS: PostRegistrationResponse = {
   addressDepth2: '영등포구',
 };
 
-export const MEMBERS_MEMBERID: MemberProfile = {
+export const MEMBERS_MEMBERID: GetMemberProfileResponse = {
   id: 1,
   email: 'james123@pickple.kr',
   nickname: 'james123',
