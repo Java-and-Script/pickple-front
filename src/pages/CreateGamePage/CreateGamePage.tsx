@@ -144,8 +144,8 @@ export const CreateGamePage = () => {
   return (
     <PageLayout>
       <PageWrapper>
+        <Header title="게스트 모집하기" />
         <StyledCreateForm onSubmit={handleSubmit(onSubmit)}>
-          <Header title="게스트 모집하기" />
           <StyledTitle>
             <Text size={20} weight={700}>
               게스트 모집하기
