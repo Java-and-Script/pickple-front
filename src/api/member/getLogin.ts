@@ -1,4 +1,3 @@
-///auth/login/{oauthProvider}?authCode={authCode}
 import { axiosInstance } from '@api/axiosInstance';
 
 import { GetLoginRequest, GetLoginResponse } from '@type/api/member';

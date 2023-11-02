@@ -1,4 +1,3 @@
-// /members
 import { axiosInstance } from '@api/axiosInstance';
 
 import {

@@ -1,4 +1,3 @@
-///members/{memberId}/confirmed-games
 import { axiosInstance } from '@api/axiosInstance';
 
 import {

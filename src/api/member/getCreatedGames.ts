@@ -1,4 +1,3 @@
-////members/{memberId}/created-games
 import { axiosInstance } from '@api/axiosInstance';
 
 import {
