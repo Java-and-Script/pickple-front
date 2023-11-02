@@ -1,6 +1,10 @@
 import { HttpResponse, http } from 'msw';
 
-import { PostGameRequest, PostGameResponse } from '@type/api/games';
+import {
+  PostGameParticipateRequest,
+  PostGameRequest,
+  PostGameResponse,
+} from '@type/api/games';
 import { Game, Member } from '@type/models';
 
 import { games } from '@mocks/data/game';
@@ -59,4 +63,36 @@ const mockGetGames = http.get('/api/games', ({ request }) => {
   return HttpResponse.json(games.slice(startIndex, startIndex + size));
 });
 
-export const gameHandlers = [mockPostGame, mockGetGames];
+const mockPostGameParticipate = http.post<
+  { gameId: string },
+  { data: PostGameParticipateRequest }
+>('/api/games/:gameId/members', async ({ params, request }) => {
+  const gameId = Number(params.gameId);
+  const {
+    data: { memberId },
+  } = await request.json();
+
+  const game = games.find((game) => game.id === gameId);
+  if (!game) {
+    return;
+  }
+
+  game.members.push({
+    id: memberId,
+    email: 'james123@pickple.kr',
+    nickname: 'james123',
+    introduction: '안녕하십니까. 제임스입니다. 아이고~ 사장님~~',
+    profileImageUrl: 'https://s3.amazonaws.com/pickple/james123.jpg',
+    mannerScore: 21,
+    mannerScoreCount: 30,
+    addressDepth1: '서울시',
+    addressDepth2: '강남구',
+    positions: ['C', 'PF'],
+  });
+});
+
+export const gameHandlers = [
+  mockPostGame,
+  mockGetGames,
+  mockPostGameParticipate,
+];
