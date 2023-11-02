@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
+import { Header } from '@components/Header';
+import { MatchItem } from '@components/MatchItem';
 import { Button } from '@components/shared/Button';
-import { Header } from '@components/shared/Header';
-import { MatchItem } from '@components/shared/MatchItem';
 import { Text } from '@components/shared/Text';
 
 import { theme } from '@styles/theme';
@@ -42,8 +42,10 @@ export const MainPage = () => {
         )}
         <Button
           {...MAIN_PAGE_BUTTON_PROP}
-          handleClick={() => navigate(PATH_NAME.GAMES_NEAR)}
-        ></Button>
+          onClick={() => navigate(PATH_NAME.GAMES_NEAR)}
+        >
+          더보기
+        </Button>
       </MainPageSubContainer>
       <MainPageSubContainer>
         <Text children={'추천 크루'} weight={700} size={'1.25rem'} />
@@ -69,10 +71,9 @@ export const MainPage = () => {
             />
           )
         )}
-        <Button
-          {...MAIN_PAGE_BUTTON_PROP}
-          handleClick={() => console.log('hi')}
-        ></Button>
+        <Button {...MAIN_PAGE_BUTTON_PROP} onClick={() => console.log('hi')}>
+          더보기
+        </Button>
       </MainPageSubContainer>
     </MainPageContainer>
   );

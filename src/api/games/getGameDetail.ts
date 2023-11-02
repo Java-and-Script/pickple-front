@@ -5,7 +5,7 @@ import { Game } from '@type/models';
 
 export const getGameDetail = async ({ gameId }: { gameId: Game['id'] }) => {
   const { data } = await axiosInstance.get<GetGameDetailResponse>(
-    `api/games/${gameId}`,
+    `/games/${gameId}`,
     {}
   );
 

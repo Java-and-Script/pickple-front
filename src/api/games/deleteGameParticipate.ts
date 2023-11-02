@@ -6,5 +6,5 @@ export const deleteGameParticipate = async ({
   gameId,
   memberId,
 }: DeleteGameParticipateRequest) => {
-  await axiosInstance.delete(`/api/games/${gameId}/members/${memberId}`, {});
+  await axiosInstance.delete(`/games/${gameId}/members/${memberId}`, {});
 };

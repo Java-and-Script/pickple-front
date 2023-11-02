@@ -1,9 +1,5 @@
-import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import styled from '@emotion/styled';
-
-import { Button } from '@components/shared/Button';
 
 import { theme } from '@styles/theme';
 
@@ -24,29 +20,7 @@ import {
   MatchStartTime,
   MatchStatus,
 } from './MatchItem.styles';
-
-type MatchItemBtnProps = {
-  text: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
-
-const StyledButton = styled(Button)`
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 1rem;
-  font-family: 'GmarketSans';
-`;
-
-const BottomBtn = ({ onClick, text, ...props }: MatchItemBtnProps) => {
-  return (
-    <StyledButton
-      {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
-      text={text}
-      onClick={onClick}
-      {...props}
-    />
-  );
-};
+import { BottomButton } from './components/BottomButton';
 
 type MatchItemProps = {
   matchId: string;
@@ -117,6 +91,6 @@ const MatchItem = ({
   );
 };
 
-MatchItem.BottomBtn = BottomBtn;
+MatchItem.BottomButton = BottomButton;
 
 export { MatchItem };

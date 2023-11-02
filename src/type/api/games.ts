@@ -2,6 +2,8 @@ import { Game, Member } from '@type/models';
 
 export type GetGamesResponse = Game[];
 
+export type GetGameDetailRequest = { gameId: Game['id'] };
+
 export type GetGameDetailResponse = Game;
 
 export type GetGameMembersResponse = Game;

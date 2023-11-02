@@ -1,6 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-
-import { Avatar } from '@components/shared/Avatar';
+import { Avatar } from '@components/Avatar';
 import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 
@@ -12,6 +10,7 @@ import { AllowCardContainer, FlexBox } from './AllowCard.style';
 
 type AllowCardProps = {
   player: Player;
+  moveToProfile: (path: string) => void;
 };
 
 type Player = {
@@ -28,11 +27,9 @@ const buttonOverlappedProps = {
   backgroundColor: 'white',
 };
 
-export const AllowCard = ({ player }: AllowCardProps) => {
-  const navigate = useNavigate();
-
-  const moveToProfile = () => {
-    navigate(PATH_NAME.GET_PROFILE_PATH(player.id));
+export const AllowCard = ({ player, moveToProfile }: AllowCardProps) => {
+  const handleClickProfile = () => {
+    moveToProfile(PATH_NAME.GET_PROFILE_PATH(player.id));
   };
 
   const handleAllowClick = () => {};
@@ -45,33 +42,35 @@ export const AllowCard = ({ player }: AllowCardProps) => {
         <Avatar
           src={player.profileImageUrl}
           size={40}
-          onClick={moveToProfile}
+          onClick={handleClickProfile}
         />
         <Text
           size="1rem"
           weight={500}
           lineHeight="40px"
           ellipsis={1}
-          onClick={moveToProfile}
+          onClick={handleClickProfile}
         >
           {player.nickname}
         </Text>
       </FlexBox>
       <FlexBox>
         <Button
-          text="수락"
           textColor={theme.PALETTE.RED_400}
           borderColor={theme.PALETTE.RED_400}
-          handleClick={handleAllowClick}
+          onClick={handleAllowClick}
           {...buttonOverlappedProps}
-        />
+        >
+          수락
+        </Button>
         <Button
-          text="거절"
           textColor={theme.PALETTE.GRAY_400}
           borderColor={theme.PALETTE.GRAY_400}
-          handleClick={handleRejectClick}
+          onClick={handleRejectClick}
           {...buttonOverlappedProps}
-        />
+        >
+          거절
+        </Button>
       </FlexBox>
     </AllowCardContainer>
   );

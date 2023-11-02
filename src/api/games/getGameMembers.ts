@@ -11,7 +11,7 @@ export const getGameMebers = async ({
   status: '대기' | '확정';
 }) => {
   const { data } = await axiosInstance.get<GetGameMembersResponse>(
-    `/api/games/${gameId}/members`,
+    `/games/${gameId}/members`,
     {
       params: { status },
     }
