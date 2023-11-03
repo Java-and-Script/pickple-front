@@ -1,12 +1,17 @@
-import { HttpResponse, http } from 'msw';
+import { DefaultBodyType, HttpResponse, PathParams, http } from 'msw';
 
-import { PostGameRequest, PostGameResponse } from '@type/api/games';
+import { CommonErrorResponse } from '@type/api/error';
+import {
+  GetGameDetailResponse,
+  PostGameRequest,
+  PostGameResponse,
+} from '@type/api/games';
 import { Game, Member } from '@type/models';
 
 import { games } from '@mocks/data/game';
 
 const mockPostGame = http.post<
-  { gameId: string },
+  PathParams,
   { data: PostGameRequest },
   PostGameResponse
 >('/api/games', async ({ request }) => {
@@ -59,4 +64,19 @@ const mockGetGames = http.get('/api/games', ({ request }) => {
   return HttpResponse.json(games.slice(startIndex, startIndex + size));
 });
 
-export const gameHandlers = [mockPostGame, mockGetGames];
+const mockGetGameDetail = http.get<
+  { gameId: string },
+  DefaultBodyType,
+  GetGameDetailResponse | CommonErrorResponse
+>('/api/games/:gameId', ({ params }) => {
+  const gameId = Number(params.gameId);
+  const game = games.find((game) => game.id === gameId);
+
+  if (!game) {
+    return HttpResponse.json({ code: 'COM-002' }, { status: 400 });
+  }
+
+  return HttpResponse.json(game);
+});
+
+export const gameHandlers = [mockPostGame, mockGetGames, mockGetGameDetail];
