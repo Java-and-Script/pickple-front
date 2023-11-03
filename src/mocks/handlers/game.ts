@@ -4,6 +4,7 @@ import { CommonErrorResponse } from '@type/api/error';
 import {
   GetGameDetailResponse,
   GetGameMembersResponse,
+  PatchGameParticipateApplyRequest,
   PostGameParticipateRequest,
   PostGameRequest,
   PostGameResponse,
@@ -135,10 +136,75 @@ const mockGetGameDetail = http.get<
   return HttpResponse.json(game);
 });
 
+const mockPatchGameParticipate = http.patch<
+  {
+    gameId: string;
+    memberId: string;
+  },
+  { data: PatchGameParticipateApplyRequest }
+>('/api/games/:gameId/members/:memberId', async ({ request, params }) => {
+  const gameId = Number(params.gameId);
+  const memberId = Number(params.memberId);
+  const game = games.find((game) => game.id === gameId);
+
+  const {
+    data: { status },
+  } = await request.json();
+
+  if (!status || status !== '확정') {
+    return HttpResponse.json({ code: 'COM-002' }, { status: 400 });
+  }
+
+  if (!game) {
+    return HttpResponse.json({ code: 'COM-002' }, { status: 400 });
+  }
+
+  if (status === '확정') {
+    game.members.push({
+      id: memberId,
+      email: 'james789@pickple.kr',
+      nickname: 'james789',
+      introduction: '안녕하십니까. 제임스789입니다. 아이고~ 사장님~~',
+      profileImageUrl: 'https://s3.amazonaws.com/pickple/james789.jpg',
+      mannerScore: 26,
+      mannerScoreCount: 30,
+      addressDepth1: '서울시',
+      addressDepth2: '강남구',
+      positions: ['PG'],
+    });
+  }
+
+  return HttpResponse.json(game, { status: 200 });
+});
+
+const mockDeleteGameParticipate = http.delete<{
+  gameId: string;
+  memberId: string;
+}>('/api/games/:gameId/members/:memberId', async ({ params }) => {
+  const gameId = Number(params.gameId);
+  const game = games.find((game) => game.id === gameId);
+
+  if (!game) {
+    return HttpResponse.json({ code: 'COM-002' }, { status: 400 });
+  }
+
+  const filteredMembers = game.members.filter(
+    (member) => member.id !== Number(params.memberId)
+  );
+
+  if (game.members === filteredMembers) {
+    return HttpResponse.json({ code: 'MEM-001' }, { status: 400 });
+  }
+
+  return HttpResponse.json(game, { status: 200 });
+});
+
 export const gameHandlers = [
   mockPostGame,
   mockGetGames,
   mockGetGameDetail,
   mockGetGameMembers,
   mockPostGameParticipate,
+  mockPatchGameParticipate,
+  mockDeleteGameParticipate,
 ];
