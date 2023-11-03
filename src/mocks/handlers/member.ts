@@ -2,7 +2,7 @@ import { HttpResponse, http } from 'msw';
 
 import * as DATA from '../data/member';
 
-const mockGetAuth = http.get('/auth/:oauthProvider', ({ params }) => {
+const mockGetAuth = http.get('/api/auth/:oauthProvider', ({ params }) => {
   console.log('register page');
 
   const { oauthProvider } = params;
@@ -17,7 +17,7 @@ const mockGetAuth = http.get('/auth/:oauthProvider', ({ params }) => {
 });
 
 const mockGetLogin = http.get(
-  '/auth/login/:oauthProvider',
+  '/api/auth/login/:oauthProvider',
   ({ request, params }) => {
     const { oauthProvider } = params;
 
@@ -32,13 +32,13 @@ const mockGetLogin = http.get(
       return HttpResponse.json({}, { status: 400 });
     }
 
-    return HttpResponse.json(DATA.ACCESS_TOKEN, {
+    return HttpResponse.json(DATA.AUTH_LOGIN_MEMBER, {
       status: 201,
     });
   }
 );
 
-const mockGetAuthRefresh = http.post('/auth/refresh', () => {
+const mockGetAuthRefresh = http.post('/api/auth/refresh', () => {
   console.log('AuthToken Refreshed!');
 
   return HttpResponse.json(DATA.ACCESS_TOKEN, {
@@ -46,7 +46,7 @@ const mockGetAuthRefresh = http.post('/auth/refresh', () => {
   });
 });
 
-const mockGetRegistration = http.post('/members', () => {
+const mockGetRegistration = http.post('/api/members', () => {
   console.log('/members');
 
   return HttpResponse.json(DATA.MEMBERS, {
@@ -54,19 +54,22 @@ const mockGetRegistration = http.post('/members', () => {
   });
 });
 
-const mockGetMemberProfile = http.get('/members/:memberId', ({ params }) => {
-  const { memberId } = params;
+const mockGetMemberProfile = http.get(
+  '/api/members/:memberId',
+  ({ params }) => {
+    const { memberId } = params;
 
-  console.log('/members/:memberId');
-  console.log(memberId);
+    console.log('/members/:memberId');
+    console.log(memberId);
 
-  return HttpResponse.json(DATA.MEMBERS_MEMBERID, {
-    status: 200,
-  });
-});
+    return HttpResponse.json(DATA.MEMBERS_MEMBERID, {
+      status: 200,
+    });
+  }
+);
 
 const mockGetConfirmedGames = http.get(
-  '/members/:memberId/confirmed-games',
+  '/api/members/:memberId/confirmed-games',
   ({ params, cookies }) => {
     const { memberId } = params;
 
@@ -83,7 +86,7 @@ const mockGetConfirmedGames = http.get(
   }
 );
 const mockGetCreatedGames = http.get(
-  '/members/:memberId/created-games',
+  '/api/members/:memberId/created-games',
   ({ params }) => {
     const { memberId } = params;
 
@@ -110,7 +113,7 @@ const mockGetJoinedCrews = http.get(
 );
 
 const mockGetCreatedCrews = http.get(
-  '/members/:memberId/created-crews',
+  '/api/members/:memberId/created-crews',
   ({ params }) => {
     const { memberId } = params;
 
