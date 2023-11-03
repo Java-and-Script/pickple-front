@@ -11,13 +11,20 @@ export const useGamesQuery = ({
   category?: string;
   value?: string;
 }) => {
-  return useSuspenseInfiniteQuery({
+  const { data, ...query } = useSuspenseInfiniteQuery({
     queryKey: ['games', category, value],
     queryFn: ({ pageParam }) =>
       getGames({ category, value, page: pageParam, size: FETCH_SIZE }),
-    getNextPageParam: (page) => {
-      return page.length / FETCH_SIZE;
+    getNextPageParam: (_, pages) => {
+      return pages.length;
     },
     initialPageParam: 0,
   });
+  const games = data.pages.flat();
+
+  return {
+    data,
+    ...query,
+    games,
+  };
 };
