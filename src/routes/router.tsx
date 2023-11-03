@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
+import { AllServicesPage } from '@pages/AllServicesPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
@@ -19,7 +20,7 @@ export const router = createBrowserRouter([
       { path: '', element: <MainPage /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
-      { path: 'all-services', element: <h1>all-services</h1> },
+      { path: 'all-services', element: <AllServicesPage /> },
       { path: 'players/:id', element: <h1>players</h1> },
       {
         path: 'games/near',
