@@ -92,6 +92,8 @@ const mockPostGameParticipate = http.post<
     addressDepth2: '강남구',
     positions: ['C', 'PF'],
   });
+
+  return HttpResponse.json();
 });
 
 const mockGetGameMembers = http.get<
