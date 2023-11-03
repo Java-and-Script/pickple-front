@@ -32,6 +32,9 @@ export const Item = styled.div`
   box-sizing: border-box;
   padding: 4px;
   border-radius: 8px;
+  :active {
+    filter: brightness(90%);
+  }
   svg {
     width: 30px;
     height: 30px;
