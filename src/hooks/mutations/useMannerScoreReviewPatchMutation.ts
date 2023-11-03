@@ -5,7 +5,7 @@ import { patchMannerScoreReview } from '@api/games/patchMannerScoreReview';
 import { PatchGameMannerScoreReviewRequest } from '@type/api/games';
 import { Game } from '@type/models';
 
-export const usePatchMannerScoreReviewMutation = ({
+export const useMannerScoreReviewPatchMutation = ({
   payload,
   gameId,
 }: {

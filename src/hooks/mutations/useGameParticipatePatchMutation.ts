@@ -5,7 +5,7 @@ import { patchGameParticipate } from '@api/games/patchGameParticipate';
 import { PatchGameParticipateApplyRequest } from '@type/api/games';
 import { Game, Member } from '@type/models';
 
-export const usePatchGameParticipateMutation = ({
+export const useGameParticipatePatchMutation = ({
   gameId,
   memberId,
   payload,

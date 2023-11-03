@@ -4,7 +4,7 @@ import { deleteGameParticipate } from '@api/games/deleteGameParticipate';
 
 import { DeleteGameParticipateRequest } from '@type/api/games';
 
-export const useDeleteGameParticipateMutation = ({
+export const useGameParticipateDeleteMutation = ({
   gameId,
   memberId,
 }: DeleteGameParticipateRequest) => {
