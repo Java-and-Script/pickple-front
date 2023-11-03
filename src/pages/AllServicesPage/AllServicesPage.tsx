@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Header } from '@components/Header';
@@ -21,25 +20,10 @@ import Whistle from '@assets/whistle.svg?react';
 import {
   AllServicesContainer,
   FieldContainer,
-  Item,
   Main,
 } from './AllServicesPage.style';
+import { MenuItem } from './MenuItem';
 
-type MenuItemProps = {
-  icon: ReactNode;
-  pageName: string;
-  handleClickMenuItem?: () => void;
-};
-const MenuItem = ({ icon, pageName, handleClickMenuItem }: MenuItemProps) => {
-  return (
-    <Item onClick={handleClickMenuItem}>
-      {icon}
-      <Text size="1rem" weight={500}>
-        {pageName}
-      </Text>
-    </Item>
-  );
-};
 export const AllServicesPage = () => {
   const navigate = useNavigate();
 

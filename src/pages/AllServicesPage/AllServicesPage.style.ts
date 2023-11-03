@@ -33,6 +33,8 @@ export const Item = styled.div`
   padding: 4px;
   border-radius: 8px;
   svg {
+    width: 30px;
+    height: 30px;
     path {
       fill: ${({ theme }) => theme.PALETTE.GRAY_500};
     }
