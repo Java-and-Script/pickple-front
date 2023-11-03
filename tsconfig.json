@@ -38,7 +38,9 @@
       "@tests/*": ["src/tests/*"],
       "@mocks/*": ["src/mocks/*"],
       "@/*": ["src/*"]
-    }
+    },
+
+    "types": ["vite-plugin-svgr/client"]
   },
   "include": ["src", "tests"],
   "references": [{ "path": "./tsconfig.node.json" }]
