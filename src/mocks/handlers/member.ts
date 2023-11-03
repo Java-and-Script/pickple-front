@@ -59,7 +59,6 @@ const mockGetMemberProfile = http.get(
   ({ params }) => {
     const { memberId } = params;
 
-    console.log('/members/:memberId');
     console.log(memberId);
 
     return HttpResponse.json(DATA.MEMBERS_MEMBERID, {
@@ -77,7 +76,6 @@ const mockGetConfirmedGames = http.get(
     // if (!cookies.accessToken) {
     //   return new HttpResponse(null, { status: 403 });
     // }
-    console.log('/members/:memberId/confirmed-games');
     console.log(memberId);
 
     return HttpResponse.json(DATA.MEMBERS_MEMBERID_CONFIRMED_GAMES, {
@@ -90,7 +88,6 @@ const mockGetCreatedGames = http.get(
   ({ params }) => {
     const { memberId } = params;
 
-    console.log('/members/:memberId/created-games');
     console.log(memberId);
 
     return HttpResponse.json(DATA.MEMBERS_MEMBERID_CREATED_GAMES, {
@@ -103,7 +100,6 @@ const mockGetJoinedCrews = http.get(
   ({ params }) => {
     const { memberId } = params;
 
-    console.log('/members/:memberId/joined-crews');
     console.log(memberId);
 
     return HttpResponse.json(DATA.MEMBERS_MEMBERID_JOINED_CREWS, {
@@ -117,7 +113,6 @@ const mockGetCreatedCrews = http.get(
   ({ params }) => {
     const { memberId } = params;
 
-    console.log('/members/:memberId/created-crews');
     console.log(memberId);
 
     return HttpResponse.json(DATA.MEMBERS_MEMBERID_CREATED_CREWS, {

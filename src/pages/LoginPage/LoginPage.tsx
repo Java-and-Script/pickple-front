@@ -32,7 +32,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <LoginContainer className="hi">
+    <LoginContainer>
       <Header isLogo={false} title="로그인" isRightContainer={false} />
       <Main>
         <LogoImage src={LOGO_SRC} width="35%" height="auto" alt="pickle logo" />
