@@ -7,7 +7,8 @@ import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
 
-import { useMatchQuery } from '@hooks/queries/useMatchQuery';
+import { useGameParticipateCreateMutation } from '@hooks/mutations/useGameParticipateCreateMutation';
+import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
 
 import { theme } from '@styles/theme';
 
@@ -35,8 +36,9 @@ export const GamesDetailPage = () => {
   if (id === undefined) {
     throw new Error('"match id" is undefined');
   }
-
-  const { data: match } = useMatchQuery(id);
+  const gameId = Number(id);
+  const { data: match } = useGameDetailQuery(gameId);
+  const { mutate: participateMutate } = useGameParticipateCreateMutation();
 
   const [year, month, day] = match.playDate.split('-');
   const [hour, min] = match.playStartTime.split(':');
@@ -167,7 +169,13 @@ export const GamesDetailPage = () => {
         <Button
           {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
           height="50px"
-          // TODO: 클릭 핸들러
+          onClick={() =>
+            participateMutate({
+              gameId,
+              /** TODO: 내 정보 불러와서 내 id로 수정해야함 */
+              payload: { memberId: new Date().getTime() - 10000 },
+            })
+          }
         >
           참여 신청하기
         </Button>
