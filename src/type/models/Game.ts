@@ -10,8 +10,8 @@ export type Game = {
   playTimeMinutes: number;
   mainAddress: string;
   detailAddress: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   status: string;
   viewCount: number;
   cost: number;
