@@ -1,5 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { useQueryClient } from '@tanstack/react-query';
+
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
 import { Button } from '@components/shared/Button';
@@ -37,15 +39,22 @@ export const GamesDetailPage = () => {
     throw new Error('"match id" is undefined');
   }
   const gameId = Number(id);
+
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { data: match } = useGameDetailQuery(gameId);
   const { mutate: participateMutate } = useGameParticipateCreateMutation();
+
+  const onParticipateSuccess = () => {
+    queryClient.invalidateQueries({
+      queryKey: ['game-detail', gameId],
+    });
+  };
 
   const [year, month, day] = match.playDate.split('-');
   const [hour, min] = match.playStartTime.split(':');
   const date = new Date(Number(year), Number(month) - 1, Number(day));
   const weekday = WEEKDAY[date.getDay()];
-
-  const navigate = useNavigate();
 
   const handleClickMemberProfile = (id: number | string) =>
     navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
@@ -170,11 +179,14 @@ export const GamesDetailPage = () => {
           {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
           height="50px"
           onClick={() =>
-            participateMutate({
-              gameId,
-              /** TODO: 내 정보 불러와서 내 id로 수정해야함 */
-              payload: { memberId: new Date().getTime() - 10000 },
-            })
+            participateMutate(
+              {
+                gameId,
+                /** TODO: 내 정보 불러와서 내 id로 수정해야함 */
+                payload: { memberId: new Date().getTime() - 10000 },
+              },
+              { onSuccess: onParticipateSuccess }
+            )
           }
         >
           참여 신청하기
