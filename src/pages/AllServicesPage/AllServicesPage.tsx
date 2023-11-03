@@ -42,15 +42,11 @@ export const AllServicesPage = () => {
           <Text size="1rem" weight={700}>
             메인
           </Text>
-          <MenuItem
-            icon={<Map />}
-            pageName="지도"
-            handleClickMenuItem={() => moveToPage(PATH_NAME.CREATE)}
-          />
+          <MenuItem icon={<Map />} pageName="지도" />
           <MenuItem
             icon={<Pen />}
             pageName="글쓰기"
-            handleClickMenuItem={() => moveToPage(PATH_NAME.CREATE)}
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREATE)}
           />
           <MenuItem icon={<Chat />} pageName="메세지" />
           <MenuItem icon={<Profile />} pageName="내 정보" />
@@ -63,12 +59,12 @@ export const AllServicesPage = () => {
           <MenuItem
             icon={<Ball />}
             pageName="게스트로 참가한 경기 목록"
-            handleClickMenuItem={() => moveToPage(PATH_NAME.GAMES_PARTICIPATE)}
+            onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_PARTICIPATE)}
           />
           <MenuItem
             icon={<Whistle />}
             pageName="내가 만든 경기 목록"
-            handleClickMenuItem={() => moveToPage(PATH_NAME.GAMES_HOST)}
+            onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_HOST)}
           />
         </FieldContainer>
         <FieldContainer>
@@ -78,12 +74,12 @@ export const AllServicesPage = () => {
           <MenuItem
             icon={<CrewManage />}
             pageName="내가 속한 크루 목록"
-            handleClickMenuItem={() => moveToPage(PATH_NAME.CREWS_PARTICIPATE)}
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_PARTICIPATE)}
           />
           <MenuItem
             icon={<CrewMember />}
             pageName="내가 만든 크루 관리"
-            handleClickMenuItem={() => moveToPage(PATH_NAME.CREWS_CHIEF)}
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_CHIEF)}
           />
           <MenuItem icon={<Medal />} pageName="크루 랭킹" />
         </FieldContainer>

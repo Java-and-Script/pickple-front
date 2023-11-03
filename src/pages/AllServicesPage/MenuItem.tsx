@@ -7,15 +7,15 @@ import { Item } from './AllServicesPage.style';
 type MenuItemProps = {
   icon: ReactNode;
   pageName: string;
-  handleClickMenuItem?: () => void;
+  onClickMenuItem?: () => void;
 };
 export const MenuItem = ({
   icon,
   pageName,
-  handleClickMenuItem,
+  onClickMenuItem,
 }: MenuItemProps) => {
   return (
-    <Item onClick={handleClickMenuItem}>
+    <Item onClick={onClickMenuItem}>
       {icon}
       <Text size="1rem" weight={500}>
         {pageName}
