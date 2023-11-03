@@ -10,6 +10,8 @@ export type GetGameMembersResponse = Game;
 
 export type PostGameRequest = {
   hostId: number;
+  latitude?: number;
+  longitude?: number;
 } & Pick<
   Game,
   | 'content'
@@ -18,8 +20,6 @@ export type PostGameRequest = {
   | 'playTimeMinutes'
   | 'mainAddress'
   | 'detailAddress'
-  | 'latitude'
-  | 'longitude'
   | 'cost'
   | 'maxMemberCount'
   | 'positions'
