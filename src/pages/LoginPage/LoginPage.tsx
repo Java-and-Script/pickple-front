@@ -1,11 +1,11 @@
-import { Header } from '@components/shared/Header';
+import { Header } from '@components/Header';
 
 import KAKAO_LOGIN_SRC from '@assets/kakao_login_large_wide.png';
 import LOGO_SRC from '@assets/logoSvg.svg';
 
 import {
   KakaoLoginImage,
-  LoginWrapper,
+  LoginContainer,
   LogoImage,
   Main,
   MainImage,
@@ -16,7 +16,7 @@ const LOGIN_MAIN =
 
 export const LoginPage = () => {
   return (
-    <LoginWrapper className="hi">
+    <LoginContainer className="hi">
       <Header isLogo={false} title="로그인" isRightContainer={false} />
       <Main>
         <LogoImage src={LOGO_SRC} width="35%" height="auto" alt="pickle logo" />
@@ -33,6 +33,6 @@ export const LoginPage = () => {
           alt="kakao login"
         />
       </Main>
-    </LoginWrapper>
+    </LoginContainer>
   );
 };

@@ -12,7 +12,7 @@ export const patchGameParticipate = async ({
   gameId: Game['id'];
   memberId: Member['id'];
 }) => {
-  await axiosInstance.patch(`api/games/${gameId}/members/${memberId}`, {
+  await axiosInstance.patch(`/games/${gameId}/members/${memberId}`, {
     data: payload,
   });
   return;
