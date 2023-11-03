@@ -10,36 +10,47 @@ import { theme } from '@styles/theme';
 import { PATH_NAME } from '@consts/pathName';
 
 import { MainPageContainer, MainPageSubContainer } from './MainPage.style';
+import { useMainPageNearGamesQuery } from './useMainPageNearGamesQuery';
 
 export const MainPage = () => {
   const navigate = useNavigate();
+
+  const { data } = useMainPageNearGamesQuery({
+    category: 'location',
+    value: '서울시+영등포구',
+  });
+
+  const filteredData = data.map(
+    ({
+      id,
+      //playStartTime,
+      playTimeMinutes,
+      mainAddress,
+      memberCount,
+      maxMemberCount,
+      members,
+    }) => (
+      <MatchItem
+        key={id.toString()}
+        matchId={id.toString()}
+        startTime={new Date()}
+        timeMinutes={playTimeMinutes}
+        mainAddress={mainAddress}
+        memberCount={memberCount}
+        maxMemberCount={maxMemberCount}
+        membersProfileImageUrls={members.map(
+          ({ profileImageUrl }) => profileImageUrl
+        )}
+      />
+    )
+  );
+
   return (
     <MainPageContainer>
       <Header isLogo={true} />
       <MainPageSubContainer>
         <Text children={'내 근처의 경기'} weight={700} size={'1.25rem'} />
-        {serverMatchItemList.map(
-          ({
-            matchId,
-            startTime,
-            timeMinutes,
-            mainAddress,
-            memberCount,
-            maxMemberCount,
-            membersProfileImageUrls,
-          }) => (
-            <MatchItem
-              key={matchId}
-              matchId={matchId}
-              startTime={startTime}
-              timeMinutes={timeMinutes}
-              mainAddress={mainAddress}
-              memberCount={memberCount}
-              maxMemberCount={maxMemberCount}
-              membersProfileImageUrls={membersProfileImageUrls}
-            />
-          )
-        )}
+        {filteredData}
         <Button
           {...MAIN_PAGE_BUTTON_PROP}
           onClick={() => navigate(PATH_NAME.GAMES_NEAR)}
@@ -49,28 +60,7 @@ export const MainPage = () => {
       </MainPageSubContainer>
       <MainPageSubContainer>
         <Text children={'추천 크루'} weight={700} size={'1.25rem'} />
-        {serverMatchItemList.map(
-          ({
-            matchId,
-            startTime,
-            timeMinutes,
-            mainAddress,
-            memberCount,
-            maxMemberCount,
-            membersProfileImageUrls,
-          }) => (
-            <MatchItem
-              key={matchId}
-              matchId={matchId}
-              startTime={startTime}
-              timeMinutes={timeMinutes}
-              mainAddress={mainAddress}
-              memberCount={memberCount}
-              maxMemberCount={maxMemberCount}
-              membersProfileImageUrls={membersProfileImageUrls}
-            />
-          )
-        )}
+        {filteredData}
         <Button {...MAIN_PAGE_BUTTON_PROP} onClick={() => console.log('hi')}>
           더보기
         </Button>
@@ -78,45 +68,6 @@ export const MainPage = () => {
     </MainPageContainer>
   );
 };
-
-const serverMatchItemList = [
-  {
-    matchId: '1',
-    startTime: new Date(),
-    timeMinutes: 60,
-    mainAddress: '',
-    memberCount: 2,
-    maxMemberCount: 8,
-    membersProfileImageUrls: [
-      'https://picsum.photos/500',
-      'https://picsum.photos/500',
-    ],
-  },
-  {
-    matchId: '2',
-    startTime: new Date(),
-    timeMinutes: 60,
-    mainAddress: '',
-    memberCount: 2,
-    maxMemberCount: 8,
-    membersProfileImageUrls: [
-      'https://picsum.photos/500',
-      'https://picsum.photos/500',
-    ],
-  },
-  {
-    matchId: '3',
-    startTime: new Date(),
-    timeMinutes: 60,
-    mainAddress: '',
-    memberCount: 2,
-    maxMemberCount: 8,
-    membersProfileImageUrls: [
-      'https://picsum.photos/500',
-      'https://picsum.photos/500',
-    ],
-  },
-];
 
 const MAIN_PAGE_BUTTON_PROP = {
   width: '100%',
