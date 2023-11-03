@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { Image } from '@components/shared/Image';
 
-export const LoginWrapper = styled.div`
+export const LoginContainer = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
   height: 100dvh;
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};

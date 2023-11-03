@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Avatar } from '@components/shared/Avatar';
+import { Avatar } from '@components/Avatar';
+import { Header } from '@components/Header';
 import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
-import { Header } from '@components/shared/Header';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
 
@@ -24,9 +24,9 @@ import {
   Guests,
   GuestsContainer,
   InfoItem,
+  PageContent,
   PageLayout,
-  PageWrapper,
-  TextWrapper,
+  TextContainer,
   UserDataWrapper,
 } from './GamesDetailPage.styles';
 
@@ -51,21 +51,21 @@ export const GamesDetailPage = () => {
   return (
     <PageLayout>
       <Header />
-      <PageWrapper>
+      <PageContent>
         <div>
-          <TextWrapper>
+          <TextContainer>
             <Text size={24} weight={700}>
               {match.addressDepth1}
             </Text>
             <Text size={24} weight={700}>
               {match.addressDepth2}
             </Text>
-          </TextWrapper>
-          <TextWrapper>
+          </TextContainer>
+          <TextContainer>
             <Text size={20} weight={700}>
               {`${month}월 ${day}일 ${weekday}요일 ${hour}시 ${min}분`}
             </Text>
-          </TextWrapper>
+          </TextContainer>
         </div>
         <UserDataWrapper>
           <Flex
@@ -89,12 +89,13 @@ export const GamesDetailPage = () => {
             fontWeight={500}
             width="80px"
             height="40px"
-            text="대화하기"
             borderColor={theme.PALETTE.GRAY_400}
             backgroundColor="white"
             textColor={theme.PALETTE.GRAY_400}
-            handleClick={() => {}}
-          />
+            onClick={() => {}}
+          >
+            대화하기
+          </Button>
         </UserDataWrapper>
         <Text size={20} weight={700}>
           경기 정보
@@ -166,10 +167,11 @@ export const GamesDetailPage = () => {
         <Button
           {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
           height="50px"
-          text="참여 신청하기"
           // TODO: 클릭 핸들러
-        />
-      </PageWrapper>
+        >
+          참여 신청하기
+        </Button>
+      </PageContent>
     </PageLayout>
   );
 };

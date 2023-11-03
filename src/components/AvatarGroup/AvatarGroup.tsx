@@ -1,7 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 
 import { Avatar, AvatarProps } from '../Avatar';
-import { AvatarGroupWrapper, OverlapedAvatar } from './AvatarGroup.styles';
+import { AvatarContainer, OverlapedAvatar } from './AvatarGroup.styles';
 
 export type AvatarGroupProps = {
   children: React.ReactNode;
@@ -39,8 +39,8 @@ export const AvatarGroup = ({
     ));
 
   return (
-    <AvatarGroupWrapper overlap={overlap} {...props}>
+    <AvatarContainer overlap={overlap} {...props}>
       {avatars}
-    </AvatarGroupWrapper>
+    </AvatarContainer>
   );
 };

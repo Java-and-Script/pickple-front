@@ -6,6 +6,13 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000/',
+      },
+    },
+  },
   resolve: {
     alias: [
       { find: '@', replacement: '/src' },

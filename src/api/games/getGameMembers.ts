@@ -13,7 +13,7 @@ export const getGameMembers = async ({
   status,
 }: getGameMembersProps) => {
   const { data } = await axiosInstance.get<GetGameMembersResponse>(
-    `/api/games/${gameId}/members`,
+    `/games/${gameId}/members`,
     {
       params: { status },
     }

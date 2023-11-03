@@ -10,7 +10,7 @@ export const postGameParticipate = async ({
   payload: PostGameParticipateRequest;
   gameId: Game['id'];
 }) => {
-  await axiosInstance.post(`/api/games/${gameId}/members`, {
+  await axiosInstance.post(`/games/${gameId}/members`, {
     data: payload,
   });
 };

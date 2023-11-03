@@ -1,22 +1,24 @@
+import { PropsWithChildren } from 'react';
+
 import { StyledButton } from './Button.styles';
 
-export type ButtonProps = {
+export type ButtonProps = PropsWithChildren<{
   width: string;
   height: string;
-  text: string;
   fontSize?: number | string;
   fontWeight: number;
   lineHeight?: number | string;
   textColor: string;
   borderColor?: string;
   backgroundColor: string;
-  handleClick: () => void;
-};
+}> &
+  React.ComponentProps<'button'>;
 
-export const Button = (props: ButtonProps) => {
+export const Button = ({ onClick, ...props }: ButtonProps) => {
+  const { children } = props;
   return (
-    <StyledButton onClick={props.handleClick} {...props}>
-      {props.text}
+    <StyledButton onClick={onClick} {...props}>
+      {children}
     </StyledButton>
   );
 };

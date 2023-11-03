@@ -13,7 +13,7 @@ export const getGames = async ({
   page: number;
   size: number;
 }) => {
-  const { data } = await axiosInstance.get<GetGamesResponse>('/api/games', {
+  const { data } = await axiosInstance.get<GetGamesResponse>('/games', {
     params: { category, value, page, size },
   });
 

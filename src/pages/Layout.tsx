@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 import styled from '@emotion/styled';
 
-import { Navbar } from '@components/shared/Navbar/Navbar';
+import { Navbar } from '@components/Navbar/Navbar';
 
 export const Layout = () => {
   return (
