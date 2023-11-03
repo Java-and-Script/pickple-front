@@ -33,10 +33,11 @@ export type GetMemberProfileRequest = {
 };
 export type GetMemberProfileResponse = MemberProfile;
 
-export type GetConfiremdGamesRequest = {
+export type GetConfirmedGamesRequest = {
   memberId: Member['id'];
 };
-export type GetConfiremdGamesResponse = Game[];
+
+export type GetConfirmedGamesResponse = Game[];
 
 export type GetCreatedGamesRequest = {
   memberId: Member['id'];

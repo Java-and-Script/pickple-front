@@ -1,14 +1,11 @@
 import { axiosInstance } from '@api/axiosInstance';
 
-import {
-  GetConfiremdGamesRequest,
-  GetConfiremdGamesResponse,
-} from '@type/api/member';
+import { GetConfirmedGamesRequest } from '@type/api/member';
 
 export const getConfirmedGames = async ({
   memberId,
-}: GetConfiremdGamesRequest) => {
-  const { data } = await axiosInstance.get<GetConfiremdGamesResponse>(
+}: GetConfirmedGamesRequest) => {
+  const { data } = await axiosInstance.get<GetConfirmedGamesRequest>(
     `/members/${memberId}/confirmed-games`,
     {}
   );
