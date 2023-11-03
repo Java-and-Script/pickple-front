@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { Header } from '@components/Header';
+import { Modal } from '@components/Modal';
 import { Button } from '@components/shared/Button';
-import { Header } from '@components/shared/Header';
-import { Modal } from '@components/shared/Modal';
 import { Text } from '@components/shared/Text';
 import { ToggleButton } from '@components/shared/ToggleButton';
 import { useToggleButtons } from '@components/shared/ToggleButton';
 import { VirtualScroll } from '@components/shared/VirtualScroll';
+
+import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
 
@@ -60,6 +62,7 @@ const PositionComponent = ({
 
 export const CreateGamePage = () => {
   const { register, handleSubmit } = useForm();
+  const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
   const [selectedGuestCount, setSelectedGuestCount] = useState<string>('');
   const [selectedMatchDate, setSelectedMatchDate] = useState<string>('');
@@ -144,12 +147,14 @@ export const CreateGamePage = () => {
   return (
     <PageLayout>
       <PageWrapper>
-        <Header title="게스트 모집하기" />
+        <Header title={showHeaderTitle ? '게스트 모집하기' : ''} />
         <StyledCreateForm onSubmit={handleSubmit(onSubmit)}>
           <StyledTitle>
-            <Text size={20} weight={700}>
-              게스트 모집하기
-            </Text>
+            <div ref={entryRef}>
+              <Text size={20} weight={700}>
+                게스트 모집하기
+              </Text>
+            </div>
           </StyledTitle>
           <StyledSubTitle>
             <Text size={16} weight={300}>
@@ -172,27 +177,29 @@ export const CreateGamePage = () => {
                 게스트 인원을 선택해 주세요!
               </Text>
             </StyledModalHeader>
-            <VirtualScroll
-              width="100%"
-              list={[
-                '1명',
-                '2명',
-                '3명',
-                '4명',
-                '5명',
-                '6명',
-                '7명',
-                '8명',
-                '9명',
-                '10명',
-                '11명',
-                '12명',
-                '13명',
-                '14명',
-                '15명',
-              ]}
-              onItemSelected={handleGuestCountSelect}
-            />
+            <Modal.Content>
+              <VirtualScroll
+                width="100%"
+                list={[
+                  '1명',
+                  '2명',
+                  '3명',
+                  '4명',
+                  '5명',
+                  '6명',
+                  '7명',
+                  '8명',
+                  '9명',
+                  '10명',
+                  '11명',
+                  '12명',
+                  '13명',
+                  '14명',
+                  '15명',
+                ]}
+                onItemSelected={handleGuestCountSelect}
+              />
+            </Modal.Content>
           </Modal>
           <StyledSubTitle>
             <Text size={16} weight={300}>
@@ -215,17 +222,19 @@ export const CreateGamePage = () => {
                 게스트 매치 날짜를 선택해 주세요!
               </Text>
             </StyledModalHeader>
-            <VirtualScroll
-              width="100%"
-              list={[
-                '2022년 9월 1일',
-                '2022년 9월 2일',
-                '2022년 9월 3일',
-                '2022년 9월 4일',
-                '2022년 9월 5일',
-              ]}
-              onItemSelected={handleMatchDateSelect}
-            />
+            <Modal.Content>
+              <VirtualScroll
+                width="100%"
+                list={[
+                  '2022년 9월 1일',
+                  '2022년 9월 2일',
+                  '2022년 9월 3일',
+                  '2022년 9월 4일',
+                  '2022년 9월 5일',
+                ]}
+                onItemSelected={handleMatchDateSelect}
+              />
+            </Modal.Content>
           </Modal>
           <StyledSubTitle>
             <Text size={16} weight={300}>
@@ -248,24 +257,26 @@ export const CreateGamePage = () => {
                 경기 시작 시간을 선택해 주세요!
               </Text>
             </StyledModalHeader>
-            <VirtualScroll
-              width="100%"
-              list={[
-                '09:00',
-                '10:00',
-                '11:00',
-                '12:00',
-                '13:00',
-                '14:00',
-                '15:00',
-                '16:00',
-                '17:00',
-                '18:00',
-                '19:00',
-                '20:00',
-              ]}
-              onItemSelected={handleStartTimeSelect}
-            />
+            <Modal.Content>
+              <VirtualScroll
+                width="100%"
+                list={[
+                  '09:00',
+                  '10:00',
+                  '11:00',
+                  '12:00',
+                  '13:00',
+                  '14:00',
+                  '15:00',
+                  '16:00',
+                  '17:00',
+                  '18:00',
+                  '19:00',
+                  '20:00',
+                ]}
+                onItemSelected={handleStartTimeSelect}
+              />
+            </Modal.Content>
           </Modal>
           <StyledSubTitle>
             <Text size={16} weight={300}>
@@ -288,19 +299,21 @@ export const CreateGamePage = () => {
                 경기 플레이타임을 선택해 주세요!
               </Text>
             </StyledModalHeader>
-            <VirtualScroll
-              width="100%"
-              list={[
-                '30분',
-                '60분',
-                '90분',
-                '120분',
-                '150분',
-                '180분',
-                '210분',
-              ]}
-              onItemSelected={handlePlayTimeSelect}
-            />
+            <Modal.Content>
+              <VirtualScroll
+                width="100%"
+                list={[
+                  '30분',
+                  '60분',
+                  '90분',
+                  '120분',
+                  '150분',
+                  '180분',
+                  '210분',
+                ]}
+                onItemSelected={handlePlayTimeSelect}
+              />
+            </Modal.Content>
           </Modal>
           <StyledSubTitle>
             <Text size={16} weight={300}>
@@ -334,6 +347,7 @@ export const CreateGamePage = () => {
           <StyledInput
             {...register('price')}
             type="number"
+            pattern="\d*"
             onChange={(e) => setInputPrice(e.target.value)}
           />
           <StyledSubTitle>
@@ -346,15 +360,16 @@ export const CreateGamePage = () => {
             onChange={(e) => setInputDescription(e.target.value)}
           />
           <Button
-            text={'모집하기'}
             width="100%"
             height="50px"
             fontSize="20px"
             fontWeight={700}
             textColor={'white'}
             backgroundColor={theme.PALETTE.RED_600}
-            handleClick={handleSubmit(onSubmit)}
-          />
+            onClick={handleSubmit(onSubmit)}
+          >
+            모집하기
+          </Button>
           <StyledEmptyContainer />
         </StyledCreateForm>
       </PageWrapper>

@@ -1,5 +1,5 @@
-import { Header } from '@components/shared/Header';
-import { MatchItem } from '@components/shared/MatchItem';
+import { Header } from '@components/Header';
+import { MatchItem } from '@components/MatchItem';
 import { Text } from '@components/shared/Text';
 
 import { useHeaderTitle } from '@hooks/useHeaderTitle';

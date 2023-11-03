@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { theme } from '@styles/theme';
 
-export const RegisterWrapper = styled.div`
+export const RegisterContainer = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
   min-height: 100dvh;
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};

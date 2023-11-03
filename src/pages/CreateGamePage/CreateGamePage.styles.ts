@@ -6,6 +6,7 @@ export const PageLayout = styled.div`
 `;
 
 export const PageWrapper = styled.div`
+  padding-top: 1rem;
   display: flex;
   flex-direction: column;
 `;

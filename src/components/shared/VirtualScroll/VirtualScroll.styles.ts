@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
-export const StyledVirtualScrollWrapper = styled.div<{ width: string }>`
+export const StyledVirtualScrollContainer = styled.div<{ width: string }>`
   width: ${({ width }) => width};
-  height: 8rem;
+  height: 13rem;
   overflow: auto;
   &::-webkit-scrollbar {
     display: none;

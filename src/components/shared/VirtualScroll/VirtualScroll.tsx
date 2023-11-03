@@ -4,7 +4,7 @@ import {
   StyledCenterItem,
   StyledItem,
   StyledList,
-  StyledVirtualScrollWrapper,
+  StyledVirtualScrollContainer,
 } from './VirtualScroll.styles';
 
 type VirtualScrollProps = {
@@ -18,7 +18,7 @@ export const VirtualScroll = ({
   onItemSelected,
   width,
 }: VirtualScrollProps) => {
-  const scrollList = useMemo(() => [null, ...list, null], [list]);
+  const scrollList = useMemo(() => [null, null, ...list, null, null], [list]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [centerIndex, setCenterIndex] = useState(0);
 
@@ -47,7 +47,7 @@ export const VirtualScroll = ({
   }, [scrollList, onItemSelected]);
 
   return (
-    <StyledVirtualScrollWrapper ref={scrollRef} width={width}>
+    <StyledVirtualScrollContainer ref={scrollRef} width={width}>
       <StyledList>
         {scrollList.map((item, index) => (
           <div key={index}>
@@ -59,6 +59,6 @@ export const VirtualScroll = ({
           </div>
         ))}
       </StyledList>
-    </StyledVirtualScrollWrapper>
+    </StyledVirtualScrollContainer>
   );
 };

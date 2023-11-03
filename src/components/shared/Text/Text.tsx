@@ -5,7 +5,7 @@ import { LINE_HEIGHT } from '@styles/font';
 import { StyledParagraph } from './Text.styles';
 
 type Textprops = {
-  children: string;
+  children: React.ReactNode;
   size?: number | string;
   weight?: 300 | 500 | 700;
   lineHeight?: string;

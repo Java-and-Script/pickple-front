@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import { LogoImage } from '@pages/LoginPage/LoginPage.style';
 
+import { Header } from '@components/Header';
+import { SelectBox } from '@components/SelectBox';
 import { Button } from '@components/shared/Button';
-import { Header } from '@components/shared/Header';
-import { SelectBox } from '@components/shared/SelectBox';
 import { Text } from '@components/shared/Text';
 import {
   ToggleButton,
@@ -22,7 +22,7 @@ import {
   FieldContainer,
   Main,
   PositionButtonGroup,
-  RegisterWrapper,
+  RegisterContainer,
   ScrollBox,
 } from './RegisterPage.style';
 
@@ -47,7 +47,7 @@ export const RegisterPage = () => {
   });
 
   return (
-    <RegisterWrapper>
+    <RegisterContainer>
       <Header isLogo={false} title="정보 입력" isRightContainer={false} />
       <Main>
         <LogoImage src={LOGO_SRC} width="35%" height="auto" alt="pickle logo" />
@@ -86,14 +86,15 @@ export const RegisterPage = () => {
         </FieldContainer>
         <FieldContainer>
           <Button
-            text="입력 완료"
             width="100%"
             height="3.125rem"
             {...theme.BUTTON_PROPS.LARGE_RED_OUTLINED_BUTTON_PROPS}
             onClick={() => console.log(selectedLocation, selectedPosition)}
-          />
+          >
+            입력 완료
+          </Button>
         </FieldContainer>
       </Main>
-    </RegisterWrapper>
+    </RegisterContainer>
   );
 };

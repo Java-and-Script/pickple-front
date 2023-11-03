@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 
-import { Avatar, AvatarProps } from '@components/shared/Avatar';
+import { Avatar, AvatarProps } from '@components/Avatar';
 
 import { AvatarGroupProps } from './AvatarGroup';
 
-type AvatarGroupWrapperProps = Required<Pick<AvatarGroupProps, 'overlap'>>;
+type AvatarContainerProps = Required<Pick<AvatarGroupProps, 'overlap'>>;
 
-export const AvatarGroupWrapper = styled.div<AvatarGroupWrapperProps>`
+export const AvatarContainer = styled.div<AvatarContainerProps>`
   padding-left: ${({ overlap }) => `${overlap / 16}rem`};
 `;
 

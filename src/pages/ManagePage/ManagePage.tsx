@@ -1,15 +1,22 @@
-import { AllowCard, AllowCardGroup } from '@components/shared/AllowCard';
-import { Header } from '@components/shared/Header';
+import { useNavigate } from 'react-router-dom';
 
-import { Main, ManageWrapper } from './ManagePage.style';
+import { AllowCard } from '@components/AllowCard';
+import { Header } from '@components/Header';
+
+import { AllowCardGroup, Main, ManageContainer } from './ManagePage.style';
 
 type ManagePageProps = { manageType: 'games' | 'crews' };
 
 export const ManagePage = ({ manageType }: ManagePageProps) => {
   console.log(manageType);
 
+  const navigate = useNavigate();
+  const moveToProfile = (path: string) => {
+    navigate(path);
+  };
+
   return (
-    <ManageWrapper>
+    <ManageContainer>
       <Header isLogo={false} title="10.21 송파구" isRightContainer={true} />
       <Main>
         <AllowCardGroup>
@@ -20,9 +27,10 @@ export const ManagePage = ({ manageType }: ManagePageProps) => {
               profileImageUrl:
                 'https://i.ytimg.com/vi/scxNCuffq-0/maxresdefault.jpg',
             }}
+            moveToProfile={moveToProfile}
           />
         </AllowCardGroup>
       </Main>
-    </ManageWrapper>
+    </ManageContainer>
   );
 };

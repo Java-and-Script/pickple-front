@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 
-export const TextWrapper = styled.div`
+export const TextContainer = styled.div`
   display: flex;
   gap: 5px;
 `;
@@ -12,7 +12,7 @@ export const PageLayout = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
 `;
 
-export const PageWrapper = styled.div`
+export const PageContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
