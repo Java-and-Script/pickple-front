@@ -23,7 +23,11 @@ export const router = createBrowserRouter([
       { path: 'players/:id', element: <h1>players</h1> },
       {
         path: 'games/near',
-        element: <GamesNearPage />,
+        element: (
+          <Suspense>
+            <GamesNearPage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/host',
