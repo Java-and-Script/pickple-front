@@ -1,7 +1,10 @@
 import { ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Header } from '@components/Header';
 import { Text } from '@components/shared/Text';
+
+import { PATH_NAME } from '@consts/pathName';
 
 import Ball from '@assets/ball.svg?react';
 import Chat from '@assets/chat.svg?react';
@@ -25,10 +28,11 @@ import {
 type MenuItemProps = {
   icon: ReactNode;
   pageName: string;
+  handleClickMenuItem?: () => void;
 };
-const MenuItem = ({ icon, pageName }: MenuItemProps) => {
+const MenuItem = ({ icon, pageName, handleClickMenuItem }: MenuItemProps) => {
   return (
-    <Item>
+    <Item onClick={handleClickMenuItem}>
       {icon}
       <Text size="1rem" weight={500}>
         {pageName}
@@ -37,10 +41,15 @@ const MenuItem = ({ icon, pageName }: MenuItemProps) => {
   );
 };
 export const AllServicesPage = () => {
+  const navigate = useNavigate();
+
+  const moveToPage = (pathName: string) => {
+    navigate(pathName);
+  };
+
   return (
     <AllServicesContainer>
       <Header isLogo={true} isRightContainer={true} />
-
       <Main>
         <Text size="1.2rem" weight={700}>
           전체 서비스
@@ -49,8 +58,16 @@ export const AllServicesPage = () => {
           <Text size="1rem" weight={700}>
             메인
           </Text>
-          <MenuItem icon={<Map />} pageName="지도" />
-          <MenuItem icon={<Pen />} pageName="글쓰기" />
+          <MenuItem
+            icon={<Map />}
+            pageName="지도"
+            handleClickMenuItem={() => moveToPage(PATH_NAME.CREATE)}
+          />
+          <MenuItem
+            icon={<Pen />}
+            pageName="글쓰기"
+            handleClickMenuItem={() => moveToPage(PATH_NAME.CREATE)}
+          />
           <MenuItem icon={<Chat />} pageName="메세지" />
           <MenuItem icon={<Profile />} pageName="내 정보" />
           <MenuItem icon={<Social />} pageName="소셜링" />
@@ -59,15 +76,31 @@ export const AllServicesPage = () => {
           <Text size="1rem" weight={700}>
             경기
           </Text>
-          <MenuItem icon={<Ball />} pageName="게스트로 참가한 경기 목록" />
-          <MenuItem icon={<Whistle />} pageName="내가 만든 경기 목록" />
+          <MenuItem
+            icon={<Ball />}
+            pageName="게스트로 참가한 경기 목록"
+            handleClickMenuItem={() => moveToPage(PATH_NAME.GAMES_PARTICIPATE)}
+          />
+          <MenuItem
+            icon={<Whistle />}
+            pageName="내가 만든 경기 목록"
+            handleClickMenuItem={() => moveToPage(PATH_NAME.GAMES_HOST)}
+          />
         </FieldContainer>
         <FieldContainer>
           <Text size="1rem" weight={700}>
             크루
           </Text>
-          <MenuItem icon={<CrewManage />} pageName="내가 속한 크루 목록" />
-          <MenuItem icon={<CrewMember />} pageName="내가 만든 크루 관리" />
+          <MenuItem
+            icon={<CrewManage />}
+            pageName="내가 속한 크루 목록"
+            handleClickMenuItem={() => moveToPage(PATH_NAME.CREWS_PARTICIPATE)}
+          />
+          <MenuItem
+            icon={<CrewMember />}
+            pageName="내가 만든 크루 관리"
+            handleClickMenuItem={() => moveToPage(PATH_NAME.CREWS_CHIEF)}
+          />
           <MenuItem icon={<Medal />} pageName="크루 랭킹" />
         </FieldContainer>
         <FieldContainer>
