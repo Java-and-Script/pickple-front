@@ -4,6 +4,7 @@ import { CommonErrorResponse } from '@type/api/error';
 import {
   GetGameDetailResponse,
   GetGameMembersResponse,
+  PatchGameParticipateApplyRequest,
   PostGameParticipateRequest,
   PostGameRequest,
   PostGameResponse,
@@ -140,7 +141,7 @@ const mockPatchGameParticipate = http.patch<
     gameId: string;
     memberId: string;
   },
-  { data: { status: '확정' } }
+  { data: PatchGameParticipateApplyRequest }
 >('/api/games/:gameId/members/:memberId', async ({ request, params }) => {
   const gameId = Number(params.gameId);
   const memberId = Number(params.memberId);
