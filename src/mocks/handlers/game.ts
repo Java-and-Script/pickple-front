@@ -176,6 +176,28 @@ const mockPatchGameParticipate = http.patch<
   return HttpResponse.json(game, { status: 200 });
 });
 
+const mockDeleteGameParticipate = http.delete<{
+  gameId: string;
+  memberId: string;
+}>('/api/games/:gameId/members/:memberId', async ({ params }) => {
+  const gameId = Number(params.gameId);
+  const game = games.find((game) => game.id === gameId);
+
+  if (!game) {
+    return HttpResponse.json({ code: 'COM-002' }, { status: 400 });
+  }
+
+  const filteredMembers = game.members.filter(
+    (member) => member.id !== Number(params.memberId)
+  );
+
+  if (game.members === filteredMembers) {
+    return HttpResponse.json({ code: 'MEM-001' }, { status: 400 });
+  }
+
+  return HttpResponse.json(game, { status: 200 });
+});
+
 export const gameHandlers = [
   mockPostGame,
   mockGetGames,
@@ -183,4 +205,5 @@ export const gameHandlers = [
   mockGetGameMembers,
   mockPostGameParticipate,
   mockPatchGameParticipate,
+  mockDeleteGameParticipate,
 ];
