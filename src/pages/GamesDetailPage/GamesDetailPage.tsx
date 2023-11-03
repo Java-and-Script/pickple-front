@@ -14,6 +14,8 @@ import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
 
 import { theme } from '@styles/theme';
 
+import { Member } from '@type/models';
+
 import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
 
@@ -33,6 +35,14 @@ import {
   UserDataWrapper,
 } from './GamesDetailPage.styles';
 
+const getMyInfo = (): Member | null => {
+  const json = localStorage.getItem('USER_INFO');
+  if (!json) {
+    return null;
+  }
+  return JSON.parse(json);
+};
+
 export const GamesDetailPage = () => {
   const { id } = useParams();
   if (id === undefined) {
@@ -43,8 +53,10 @@ export const GamesDetailPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data: match } = useGameDetailQuery(gameId);
-  const { mutate: participateMutate } = useGameParticipateCreateMutation();
+  const myInfo = getMyInfo();
+  const isMyMatch = match.host.id === myInfo?.id;
 
+  const { mutate: participateMutate } = useGameParticipateCreateMutation();
   const onParticipateSuccess = () => {
     queryClient.invalidateQueries({
       queryKey: ['game-detail', gameId],
@@ -94,19 +106,20 @@ export const GamesDetailPage = () => {
               <Text size={16}>{match.host.nickname}</Text>
             </Flex>
           </Flex>
-          {/* TODO: 본인일 시 버튼 렌더링 안하게 */}
           {/* TODO: 버튼 클릭 핸들러 */}
-          <Button
-            fontWeight={500}
-            width="80px"
-            height="40px"
-            borderColor={theme.PALETTE.GRAY_400}
-            backgroundColor="white"
-            textColor={theme.PALETTE.GRAY_400}
-            onClick={() => {}}
-          >
-            대화하기
-          </Button>
+          {myInfo && !isMyMatch && (
+            <Button
+              fontWeight={500}
+              width="80px"
+              height="40px"
+              borderColor={theme.PALETTE.GRAY_400}
+              backgroundColor="white"
+              textColor={theme.PALETTE.GRAY_400}
+              onClick={() => {}}
+            >
+              대화하기
+            </Button>
+          )}
         </UserDataWrapper>
         <Text size={20} weight={700}>
           경기 정보
@@ -175,22 +188,34 @@ export const GamesDetailPage = () => {
             ))}
           </Guests>
         </GuestsContainer>
-        <Button
-          {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
-          height="50px"
-          onClick={() =>
-            participateMutate(
-              {
-                gameId,
-                /** TODO: 내 정보 불러와서 내 id로 수정해야함 */
-                payload: { memberId: new Date().getTime() - 10000 },
-              },
-              { onSuccess: onParticipateSuccess }
-            )
-          }
-        >
-          참여 신청하기
-        </Button>
+        {myInfo && !isMyMatch && (
+          <Button
+            {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
+            height="50px"
+            onClick={() =>
+              participateMutate(
+                {
+                  gameId,
+                  payload: { memberId: myInfo.id },
+                },
+                { onSuccess: onParticipateSuccess }
+              )
+            }
+          >
+            참여 신청하기
+          </Button>
+        )}
+        {myInfo && isMyMatch && (
+          <Button
+            {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
+            height="50px"
+            onClick={() =>
+              navigate(PATH_NAME.GET_GAMES_MANAGE_PATH(String(gameId)))
+            }
+          >
+            매치 관리
+          </Button>
+        )}
       </PageContent>
     </PageLayout>
   );
