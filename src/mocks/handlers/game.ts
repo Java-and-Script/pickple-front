@@ -1,12 +1,19 @@
-import { HttpResponse, http } from 'msw';
+import { DefaultBodyType, HttpResponse, PathParams, http } from 'msw';
 
-import { PostGameRequest, PostGameResponse } from '@type/api/games';
+import { CommonErrorResponse } from '@type/api/error';
+import {
+  GetGameDetailResponse,
+  GetGameMembersResponse,
+  PostGameParticipateRequest,
+  PostGameRequest,
+  PostGameResponse,
+} from '@type/api/games';
 import { Game, Member } from '@type/models';
 
-import { games } from '@mocks/data/game';
+import { games, pendingMembersMap } from '@mocks/data/game';
 
 const mockPostGame = http.post<
-  { gameId: string },
+  PathParams,
   { data: PostGameRequest },
   PostGameResponse
 >('/api/games', async ({ request }) => {
@@ -59,4 +66,79 @@ const mockGetGames = http.get('/api/games', ({ request }) => {
   return HttpResponse.json(games.slice(startIndex, startIndex + size));
 });
 
-export const gameHandlers = [mockPostGame, mockGetGames];
+const mockPostGameParticipate = http.post<
+  { gameId: string },
+  { data: PostGameParticipateRequest }
+>('/api/games/:gameId/members', async ({ params, request }) => {
+  const gameId = Number(params.gameId);
+  const {
+    data: { memberId },
+  } = await request.json();
+
+  const game = games.find((game) => game.id === gameId);
+  if (!game) {
+    return;
+  }
+
+  game.members.push({
+    id: memberId,
+    email: 'james123@pickple.kr',
+    nickname: 'james123',
+    introduction: '안녕하십니까. 제임스입니다. 아이고~ 사장님~~',
+    profileImageUrl: 'https://s3.amazonaws.com/pickple/james123.jpg',
+    mannerScore: 21,
+    mannerScoreCount: 30,
+    addressDepth1: '서울시',
+    addressDepth2: '강남구',
+    positions: ['C', 'PF'],
+  });
+});
+
+const mockGetGameMembers = http.get<
+  { gameId: string },
+  DefaultBodyType,
+  GetGameMembersResponse | CommonErrorResponse
+>('/api/games/:gameId/members', ({ params, request }) => {
+  const { searchParams } = new URL(request.url);
+  const status = searchParams.get('status');
+  const gameId = Number(params.gameId);
+
+  if (!status || (status !== '대기' && status !== '확정')) {
+    return HttpResponse.json({ code: 'COM-002' }, { status: 400 });
+  }
+  const game = games.find((game) => game.id === gameId);
+  if (!game) {
+    return HttpResponse.json({ code: 'COM-004' }, { status: 400 });
+  }
+
+  if (status === '대기') {
+    return HttpResponse.json({
+      ...game,
+      members: pendingMembersMap[gameId],
+    });
+  }
+  return HttpResponse.json(game);
+});
+
+const mockGetGameDetail = http.get<
+  { gameId: string },
+  DefaultBodyType,
+  GetGameDetailResponse | CommonErrorResponse
+>('/api/games/:gameId', ({ params }) => {
+  const gameId = Number(params.gameId);
+  const game = games.find((game) => game.id === gameId);
+
+  if (!game) {
+    return HttpResponse.json({ code: 'COM-002' }, { status: 400 });
+  }
+
+  return HttpResponse.json(game);
+});
+
+export const gameHandlers = [
+  mockPostGame,
+  mockGetGames,
+  mockGetGameDetail,
+  mockGetGameMembers,
+  mockPostGameParticipate,
+];
