@@ -5,11 +5,11 @@ import { AllServicesPage } from '@pages/AllServicesPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
+import { GamesManagePage } from '@pages/GamesManagePage';
 import { GamesNearPage } from '@pages/GamesNearPage';
 import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
-import { ManagePage } from '@pages/ManagePage';
 import { RegisterPage } from '@pages/RegisterPage';
 
 export const router = createBrowserRouter([
@@ -44,7 +44,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'games/:id/manage',
-        element: <ManagePage manageType="games" />,
+        element: (
+          <Suspense fallback={null}>
+            <GamesManagePage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/:id/review',
@@ -68,7 +72,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/:id/manage',
-        element: <ManagePage manageType="crews" />,
+        element: <>crew/:id/manage</>,
       },
       {
         path: 'create',

@@ -4,19 +4,17 @@ import { Text } from '@components/shared/Text';
 
 import { theme } from '@styles/theme';
 
+import { Member } from '@type/models';
+
 import { PATH_NAME } from '@consts/pathName';
 
 import { AllowCardContainer, FlexBox } from './AllowCard.style';
 
 type AllowCardProps = {
-  player: Player;
+  player: Member;
   moveToProfile: (path: string) => void;
-};
-
-type Player = {
-  id: string;
-  nickname: string;
-  profileImageUrl: string;
+  onClickAllowButton: () => void;
+  onClickDisallowButton: () => void;
 };
 
 const buttonOverlappedProps = {
@@ -27,14 +25,15 @@ const buttonOverlappedProps = {
   backgroundColor: 'white',
 };
 
-export const AllowCard = ({ player, moveToProfile }: AllowCardProps) => {
+export const AllowCard = ({
+  player,
+  moveToProfile,
+  onClickAllowButton,
+  onClickDisallowButton,
+}: AllowCardProps) => {
   const handleClickProfile = () => {
-    moveToProfile(PATH_NAME.GET_PROFILE_PATH(player.id));
+    moveToProfile(PATH_NAME.GET_PROFILE_PATH(String(player.id)));
   };
-
-  const handleAllowClick = () => {};
-
-  const handleRejectClick = () => {};
 
   return (
     <AllowCardContainer>
@@ -58,7 +57,7 @@ export const AllowCard = ({ player, moveToProfile }: AllowCardProps) => {
         <Button
           textColor={theme.PALETTE.RED_400}
           borderColor={theme.PALETTE.RED_400}
-          onClick={handleAllowClick}
+          onClick={onClickAllowButton}
           {...buttonOverlappedProps}
         >
           수락
@@ -66,7 +65,7 @@ export const AllowCard = ({ player, moveToProfile }: AllowCardProps) => {
         <Button
           textColor={theme.PALETTE.GRAY_400}
           borderColor={theme.PALETTE.GRAY_400}
-          onClick={handleRejectClick}
+          onClick={onClickDisallowButton}
           {...buttonOverlappedProps}
         >
           거절
