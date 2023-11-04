@@ -3,7 +3,17 @@ import styled from '@emotion/styled';
 export const ReviewPageContainer = styled.div`
   height: 100dvh;
   ${({ theme }) => theme.STYLES.LAYOUT};
-  background-color: pink;
+  /* background-color: pink; */
+  overflow-x: hidden;
+`;
+
+type MemberListContainerProps = {
+  transform: number;
+};
+
+export const MemberListContainer = styled.div<MemberListContainerProps>`
+  width: 100%;
+  transform: translateX(calc(50% - 25px + ${(props) => props.transform}px));
 `;
 
 export const TextWrapper = styled.div`
@@ -27,4 +37,12 @@ export const BackwardIcon = styled.button`
     width: 100%;
     height: 100%;
   }
+`;
+
+type BoxProps = {
+  height: string;
+};
+
+export const Box = styled.div<BoxProps>`
+  height: ${(props) => props.height};
 `;
