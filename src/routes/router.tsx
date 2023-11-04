@@ -10,6 +10,7 @@ import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { ManagePage } from '@pages/ManagePage';
+import { ProfilePage } from '@pages/ProfilePage';
 import { RegisterPage } from '@pages/RegisterPage';
 
 export const router = createBrowserRouter([
@@ -81,6 +82,10 @@ export const router = createBrowserRouter([
       {
         path: 'create/crew',
         element: <h3>create/crew</h3>,
+      },
+      {
+        path: 'profile/:id',
+        element: <ProfilePage />,
       },
     ],
   },
