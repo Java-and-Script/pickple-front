@@ -4,6 +4,7 @@ import { CommonErrorResponse } from '@type/api/error';
 import {
   GetGameDetailResponse,
   GetGameMembersResponse,
+  PatchGameMannerScoreReviewRequest,
   PostGameParticipateRequest,
   PostGameRequest,
   PostGameResponse,
@@ -135,10 +136,40 @@ const mockGetGameDetail = http.get<
   return HttpResponse.json(game);
 });
 
+const mockPatchGameMannerScoreReview = http.patch<
+  { gameId: string },
+  { data: PatchGameMannerScoreReviewRequest }
+>('/api/games/:gameId/members/manner-scores', async ({ params, request }) => {
+  const gameId = Number(params.gameId);
+  const game = games.find((game) => game.id === gameId);
+
+  const {
+    data: [{ memberId, mannerScore }],
+  } = await request.json();
+
+  const reviews = [
+    {
+      memberId,
+      mannerScore,
+    },
+  ];
+
+  if (!game) {
+    return HttpResponse.json({ code: 'COM-002' }, { status: 400 });
+  }
+
+  if (!game.members.find((member) => member.id === memberId)) {
+    return HttpResponse.json({ code: 'MEM-001' }, { status: 400 });
+  }
+
+  return HttpResponse.json(reviews);
+});
+
 export const gameHandlers = [
   mockPostGame,
   mockGetGames,
   mockGetGameDetail,
   mockGetGameMembers,
   mockPostGameParticipate,
+  mockPatchGameMannerScoreReview,
 ];
