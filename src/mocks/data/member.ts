@@ -1,13 +1,12 @@
 import {
   GetJoinedCrewsResponse,
-  GetLoginResponse,
   GetMemberProfileResponse,
   PostRefreshAccessTokenResponse,
   PostRegistrationResponse,
 } from '@type/api/member';
-import { CrewProfile, Game } from '@type/models';
+import { Authenticated, CrewProfile, Game, Registration } from '@type/models';
 
-export const AUTH_LOGIN_MEMBER: GetLoginResponse = {
+export const AUTH_LOGIN_MEMBER: Authenticated = {
   accessToken:
     'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4NTA1NzM2LCJleHAiOjE2OTg1MDU4NTZ9.E0p1V4PiBDmZIZqglGjQFWh-bgbA7n7qryYnOZ3cxMuaBvp-ejkXC2b-bA5kDjZrlzyyiWuTwe-sbYk73tIR0w',
   refreshToken:
@@ -23,7 +22,7 @@ export const AUTH_LOGIN_MEMBER: GetLoginResponse = {
   addressDepth2: '영등포구',
 };
 
-export const AUTH_LOGIN_NON_MEMBER: GetLoginResponse = {
+export const AUTH_LOGIN_NON_MEMBER: Registration = {
   accessToken:
     'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4NTA1NzM2LCJleHAiOjE2OTg1MDU4NTZ9.E0p1V4PiBDmZIZqglGjQFWh-bgbA7n7qryYnOZ3cxMuaBvp-ejkXC2b-bA5kDjZrlzyyiWuTwe-sbYk73tIR0w',
   refreshToken: null,

@@ -1,63 +1,95 @@
-import { HttpResponse, http } from 'msw';
+import { DefaultBodyType, HttpResponse, PathParams, http } from 'msw';
 
-import * as DATA from '../data/member';
+import { CommonErrorResponse } from '@type/api/error';
+import {
+  GetConfirmedGamesResponse,
+  GetCreatedGamesResponse,
+  GetLoginResponse,
+  GetMemberProfileResponse,
+  PostRefreshAccessTokenResponse,
+  PostRegistrationResponse,
+} from '@type/api/member';
 
-const mockGetAuth = http.get('/auth/:oauthProvider', ({ params }) => {
-  console.log('register page');
+import * as DATA from '@mocks/data/member';
 
-  const { oauthProvider } = params;
-
-  if (oauthProvider !== 'KAKAO') {
-    return HttpResponse.json({}, { status: 400 });
-  }
-
-  return HttpResponse.json(DATA.MEMBERS, {
-    status: 200,
-  });
-});
-
-const mockGetLogin = http.get(
-  '/auth/login/:oauthProvider',
-  ({ request, params }) => {
+//TODO : mockGetAuth
+const mockGetAuth = http.get<{ oauthProvider: string }, DefaultBodyType>(
+  '/api/auth/:oauthProvider',
+  ({ params }) => {
     const { oauthProvider } = params;
 
     if (oauthProvider !== 'KAKAO') {
       return HttpResponse.json({}, { status: 400 });
     }
 
-    const url = new URL(request.url);
-    const authCode = url.searchParams.get('authCode');
-
-    if (authCode === undefined) {
-      return HttpResponse.json({}, { status: 400 });
-    }
-
-    return HttpResponse.json(DATA.ACCESS_TOKEN, {
-      status: 201,
-    });
+    return HttpResponse.json(
+      {},
+      {
+        status: 200,
+      }
+    );
   }
 );
 
-const mockGetAuthRefresh = http.post('/auth/refresh', () => {
-  console.log('AuthToken Refreshed!');
+const mockGetLogin = http.get<
+  { oauthProvider: string },
+  DefaultBodyType,
+  GetLoginResponse | CommonErrorResponse
+>('/api/auth/login/:oauthProvider', ({ request, params }) => {
+  const { oauthProvider } = params;
 
+  if (oauthProvider !== 'KAKAO') {
+    return HttpResponse.json({ code: 'ADD-001' }, { status: 400 });
+  }
+
+  const url = new URL(request.url);
+  const authCode = url.searchParams.get('authCode');
+
+  if (authCode === undefined) {
+    return HttpResponse.json({ code: 'ADD-001' }, { status: 400 });
+  }
+
+  return HttpResponse.json(DATA.AUTH_LOGIN_MEMBER, {
+    status: 201,
+  });
+});
+
+const mockGetAuthRefresh = http.post<
+  PathParams,
+  DefaultBodyType,
+  PostRefreshAccessTokenResponse
+>('/api/auth/refresh', () => {
   return HttpResponse.json(DATA.ACCESS_TOKEN, {
     status: 201,
   });
 });
 
-const mockGetRegistration = http.post('/members', () => {
-  console.log('/members');
-
+const mockGetRegistration = http.post<
+  PathParams,
+  {
+    email: string;
+    nickname: string;
+    profileImageUrl: string;
+    positions: string[];
+    addressDepth1: string;
+    addressDepth2: string;
+    oauthId: number;
+    oauthProvider: 'KAKAO';
+  },
+  PostRegistrationResponse
+>('/api/members', () => {
   return HttpResponse.json(DATA.MEMBERS, {
     status: 201,
   });
 });
 
-const mockGetMemberProfile = http.get('/members/:memberId', ({ params }) => {
+const mockGetMemberProfile = http.get<
+  { memberId: string },
+  DefaultBodyType,
+  GetMemberProfileResponse
+>('/api/members/:memberId', ({ params }) => {
   const { memberId } = params;
 
-  console.log('/members/:memberId');
   console.log(memberId);
 
   return HttpResponse.json(DATA.MEMBERS_MEMBERID, {
@@ -65,42 +97,39 @@ const mockGetMemberProfile = http.get('/members/:memberId', ({ params }) => {
   });
 });
 
-const mockGetConfirmedGames = http.get(
-  '/members/:memberId/confirmed-games',
-  ({ params, cookies }) => {
-    const { memberId } = params;
+const mockGetConfirmedGames = http.get<
+  { memberId: string },
+  DefaultBodyType,
+  GetConfirmedGamesResponse
+>('/api/members/:memberId/confirmed-games', ({ params }) => {
+  const { memberId } = params;
 
-    console.log(cookies);
-    // if (!cookies.accessToken) {
-    //   return new HttpResponse(null, { status: 403 });
-    // }
-    console.log('/members/:memberId/confirmed-games');
-    console.log(memberId);
+  console.log(memberId);
 
-    return HttpResponse.json(DATA.MEMBERS_MEMBERID_CONFIRMED_GAMES, {
-      status: 200,
-    });
-  }
-);
-const mockGetCreatedGames = http.get(
-  '/members/:memberId/created-games',
-  ({ params }) => {
-    const { memberId } = params;
+  return HttpResponse.json(DATA.MEMBERS_MEMBERID_CONFIRMED_GAMES, {
+    status: 200,
+  });
+});
 
-    console.log('/members/:memberId/created-games');
-    console.log(memberId);
+const mockGetCreatedGames = http.get<
+  { memberId: string },
+  DefaultBodyType,
+  GetCreatedGamesResponse
+>('/api/members/:memberId/created-games', ({ params }) => {
+  const { memberId } = params;
 
-    return HttpResponse.json(DATA.MEMBERS_MEMBERID_CREATED_GAMES, {
-      status: 200,
-    });
-  }
-);
+  console.log(memberId);
+
+  return HttpResponse.json(DATA.MEMBERS_MEMBERID_CREATED_GAMES, {
+    status: 200,
+  });
+});
+
 const mockGetJoinedCrews = http.get(
   '/members/:memberId/joined-crews',
   ({ params }) => {
     const { memberId } = params;
 
-    console.log('/members/:memberId/joined-crews');
     console.log(memberId);
 
     return HttpResponse.json(DATA.MEMBERS_MEMBERID_JOINED_CREWS, {
@@ -110,11 +139,10 @@ const mockGetJoinedCrews = http.get(
 );
 
 const mockGetCreatedCrews = http.get(
-  '/members/:memberId/created-crews',
+  '/api/members/:memberId/created-crews',
   ({ params }) => {
     const { memberId } = params;
 
-    console.log('/members/:memberId/created-crews');
     console.log(memberId);
 
     return HttpResponse.json(DATA.MEMBERS_MEMBERID_CREATED_CREWS, {
