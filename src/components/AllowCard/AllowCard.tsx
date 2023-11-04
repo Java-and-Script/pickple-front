@@ -6,13 +6,11 @@ import { theme } from '@styles/theme';
 
 import { Member } from '@type/models';
 
-import { PATH_NAME } from '@consts/pathName';
-
-import { AllowCardContainer, FlexBox } from './AllowCard.style';
+import { AllowCardContainer, FlexBox, Profile } from './AllowCard.style';
 
 type AllowCardProps = {
-  player: Member;
-  moveToProfile: (path: string) => void;
+  member: Member;
+  onClickProfile: () => void;
   onClickAllowButton: () => void;
   onClickDisallowButton: () => void;
 };
@@ -20,39 +18,35 @@ type AllowCardProps = {
 const buttonOverlappedProps = {
   width: '3.5rem',
   height: '2.5rem',
-  fontSize: theme.FONT_SIZE.MD,
+  fontSize: theme.FONT_SIZE.XS,
   fontWeight: theme.FONT_WEIGHT.MEDIUM,
   backgroundColor: 'white',
 };
 
 export const AllowCard = ({
-  player,
-  moveToProfile,
+  member,
+  onClickProfile,
   onClickAllowButton,
   onClickDisallowButton,
 }: AllowCardProps) => {
-  const handleClickProfile = () => {
-    moveToProfile(PATH_NAME.GET_PROFILE_PATH(String(player.id)));
-  };
-
   return (
     <AllowCardContainer>
-      <FlexBox>
+      <Profile>
         <Avatar
-          src={player.profileImageUrl}
+          src={member.profileImageUrl}
           size={40}
-          onClick={handleClickProfile}
+          onClick={onClickProfile}
         />
         <Text
-          size="1rem"
+          size={12}
           weight={500}
           lineHeight="40px"
           ellipsis={1}
-          onClick={handleClickProfile}
+          onClick={onClickProfile}
         >
-          {player.nickname}
+          {member.nickname}
         </Text>
-      </FlexBox>
+      </Profile>
       <FlexBox>
         <Button
           textColor={theme.PALETTE.RED_400}
