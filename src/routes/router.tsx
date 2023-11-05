@@ -10,6 +10,7 @@ import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { ManagePage } from '@pages/ManagePage';
+import { MyParticipatePage } from '@pages/MyParticipatePage';
 import { RegisterPage } from '@pages/RegisterPage';
 
 export const router = createBrowserRouter([
@@ -32,7 +33,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'games/participate',
-        element: <h2>participate</h2>,
+        element: (
+          <Suspense fallback={null}>
+            <MyParticipatePage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/:id',
