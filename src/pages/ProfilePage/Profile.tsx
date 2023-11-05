@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 
 import { Avatar } from '@components/Avatar';
-import { Header } from '@components/Header';
 import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
@@ -22,7 +21,6 @@ import {
   Introduce,
   ItemBox,
   Main,
-  ProfileContainer,
   ProfileFieldContainer,
 } from './ProfilePage.style';
 
@@ -47,62 +45,54 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
   const { data: profileData } = useMemberProfileQuery({ memberId });
 
   return (
-    <ProfileContainer>
-      <Header isLogo={false} isRightContainer={true} />
-      <Main>
-        <FlexItem>
-          <Text size={24}>{profileData.nickname}</Text>
-          <Flex justify="center" gap={40} align="center">
-            <Avatar
-              src={profileData.profileImageUrl}
-              size={100}
-              border={`1px solid ${theme.PALETTE.GRAY_400}`}
-            />
-            <NumberedItem
-              text="매너스코어"
-              icon={<Social />}
-              count={profileData.mannerScoreCount}
-            />
-            <NumberedItem
-              text="팔로우"
-              icon={<Heart />}
-              count={0}
-              color="pink"
-            />
-          </Flex>
-          <Flex justify="center" gap={40}>
-            <EventButton text="팔로우" onClick={() => console.log('팔로우')} />
-            <EventButton text="대화하기" onClick={() => console.log('대화')} />
-          </Flex>
-          <ProfileField category="포지션">
-            {profileData.positions.length
-              ? profileData.positions.map((position) => (
-                  <ItemBox key={position}>{position}</ItemBox>
-                ))
-              : '없음'}
-          </ProfileField>
-          <ProfileField category="소속 크루">
-            {profileData.crews.length
-              ? profileData.crews.map((crew) => (
-                  <ItemBox border="none" key={crew.id}>
-                    <Image
-                      src={crew.profileImageUrl}
-                      width="45"
-                      alt={crew.name}
-                    />
-                  </ItemBox>
-                ))
-              : '없음'}
-          </ProfileField>
-          <ProfileField category="획득한 뱃지">{'없음'}</ProfileField>
-          <ProfileField category="자기소개">
-            <Introduce>
-              <Text>{profileData.introduction}</Text>
-            </Introduce>
-          </ProfileField>
-        </FlexItem>
-      </Main>
-    </ProfileContainer>
+    <Main>
+      <FlexItem>
+        <Text size={24}>{profileData.nickname}</Text>
+        <Flex justify="center" gap={40} align="center">
+          <Avatar
+            src={profileData.profileImageUrl}
+            size={100}
+            border={`1px solid ${theme.PALETTE.GRAY_400}`}
+          />
+          <NumberedItem
+            text="매너스코어"
+            icon={<Social />}
+            count={profileData.mannerScoreCount}
+          />
+          <NumberedItem text="팔로우" icon={<Heart />} count={0} color="pink" />
+        </Flex>
+        <Flex justify="center" gap={40}>
+          <EventButton text="팔로우" onClick={() => console.log('팔로우')} />
+          <EventButton text="대화하기" onClick={() => console.log('대화')} />
+        </Flex>
+        <ProfileField category="포지션">
+          {profileData.positions.length
+            ? profileData.positions.map((position) => (
+                <ItemBox key={position}>{position}</ItemBox>
+              ))
+            : '없음'}
+        </ProfileField>
+        <ProfileField category="소속 크루">
+          {profileData.crews.length
+            ? profileData.crews.map((crew) => (
+                <ItemBox border="none" key={crew.id}>
+                  <Image
+                    src={crew.profileImageUrl}
+                    width="45"
+                    alt={crew.name}
+                  />
+                </ItemBox>
+              ))
+            : '없음'}
+        </ProfileField>
+        <ProfileField category="획득한 뱃지">{'없음'}</ProfileField>
+        <ProfileField category="자기소개">
+          <Introduce>
+            <Text>{profileData.introduction}</Text>
+          </Introduce>
+        </ProfileField>
+      </FlexItem>
+    </Main>
   );
 };
 

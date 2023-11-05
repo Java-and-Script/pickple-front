@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 export const ProfileContainer = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
   min-height: 100dvh;
+  display: flex;
+  justify-content: center;
 `;
 
 export const Main = styled.div`
