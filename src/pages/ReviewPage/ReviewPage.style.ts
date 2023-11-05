@@ -34,6 +34,8 @@ export const BackwardIcon = styled.button`
   cursor: pointer;
 
   img {
+    filter: invert(47%) sepia(7%) saturate(735%) hue-rotate(182deg)
+      brightness(92%) contrast(90%);
     width: 100%;
     height: 100%;
   }

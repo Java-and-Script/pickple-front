@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
@@ -19,20 +20,30 @@ import {
   ReviewPageContainer,
   TextWrapper,
 } from './ReviewPage.style';
+import { ToggleButton } from './ToggleButton';
 
 export const ReviewPage = () => {
+  const navigate = useNavigate();
+
   const [currentSelectedMemberIndex, setCurrentSelectedMemberIndex] =
     useState(0);
+
+  const [state, setState] = useState('');
+  const handleToggle = (value: string) => {
+    setState(value);
+  };
 
   const handleLeftArrowIconClick = () => {
     if (currentSelectedMemberIndex > 0) {
       setCurrentSelectedMemberIndex(currentSelectedMemberIndex - 1);
+      handleToggle('');
     }
   };
 
   const handleRightArrowIconClick = () => {
     if (currentSelectedMemberIndex < teammateList.length - 1) {
       setCurrentSelectedMemberIndex(currentSelectedMemberIndex + 1);
+      handleToggle('');
     }
   };
   return (
@@ -70,7 +81,7 @@ export const ReviewPage = () => {
         </Flex>
         <Box height="35px" />
       </MemberListContainer>
-      <Flex direction="row" justify="space-around" align="center">
+      <Flex direction="row" justify="space-between" align="center">
         <BackwardWrapper>
           <BackwardIcon
             onClick={() => {
@@ -118,22 +129,33 @@ export const ReviewPage = () => {
       </TextWrapper>
       <Flex direction="column" gap={40}>
         <Flex direction="column" gap={10}>
-          <Button
-            height="3.125rem"
-            {...theme.BUTTON_PROPS.LARGE_GRAY_OUTLINED_BUTTON_PROPS}
-          >
-            {'좋았어요'}
-          </Button>
-          <Button
-            height="3.125rem"
-            {...theme.BUTTON_PROPS.LARGE_GRAY_OUTLINED_BUTTON_PROPS}
-          >
-            {'아쉬워요'}
-          </Button>
-        </Flex>{' '}
+          <ToggleButton
+            value="좋았어요"
+            height={'3.125rem'}
+            fontSize={theme.FONT_SIZE.LG}
+            isActive={state === '좋았어요'}
+            onToggle={(value) => {
+              handleToggle(value);
+            }}
+          />
+          <ToggleButton
+            value="아쉬워요"
+            height={'3.125rem'}
+            fontSize={theme.FONT_SIZE.LG}
+            isActive={state === '아쉬워요'}
+            onToggle={(value) => {
+              handleToggle(value);
+            }}
+          />
+        </Flex>
         <Button
           height="3.125rem"
           {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
+          onClick={() => {
+            if (confirm('리뷰를 제출하시겠습니까?')) {
+              navigate('/');
+            }
+          }}
         >
           {'제출하기'}
         </Button>
