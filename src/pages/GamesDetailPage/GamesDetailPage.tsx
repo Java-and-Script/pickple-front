@@ -36,7 +36,7 @@ import {
 } from './GamesDetailPage.styles';
 
 const getMyInfo = (): Member | null => {
-  const json = localStorage.getItem('USER_INFO');
+  const json = localStorage.getItem('LOGIN_INFO');
   if (!json) {
     return null;
   }

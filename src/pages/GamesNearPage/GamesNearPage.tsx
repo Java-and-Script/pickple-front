@@ -13,7 +13,7 @@ import { getGameStartDate } from '@utils/domain';
 import { PageContent, PageLayout } from './GamesNearPage.styles';
 
 const getMyInfo = () => {
-  const json = localStorage.getItem('USER_INFO');
+  const json = localStorage.getItem('LOGIN_INFO');
   if (!json) {
     return null;
   }
