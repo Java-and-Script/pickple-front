@@ -76,24 +76,26 @@ export const ProfilePage = () => {
             <EventButton text="대화하기" onClick={() => console.log('대화')} />
           </Flex>
           <ProfileField category="포지션">
-            {profileData.positions.map((position) => (
-              <ItemBox key={position}>{position}</ItemBox>
-            ))}
+            {profileData.positions.length
+              ? profileData.positions.map((position) => (
+                  <ItemBox key={position}>{position}</ItemBox>
+                ))
+              : '없음'}
           </ProfileField>
           <ProfileField category="소속 크루">
-            {profileData.crews.map((crew) => (
-              <ItemBox border="none" key={crew.id}>
-                <Image src={crew.profileImageUrl} width="45" alt={crew.name} />
-              </ItemBox>
-            ))}
+            {profileData.crews.length
+              ? profileData.crews.map((crew) => (
+                  <ItemBox border="none" key={crew.id}>
+                    <Image
+                      src={crew.profileImageUrl}
+                      width="45"
+                      alt={crew.name}
+                    />
+                  </ItemBox>
+                ))
+              : '없음'}
           </ProfileField>
-          <ProfileField category="획득한 뱃지">
-            {profileData.crews.map((crew) => (
-              <ItemBox border="none" key={crew.id}>
-                <Image src={crew.profileImageUrl} width="45" alt={crew.name} />
-              </ItemBox>
-            ))}
-          </ProfileField>
+          <ProfileField category="획득한 뱃지">{'없음'}</ProfileField>
           <ProfileField category="자기소개">
             <Introduce>
               <Text>{profileData.introduction}</Text>
