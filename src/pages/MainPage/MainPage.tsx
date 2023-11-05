@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import { Authenticated, Registration } from '@/type/models';
+
 import { Header } from '@components/Header';
 import { MatchItem } from '@components/MatchItem';
 import { Button } from '@components/shared/Button';
@@ -10,36 +12,68 @@ import { theme } from '@styles/theme';
 import { PATH_NAME } from '@consts/pathName';
 
 import { MainPageContainer, MainPageSubContainer } from './MainPage.style';
+import { useMainPageNearGamesQuery } from './useMainPageNearGamesQuery';
 
 export const MainPage = () => {
   const navigate = useNavigate();
+  const localStorageInfo = localStorage.getItem('LOGIN_INFO');
+  const loginInfo: Registration | Authenticated =
+    localStorageInfo !== null
+      ? JSON.parse(localStorageInfo)
+      : {
+          accessToken:
+            'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4NTA1NzM2LCJleHAiOjE2OTg1MDU4NTZ9.E0p1V4PiBDmZIZqglGjQFWh-bgbA7n7qryYnOZ3cxMuaBvp-ejkXC2b-bA5kDjZrlzyyiWuTwe-sbYk73tIR0w',
+          refreshToken: null,
+          id: null,
+          nickname: '창현',
+          profileImageUrl:
+            'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
+          email: 'changhyeon.h@kakao.com',
+          oauthId: 32014123,
+          oauthProvider: 'KAKAO',
+          addressDepth1: null,
+          addressDepth2: null,
+        };
+
+  const { addressDepth1, addressDepth2 } = loginInfo;
+  const { data } = useMainPageNearGamesQuery({
+    category: 'location',
+    value:
+      addressDepth1 === null ? '서울시+강남구' : addressDepth2 + addressDepth2,
+  });
+  console.log(data);
+
+  const filteredData = data.map(
+    ({
+      id,
+      //playStartTime,
+      playTimeMinutes,
+      mainAddress,
+      memberCount,
+      maxMemberCount,
+      members,
+    }) => (
+      <MatchItem
+        key={id.toString()}
+        matchId={id.toString()}
+        startTime={new Date()}
+        timeMinutes={playTimeMinutes}
+        mainAddress={mainAddress}
+        memberCount={memberCount}
+        maxMemberCount={maxMemberCount}
+        membersProfileImageUrls={members.map(
+          ({ profileImageUrl }) => profileImageUrl
+        )}
+      />
+    )
+  );
+
   return (
     <MainPageContainer>
       <Header isLogo={true} />
       <MainPageSubContainer>
         <Text children={'내 근처의 경기'} weight={700} size={'1.25rem'} />
-        {serverMatchItemList.map(
-          ({
-            matchId,
-            startTime,
-            timeMinutes,
-            mainAddress,
-            memberCount,
-            maxMemberCount,
-            membersProfileImageUrls,
-          }) => (
-            <MatchItem
-              key={matchId}
-              matchId={matchId}
-              startTime={startTime}
-              timeMinutes={timeMinutes}
-              mainAddress={mainAddress}
-              memberCount={memberCount}
-              maxMemberCount={maxMemberCount}
-              membersProfileImageUrls={membersProfileImageUrls}
-            />
-          )
-        )}
+        {filteredData}
         <Button
           {...MAIN_PAGE_BUTTON_PROP}
           onClick={() => navigate(PATH_NAME.GAMES_NEAR)}
@@ -49,28 +83,7 @@ export const MainPage = () => {
       </MainPageSubContainer>
       <MainPageSubContainer>
         <Text children={'추천 크루'} weight={700} size={'1.25rem'} />
-        {serverMatchItemList.map(
-          ({
-            matchId,
-            startTime,
-            timeMinutes,
-            mainAddress,
-            memberCount,
-            maxMemberCount,
-            membersProfileImageUrls,
-          }) => (
-            <MatchItem
-              key={matchId}
-              matchId={matchId}
-              startTime={startTime}
-              timeMinutes={timeMinutes}
-              mainAddress={mainAddress}
-              memberCount={memberCount}
-              maxMemberCount={maxMemberCount}
-              membersProfileImageUrls={membersProfileImageUrls}
-            />
-          )
-        )}
+        {filteredData}
         <Button {...MAIN_PAGE_BUTTON_PROP} onClick={() => console.log('hi')}>
           더보기
         </Button>
@@ -78,45 +91,6 @@ export const MainPage = () => {
     </MainPageContainer>
   );
 };
-
-const serverMatchItemList = [
-  {
-    matchId: '1',
-    startTime: new Date(),
-    timeMinutes: 60,
-    mainAddress: '',
-    memberCount: 2,
-    maxMemberCount: 8,
-    membersProfileImageUrls: [
-      'https://picsum.photos/500',
-      'https://picsum.photos/500',
-    ],
-  },
-  {
-    matchId: '2',
-    startTime: new Date(),
-    timeMinutes: 60,
-    mainAddress: '',
-    memberCount: 2,
-    maxMemberCount: 8,
-    membersProfileImageUrls: [
-      'https://picsum.photos/500',
-      'https://picsum.photos/500',
-    ],
-  },
-  {
-    matchId: '3',
-    startTime: new Date(),
-    timeMinutes: 60,
-    mainAddress: '',
-    memberCount: 2,
-    maxMemberCount: 8,
-    membersProfileImageUrls: [
-      'https://picsum.photos/500',
-      'https://picsum.photos/500',
-    ],
-  },
-];
 
 const MAIN_PAGE_BUTTON_PROP = {
   width: '100%',
