@@ -14,6 +14,7 @@ import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { RegisterPage } from '@pages/RegisterPage';
+import { ReviewPage } from '@pages/ReviewPage';
 
 export const router = createBrowserRouter([
   {
@@ -74,7 +75,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'games/:id/review',
-        element: <h3>review</h3>,
+        element: <ReviewPage />,
       },
       {
         path: 'crews/recommend',
