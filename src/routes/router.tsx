@@ -6,11 +6,11 @@ import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesNearPage } from '@pages/GamesNearPage';
+import { GamesParticipatePage } from '@pages/GamesParticipatePage';
 import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { ManagePage } from '@pages/ManagePage';
-import { MyParticipatePage } from '@pages/MyParticipatePage';
 import { RegisterPage } from '@pages/RegisterPage';
 
 export const router = createBrowserRouter([
@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
         path: 'games/participate',
         element: (
           <Suspense fallback={null}>
-            <MyParticipatePage />
+            <GamesParticipatePage />
           </Suspense>
         ),
       },

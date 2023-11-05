@@ -13,7 +13,7 @@ import { PATH_NAME } from '@consts/pathName';
 
 import { getGameStartDate } from '@utils/domain';
 
-import { PageContent, PageWrapper } from './MyParticipatePage.styles';
+import { PageContent, PageWrapper } from './GamesParticipatePage.styles';
 
 const getMyInfo = (): Member | null => {
   const json = localStorage.getItem('USER_INFO');
@@ -23,7 +23,7 @@ const getMyInfo = (): Member | null => {
   return JSON.parse(json);
 };
 
-export const MyParticipatePage = () => {
+export const GamesParticipatePage = () => {
   const myInfo = getMyInfo();
   if (!myInfo) {
     throw new Error('로그인이 필요한 서비스입니다.');
