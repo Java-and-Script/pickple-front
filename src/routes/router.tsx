@@ -117,6 +117,14 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path: 'map',
+        element: <h3>map</h3>,
+      },
+      {
+        path: 'message',
+        element: <h3>message</h3>,
+      },
     ],
   },
 ]);
