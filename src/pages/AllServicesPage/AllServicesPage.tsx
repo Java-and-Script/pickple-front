@@ -54,13 +54,21 @@ export const AllServicesPage = () => {
           <Text size="1rem" weight={700}>
             메인
           </Text>
-          <MenuItem icon={<Map />} pageName="지도" />
+          <MenuItem
+            icon={<Map />}
+            pageName="지도"
+            onClickMenuItem={() => moveToPage(PATH_NAME.MAP)}
+          />
           <MenuItem
             icon={<Pen />}
             pageName="글쓰기"
             onClickMenuItem={() => moveToPage(PATH_NAME.CREATE)}
           />
-          <MenuItem icon={<Chat />} pageName="메세지" />
+          <MenuItem
+            icon={<Chat />}
+            pageName="메세지"
+            onClickMenuItem={() => moveToPage(PATH_NAME.MESSAGE)}
+          />
           <MenuItem
             icon={<Profile />}
             pageName="내 정보"

@@ -18,4 +18,6 @@ export const PATH_NAME = {
   CREATE: '/create',
   CREATE_GAME: '/create/game',
   CREATE_CREW: '/create/crew',
+  MAP: '/map',
+  MESSAGE: '/message',
 } as const;
