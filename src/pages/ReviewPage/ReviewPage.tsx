@@ -61,7 +61,10 @@ export const ReviewPage = () => {
               key={index}
               direction="column"
               justify="center"
-              onClick={() => setCurrentSelectedMemberIndex(index)}
+              onClick={() => {
+                setCurrentSelectedMemberIndex(index);
+                handleToggle('');
+              }}
             >
               <Avatar
                 src={imgUrl}
