@@ -85,7 +85,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'profile/:id',
-        element: <ProfilePage />,
+        element: (
+          <Suspense fallback={null}>
+            <ProfilePage />
+          </Suspense>
+        ),
       },
     ],
   },
