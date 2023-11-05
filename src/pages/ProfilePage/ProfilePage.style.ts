@@ -45,8 +45,6 @@ export const Introduce = styled.div`
   border-radius: 20px;
   max-width: 480px;
   min-width: 360px;
-  text-align: center;
-  vertical-align: middle;
-  min-height: 360px;
+  padding: 16px;
   display: inline-block;
 `;

@@ -18,6 +18,7 @@ import Heart from '@assets/heart.svg?react';
 import {
   BadgeContainer,
   FlexItem,
+  Introduce,
   Main,
   PositionItem,
   ProfileContainer,
@@ -69,6 +70,11 @@ export const ProfilePage = () => {
                 <Image src={crew.profileImageUrl} width="45" alt={crew.name} />
               </PositionItem>
             ))}
+          </BadgeField>
+          <BadgeField category="자기소개">
+            <Introduce>
+              <Text>{profileData.introduction}</Text>
+            </Introduce>
           </BadgeField>
         </FlexItem>
       </Main>
