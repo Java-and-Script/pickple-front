@@ -16,7 +16,7 @@ import { getGameStartDate } from '@utils/domain';
 import { PageContent, PageWrapper } from './GamesParticipatePage.styles';
 
 const getMyInfo = (): Member | null => {
-  const json = localStorage.getItem('USER_INFO');
+  const json = localStorage.getItem('LOGIN_INFO');
   if (!json) {
     return null;
   }
