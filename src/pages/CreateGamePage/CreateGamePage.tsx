@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { CalendarComponent } from '@components/Calendar/Calendar';
+import { CalendarComponent } from '@components/Calendar';
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
 import { SelectPosition } from '@components/SelectPosition/SelectPosition';
