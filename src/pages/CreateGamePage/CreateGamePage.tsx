@@ -40,7 +40,7 @@ export const CreateGamePage = () => {
   const [playTimeMinutes, setPlayTimeMinutes] = useState<string>('');
   const [positions, setPositions] = useState<Position[]>([]);
 
-  const [mainAddress, setInputAddress] = useState<string>('');
+  const [mainAddress, setMainAddress] = useState<string>('');
   const [detailAddress, setDetailAddress] = useState<string>('');
   const [cost, setCost] = useState<string>('');
   const [content, setContent] = useState<string>('');
@@ -65,6 +65,14 @@ export const CreateGamePage = () => {
     };
 
     mutate(gameData);
+  };
+
+  const handleAddressSelect = () => {
+    new daum.Postcode({
+      oncomplete: ({ address }: { address: string }) => {
+        setMainAddress(address);
+      },
+    }).open();
   };
 
   const handleGuestCountSelect = (item: string) => {
@@ -294,7 +302,9 @@ export const CreateGamePage = () => {
           </StyledSubTitle>
           <StyledInput
             {...register('address')}
-            onChange={(event) => setInputAddress(event.target.value)}
+            readOnly={true}
+            onClick={handleAddressSelect}
+            value={mainAddress}
           />
           <StyledSubTitle>
             <Text size={16} weight={300}>
