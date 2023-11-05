@@ -144,6 +144,10 @@ const mockPatchGameMannerScoreReview = http.patch<
   const gameId = Number(params.gameId);
   const game = games.find((game) => game.id === gameId);
 
+  if (!game) {
+    return HttpResponse.json({ code: 'COM-002' }, { status: 400 });
+  }
+
   const {
     data: [{ memberId, mannerScore }],
   } = await request.json();
@@ -154,6 +158,9 @@ const mockPatchGameMannerScoreReview = http.patch<
       mannerScore,
     },
   ];
+
+  return HttpResponse.json(reviews, { status: 200 });
+});
 
 const mockPatchGameParticipate = http.patch<
   {
@@ -201,6 +208,7 @@ const mockDeleteGameParticipate = http.delete<{
   memberId: string;
 }>('/api/games/:gameId/members/:memberId', async ({ params }) => {
   const gameId = Number(params.gameId);
+  const memberId = Number(params.memberId);
   const game = games.find((game) => game.id === gameId);
 
   if (!game) {
@@ -210,8 +218,6 @@ const mockDeleteGameParticipate = http.delete<{
   if (!game.members.find((member) => member.id === memberId)) {
     return HttpResponse.json({ code: 'MEM-001' }, { status: 400 });
   }
-
-  return HttpResponse.json(reviews);
 
   const filteredMembers = game.members.filter(
     (member) => member.id !== Number(params.memberId)
