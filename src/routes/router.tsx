@@ -5,11 +5,14 @@ import { AllServicesPage } from '@pages/AllServicesPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
+import { GamesHostPage } from '@pages/GamesHostPage';
 import { GamesManagePage } from '@pages/GamesManagePage';
 import { GamesNearPage } from '@pages/GamesNearPage';
+import { GamesParticipatePage } from '@pages/GamesParticipatePage';
 import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
+import { ProfilePage } from '@pages/ProfilePage';
 import { RegisterPage } from '@pages/RegisterPage';
 
 export const router = createBrowserRouter([
@@ -17,22 +20,41 @@ export const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { path: '', element: <MainPage /> },
+      {
+        path: '',
+        element: (
+          <Suspense fallback={null}>
+            <MainPage />
+          </Suspense>
+        ),
+      },
       { path: 'login', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
       { path: 'all-services', element: <AllServicesPage /> },
       { path: 'players/:id', element: <h1>players</h1> },
       {
         path: 'games/near',
-        element: <GamesNearPage />,
+        element: (
+          <Suspense>
+            <GamesNearPage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/host',
-        element: <h2>host</h2>,
+        element: (
+          <Suspense fallback={null}>
+            <GamesHostPage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/participate',
-        element: <h2>participate</h2>,
+        element: (
+          <Suspense fallback={null}>
+            <GamesParticipatePage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/:id',
@@ -85,6 +107,14 @@ export const router = createBrowserRouter([
       {
         path: 'create/crew',
         element: <h3>create/crew</h3>,
+      },
+      {
+        path: 'profile/:id',
+        element: (
+          <Suspense fallback={null}>
+            <ProfilePage />
+          </Suspense>
+        ),
       },
     ],
   },

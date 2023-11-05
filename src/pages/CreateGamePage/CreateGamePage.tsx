@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { CalendarComponent } from '@components/Calendar/Calendar';
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
+import { SelectPosition } from '@components/SelectPosition/SelectPosition';
 import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
-import { ToggleButton } from '@components/shared/ToggleButton';
-import { useToggleButtons } from '@components/shared/ToggleButton';
 import { VirtualScroll } from '@components/shared/VirtualScroll';
 
+import { useGameMutation } from '@hooks/mutations/useGameMutation';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
+
+import { Position } from '@type/models/Position';
 
 import {
   PageLayout,
@@ -26,78 +29,54 @@ import {
   StyledTitle,
 } from './CreateGamePage.styles';
 
-const PositionComponent = ({
-  setSelectedPosition,
-}: {
-  setSelectedPosition: (value: string[]) => void;
-}) => {
-  const positions = ['C', 'PF', 'SF', 'PG', 'SG', '없음'];
-
-  const handledToggle = (value: string[]) => {
-    setSelectedPosition(value);
-  };
-
-  const { handleToggle, selectedItems } = useToggleButtons({
-    onToggle: handledToggle,
-    isMultipleSelect: true,
-  });
-
-  return (
-    <StyledPositionsWrapper>
-      {positions.map((position) => (
-        <ToggleButton
-          type="button"
-          fontSize="12px"
-          width="47px"
-          height="32px"
-          key={position}
-          value={position}
-          isActive={selectedItems.includes(position)}
-          onToggle={handleToggle}
-        />
-      ))}
-    </StyledPositionsWrapper>
-  );
-};
-
 export const CreateGamePage = () => {
+  const { mutate } = useGameMutation();
   const { register, handleSubmit } = useForm();
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
-  const [selectedGuestCount, setSelectedGuestCount] = useState<string>('');
-  const [selectedMatchDate, setSelectedMatchDate] = useState<string>('');
-  const [selectedStartTime, setSelectedStartTime] = useState<string>('');
-  const [selectedPlayTime, setSelectedPlayTime] = useState<string>('');
-  const [selectedPosition, setSelectedPosition] = useState<string[]>([]);
+  const [maxMemberCount, setMaxMemberCount] = useState<string>('');
+  const [playDate, setPlayDate] = useState<string>('');
+  const [playStartTime, setPlayStartTime] = useState<string>('');
+  const [playTimeMinutes, setPlayTimeMinutes] = useState<string>('');
+  const [positions, setPositions] = useState<Position[]>([]);
 
-  const [inputAddress, setInputAddress] = useState<string>('');
-  const [inputAddressDetail, setInputAddressDetail] = useState<string>('');
-  const [inputPrice, setInputPrice] = useState<string>('');
-  const [inputDescription, setInputDescription] = useState<string>('');
+  const [mainAddress, setMainAddress] = useState<string>('');
+  const [detailAddress, setDetailAddress] = useState<string>('');
+  const [cost, setCost] = useState<string>('');
+  const [content, setContent] = useState<string>('');
 
   const [isGuestCountModalOpen, setIsGuestCountModalOpen] = useState(false);
   const [isMatchDateModalOpen, setIsMatchDateModalOpen] = useState(false);
   const [isStartTimeModalOpen, setIsStartTimeModalOpen] = useState(false);
   const [isPlayTimeModalOpen, setIsPlayTimeModalOpen] = useState(false);
 
-  const onSubmit = () => {
-    alert(
-      JSON.stringify({
-        selectedGuestCount,
-        selectedMatchDate,
-        selectedStartTime,
-        selectedPlayTime,
-        selectedPosition,
-        inputAddress,
-        inputAddressDetail,
-        inputPrice,
-        inputDescription,
-      })
-    );
+  const onSubmit = async () => {
+    const gameData = {
+      hostId: 1,
+      maxMemberCount: parseInt(maxMemberCount),
+      playDate,
+      playStartTime,
+      playTimeMinutes: parseInt(playTimeMinutes),
+      positions,
+      mainAddress,
+      detailAddress,
+      cost: parseInt(cost),
+      content,
+    };
+
+    mutate(gameData);
+  };
+
+  const handleAddressSelect = () => {
+    new daum.Postcode({
+      oncomplete: ({ address }: { address: string }) => {
+        setMainAddress(address);
+      },
+    }).open();
   };
 
   const handleGuestCountSelect = (item: string) => {
-    setSelectedGuestCount(item);
+    setMaxMemberCount(item);
   };
 
   const openGuestCountModal = () => {
@@ -106,10 +85,6 @@ export const CreateGamePage = () => {
 
   const closeGuestCountModal = () => {
     setIsGuestCountModalOpen(false);
-  };
-
-  const handleMatchDateSelect = (item: string) => {
-    setSelectedMatchDate(item);
   };
 
   const openMatchDateModal = () => {
@@ -121,7 +96,7 @@ export const CreateGamePage = () => {
   };
 
   const handleStartTimeSelect = (item: string) => {
-    setSelectedStartTime(item);
+    setPlayStartTime(item);
   };
 
   const openStartTimeModal = () => {
@@ -133,7 +108,7 @@ export const CreateGamePage = () => {
   };
 
   const handlePlayTimeSelect = (item: string) => {
-    setSelectedPlayTime(item);
+    setPlayTimeMinutes(item);
   };
 
   const openPlayTimeModal = () => {
@@ -165,7 +140,7 @@ export const CreateGamePage = () => {
             {...register('guest-count')}
             readOnly={true}
             onClick={openGuestCountModal}
-            value={selectedGuestCount}
+            value={maxMemberCount}
           />
           <Modal
             isOpen={isGuestCountModalOpen}
@@ -210,7 +185,7 @@ export const CreateGamePage = () => {
             {...register('match-date')}
             readOnly={true}
             onClick={openMatchDateModal}
-            value={selectedMatchDate}
+            value={playDate}
           />
           <Modal
             isOpen={isMatchDateModalOpen}
@@ -222,18 +197,10 @@ export const CreateGamePage = () => {
                 게스트 매치 날짜를 선택해 주세요!
               </Text>
             </StyledModalHeader>
-            <Modal.Content>
-              <VirtualScroll
-                width="100%"
-                list={[
-                  '2022년 9월 1일',
-                  '2022년 9월 2일',
-                  '2022년 9월 3일',
-                  '2022년 9월 4일',
-                  '2022년 9월 5일',
-                ]}
-                onItemSelected={handleMatchDateSelect}
-              />
+            <Modal.Content
+              style={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <CalendarComponent setDate={setPlayDate} />
             </Modal.Content>
           </Modal>
           <StyledSubTitle>
@@ -245,7 +212,7 @@ export const CreateGamePage = () => {
             {...register('start-time')}
             readOnly={true}
             onClick={openStartTimeModal}
-            value={selectedStartTime}
+            value={playStartTime}
           />
           <Modal
             isOpen={isStartTimeModalOpen}
@@ -287,7 +254,7 @@ export const CreateGamePage = () => {
             {...register('play-time')}
             readOnly={true}
             onClick={openPlayTimeModal}
-            value={selectedPlayTime}
+            value={playTimeMinutes}
           />
           <Modal
             isOpen={isPlayTimeModalOpen}
@@ -310,6 +277,11 @@ export const CreateGamePage = () => {
                   '150분',
                   '180분',
                   '210분',
+                  '240분',
+                  '270분',
+                  '300분',
+                  '330분',
+                  '360분',
                 ]}
                 onItemSelected={handlePlayTimeSelect}
               />
@@ -320,7 +292,9 @@ export const CreateGamePage = () => {
               선호하는 포지션을 선택해 주세요!
             </Text>
           </StyledSubTitle>
-          <PositionComponent setSelectedPosition={setSelectedPosition} />
+          <StyledPositionsWrapper>
+            <SelectPosition setPositions={setPositions} />
+          </StyledPositionsWrapper>
           <StyledSubTitle>
             <Text size={16} weight={300}>
               주소를 입력해 주세요!
@@ -328,7 +302,9 @@ export const CreateGamePage = () => {
           </StyledSubTitle>
           <StyledInput
             {...register('address')}
-            onChange={(e) => setInputAddress(e.target.value)}
+            readOnly={true}
+            onClick={handleAddressSelect}
+            value={mainAddress}
           />
           <StyledSubTitle>
             <Text size={16} weight={300}>
@@ -337,7 +313,7 @@ export const CreateGamePage = () => {
           </StyledSubTitle>
           <StyledInput
             {...register('address-detail')}
-            onChange={(e) => setInputAddressDetail(e.target.value)}
+            onChange={(event) => setDetailAddress(event.target.value)}
           />
           <StyledSubTitle>
             <Text size={16} weight={300}>
@@ -348,7 +324,7 @@ export const CreateGamePage = () => {
             {...register('price')}
             type="number"
             pattern="\d*"
-            onChange={(e) => setInputPrice(e.target.value)}
+            onChange={(event) => setCost(event.target.value)}
           />
           <StyledSubTitle>
             <Text size={16} weight={300}>
@@ -357,7 +333,7 @@ export const CreateGamePage = () => {
           </StyledSubTitle>
           <StyledTextArea
             {...register('description')}
-            onChange={(e) => setInputDescription(e.target.value)}
+            onChange={(event) => setContent(event.target.value)}
           />
           <Button
             width="100%"

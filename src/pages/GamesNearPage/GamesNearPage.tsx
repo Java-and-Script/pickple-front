@@ -2,12 +2,37 @@ import { Header } from '@components/Header';
 import { MatchItem } from '@components/MatchItem';
 import { Text } from '@components/shared/Text';
 
+import { GamesQueryProps, useGamesQuery } from '@hooks/queries/useGamesQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
+import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
+
+import { Member } from '@type/models';
+
+import { getGameStartDate } from '@utils/domain';
 
 import { PageContent, PageLayout } from './GamesNearPage.styles';
 
+const getMyInfo = () => {
+  const json = localStorage.getItem('USER_INFO');
+  if (!json) {
+    return null;
+  }
+  return JSON.parse(json) as Member;
+};
+
+/** TODO: 내 정보에서 주 활동지역을 가져와서 useGamesQuery에 넘겨줘야 함 */
 export const GamesNearPage = () => {
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
+  const myInfo = getMyInfo();
+
+  const gamesQueryProps: GamesQueryProps = myInfo
+    ? {
+        category: 'location',
+        value: `${myInfo?.addressDepth1}+${myInfo?.addressDepth2}`,
+      }
+    : {};
+  const { games, fetchNextPage } = useGamesQuery(gamesQueryProps);
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>(fetchNextPage);
 
   return (
     <PageLayout>
@@ -18,27 +43,24 @@ export const GamesNearPage = () => {
             내 근처 게스트 매치
           </Text>
         </div>
-        {Array(20)
-          .fill(null)
-          .map((_, i) => (
+        {games.map((game) => {
+          const membersProfileImageUrls = game.members.map(
+            (member) => member.profileImageUrl
+          );
+          return (
             <MatchItem
-              key={i}
-              matchId="1"
-              startTime={new Date()}
-              timeMinutes={60}
-              mainAddress="서울특별시 송파구 송파나루길 206"
-              memberCount={6}
-              maxMemberCount={10}
-              membersProfileImageUrls={[
-                'https://picsum.photos/500',
-                'https://picsum.photos/500',
-                'https://picsum.photos/500',
-                'https://picsum.photos/500',
-                'https://picsum.photos/500',
-                'https://picsum.photos/500',
-              ]}
+              key={game.id}
+              matchId={String(game.id)}
+              startTime={getGameStartDate(game.playDate, game.playStartTime)}
+              timeMinutes={game.playTimeMinutes}
+              mainAddress={game.mainAddress}
+              memberCount={game.memberCount}
+              maxMemberCount={game.maxMemberCount}
+              membersProfileImageUrls={membersProfileImageUrls}
             />
-          ))}
+          );
+        })}
+        <div ref={lastElementRef} />
       </PageContent>
     </PageLayout>
   );
