@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { CalendarComponent } from '@components/Calendar/Calendar';
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
+import { SelectPosition } from '@components/SelectPosition/SelectPosition';
 import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
-import { ToggleButton } from '@components/shared/ToggleButton';
-import { useToggleButtons } from '@components/shared/ToggleButton';
 import { VirtualScroll } from '@components/shared/VirtualScroll';
 
 import { useGameMutation } from '@hooks/mutations/useGameMutation';
@@ -28,40 +28,6 @@ import {
   StyledTextArea,
   StyledTitle,
 } from './CreateGamePage.styles';
-
-const PositionComponent = ({
-  setPositions,
-}: {
-  setPositions: (value: Position[]) => void;
-}) => {
-  const positions = ['C', 'PF', 'SF', 'PG', 'SG', '없음'];
-
-  const handledToggle = (value: string[]) => {
-    setPositions(value as Position[]);
-  };
-
-  const { handleToggle, selectedItems } = useToggleButtons({
-    onToggle: handledToggle,
-    isMultipleSelect: true,
-  });
-
-  return (
-    <StyledPositionsWrapper>
-      {positions.map((position) => (
-        <ToggleButton
-          type="button"
-          fontSize="12px"
-          width="47px"
-          height="32px"
-          key={position}
-          value={position}
-          isActive={selectedItems.includes(position)}
-          onToggle={handleToggle}
-        />
-      ))}
-    </StyledPositionsWrapper>
-  );
-};
 
 export const CreateGamePage = () => {
   const { mutate } = useGameMutation();
@@ -111,10 +77,6 @@ export const CreateGamePage = () => {
 
   const closeGuestCountModal = () => {
     setIsGuestCountModalOpen(false);
-  };
-
-  const handleMatchDateSelect = (item: string) => {
-    setPlayDate(item);
   };
 
   const openMatchDateModal = () => {
@@ -227,22 +189,10 @@ export const CreateGamePage = () => {
                 게스트 매치 날짜를 선택해 주세요!
               </Text>
             </StyledModalHeader>
-            <Modal.Content>
-              <VirtualScroll
-                width="100%"
-                list={[
-                  '2023년 11월 11일',
-                  '2023년 11월 12일',
-                  '2023년 11월 13일',
-                  '2023년 11월 14일',
-                  '2023년 11월 15일',
-                  '2023년 11월 16일',
-                  '2023년 11월 17일',
-                  '2023년 11월 18일',
-                  '2023년 11월 19일',
-                ]}
-                onItemSelected={handleMatchDateSelect}
-              />
+            <Modal.Content
+              style={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <CalendarComponent setDate={setPlayDate} />
             </Modal.Content>
           </Modal>
           <StyledSubTitle>
@@ -334,7 +284,9 @@ export const CreateGamePage = () => {
               선호하는 포지션을 선택해 주세요!
             </Text>
           </StyledSubTitle>
-          <PositionComponent setPositions={setPositions} />
+          <StyledPositionsWrapper>
+            <SelectPosition setPositions={setPositions} />
+          </StyledPositionsWrapper>
           <StyledSubTitle>
             <Text size={16} weight={300}>
               주소를 입력해 주세요!
