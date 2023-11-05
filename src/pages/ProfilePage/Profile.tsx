@@ -56,12 +56,13 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
           />
           <NumberedItem
             text="매너스코어"
-            icon={<Social />}
+            icon={<Heart />}
             count={profileData.mannerScoreCount}
+            color="pink"
           />
-          <NumberedItem text="팔로우" icon={<Heart />} count={0} color="pink" />
+          <NumberedItem text="팔로우" icon={<Social />} count={0} />
         </Flex>
-        <Flex justify="center" gap={40}>
+        <Flex justify="center" gap={10}>
           <EventButton text="팔로우" onClick={() => console.log('팔로우')} />
           <EventButton text="대화하기" onClick={() => console.log('대화')} />
         </Flex>
