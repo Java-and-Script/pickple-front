@@ -46,7 +46,7 @@ export const Introduce = styled.div`
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
   border-radius: 20px;
   max-width: 480px;
-  min-width: 360px;
+  min-width: 320px;
   padding: 16px;
   display: inline-block;
 `;

@@ -17,7 +17,7 @@ export const CreatePageCard = ({
       <Text size={'1.5rem'} weight={700}>
         {title}
       </Text>
-      <Text size={'1rem'} weight={300}>
+      <Text size={'1rem'} weight={300} style={{ whiteSpace: 'pre-wrap' }}>
         {description}
       </Text>
     </StyledCard>
