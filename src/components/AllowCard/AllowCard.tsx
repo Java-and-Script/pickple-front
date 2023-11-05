@@ -4,61 +4,54 @@ import { Text } from '@components/shared/Text';
 
 import { theme } from '@styles/theme';
 
-import { PATH_NAME } from '@consts/pathName';
+import { Member } from '@type/models';
 
-import { AllowCardContainer, FlexBox } from './AllowCard.style';
+import { AllowCardContainer, FlexBox, Profile } from './AllowCard.style';
 
 type AllowCardProps = {
-  player: Player;
-  moveToProfile: (path: string) => void;
-};
-
-type Player = {
-  id: string;
-  nickname: string;
-  profileImageUrl: string;
+  member: Member;
+  onClickProfile: () => void;
+  onClickAllowButton: () => void;
+  onClickDisallowButton: () => void;
 };
 
 const buttonOverlappedProps = {
   width: '3.5rem',
   height: '2.5rem',
-  fontSize: theme.FONT_SIZE.MD,
+  fontSize: theme.FONT_SIZE.XS,
   fontWeight: theme.FONT_WEIGHT.MEDIUM,
   backgroundColor: 'white',
 };
 
-export const AllowCard = ({ player, moveToProfile }: AllowCardProps) => {
-  const handleClickProfile = () => {
-    moveToProfile(PATH_NAME.GET_PROFILE_PATH(player.id));
-  };
-
-  const handleAllowClick = () => {};
-
-  const handleRejectClick = () => {};
-
+export const AllowCard = ({
+  member,
+  onClickProfile,
+  onClickAllowButton,
+  onClickDisallowButton,
+}: AllowCardProps) => {
   return (
     <AllowCardContainer>
-      <FlexBox>
+      <Profile>
         <Avatar
-          src={player.profileImageUrl}
+          src={member.profileImageUrl}
           size={40}
-          onClick={handleClickProfile}
+          onClick={onClickProfile}
         />
         <Text
-          size="1rem"
+          size={12}
           weight={500}
           lineHeight="40px"
           ellipsis={1}
-          onClick={handleClickProfile}
+          onClick={onClickProfile}
         >
-          {player.nickname}
+          {member.nickname}
         </Text>
-      </FlexBox>
+      </Profile>
       <FlexBox>
         <Button
           textColor={theme.PALETTE.RED_400}
           borderColor={theme.PALETTE.RED_400}
-          onClick={handleAllowClick}
+          onClick={onClickAllowButton}
           {...buttonOverlappedProps}
         >
           수락
@@ -66,7 +59,7 @@ export const AllowCard = ({ player, moveToProfile }: AllowCardProps) => {
         <Button
           textColor={theme.PALETTE.GRAY_400}
           borderColor={theme.PALETTE.GRAY_400}
-          onClick={handleRejectClick}
+          onClick={onClickDisallowButton}
           {...buttonOverlappedProps}
         >
           거절

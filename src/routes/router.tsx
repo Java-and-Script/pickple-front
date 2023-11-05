@@ -6,12 +6,12 @@ import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesHostPage } from '@pages/GamesHostPage';
+import { GamesManagePage } from '@pages/GamesManagePage';
 import { GamesNearPage } from '@pages/GamesNearPage';
 import { GamesParticipatePage } from '@pages/GamesParticipatePage';
 import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
-import { ManagePage } from '@pages/ManagePage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { RegisterPage } from '@pages/RegisterPage';
 
@@ -66,7 +66,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'games/:id/manage',
-        element: <ManagePage manageType="games" />,
+        element: (
+          <Suspense fallback={null}>
+            <GamesManagePage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/:id/review',
@@ -90,7 +94,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/:id/manage',
-        element: <ManagePage manageType="crews" />,
+        element: <>crew/:id/manage</>,
       },
       {
         path: 'create',
