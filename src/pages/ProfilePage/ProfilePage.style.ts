@@ -18,7 +18,7 @@ export const FlexItem = styled.div`
   gap: 20px;
 `;
 
-export const PositionItem = styled.div<{ border?: string }>`
+export const ItemBox = styled.div<{ border?: string }>`
   border: ${({ border, theme }) =>
     border ?? `1px solid ${theme.PALETTE.GRAY_400}`};
   box-sizing: border-box;
@@ -32,7 +32,7 @@ export const PositionItem = styled.div<{ border?: string }>`
   overflow: hidden;
 `;
 
-export const BadgeContainer = styled.div`
+export const ProfileFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -47,4 +47,12 @@ export const Introduce = styled.div`
   min-width: 360px;
   padding: 16px;
   display: inline-block;
+`;
+
+export const ColoredSvgWrapper = styled.div<{ color?: string }>`
+  width: 30px;
+  height: 30px;
+  path {
+    fill: ${({ color, theme }) => color ?? theme.PALETTE.GRAY_500};
+  }
 `;

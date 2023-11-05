@@ -16,13 +16,31 @@ import Social from '@assets/follow.svg?react';
 import Heart from '@assets/heart.svg?react';
 
 import {
-  BadgeContainer,
+  ColoredSvgWrapper,
   FlexItem,
   Introduce,
+  ItemBox,
   Main,
-  PositionItem,
   ProfileContainer,
+  ProfileFieldContainer,
 } from './ProfilePage.style';
+
+type ProfileFieldProps = {
+  category: string;
+  children: ReactNode;
+};
+
+type EventButtonProps = {
+  text: string;
+  onClick: () => void;
+};
+
+type NumberedItemProps = {
+  text: string;
+  count: number;
+  icon: ReactNode;
+  color?: string;
+};
 
 export const ProfilePage = () => {
   const { id } = useParams();
@@ -46,62 +64,60 @@ export const ProfilePage = () => {
               icon={<Social />}
               count={profileData.mannerScoreCount}
             />
-            <NumberedItem text="팔로우" icon={<Heart />} count={0} />
+            <NumberedItem
+              text="팔로우"
+              icon={<Heart />}
+              count={0}
+              color="pink"
+            />
           </Flex>
           <Flex justify="center" gap={40}>
             <EventButton text="팔로우" onClick={() => console.log('팔로우')} />
             <EventButton text="대화하기" onClick={() => console.log('대화')} />
           </Flex>
-          <BadgeField category="포지션">
+          <ProfileField category="포지션">
             {profileData.positions.map((position) => (
-              <PositionItem>{position}</PositionItem>
+              <ItemBox key={position}>{position}</ItemBox>
             ))}
-          </BadgeField>
-          <BadgeField category="소속 크루">
+          </ProfileField>
+          <ProfileField category="소속 크루">
             {profileData.crews.map((crew) => (
-              <PositionItem border="none" key={crew.id}>
+              <ItemBox border="none" key={crew.id}>
                 <Image src={crew.profileImageUrl} width="45" alt={crew.name} />
-              </PositionItem>
+              </ItemBox>
             ))}
-          </BadgeField>
-          <BadgeField category="획득한 뱃지">
+          </ProfileField>
+          <ProfileField category="획득한 뱃지">
             {profileData.crews.map((crew) => (
-              <PositionItem border="none" key={crew.id}>
+              <ItemBox border="none" key={crew.id}>
                 <Image src={crew.profileImageUrl} width="45" alt={crew.name} />
-              </PositionItem>
+              </ItemBox>
             ))}
-          </BadgeField>
-          <BadgeField category="자기소개">
+          </ProfileField>
+          <ProfileField category="자기소개">
             <Introduce>
               <Text>{profileData.introduction}</Text>
             </Introduce>
-          </BadgeField>
+          </ProfileField>
         </FlexItem>
       </Main>
     </ProfileContainer>
   );
 };
-type BadgeFieldProps = {
-  category: string;
-  children: ReactNode;
-};
-const BadgeField = ({ category, children }: BadgeFieldProps) => {
+
+const ProfileField = ({ category, children }: ProfileFieldProps) => {
   return (
-    <BadgeContainer>
+    <ProfileFieldContainer>
       <Text size="1.2rem" weight={700}>
         {category}
       </Text>
       <Flex gap={10} flexWrap="wrap">
         {children}
       </Flex>
-    </BadgeContainer>
+    </ProfileFieldContainer>
   );
 };
 
-type EventButtonProps = {
-  text: string;
-  onClick: () => void;
-};
 const EventButton = ({ text, onClick }: EventButtonProps) => (
   <Button
     width="160px"
@@ -117,18 +133,14 @@ const EventButton = ({ text, onClick }: EventButtonProps) => (
     </Text>
   </Button>
 );
-type NumberedItemProps = {
-  text: string;
-  count: number;
-  icon: ReactNode;
-};
-export const NumberedItem = ({ text, count, icon }: NumberedItemProps) => {
+
+const NumberedItem = ({ text, count, icon, color }: NumberedItemProps) => {
   return (
     <Flex direction="column" align="center" gap={4}>
       <Text size={12} color={theme.PALETTE.GRAY_400}>
         {text}
       </Text>
-      {icon}
+      <ColoredSvgWrapper color={color}>{icon}</ColoredSvgWrapper>
       <Text size={16} color={theme.PALETTE.GRAY_400}>
         {count}
       </Text>
