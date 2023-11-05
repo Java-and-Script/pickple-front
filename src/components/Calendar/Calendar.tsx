@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 import { formatDate } from '@utils/formatDate';
+
+import { StyledCalendar } from './Calendar.styles';
 
 export const CalendarComponent = ({
   setDate,
@@ -18,7 +19,7 @@ export const CalendarComponent = ({
 
   return (
     <div>
-      <Calendar
+      <StyledCalendar
         onChange={(newDate) => {
           onChange(newDate as Date);
         }}
