@@ -31,6 +31,18 @@ export const AllServicesPage = () => {
     navigate(pathName);
   };
 
+  const getMyId = (): string | null => {
+    const data = localStorage.getItem('USER_INFO');
+
+    if (!data) {
+      return null;
+    }
+
+    const { id } = JSON.parse(data);
+
+    return id;
+  };
+
   return (
     <AllServicesContainer>
       <Header isLogo={true} isRightContainer={true} />
@@ -49,7 +61,13 @@ export const AllServicesPage = () => {
             onClickMenuItem={() => moveToPage(PATH_NAME.CREATE)}
           />
           <MenuItem icon={<Chat />} pageName="메세지" />
-          <MenuItem icon={<Profile />} pageName="내 정보" />
+          <MenuItem
+            icon={<Profile />}
+            pageName="내 정보"
+            onClickMenuItem={() =>
+              moveToPage(PATH_NAME.GET_PROFILE_PATH(getMyId() ?? '0'))
+            }
+          />
           <MenuItem icon={<Social />} pageName="소셜링" />
         </FieldContainer>
         <FieldContainer>
@@ -58,12 +76,12 @@ export const AllServicesPage = () => {
           </Text>
           <MenuItem
             icon={<Ball />}
-            pageName="게스트로 참가한 경기 목록"
+            pageName="내가 참여한 게스트 매치"
             onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_PARTICIPATE)}
           />
           <MenuItem
             icon={<Whistle />}
-            pageName="내가 만든 경기 목록"
+            pageName="내가 만든 게스트 매치"
             onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_HOST)}
           />
         </FieldContainer>
@@ -73,12 +91,12 @@ export const AllServicesPage = () => {
           </Text>
           <MenuItem
             icon={<CrewManage />}
-            pageName="내가 속한 크루 목록"
+            pageName="내가 속한 크루"
             onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_PARTICIPATE)}
           />
           <MenuItem
             icon={<CrewMember />}
-            pageName="내가 만든 크루 관리"
+            pageName="내가 만든 크루"
             onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_CHIEF)}
           />
           <MenuItem icon={<Medal />} pageName="크루 랭킹" />
