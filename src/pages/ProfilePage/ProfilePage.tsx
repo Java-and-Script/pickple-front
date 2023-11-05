@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
@@ -7,14 +8,12 @@ import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
 
-import { theme } from '@styles/theme';
+import { useMemberProfileQuery } from '@hooks/queries/useMemberProfileQuery';
 
-import { POSITIONS } from '@consts/positions';
+import { theme } from '@styles/theme';
 
 import Social from '@assets/follow.svg?react';
 import Heart from '@assets/heart.svg?react';
-
-import { MEMBERS_MEMBERID } from '@mocks/data/member';
 
 import {
   BadgeContainer,
@@ -25,8 +24,9 @@ import {
 } from './ProfilePage.style';
 
 export const ProfilePage = () => {
-  const profileData = MEMBERS_MEMBERID;
-  console.log(profileData);
+  const { id } = useParams();
+  const memberId = Number(id);
+  const { data: profileData } = useMemberProfileQuery({ memberId });
 
   return (
     <ProfileContainer>
@@ -52,29 +52,21 @@ export const ProfilePage = () => {
             <EventButton text="대화하기" onClick={() => console.log('대화')} />
           </Flex>
           <BadgeField category="포지션">
-            {POSITIONS.map((position) => (
+            {profileData.positions.map((position) => (
               <PositionItem>{position}</PositionItem>
             ))}
           </BadgeField>
           <BadgeField category="소속 크루">
-            {POSITIONS.map((i) => (
-              <PositionItem border="none">
-                <Image
-                  src="https://heropy.blog/images/screenshot/css-flexible-box/flex-direction.jpg"
-                  width="45"
-                  alt={i}
-                />
+            {profileData.crews.map((crew) => (
+              <PositionItem border="none" key={crew.id}>
+                <Image src={crew.profileImageUrl} width="45" alt={crew.name} />
               </PositionItem>
             ))}
           </BadgeField>
-          <BadgeField category="소속 크루">
-            {[1, 1, 1, 1, 11, 2, 3, 3, 3, 3, 1].map((i) => (
-              <PositionItem border="none">
-                <Image
-                  src="https://heropy.blog/images/screenshot/css-flexible-box/flex-direction.jpg"
-                  width="45"
-                  alt={i + ''}
-                />
+          <BadgeField category="획득한 뱃지">
+            {profileData.crews.map((crew) => (
+              <PositionItem border="none" key={crew.id}>
+                <Image src={crew.profileImageUrl} width="45" alt={crew.name} />
               </PositionItem>
             ))}
           </BadgeField>
