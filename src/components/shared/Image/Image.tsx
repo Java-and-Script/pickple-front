@@ -1,4 +1,6 @@
-import { CSSProperties, HTMLAttributes } from 'react';
+import { CSSProperties, HTMLAttributes, useState } from 'react';
+
+import DefaultImg from '@assets/default.svg';
 
 import { Img } from './Image.styles';
 
@@ -21,20 +23,35 @@ export const Image = ({
   mode = 'cover',
   ...props
 }: ImageProps) => {
+  const [showdefaultImage, setShowDefaultImage] = useState(true);
   const stringifiedWidth =
     typeof width === 'number' ? `${width / 16}rem` : width;
   const stringifiedHeight =
     typeof height === 'number' ? `${height / 16}rem` : height;
 
   return (
-    <Img
-      src={src}
-      alt={alt}
-      width={stringifiedWidth}
-      height={stringifiedHeight}
-      block={block}
-      mode={mode}
-      {...props}
-    />
+    <>
+      <Img
+        src={DefaultImg}
+        alt={alt}
+        width={stringifiedWidth}
+        height={stringifiedHeight}
+        block={block}
+        mode={mode}
+        show={showdefaultImage}
+        {...props}
+      />
+      <Img
+        src={src}
+        alt={alt}
+        width={stringifiedWidth}
+        height={stringifiedHeight}
+        block={block}
+        mode={mode}
+        show={!showdefaultImage}
+        onLoad={() => setShowDefaultImage(false)}
+        {...props}
+      />
+    </>
   );
 };
