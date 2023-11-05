@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Profile } from '@pages/ProfilePage/Profile';
+
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
+import { Modal } from '@components/Modal';
 import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
@@ -28,10 +31,12 @@ export const ReviewPage = () => {
   const [currentSelectedMemberIndex, setCurrentSelectedMemberIndex] =
     useState(0);
 
-  const [state, setState] = useState('');
+  const [toggleState, setToggleState] = useState('');
   const handleToggle = (value: string) => {
-    setState(value);
+    setToggleState(value);
   };
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLeftArrowIconClick = () => {
     if (currentSelectedMemberIndex > 0) {
@@ -109,6 +114,7 @@ export const ReviewPage = () => {
             size={'1rem'}
             weight={300}
             style={{ color: theme.PALETTE.RED_400 }}
+            onClick={() => setIsOpen(true)}
           >
             {'자세히보기'}
           </Text>
@@ -136,7 +142,7 @@ export const ReviewPage = () => {
             value="좋았어요"
             height={'3.125rem'}
             fontSize={theme.FONT_SIZE.LG}
-            isActive={state === '좋았어요'}
+            isActive={toggleState === '좋았어요'}
             onToggle={(value) => {
               handleToggle(value);
             }}
@@ -145,7 +151,7 @@ export const ReviewPage = () => {
             value="아쉬워요"
             height={'3.125rem'}
             fontSize={theme.FONT_SIZE.LG}
-            isActive={state === '아쉬워요'}
+            isActive={toggleState === '아쉬워요'}
             onToggle={(value) => {
               handleToggle(value);
             }}
@@ -163,6 +169,11 @@ export const ReviewPage = () => {
           {'제출하기'}
         </Button>
       </Flex>
+      <Modal isOpen={isOpen} close={() => setIsOpen(false)}>
+        <Modal.Content>
+          <Profile memberId={1} />
+        </Modal.Content>
+      </Modal>
     </ReviewPageContainer>
   );
 };
