@@ -24,6 +24,7 @@
     "axios": "^1.5.1",
     "env-cmd": "^10.1.0",
     "react": "^18.2.0",
+    "react-calendar": "^4.6.1",
     "react-dom": "^18.2.0",
     "react-draggable-bottom-sheet": "^1.14.0",
     "react-hook-form": "^7.47.0",
