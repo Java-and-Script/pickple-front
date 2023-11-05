@@ -5,6 +5,7 @@ import { AllServicesPage } from '@pages/AllServicesPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
+import { GamesHostPage } from '@pages/GamesHostPage';
 import { GamesNearPage } from '@pages/GamesNearPage';
 import { GamesParticipatePage } from '@pages/GamesParticipatePage';
 import { Layout } from '@pages/Layout';
@@ -40,7 +41,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'games/host',
-        element: <h2>host</h2>,
+        element: (
+          <Suspense fallback={null}>
+            <GamesHostPage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/participate',
