@@ -35,9 +35,19 @@ const LARGE_GRAY_OUTLINED_BUTTON_PROPS = {
   backgroundColor: 'white',
 } as const;
 
+const SMALL_GRAY_OUTLINED_BUTTON_PROPS = {
+  fontSize: FONT_SIZE.XS,
+  fontWeight: FONT_WEIGHT.MEDIUM,
+  borderColor: PALETTE.GRAY_400,
+  borderRadius: '0.75rem',
+  textColor: PALETTE.GRAY_400,
+  backgroundColor: 'white',
+};
+
 export const BUTTON_PROPS = {
   LARGE_RED_BUTTON_PROPS,
   SMALL_RED_OUTLINED_BUTTON_PROPS,
   LARGE_RED_OUTLINED_BUTTON_PROPS,
   LARGE_GRAY_OUTLINED_BUTTON_PROPS,
+  SMALL_GRAY_OUTLINED_BUTTON_PROPS,
 } as const;
