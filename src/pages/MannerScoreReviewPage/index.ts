@@ -1,0 +1,1 @@
+export { MannerScoreReviewPage } from './MannerScoreReviewPage';
