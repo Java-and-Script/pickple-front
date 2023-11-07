@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import styled from '@emotion/styled';
+
 import { CalendarComponent } from '@components/Calendar/Calendar';
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
@@ -36,7 +38,8 @@ export const CreateGamePage = () => {
 
   const [maxMemberCount, setMaxMemberCount] = useState<string>('');
   const [playDate, setPlayDate] = useState<string>('');
-  const [playStartTime, setPlayStartTime] = useState<string>('');
+  const [playStartHour, setPlayStartHour] = useState<string>('00');
+  const [playStartMinute, setPlayStartMinute] = useState<string>('00');
   const [playTimeMinutes, setPlayTimeMinutes] = useState<string>('');
   const [positions, setPositions] = useState<Position[]>([]);
 
@@ -55,7 +58,7 @@ export const CreateGamePage = () => {
       hostId: 1,
       maxMemberCount: parseInt(maxMemberCount),
       playDate,
-      playStartTime,
+      playStartTime: `${playStartHour}:${playStartMinute}`,
       playTimeMinutes: parseInt(playTimeMinutes),
       positions,
       mainAddress,
@@ -95,8 +98,12 @@ export const CreateGamePage = () => {
     setIsMatchDateModalOpen(false);
   };
 
-  const handleStartTimeSelect = (item: string) => {
-    setPlayStartTime(item);
+  const handleStartHourSelect = (item: string) => {
+    setPlayStartHour(item);
+  };
+
+  const handleStartMinuteSelect = (item: string) => {
+    setPlayStartMinute(item);
   };
 
   const openStartTimeModal = () => {
@@ -118,6 +125,11 @@ export const CreateGamePage = () => {
   const closePlayTimeModal = () => {
     setIsPlayTimeModalOpen(false);
   };
+
+  const StyledTimePicker = styled.div`
+    display: flex;
+    justify-content: center;
+  `;
 
   return (
     <PageLayout>
@@ -212,7 +224,7 @@ export const CreateGamePage = () => {
             {...register('start-time')}
             readOnly={true}
             onClick={openStartTimeModal}
-            value={playStartTime}
+            value={`${playStartHour}시 ${playStartMinute}분`}
           />
           <Modal
             isOpen={isStartTimeModalOpen}
@@ -225,24 +237,105 @@ export const CreateGamePage = () => {
               </Text>
             </StyledModalHeader>
             <Modal.Content>
-              <VirtualScroll
-                width="100%"
-                list={[
-                  '09:00',
-                  '10:00',
-                  '11:00',
-                  '12:00',
-                  '13:00',
-                  '14:00',
-                  '15:00',
-                  '16:00',
-                  '17:00',
-                  '18:00',
-                  '19:00',
-                  '20:00',
-                ]}
-                onItemSelected={handleStartTimeSelect}
-              />
+              <StyledTimePicker>
+                <VirtualScroll
+                  width="50%"
+                  list={[
+                    '00',
+                    '01',
+                    '02',
+                    '03',
+                    '04',
+                    '05',
+                    '06',
+                    '07',
+                    '08',
+                    '09',
+                    '10',
+                    '11',
+                    '12',
+                    '13',
+                    '14',
+                    '15',
+                    '16',
+                    '17',
+                    '18',
+                    '19',
+                    '20',
+                    '21',
+                    '22',
+                    '23',
+                    '24',
+                  ]}
+                  onItemSelected={handleStartHourSelect}
+                />
+                <VirtualScroll
+                  width="50%"
+                  list={[
+                    '00',
+                    '01',
+                    '02',
+                    '03',
+                    '04',
+                    '05',
+                    '06',
+                    '07',
+                    '08',
+                    '09',
+                    '10',
+                    '11',
+                    '12',
+                    '13',
+                    '14',
+                    '15',
+                    '16',
+                    '17',
+                    '18',
+                    '19',
+                    '20',
+                    '21',
+                    '22',
+                    '23',
+                    '24',
+                    '25',
+                    '26',
+                    '27',
+                    '28',
+                    '29',
+                    '30',
+                    '31',
+                    '32',
+                    '33',
+                    '34',
+                    '35',
+                    '36',
+                    '37',
+                    '38',
+                    '39',
+                    '40',
+                    '41',
+                    '42',
+                    '43',
+                    '44',
+                    '45',
+                    '46',
+                    '47',
+                    '48',
+                    '49',
+                    '50',
+                    '51',
+                    '52',
+                    '53',
+                    '54',
+                    '55',
+                    '56',
+                    '57',
+                    '58',
+                    '59',
+                  ]}
+                  onItemSelected={handleStartMinuteSelect}
+                />
+              </StyledTimePicker>
             </Modal.Content>
           </Modal>
           <StyledSubTitle>
