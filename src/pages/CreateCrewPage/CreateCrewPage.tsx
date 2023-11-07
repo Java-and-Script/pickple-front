@@ -12,6 +12,7 @@ import {
 } from '@components/shared/ToggleButton';
 import { VirtualScroll } from '@components/shared/VirtualScroll';
 
+import { useCrewMutation } from '@hooks/mutations/usePostMutation';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
@@ -33,6 +34,7 @@ import {
 } from './CreateCrewPage.styles';
 
 export const CreateCrewPage = () => {
+  const { mutate } = useCrewMutation();
   const { register, handleSubmit } = useForm();
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
@@ -80,9 +82,10 @@ export const CreateCrewPage = () => {
       maxMemberCount: parseInt(maxMemberCount),
       leaderId: 1,
       addressDepth1: '서울시',
-      addressDepth2: selectedLocation?.[0],
+      addressDepth2: selectedLocation![0],
     };
-    console.log(data);
+
+    mutate(data);
   };
 
   return (
