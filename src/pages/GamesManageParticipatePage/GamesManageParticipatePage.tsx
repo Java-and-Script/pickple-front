@@ -10,9 +10,13 @@ import { useGameMembersQuery } from '@hooks/queries/useGameMembersQuery';
 
 import { PATH_NAME } from '@consts/pathName';
 
-import { AllowCardGroup, Main, ManageContainer } from './GamesManagePage.style';
+import {
+  AllowCardGroup,
+  Main,
+  ManageContainer,
+} from './GamesManageParticipatePage.style';
 
-export const GamesManagePage = () => {
+export const GamesManageParticipatePage = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
