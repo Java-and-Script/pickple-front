@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { AllServicesPage } from '@pages/AllServicesPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
+import { CrewsManageParticipatePage } from '@pages/CrewsManageParticipatePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesHostPage } from '@pages/GamesHostPage';
 import { GamesManageParticipatePage } from '@pages/GamesManageParticipatePage';
@@ -95,7 +96,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/:id/manage',
-        element: <>crew/:id/manage</>,
+        element: <CrewsManageParticipatePage />,
       },
       {
         path: 'create',
