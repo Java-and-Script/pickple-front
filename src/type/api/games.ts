@@ -38,9 +38,11 @@ export type PatchGameParticipateApplyRequest = {
 };
 
 export type PatchGameMannerScoreReviewRequest = {
-  memberId: number;
-  mannerScore: number;
-}[];
+  mannerScoreReviews: {
+    memberId: number;
+    mannerScore: -1 | 0 | 1;
+  }[];
+};
 
 export type DeleteGameParticipateRequest = {
   gameId: Game['id'];
