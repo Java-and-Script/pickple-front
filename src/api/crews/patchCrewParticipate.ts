@@ -1,19 +1,14 @@
 import { axiosInstance } from '@api/axiosInstance';
 
 import { PatchCrewParticipateAllowRequest } from '@type/api/crews';
-import { Crew, Member } from '@type/models';
 
 export const patchCrewParticipate = async ({
-  payload,
+  status,
   crewId,
   memberId,
-}: {
-  payload: PatchCrewParticipateAllowRequest;
-  crewId: Crew['id'];
-  memberId: Member['id'];
-}) => {
+}: PatchCrewParticipateAllowRequest) => {
   await axiosInstance.patch(`/crews/${crewId}/members/${memberId}`, {
-    data: payload,
+    data: { status },
   });
   return;
 };
