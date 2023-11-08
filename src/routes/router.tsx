@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { AllServicesPage } from '@pages/AllServicesPage';
+import { CreateCrewPage } from '@pages/CreateCrewPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
 import { CrewsManageParticipatePage } from '@pages/CrewsManageParticipatePage';
@@ -13,9 +14,9 @@ import { GamesParticipatePage } from '@pages/GamesParticipatePage';
 import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
+import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { RegisterPage } from '@pages/RegisterPage';
-import { ReviewPage } from '@pages/ReviewPage';
 
 export const router = createBrowserRouter([
   {
@@ -76,7 +77,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'games/:id/review',
-        element: <ReviewPage />,
+        element: (
+          <Suspense fallback={null}>
+            <MannerScoreReviewPage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/recommend',
@@ -112,7 +117,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'create/crew',
-        element: <h3>create/crew</h3>,
+        element: <CreateCrewPage />,
       },
       {
         path: 'profile/:id',

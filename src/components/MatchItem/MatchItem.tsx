@@ -6,6 +6,8 @@ import { theme } from '@styles/theme';
 import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
 
+import { isGameEnded } from '@utils/domain';
+
 import { Avatar } from '../Avatar';
 import { AvatarGroup } from '../AvatarGroup';
 import {
@@ -45,16 +47,13 @@ const MatchItem = ({
 }: MatchItemProps) => {
   const navigate = useNavigate();
 
-  const endTimeNumber = startTime.getTime() + timeMinutes * 60000;
-  const isMatchEnd = endTimeNumber <= new Date().getTime();
-
   return (
     <MatchItemWrapper>
       <MatchItemInnerWrapper
         onClick={() => navigate(PATH_NAME.GET_GAMES_PATH(matchId))}
       >
         <MatchStatus>
-          {isMatchEnd ? (
+          {isGameEnded(startTime, timeMinutes) ? (
             <MatchStartTime>종료</MatchStartTime>
           ) : (
             <>

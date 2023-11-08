@@ -38,7 +38,7 @@ export const GamesParticipatePage = () => {
 
   return (
     <PageWrapper>
-      <Header title={showHeaderTitle ? '내가 참여한 게스트 매치' : ''} />
+      <Header title={showHeaderTitle ? '내가 참여한 매치' : ''} />
       <PageContent direction="column" gap={16}>
         <div ref={entryRef}>
           <Text size={20} weight={700}>
