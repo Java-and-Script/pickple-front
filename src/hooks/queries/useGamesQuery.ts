@@ -10,8 +10,8 @@ import { FETCH_SIZE } from '@consts/network';
  * 포지션 기준 => ?category=positions&value=SF+SG&page=1&size=10
  * */
 export type GamesQueryProps = {
-  category?: 'location' | 'playDate' | 'position';
-  value?: string;
+  category: 'location' | 'playDate' | 'position';
+  value: string;
 };
 
 export const useGamesQuery = ({ category, value }: GamesQueryProps) => {
