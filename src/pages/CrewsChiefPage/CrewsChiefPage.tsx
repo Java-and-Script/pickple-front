@@ -4,9 +4,9 @@ import { CrewItem } from '@components/CrewItem';
 import { Header } from '@components/Header';
 import { Text } from '@components/shared/Text';
 
+import { useCreatedCrewsQuery } from '@hooks/queries/useCreatedCrewsQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
-import { GetCreatedCrewsResponse } from '@type/api/member';
 import { Crew, Member } from '@type/models';
 
 import { PATH_NAME } from '@consts/pathName';
@@ -21,6 +21,16 @@ export const CrewsChiefPage = () => {
   const moveToManage = (crewId: Crew['id']) => {
     navigate(PATH_NAME.GET_CREWS_MANAGE_PATH(String(crewId)));
   };
+
+  const loginInfo = localStorage.getItem('LOGIN_INFO');
+
+  if (!loginInfo) {
+    throw new Error('로그인이 필요한 서비스입니다.');
+  }
+
+  const { id: myId } = JSON.parse(loginInfo);
+
+  const { data: crewsData } = useCreatedCrewsQuery({ memberId: myId });
 
   return (
     <CrewsChiefContainer>
@@ -56,112 +66,3 @@ export const CrewsChiefPage = () => {
     </CrewsChiefContainer>
   );
 };
-
-const crewsData: GetCreatedCrewsResponse = [
-  {
-    id: 1,
-    name: '노드크루',
-    content: '안녕하세요, 노드크루입니다. 백둥체육관 201호에서 진행합니다.',
-    memberCount: 10,
-    maxMemberCount: 15,
-    profileImageUrl: 'pickpleCrewProfileImage.s3.ap-northeast-2.amazonaws.com',
-    backgroundImageUrl:
-      'pickpleCrewBackgroundImage.s3.ap-northeast-2.amazonaws.com',
-    status: '모집 중',
-    likeCount: 9,
-    competitionPoint: 104,
-    leader: {
-      id: 1,
-      email: 'james123@pickple.kr',
-      nickname: 'james123',
-      introduction: '안녕하십니까. 제임스입니다. 아이고~ 사장님~~',
-      profileImageUrl: 'https://s3.amazonaws.com/pickple/james123.jpg',
-      mannerScore: 21,
-      mannerScoreCount: 30,
-      addressDepth1: '서울시',
-      addressDepth2: '강남구',
-      positions: ['C', 'PF'],
-    },
-    addressDepth1: '서울시',
-    addressDepth2: '강남구',
-    members: [
-      {
-        id: 1,
-        email: 'james123@pickple.kr',
-        nickname: 'james123',
-        introduction: '안녕하십니까. 제임스입니다. 아이고~ 사장님~~',
-        profileImageUrl: 'https://s3.amazonaws.com/pickple/james123.jpg',
-        mannerScore: 21,
-        mannerScoreCount: 30,
-        addressDepth1: '서울시',
-        addressDepth2: '강남구',
-        positions: ['C', 'PF'],
-      },
-      {
-        id: 2,
-        email: 'james456@pickple.kr',
-        nickname: 'james456',
-        introduction: '안녕하십니까. 제임스456입니다. 아이고~ 사장님~~',
-        profileImageUrl: 'https://s3.amazonaws.com/pickple/james456.jpg',
-        mannerScore: 26,
-        mannerScoreCount: 30,
-        addressDepth1: '서울시',
-        addressDepth2: '강남구',
-        positions: ['C'],
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: '너드크루',
-    content: '안녕하세요, 너드크루입니다. 프롱체육관 201호에서 진행합니다.',
-    memberCount: 10,
-    maxMemberCount: 15,
-    profileImageUrl: 'pickpleCrewProfileImage.s3.ap-northeast-2.amazonaws.com',
-    backgroundImageUrl:
-      'pickpleCrewBackgroundImage.s3.ap-northeast-2.amazonaws.com',
-    status: '모집 중',
-    likeCount: 22,
-    competitionPoint: 110,
-    leader: {
-      id: 1,
-      email: 'james123@pickple.kr',
-      nickname: 'james123',
-      introduction: '안녕하십니까. 제임스입니다. 아이고~ 사장님~~',
-      profileImageUrl: 'https://s3.amazonaws.com/pickple/james123.jpg',
-      mannerScore: 21,
-      mannerScoreCount: 30,
-      addressDepth1: '서울시',
-      addressDepth2: '강남구',
-      positions: ['C', 'PF'],
-    },
-    addressDepth1: '서울시',
-    addressDepth2: '강남구',
-    members: [
-      {
-        id: 1,
-        email: 'james123@pickple.kr',
-        nickname: 'james123',
-        introduction: '안녕하십니까. 제임스입니다. 아이고~ 사장님~~',
-        profileImageUrl: 'https://s3.amazonaws.com/pickple/james123.jpg',
-        mannerScore: 21,
-        mannerScoreCount: 30,
-        addressDepth1: '서울시',
-        addressDepth2: '강남구',
-        positions: ['C', 'PF'],
-      },
-      {
-        id: 2,
-        email: 'curry456@pickple.kr',
-        nickname: 'curry456',
-        introduction: '안녕하십니까. 제임스456입니다. 아이고~ 사장님~~',
-        profileImageUrl: 'https://s3.amazonaws.com/pickple/james456.jpg',
-        mannerScore: 26,
-        mannerScoreCount: 30,
-        addressDepth1: '서울시',
-        addressDepth2: '강남구',
-        positions: ['C'],
-      },
-    ],
-  },
-];
