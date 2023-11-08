@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { AllServicesPage } from '@pages/AllServicesPage';
+import { CreateCrewPage } from '@pages/CreateCrewPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
@@ -111,7 +112,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'create/crew',
-        element: <h3>create/crew</h3>,
+        element: <CreateCrewPage />,
       },
       {
         path: 'profile/:id',
