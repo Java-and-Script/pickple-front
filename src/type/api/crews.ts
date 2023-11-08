@@ -1,5 +1,5 @@
 import type { Crew, CrewProfile, Member } from '@type/models';
-import type { Registration } from '@type/models';
+import type { Authenticated } from '@type/models';
 
 export type PostCrewRequest = Pick<
   Crew,
@@ -34,8 +34,8 @@ export type PatchCrewParticipateAllowRequest = {
 };
 
 export type GetNearCrewListRequest = {
-  addressDepth1: Registration['addressDepth1'];
-  addressDepth2: Registration['addressDepth2'];
+  addressDepth1: Authenticated['addressDepth1'];
+  addressDepth2: Authenticated['addressDepth2'];
   page: number;
   size: number;
 };
