@@ -1,5 +1,3 @@
-import { getAuthRedirect } from '@api/member/getAuthRedirect';
-
 import { Header } from '@components/Header';
 
 import KAKAO_LOGIN_SRC from '@assets/kakao_login_large_wide.png';
@@ -17,8 +15,10 @@ const LOGIN_MAIN =
   'https://github.com/Java-and-Script/pickple-front/assets/87280835/1134921d-2e91-4b47-b99a-4095c91f0a6d';
 
 export const LoginPage = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
   const onClickKakaoLogin = async () => {
-    getAuthRedirect({ oauthProvider: 'KAKAO' });
+    window.location.href = `${BASE_URL}/auth/kakao`;
   };
 
   return (
@@ -37,7 +37,7 @@ export const LoginPage = () => {
           width="100%"
           height="auto"
           alt="kakao login"
-          onClick={onClickKakaoLogin}
+          onClick={() => onClickKakaoLogin()}
         />
       </Main>
     </LoginContainer>
