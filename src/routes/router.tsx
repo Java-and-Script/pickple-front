@@ -13,9 +13,9 @@ import { GamesParticipatePage } from '@pages/GamesParticipatePage';
 import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
+import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { RegisterPage } from '@pages/RegisterPage';
-import { ReviewPage } from '@pages/ReviewPage';
 
 export const router = createBrowserRouter([
   {
@@ -76,7 +76,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'games/:id/review',
-        element: <ReviewPage />,
+        element: (
+          <Suspense fallback={null}>
+            <MannerScoreReviewPage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/recommend',

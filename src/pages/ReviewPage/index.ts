@@ -1,1 +1,0 @@
-export { ReviewPage } from './ReviewPage';

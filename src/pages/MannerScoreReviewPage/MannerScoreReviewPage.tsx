@@ -10,7 +10,12 @@ import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 
+import { useMannerScoreReviewPatchMutation } from '@hooks/mutations/useMannerScoreReviewPatchMutation';
+import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
+
 import { theme } from '@styles/theme';
+
+import { PATH_NAME } from '@consts/pathName';
 
 import leftArrowIcon from '@assets/leftArrow.svg';
 import rightArrowIcon from '@assets/rightArrow.svg';
@@ -22,35 +27,57 @@ import {
   MemberListContainer,
   ReviewPageContainer,
   TextWrapper,
-} from './ReviewPage.style';
+} from './MannerScoreReviewPage.style';
 import { ToggleButton } from './ToggleButton';
 
-export const ReviewPage = () => {
+export const MannerScoreReviewPage = () => {
   const navigate = useNavigate();
+  const gameId = Number(location.pathname.split('/')[2]);
+  const { data } = useGameDetailQuery(gameId);
+  const teammateListInfo = data.members;
 
   const [currentSelectedMemberIndex, setCurrentSelectedMemberIndex] =
     useState(0);
-
-  const [toggleState, setToggleState] = useState('');
-  const handleToggle = (value: string) => {
-    setToggleState(value);
-  };
-
   const [isOpen, setIsOpen] = useState(false);
+  const [teammateList, setTeammateList] = useState<
+    {
+      memberId: number;
+      mannerScore: -1 | 0 | 1;
+    }[]
+  >(
+    data.members.map(({ id }) => {
+      return {
+        memberId: id,
+        mannerScore: 0,
+      };
+    })
+  );
+
+  const { mutate } = useMannerScoreReviewPatchMutation({
+    payload: { mannerScoreReviews: teammateList },
+    gameId: gameId,
+  });
+
+  const handleToggle = (value: string) => {
+    teammateList.splice(currentSelectedMemberIndex, 1, {
+      memberId: teammateList[currentSelectedMemberIndex].memberId,
+      mannerScore: value === '좋았어요' ? 1 : -1,
+    });
+    setTeammateList([...teammateList]);
+  };
 
   const handleLeftArrowIconClick = () => {
     if (currentSelectedMemberIndex > 0) {
       setCurrentSelectedMemberIndex(currentSelectedMemberIndex - 1);
-      handleToggle('');
     }
   };
 
   const handleRightArrowIconClick = () => {
     if (currentSelectedMemberIndex < teammateList.length - 1) {
       setCurrentSelectedMemberIndex(currentSelectedMemberIndex + 1);
-      handleToggle('');
     }
   };
+
   return (
     <ReviewPageContainer>
       <Header isRightContainer={false} />
@@ -61,18 +88,17 @@ export const ReviewPage = () => {
       </TextWrapper>
       <MemberListContainer transform={-currentSelectedMemberIndex * 60}>
         <Flex direction="row" gap={10}>
-          {teammateList.map(({ imgUrl, name }, index) => (
+          {teammateListInfo.map(({ profileImageUrl, nickname }, index) => (
             <Flex
               key={index}
               direction="column"
               justify="center"
               onClick={() => {
                 setCurrentSelectedMemberIndex(index);
-                handleToggle('');
               }}
             >
               <Avatar
-                src={imgUrl}
+                src={profileImageUrl}
                 size={50}
                 border={
                   index === currentSelectedMemberIndex
@@ -82,7 +108,7 @@ export const ReviewPage = () => {
                 radius={'5px'}
               />
               <Text size={'0.5rem'} weight={300} ellipsis={1}>
-                {name}
+                {nickname}
               </Text>
             </Flex>
           ))}
@@ -93,7 +119,6 @@ export const ReviewPage = () => {
         <BackwardWrapper>
           <BackwardIcon
             onClick={() => {
-              console.log(currentSelectedMemberIndex);
               handleLeftArrowIconClick();
             }}
           >
@@ -102,13 +127,13 @@ export const ReviewPage = () => {
         </BackwardWrapper>
         <Flex direction="column" gap={10} align="center">
           <Avatar
-            src={teammateList[currentSelectedMemberIndex].imgUrl}
+            src={teammateListInfo[currentSelectedMemberIndex].profileImageUrl}
             size={100}
             border={`1px solid ${theme.PALETTE.GRAY_400}`}
             radius={'5px'}
           />
           <Text size={'1.5rem'} weight={500}>
-            {teammateList[currentSelectedMemberIndex].name}
+            {teammateListInfo[currentSelectedMemberIndex].nickname}
           </Text>
           <Text
             size={'1rem'}
@@ -122,7 +147,6 @@ export const ReviewPage = () => {
         <BackwardWrapper>
           <BackwardIcon
             onClick={() => {
-              console.log(currentSelectedMemberIndex);
               handleRightArrowIconClick();
             }}
           >
@@ -142,7 +166,9 @@ export const ReviewPage = () => {
             value="좋았어요"
             height={'3.125rem'}
             fontSize={theme.FONT_SIZE.LG}
-            isActive={toggleState === '좋았어요'}
+            isActive={
+              teammateList[currentSelectedMemberIndex].mannerScore === 1
+            }
             onToggle={(value) => {
               handleToggle(value);
             }}
@@ -151,7 +177,9 @@ export const ReviewPage = () => {
             value="아쉬워요"
             height={'3.125rem'}
             fontSize={theme.FONT_SIZE.LG}
-            isActive={toggleState === '아쉬워요'}
+            isActive={
+              teammateList[currentSelectedMemberIndex].mannerScore === -1
+            }
             onToggle={(value) => {
               handleToggle(value);
             }}
@@ -162,7 +190,10 @@ export const ReviewPage = () => {
           {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
           onClick={() => {
             if (confirm('리뷰를 제출하시겠습니까?')) {
-              navigate('/');
+              mutate();
+              navigate(PATH_NAME.GET_GAMES_PATH(`${gameId}`), {
+                replace: true,
+              });
             }
           }}
         >
@@ -177,21 +208,3 @@ export const ReviewPage = () => {
     </ReviewPageContainer>
   );
 };
-
-const teammateList = [
-  { imgUrl: 'https://picsum.photos/id/10/500', name: 'pickple user1' },
-  { imgUrl: 'https://picsum.photos/id/20/500', name: 'pickple user2' },
-  { imgUrl: 'https://picsum.photos/id/30/500', name: 'pickple user3' },
-  { imgUrl: 'https://picsum.photos/id/40/500', name: 'pickple user4' },
-  { imgUrl: 'https://picsum.photos/id/50/500', name: 'pickple user5' },
-  { imgUrl: 'https://picsum.photos/id/60/500', name: 'pickple user6' },
-  { imgUrl: 'https://picsum.photos/id/70/500', name: 'pickple user7' },
-  { imgUrl: 'https://picsum.photos/id/80/500', name: 'pickple user8' },
-  { imgUrl: 'https://picsum.photos/id/90/500', name: 'pickple user9' },
-  { imgUrl: 'https://picsum.photos/id/100/500', name: 'pickple user10' },
-  { imgUrl: 'https://picsum.photos/id/110/500', name: 'pickple user11' },
-  { imgUrl: 'https://picsum.photos/id/120/500', name: 'pickple user12' },
-  { imgUrl: 'https://picsum.photos/id/130/500', name: 'pickple user13' },
-  { imgUrl: 'https://picsum.photos/id/140/500', name: 'pickple user14' },
-  { imgUrl: 'https://picsum.photos/id/141/500', name: 'pickple user15' },
-];
