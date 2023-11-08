@@ -10,5 +10,7 @@ export const getNearCrewList = async (params: GetNearCrewListRequest) => {
     params: params,
   });
 
+  console.log(params);
+
   return data;
 };
