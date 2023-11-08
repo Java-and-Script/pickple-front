@@ -96,7 +96,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/:id/manage',
-        element: <CrewsManageParticipatePage />,
+        element: (
+          <Suspense fallback={null}>
+            <CrewsManageParticipatePage />
+          </Suspense>
+        ),
       },
       {
         path: 'create',
