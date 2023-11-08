@@ -8,7 +8,7 @@ export const patchCrewParticipate = async ({
   memberId,
 }: PatchCrewParticipateAllowRequest) => {
   await axiosInstance.patch(`/crews/${crewId}/members/${memberId}`, {
-    data: { status },
+    status,
   });
   return;
 };
