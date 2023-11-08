@@ -217,6 +217,11 @@ export const CreateCrewPage = () => {
             </Modal.Content>
           </Modal>
           <StyledEmptyContainer />
+          <StyledSubTitle>
+            <Text size={16} weight={300}>
+              상세설명을 입력해 주세요!
+            </Text>
+          </StyledSubTitle>
           <StyledTextArea
             {...register('content')}
             onChange={(event) => setContent(event.target.value)}
