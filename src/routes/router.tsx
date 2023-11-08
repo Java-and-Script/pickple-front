@@ -15,6 +15,7 @@ import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
 import { ProfilePage } from '@pages/ProfilePage';
+import { RedirectPage } from '@pages/RedirectPage';
 import { RegisterPage } from '@pages/RegisterPage';
 
 export const router = createBrowserRouter([
@@ -129,6 +130,10 @@ export const router = createBrowserRouter([
       {
         path: 'message',
         element: <h3>message</h3>,
+      },
+      {
+        path: 'auth/kakao/callback',
+        element: <RedirectPage />,
       },
     ],
   },
