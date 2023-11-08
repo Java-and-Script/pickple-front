@@ -2,7 +2,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { getGames } from '@api/games/getGames';
 
-const FETCH_SIZE = 20;
+import { FETCH_SIZE } from '@consts/network';
 
 /**
  * 장소 기준 => ?category=location&value=서울시+영등포구&page=1&size=10
