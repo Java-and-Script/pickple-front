@@ -32,7 +32,7 @@ export const AllServicesPage = () => {
   };
 
   const getMyId = (): string | null => {
-    const data = localStorage.getItem('USER_INFO');
+    const data = localStorage.getItem('LOGIN_INFO');
 
     if (!data) {
       return null;
