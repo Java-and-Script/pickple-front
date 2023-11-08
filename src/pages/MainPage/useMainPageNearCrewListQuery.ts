@@ -17,7 +17,7 @@ export const useMainPageNearCrewListQuery = ({
       getNearCrewList({
         addressDepth1,
         addressDepth2,
-        page: 1,
+        page: 0,
         size: FETCH_SIZE,
       }),
   });
