@@ -5,6 +5,7 @@ import { AllServicesPage } from '@pages/AllServicesPage';
 import { CreateCrewPage } from '@pages/CreateCrewPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
+import { CrewsDetailPage } from '@pages/CrewsDetailPage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesHostPage } from '@pages/GamesHostPage';
 import { GamesManagePage } from '@pages/GamesManagePage';
@@ -97,7 +98,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/:id',
-        element: <h3>crews/:id</h3>,
+        element: (
+          <Suspense fallback={null}>
+            <CrewsDetailPage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/:id/manage',
