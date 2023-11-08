@@ -19,11 +19,14 @@ import { Member } from '@type/models';
 import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
 
+import { getGameStartDate, isGameEnded, isGameStarted } from '@utils/domain';
+
 import Ball from '@assets/ball.svg';
 import GameMember from '@assets/gameMember.svg';
 import Money from '@assets/money.svg';
 
 import {
+  ButtonWrapper,
   GrayText,
   GuestName,
   Guests,
@@ -55,6 +58,15 @@ export const GamesDetailPage = () => {
   const { data: match } = useGameDetailQuery(gameId);
   const myInfo = getMyInfo();
   const isMyMatch = match.host.id === myInfo?.id;
+  const isParticipant = match.members.find(
+    (member) => member.id === myInfo?.id
+  );
+  const canParticipate = !isMyMatch && !isParticipant;
+  const canReview = isMyMatch || isParticipant;
+
+  const startDate = getGameStartDate(match.playDate, match.playStartTime);
+  const isStarted = isGameStarted(startDate);
+  const isEnded = isGameEnded(startDate, match.playTimeMinutes);
 
   const { mutate: participateMutate } = useGameParticipateCreateMutation();
   const onParticipateSuccess = () => {
@@ -188,7 +200,7 @@ export const GamesDetailPage = () => {
             ))}
           </Guests>
         </GuestsContainer>
-        {myInfo && !isMyMatch && (
+        {myInfo && !isStarted && canParticipate && (
           <Button
             {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
             height="50px"
@@ -205,17 +217,32 @@ export const GamesDetailPage = () => {
             참여 신청하기
           </Button>
         )}
-        {myInfo && isMyMatch && (
-          <Button
-            {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
-            height="50px"
-            onClick={() =>
-              navigate(PATH_NAME.GET_GAMES_MANAGE_PATH(String(gameId)))
-            }
-          >
-            매치 관리
-          </Button>
-        )}
+        <ButtonWrapper>
+          {myInfo && !isStarted && isMyMatch && (
+            <Button
+              {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
+              height="50px"
+              width="100%"
+              onClick={() =>
+                navigate(PATH_NAME.GET_GAMES_MANAGE_PATH(String(gameId)))
+              }
+            >
+              매치 관리
+            </Button>
+          )}
+          {myInfo && isEnded && canReview && (
+            <Button
+              {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
+              height="50px"
+              width="100%"
+              onClick={() =>
+                navigate(PATH_NAME.GET_GAMES_REVIEW_PATH(String(gameId)))
+              }
+            >
+              리뷰 남기기
+            </Button>
+          )}
+        </ButtonWrapper>
       </PageContent>
     </PageLayout>
   );
