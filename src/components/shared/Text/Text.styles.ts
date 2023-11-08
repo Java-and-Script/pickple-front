@@ -9,6 +9,7 @@ type StyledParagraphProps = {
 
 export const StyledParagraph = styled.p<StyledParagraphProps>`
   margin: 0;
+  color: ${({ color }) => color};
   font-size: ${({ size }) => size};
   font-weight: ${({ weight }) => weight};
   line-height: ${({ lineHeight }) => lineHeight};

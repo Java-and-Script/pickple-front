@@ -10,6 +10,7 @@ type Textprops = {
   weight?: 300 | 500 | 700;
   lineHeight?: string;
   ellipsis?: number;
+  color?: string;
 } & Omit<HTMLAttributes<HTMLParagraphElement>, 'children'>;
 
 export const Text = ({
@@ -18,6 +19,7 @@ export const Text = ({
   weight = 500,
   lineHeight = LINE_HEIGHT,
   ellipsis,
+  color = 'inherit',
   ...props
 }: Textprops) => {
   const stringifiedSize = typeof size === 'number' ? `${size / 16}rem` : size;
@@ -36,6 +38,7 @@ export const Text = ({
       weight={weight}
       lineHeight={lineHeight}
       lineClamp={lineClamp}
+      color={color}
       {...props}
     >
       {children}
