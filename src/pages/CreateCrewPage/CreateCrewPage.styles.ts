@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 
+import { SelectBox } from '@components/SelectBox';
 import { Button } from '@components/shared/Button';
+import { ToggleButton } from '@components/shared/ToggleButton';
 
 export const PageLayout = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
@@ -52,7 +54,8 @@ export const StyledModalHeader = styled.div`
 `;
 
 export const ScrollBox = styled.div`
-  height: 290px;
+  height: 300px;
+  width: 300px;
   overflow: scroll;
   border-radius: 30px;
 `;
@@ -67,4 +70,23 @@ export const StyledSelectedLocationButton = styled(Button)<{
     isSelected ? theme.PALETTE.RED_400 : theme.PALETTE.GRAY_400};
   border-color: ${({ theme, isSelected }) =>
     isSelected ? theme.PALETTE.RED_400 : theme.PALETTE.GRAY_400};
+`;
+
+export const StyledSelectBox = styled(SelectBox)`
+  margin-top: 8px;
+  width: 300px;
+  height: 245px;
+  border-radius: 8%;
+  border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_900};
+  overflow: scroll;
+`;
+
+export const StyledToggleButton = styled(ToggleButton)<{
+  isActive?: boolean;
+}>`
+  color: ${({ theme, isActive }) =>
+    isActive ? 'white' : theme.PALETTE.GRAY_400};
+  background-color: ${({ theme, isActive }) =>
+    isActive ? theme.PALETTE.RED_400 : 'white'};
+  border-radius: 0;
 `;

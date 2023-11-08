@@ -3,13 +3,9 @@ import { useForm } from 'react-hook-form';
 
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
-import { SelectBox } from '@components/SelectBox';
 import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
-import {
-  ToggleButton,
-  useToggleButtons,
-} from '@components/shared/ToggleButton';
+import { useToggleButtons } from '@components/shared/ToggleButton';
 import { VirtualScroll } from '@components/shared/VirtualScroll';
 
 import { useCrewMutation } from '@hooks/mutations/usePostMutation';
@@ -27,10 +23,12 @@ import {
   StyledEmptyContainer,
   StyledInput,
   StyledModalHeader,
+  StyledSelectBox,
   StyledSelectedLocationButton,
   StyledSubTitle,
   StyledTextArea,
   StyledTitle,
+  StyledToggleButton,
 } from './CreateCrewPage.styles';
 
 export const CreateCrewPage = () => {
@@ -176,7 +174,7 @@ export const CreateCrewPage = () => {
             </Text>
           </StyledSubTitle>
           <StyledSelectedLocationButton
-            width="72px"
+            min-width="72px"
             height="32px"
             fontSize="6px"
             {...theme.BUTTON_PROPS.SMALL_GRAY_OUTLINED_BUTTON_PROPS}
@@ -196,11 +194,17 @@ export const CreateCrewPage = () => {
                 주로 활동하는 지역을 선택해 주세요!
               </Text>
             </StyledModalHeader>
-            <Modal.Content>
+            <Modal.Content
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignContent: 'center',
+              }}
+            >
               <ScrollBox>
-                <SelectBox border="none">
+                <StyledSelectBox border="none">
                   {Object.values(SEOUL).map((location) => (
-                    <ToggleButton
+                    <StyledToggleButton
                       key={location}
                       value={location}
                       isActive={selectedLocations.includes(location)}
@@ -208,7 +212,7 @@ export const CreateCrewPage = () => {
                       onToggle={handleToggleLocation}
                     />
                   ))}
-                </SelectBox>
+                </StyledSelectBox>
               </ScrollBox>
             </Modal.Content>
           </Modal>
