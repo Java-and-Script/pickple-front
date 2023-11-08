@@ -72,7 +72,7 @@ export const GamesHostPage = () => {
               {isGameEnded(startTime, game.playTimeMinutes) && (
                 <MatchItem.BottomButton
                   onClick={() =>
-                    navigate(PATH_NAME.GET_GAMES_MANAGE_PATH(String(game.id)))
+                    navigate(PATH_NAME.GET_GAMES_REVIEW_PATH(String(game.id)))
                   }
                 >
                   리뷰 남기기
