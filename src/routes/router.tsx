@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { AllServicesPage } from '@pages/AllServicesPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
+import { CrewsRecommendPage } from '@pages/CrewsRecommendPage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesHostPage } from '@pages/GamesHostPage';
 import { GamesManagePage } from '@pages/GamesManagePage';
@@ -79,7 +80,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/recommend',
-        element: <h3>crews/recommend</h3>,
+        element: (
+          <Suspense fallback={null}>
+            <CrewsRecommendPage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/chief',
