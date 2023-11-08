@@ -13,7 +13,7 @@ export const useMannerScoreReviewPatchMutation = ({
   gameId: Game['id'];
 }) => {
   return useMutation({
-    mutationKey: ['patch-manner-score-review', gameId],
+    mutationKey: ['patch-manner-score-review', gameId, JSON.stringify(payload)],
     mutationFn: () => patchMannerScoreReview({ payload, gameId }),
   });
 };

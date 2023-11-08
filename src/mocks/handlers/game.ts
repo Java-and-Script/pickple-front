@@ -151,15 +151,10 @@ const mockPatchGameMannerScoreReview = http.patch<
   }
 
   const {
-    data: [{ memberId, mannerScore }],
+    data: { mannerScoreReviews },
   } = await request.json();
 
-  const reviews = [
-    {
-      memberId,
-      mannerScore,
-    },
-  ];
+  const reviews = [mannerScoreReviews];
 
   return HttpResponse.json(reviews, { status: 200 });
 });
