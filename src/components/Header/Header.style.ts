@@ -71,10 +71,10 @@ export const Title = styled.div`
   text-align: center;
 `;
 
-export const RightSideContainer = styled.div`
+export const RightSideContainer = styled.div<{ isLogin?: boolean }>`
   width: 5.5rem;
   ${({ theme }) => theme.STYLES.FLEX_JUSTIFY_CENTER}
-  justify-content: space-between;
+  justify-content:${({ isLogin }) => (isLogin ? 'flex-end' : 'space-between')};
 
   &.invisible {
     visibility: hidden;
