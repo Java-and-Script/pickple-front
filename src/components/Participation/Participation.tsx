@@ -24,7 +24,10 @@ export const Participation = ({
 
   useEffect(() => {
     const stringifiedInfo = localStorage.getItem('LOGIN_INFO') ?? '';
-
+    if (!stringifiedInfo) {
+      navigate(PATH_NAME.LOGIN);
+      return;
+    }
     const { id: myId } = JSON.parse(stringifiedInfo);
 
     if (id !== Number(myId)) {
