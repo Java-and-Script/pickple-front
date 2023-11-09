@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+const MAX_WIDTH = '480px';
+
 export const ProfileContainer = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
   min-height: 100dvh;
@@ -35,25 +37,30 @@ export const ItemBox = styled.div<{ border?: string }>`
 `;
 
 export const ProfileFieldContainer = styled.div`
+  max-width: ${MAX_WIDTH};
+  width: 100%;
+`;
+
+export const CrewGroup = styled.div`
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
   flex-wrap: wrap;
-  max-width: 480px;
 `;
 
 export const Introduce = styled.div`
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
   border-radius: 20px;
-  max-width: 480px;
-  min-width: 320px;
+  width: 100%;
   padding: 16px;
   display: inline-block;
 `;
 
 export const ColoredSvgWrapper = styled.div<{ color?: string }>`
-  width: 30px;
   height: 30px;
+  width: auto;
+  overflow: hidden;
   path {
     fill: ${({ color, theme }) => color ?? theme.PALETTE.GRAY_500};
   }

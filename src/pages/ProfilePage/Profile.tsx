@@ -17,6 +17,7 @@ import Heart from '@assets/heart.svg?react';
 
 import {
   ColoredSvgWrapper,
+  CrewGroup,
   FlexItem,
   Introduce,
   ItemBox,
@@ -74,17 +75,19 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
             : '없음'}
         </ProfileField>
         <ProfileField category="소속 크루">
-          {profileData.crews.length
-            ? profileData.crews.map((crew) => (
-                <ItemBox border="none" key={crew.id}>
-                  <Image
-                    src={crew.profileImageUrl}
-                    width="45"
-                    alt={crew.name}
-                  />
-                </ItemBox>
-              ))
-            : '없음'}
+          <CrewGroup>
+            {profileData.crews.length
+              ? profileData.crews.map((crew) => (
+                  <ItemBox border="none" key={crew.id}>
+                    <Image
+                      src={crew.profileImageUrl}
+                      width="45"
+                      alt={crew.name}
+                    />
+                  </ItemBox>
+                ))
+              : '없음'}
+          </CrewGroup>
         </ProfileField>
         <ProfileField category="획득한 뱃지">{'없음'}</ProfileField>
         <ProfileField category="자기소개">
