@@ -46,7 +46,7 @@ export const MainPage = () => {
 
   const { data: crewData } = useMainPageNearCrewListQuery({
     addressDepth1: addressDepth1 === null ? '서울시' : addressDepth1,
-    addressDepth2: addressDepth2 === null ? '영등포구' : addressDepth2,
+    addressDepth2: addressDepth2 === null ? '강남구' : addressDepth2,
   });
 
   const filteredGameData = gameData.map(
@@ -73,8 +73,6 @@ export const MainPage = () => {
       />
     )
   );
-
-  console.log(crewData);
 
   const filteredCrewData = crewData.map(
     ({
