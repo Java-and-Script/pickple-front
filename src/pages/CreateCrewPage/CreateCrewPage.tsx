@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
@@ -8,12 +9,15 @@ import { Text } from '@components/shared/Text';
 import { useToggleButtons } from '@components/shared/ToggleButton';
 import { VirtualScroll } from '@components/shared/VirtualScroll';
 
-import { useCrewMutation } from '@hooks/mutations/usePostMutation';
+import { useCrewMutation } from '@hooks/mutations/useCrewMutation';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
 
+import { Member } from '@type/models';
+
 import { SEOUL } from '@consts/location';
+import { PATH_NAME } from '@consts/pathName';
 
 import {
   PageLayout,
@@ -31,7 +35,20 @@ import {
   StyledToggleButton,
 } from './CreateCrewPage.styles';
 
+const getMyInfo = (): Member | null => {
+  const json = localStorage.getItem('LOGIN_INFO');
+  if (!json) {
+    return null;
+  }
+  return JSON.parse(json);
+};
+
 export const CreateCrewPage = () => {
+  const navigate = useNavigate();
+  const myInfo = getMyInfo();
+  if (!myInfo) {
+    throw new Error('로그인이 필요한 서비스입니다.');
+  }
   const { mutate } = useCrewMutation();
   const { register, handleSubmit } = useForm();
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
@@ -78,12 +95,15 @@ export const CreateCrewPage = () => {
       name,
       content,
       maxMemberCount: parseInt(maxMemberCount),
-      leaderId: 1,
+      leaderId: myInfo.id,
       addressDepth1: '서울시',
       addressDepth2: selectedLocation![0],
     };
-
-    mutate(data);
+    mutate(data, {
+      onSuccess: ({ crewId }) => {
+        navigate(PATH_NAME.GET_CREWS_PATH(String(crewId)));
+      },
+    });
   };
 
   return (
