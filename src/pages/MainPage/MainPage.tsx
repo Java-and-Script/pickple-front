@@ -41,7 +41,7 @@ export const MainPage = () => {
   const { data: gameData } = useMainPageNearGamesQuery({
     category: 'location',
     value:
-      addressDepth1 === null ? '서울시+강남구' : addressDepth2 + addressDepth2,
+      addressDepth1 === null ? '서울시+강남구' : addressDepth1 + addressDepth2,
   });
 
   const { data: crewData } = useMainPageNearCrewListQuery({
