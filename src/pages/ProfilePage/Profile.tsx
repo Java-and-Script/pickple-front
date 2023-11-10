@@ -48,6 +48,17 @@ type NumberedItemProps = {
   color?: string;
 };
 
+const isMyProfile = (memberId: number) => {
+  const json = localStorage.getItem('LOGIN_INFO');
+  if (json) {
+    const { id: myId } = JSON.parse(json);
+    if (myId === memberId) {
+      return true;
+    }
+  }
+  return false;
+};
+
 export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
   const navigate = useNavigate();
 
@@ -59,20 +70,10 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
     setIsHeartClicked((prev: boolean) => !prev);
   };
 
-  const isMyProfile = () => {
-    const json = localStorage.getItem('LOGIN_INFO');
-    if (json) {
-      const { id: myId } = JSON.parse(json);
-      if (myId === memberId) {
-        return true;
-      }
-    }
-    return false;
-  };
-
   const moveToPage = (path: string) => {
     navigate(path);
   };
+
   return (
     <Main>
       <FlexItem>
@@ -109,7 +110,7 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
           </NumberedItemWrapper>
           <NumberedItem text="팔로우" icon={<Social />} count={0} />
         </Flex>
-        {isMyProfile() ? (
+        {isMyProfile(memberId) ? (
           <EventButton
             text="내 정보 수정"
             width="100%"
