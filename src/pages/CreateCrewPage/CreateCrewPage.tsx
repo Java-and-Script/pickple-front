@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { ConditionalInput } from '@components/ConditionalInput';
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
+import { TextArea } from '@components/TextArea';
 import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 import { useToggleButtons } from '@components/shared/ToggleButton';
@@ -16,6 +18,7 @@ import { theme } from '@styles/theme';
 
 import { Member } from '@type/models';
 
+import { MAX_MEMBER_COUNT_LIST } from '@consts/createCrewOptions';
 import { SEOUL } from '@consts/location';
 import { PATH_NAME } from '@consts/pathName';
 
@@ -25,12 +28,9 @@ import {
   ScrollBox,
   StyledCreateForm,
   StyledEmptyContainer,
-  StyledInput,
   StyledModalHeader,
   StyledSelectBox,
   StyledSelectedLocationButton,
-  StyledSubTitle,
-  StyledTextArea,
   StyledTitle,
   StyledToggleButton,
 } from './CreateCrewPage.styles';
@@ -50,13 +50,14 @@ export const CreateCrewPage = () => {
     throw new Error('로그인이 필요한 서비스입니다.');
   }
   const { mutate } = useCrewMutation();
-  const { register, handleSubmit } = useForm();
+  const { handleSubmit } = useForm();
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
   const [selectedLocation, setSelectedLocation] = useState<string[]>();
   const [name, setName] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [maxMemberCount, setMaxMemberCount] = useState<string>('');
+
   const [isOpenMaxMemberCountModal, setIsOpenMaxMemberCountModal] =
     useState(false);
   const [isOpenAddressDepth2Modal, setIsOpenAddressDepth2Modal] =
@@ -70,24 +71,12 @@ export const CreateCrewPage = () => {
     isMultipleSelect: false,
   });
 
-  const openMaxMemberCountModal = () => {
-    setIsOpenMaxMemberCountModal(true);
+  const toggleMaxMemberCountModal = () => {
+    setIsOpenMaxMemberCountModal((prev) => !prev);
   };
 
-  const closeMaxMemberCountModal = () => {
-    setIsOpenMaxMemberCountModal(false);
-  };
-
-  const openAddressDepth2Modal = () => {
-    setIsOpenAddressDepth2Modal(true);
-  };
-
-  const closeAddressDepth2Modal = () => {
-    setIsOpenAddressDepth2Modal(false);
-  };
-
-  const handleMaxMemberCountSelect = (item: string) => {
-    setMaxMemberCount(item);
+  const toggleAddressDepth2Modal = () => {
+    setIsOpenAddressDepth2Modal((prev) => !prev);
   };
 
   const onSubmit = async () => {
@@ -95,7 +84,6 @@ export const CreateCrewPage = () => {
       name,
       content,
       maxMemberCount: parseInt(maxMemberCount),
-      leaderId: myInfo.id,
       addressDepth1: '서울시',
       addressDepth2: selectedLocation![0],
     };
@@ -118,81 +106,34 @@ export const CreateCrewPage = () => {
               </Text>
             </div>
           </StyledTitle>
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              크루 이름을 입력해 주세요!
-            </Text>
-          </StyledSubTitle>
-          <StyledInput
-            {...register('crew-name')}
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+          <ConditionalInput
+            title="크루 이름을 입력해 주세요!"
+            isContainModal={false}
+            inputLabel="crew-name"
+            inputOnChange={setName}
+            inputValue={name}
+            minLength={1}
+            maxLength={20}
           />
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              크루의 최대 인원을 선택해 주세요!
-            </Text>
-          </StyledSubTitle>
-          <StyledInput
-            {...register('crew-count')}
+          <ConditionalInput
+            title="크루의 최대 인원을 선택해 주세요!"
             readOnly={true}
-            onClick={openMaxMemberCountModal}
-            value={maxMemberCount}
-          />
-          <Modal
-            isOpen={isOpenMaxMemberCountModal}
-            close={closeMaxMemberCountModal}
-            header={true}
+            isContainModal={true}
+            inputLabel="crew-count"
+            inputOnClick={toggleMaxMemberCountModal}
+            inputValue={maxMemberCount}
+            isModalOpen={isOpenMaxMemberCountModal}
+            closeModal={toggleMaxMemberCountModal}
           >
-            <StyledModalHeader>
-              <Text size={20} weight={700}>
-                크루의 최대 인원을 선택해 주세요!
-              </Text>
-            </StyledModalHeader>
-            <Modal.Content>
-              <VirtualScroll
-                width="100%"
-                list={[
-                  '1명',
-                  '2명',
-                  '3명',
-                  '4명',
-                  '5명',
-                  '6명',
-                  '7명',
-                  '8명',
-                  '9명',
-                  '10명',
-                  '11명',
-                  '12명',
-                  '13명',
-                  '14명',
-                  '15명',
-                  '16명',
-                  '17명',
-                  '18명',
-                  '19명',
-                  '20명',
-                  '21명',
-                  '22명',
-                  '23명',
-                  '24명',
-                  '25명',
-                  '26명',
-                  '27명',
-                  '28명',
-                  '29명',
-                  '30명',
-                ]}
-                onItemSelected={handleMaxMemberCountSelect}
-              />
-            </Modal.Content>
-          </Modal>
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              주로 활동하는 지역을 선택해 주세요!
-            </Text>
-          </StyledSubTitle>
+            <VirtualScroll
+              width="100%"
+              list={[...MAX_MEMBER_COUNT_LIST]}
+              onItemSelected={setMaxMemberCount}
+            />
+          </ConditionalInput>
+          <Text size={16} weight={300}>
+            주로 활동하는 지역을 선택해 주세요!
+          </Text>
           <StyledSelectedLocationButton
             min-width="72px"
             height="32px"
@@ -200,13 +141,13 @@ export const CreateCrewPage = () => {
             {...theme.BUTTON_PROPS.SMALL_GRAY_OUTLINED_BUTTON_PROPS}
             type="button"
             isSelected={selectedLocation?.[0]}
-            onClick={openAddressDepth2Modal}
+            onClick={toggleAddressDepth2Modal}
           >
             {selectedLocation ?? '지역'}
           </StyledSelectedLocationButton>
           <Modal
             isOpen={isOpenAddressDepth2Modal}
-            close={closeAddressDepth2Modal}
+            close={toggleAddressDepth2Modal}
             header={true}
           >
             <StyledModalHeader>
@@ -236,15 +177,10 @@ export const CreateCrewPage = () => {
               </ScrollBox>
             </Modal.Content>
           </Modal>
-          <StyledEmptyContainer />
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              상세설명을 입력해 주세요!
-            </Text>
-          </StyledSubTitle>
-          <StyledTextArea
-            {...register('content')}
-            onChange={(event) => setContent(event.target.value)}
+          <TextArea
+            title="상세설명을 입력해 주세요!"
+            inputLabel="content"
+            inputOnChange={setContent}
           />
           <Button
             width="100%"
@@ -257,6 +193,7 @@ export const CreateCrewPage = () => {
           >
             만들기
           </Button>
+          <StyledEmptyContainer />
         </StyledCreateForm>
       </PageWrapper>
     </PageLayout>
