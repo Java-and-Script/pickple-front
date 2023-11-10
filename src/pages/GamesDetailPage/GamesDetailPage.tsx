@@ -208,7 +208,6 @@ export const GamesDetailPage = () => {
               participateMutate(
                 {
                   gameId,
-                  payload: { memberId: myInfo.id },
                 },
                 { onSuccess: onParticipateSuccess }
               )

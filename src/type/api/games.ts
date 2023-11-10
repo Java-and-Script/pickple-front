@@ -29,10 +29,6 @@ export type PostGameResponse = {
   gameId: Game['id'];
 };
 
-export type PostGameParticipateRequest = {
-  memberId: Member['id'];
-};
-
 export type PatchGameParticipateApplyRequest = {
   status: '확정';
 };
