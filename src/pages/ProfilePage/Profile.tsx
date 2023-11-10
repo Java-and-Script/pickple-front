@@ -37,6 +37,7 @@ type ProfileFieldProps = {
 
 type EventButtonProps = {
   text: string;
+  width?: string;
   onClick: () => void;
 };
 
@@ -58,6 +59,20 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
     setIsHeartClicked((prev: boolean) => !prev);
   };
 
+  const isMyProfile = () => {
+    const json = localStorage.getItem('LOGIN_INFO');
+    if (json) {
+      const { id: myId } = JSON.parse(json);
+      if (myId === memberId) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const moveToPage = (path: string) => {
+    navigate(path);
+  };
   return (
     <Main>
       <FlexItem>
@@ -94,15 +109,23 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
           </NumberedItemWrapper>
           <NumberedItem text="팔로우" icon={<Social />} count={0} />
         </Flex>
-        <Flex justify="center" gap={10}>
-          <EventButton text="팔로우" onClick={() => console.log('팔로우')} />
+        {isMyProfile() ? (
           <EventButton
-            text="대화하기"
-            onClick={() =>
-              navigate(PATH_NAME.GET_MESSAGE_PATH(String(memberId)))
-            }
+            text="내 정보 수정"
+            width="100%"
+            onClick={() => moveToPage(PATH_NAME.PROFILE_UPDATE)}
           />
-        </Flex>
+        ) : (
+          <Flex justify="center" gap={10}>
+            <EventButton text="팔로우" onClick={() => console.log('팔로우')} />
+            <EventButton
+              text="대화하기"
+              onClick={() =>
+                moveToPage(PATH_NAME.GET_MESSAGE_PATH(String(memberId)))
+              }
+            />
+          </Flex>
+        )}
         <ProfileField category="포지션">
           {profileData.positions.length
             ? profileData.positions.map((position) => (
@@ -149,9 +172,9 @@ const ProfileField = ({ category, children }: ProfileFieldProps) => {
   );
 };
 
-const EventButton = ({ text, onClick }: EventButtonProps) => (
+const EventButton = ({ text, width, onClick }: EventButtonProps) => (
   <Button
-    width="160px"
+    width={width ?? '160px'}
     height="32px"
     backgroundColor="white"
     textColor={theme.PALETTE.GRAY_400}
