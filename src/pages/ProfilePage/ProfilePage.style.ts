@@ -65,3 +65,30 @@ export const ColoredSvgWrapper = styled.div<{ color?: string }>`
     fill: ${({ color, theme }) => color ?? theme.PALETTE.GRAY_500};
   }
 `;
+
+export const NumberedItemWrapper = styled.div<{ isClicked: boolean }>`
+  perspective: 300px;
+  cursor: pointer;
+  div {
+    text-align: center;
+    backface-visibility: hidden;
+    transition: 1s;
+  }
+  div:first-child {
+    position: absolute;
+    transform: rotateY(0deg);
+  }
+  div:last-child {
+    transform: rotateY(-180deg);
+  }
+  ${({ isClicked }) =>
+    isClicked &&
+    `
+    div:first-child {
+      transform: rotateY(180deg);
+    }
+    div:last-child {
+      transform: rotateY(0deg);
+    }
+  `}
+`;
