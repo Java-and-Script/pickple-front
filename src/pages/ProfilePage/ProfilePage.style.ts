@@ -69,25 +69,27 @@ export const ColoredSvgWrapper = styled.div<{ color?: string }>`
 export const NumberedItemWrapper = styled.div<{ isClicked: boolean }>`
   perspective: 300px;
   cursor: pointer;
-  div {
+  descent-override,
+  div,
+  div > div {
     text-align: center;
     backface-visibility: hidden;
     transition: 1s;
   }
-  div:first-child {
+  & > div:first-of-type {
     position: absolute;
     transform: rotateY(0deg);
   }
-  div:last-child {
+  & > div:last-of-type {
     transform: rotateY(-180deg);
   }
   ${({ isClicked }) =>
     isClicked &&
     `
-    div:first-child {
+    &>div:first-of-type {
       transform: rotateY(180deg);
     }
-    div:last-child {
+    &>div:last-of-type {
       transform: rotateY(0deg);
     }
   `}
