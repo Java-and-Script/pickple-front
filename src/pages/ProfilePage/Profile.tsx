@@ -49,6 +49,7 @@ type NumberedItemProps = {
 
 export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
   const navigate = useNavigate();
+
   const { data: profileData } = useMemberProfileQuery({ memberId });
 
   const [isHeartClicked, setIsHeartClicked] = useState(false);
@@ -60,7 +61,14 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
   return (
     <Main>
       <FlexItem>
-        <Text size={24}>{profileData.nickname}</Text>
+        <Flex align="flex-end" gap={8}>
+          <Text size={24} lineHeight="">
+            {profileData.nickname}
+          </Text>
+          <Text size={12}>
+            {profileData.addressDepth1 + ' ' + profileData.addressDepth2}
+          </Text>
+        </Flex>
         <Flex justify="center" gap={40} align="center">
           <Avatar
             src={profileData.profileImageUrl}
