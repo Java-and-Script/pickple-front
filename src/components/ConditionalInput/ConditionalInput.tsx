@@ -14,6 +14,8 @@ type ConditionalInputProps = {
   min?: string;
   max?: string;
   step?: number;
+  minLength?: number;
+  maxLength?: number;
   required?: boolean;
   readOnly?: boolean;
   inputType?: string;
@@ -33,6 +35,8 @@ export const ConditionalInput = ({
   max,
   step,
   title,
+  minLength,
+  maxLength,
   inputType,
   readOnly = false,
   isContainModal = false,
@@ -66,6 +70,8 @@ export const ConditionalInput = ({
         readOnly={readOnly}
         onClick={inputOnClick}
         value={inputValue}
+        minLength={minLength}
+        maxLength={maxLength}
       />
       {isContainModal && (
         <Modal
