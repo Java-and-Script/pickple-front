@@ -1,4 +1,5 @@
 import { ReactNode, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
 import { Button } from '@components/shared/Button';
@@ -11,6 +12,8 @@ import { useMemberProfileQuery } from '@hooks/queries/useMemberProfileQuery';
 import { theme } from '@styles/theme';
 
 import { Member } from '@type/models';
+
+import { PATH_NAME } from '@consts/pathName';
 
 import Social from '@assets/follow.svg?react';
 import HandHeart from '@assets/handHeart.svg?react';
@@ -45,6 +48,7 @@ type NumberedItemProps = {
 };
 
 export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
+  const navigate = useNavigate();
   const { data: profileData } = useMemberProfileQuery({ memberId });
 
   const [isHeartClicked, setIsHeartClicked] = useState(false);
@@ -84,7 +88,12 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
         </Flex>
         <Flex justify="center" gap={10}>
           <EventButton text="팔로우" onClick={() => console.log('팔로우')} />
-          <EventButton text="대화하기" onClick={() => console.log('대화')} />
+          <EventButton
+            text="대화하기"
+            onClick={() =>
+              navigate(PATH_NAME.GET_MESSAGE_PATH(String(memberId)))
+            }
+          />
         </Flex>
         <ProfileField category="포지션">
           {profileData.positions.length

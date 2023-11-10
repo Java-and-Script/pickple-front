@@ -20,4 +20,5 @@ export const PATH_NAME = {
   CREATE_CREW: '/create/crew',
   MAP: '/map',
   MESSAGE: '/message',
+  GET_MESSAGE_PATH: (id: string) => `/message/${id}`,
 } as const;
