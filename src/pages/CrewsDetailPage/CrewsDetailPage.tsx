@@ -168,7 +168,7 @@ export const CrewsDetailPage = () => {
               width="100%"
               onClick={() =>
                 participateMutate(
-                  { crewId: crew.id, memberId: myInfo.id },
+                  { crewId: crew.id },
                   { onSuccess: onParticipateSuccess }
                 )
               }
