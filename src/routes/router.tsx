@@ -1,10 +1,12 @@
 import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { AllServicesPage } from '@pages/AllServicesPage';
 import { CreateCrewPage } from '@pages/CreateCrewPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
+import { ErrorPage } from '@pages/ErrorPage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesHostPage } from '@pages/GamesHostPage';
 import { GamesManagePage } from '@pages/GamesManagePage';
@@ -21,7 +23,11 @@ import { RegisterPage } from '@pages/RegisterPage';
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: (
+      <ErrorBoundary FallbackComponent={ErrorPage}>
+        <Layout />
+      </ErrorBoundary>
+    ),
     children: [
       {
         path: '',
