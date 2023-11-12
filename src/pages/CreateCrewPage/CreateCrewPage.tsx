@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { ConditionalInput } from '@components/ConditionalInput';
+import { ConditionalFormInput } from '@components/ConditionalFormInput';
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
 import { TextArea } from '@components/TextArea';
@@ -108,22 +108,22 @@ export const CreateCrewPage = () => {
               </Text>
             </div>
           </StyledTitle>
-          <ConditionalInput
+          <ConditionalFormInput
             title="크루 이름을 입력해 주세요!"
             isContainModal={false}
             inputLabel="crew-name"
             inputOnChange={setName}
-            inputValue={name}
+            value={name}
             minLength={1}
             maxLength={20}
           />
-          <ConditionalInput
+          <ConditionalFormInput
             title="크루의 최대 인원을 선택해 주세요!"
             readOnly={true}
             isContainModal={true}
             inputLabel="crew-count"
-            inputOnClick={toggleMaxMemberCountModal}
-            inputValue={maxMemberCount}
+            onClick={toggleMaxMemberCountModal}
+            value={maxMemberCount}
             isModalOpen={isOpenMaxMemberCountModal}
             closeModal={toggleMaxMemberCountModal}
           >
@@ -132,7 +132,7 @@ export const CreateCrewPage = () => {
               list={[...MAX_MEMBER_COUNT_LIST]}
               onItemSelected={setMaxMemberCount}
             />
-          </ConditionalInput>
+          </ConditionalFormInput>
           <Text size={16} weight={300}>
             주로 활동하는 지역을 선택해 주세요!
           </Text>
