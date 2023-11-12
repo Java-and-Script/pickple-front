@@ -7,49 +7,29 @@ import {
   StyledInput,
   StyledModalHeader,
   StyledSubTitle,
-} from './ConditionalInput.styles';
+} from './ConditionalFormInput.styles';
 
-type ConditionalInputProps = {
+export type ConditionalFormInputProps = {
   title: string;
-  min?: string;
-  max?: string;
-  step?: number;
-  minLength?: number;
-  maxLength?: number;
-  required?: boolean;
-  readOnly?: boolean;
-  inputType?: string;
   inputLabel: string;
   inputValue?: string;
   isModalOpen?: boolean;
-  inputPattern?: string;
   isContainModal: boolean;
   children?: React.ReactNode;
-  inputOnClick?: () => void;
   inputOnChange?: (item: string) => void;
   closeModal?: () => void;
 };
 
-export const ConditionalInput = ({
-  min,
-  max,
-  step,
+export const ConditionalFormInput = ({
   title,
-  minLength,
-  maxLength,
-  inputType,
-  readOnly = false,
   isContainModal = false,
   inputLabel,
-  inputOnClick,
   inputOnChange,
-  inputValue,
   isModalOpen,
   closeModal,
   children,
-  inputPattern,
-  required = true,
-}: ConditionalInputProps) => {
+  ...inputProps
+}: React.ComponentProps<'input'> & ConditionalFormInputProps) => {
   const { register } = useForm();
   return (
     <>
@@ -60,18 +40,8 @@ export const ConditionalInput = ({
       </StyledSubTitle>
       <StyledInput
         {...register(inputLabel)}
-        required={required}
-        type={inputType}
-        min={min}
-        max={max}
-        step={step}
-        pattern={inputPattern}
+        {...inputProps}
         onChange={(event) => inputOnChange && inputOnChange(event.target.value)}
-        readOnly={readOnly}
-        onClick={inputOnClick}
-        value={inputValue}
-        minLength={minLength}
-        maxLength={maxLength}
       />
       {isContainModal && (
         <Modal
