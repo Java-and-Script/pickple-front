@@ -55,6 +55,9 @@ export const Introduce = styled.div`
   width: 100%;
   padding: 16px;
   display: inline-block;
+  & > p {
+    white-space: pre-wrap;
+  }
 `;
 
 export const ColoredSvgWrapper = styled.div<{ color?: string }>`
