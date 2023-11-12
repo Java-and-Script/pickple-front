@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { CalendarComponent } from '@components/Calendar';
-import { ConditionalInput } from '@components/ConditionalInput';
+import { ConditionalFormInput } from '@components/ConditionalFormInput';
 import { Header } from '@components/Header';
 import { SelectPosition } from '@components/SelectPosition/SelectPosition';
 import { TextArea } from '@components/TextArea';
@@ -140,13 +140,13 @@ export const CreateGamePage = () => {
               </Text>
             </div>
           </StyledTitle>
-          <ConditionalInput
+          <ConditionalFormInput
             title="게스트 인원을 선택해 주세요!"
             readOnly={true}
             isContainModal={true}
             inputLabel="guest-count"
-            inputOnClick={toggleGuestCountModal}
-            inputValue={maxMemberCount}
+            onClick={toggleGuestCountModal}
+            value={maxMemberCount}
             isModalOpen={isGuestCountModalOpen}
             closeModal={toggleGuestCountModal}
           >
@@ -155,26 +155,26 @@ export const CreateGamePage = () => {
               list={[...MAX_MEMBER_COUNT_LIST]}
               onItemSelected={setMaxMemberCount}
             />
-          </ConditionalInput>
-          <ConditionalInput
+          </ConditionalFormInput>
+          <ConditionalFormInput
             title="경기 날짜를 선택해 주세요!"
             readOnly={true}
             isContainModal={true}
             inputLabel="match-date"
-            inputOnClick={toggleMatchDateModal}
-            inputValue={playDate}
+            onClick={toggleMatchDateModal}
+            value={playDate}
             isModalOpen={isMatchDateModalOpen}
             closeModal={toggleMatchDateModal}
           >
             <CalendarComponent setDate={setPlayDate} />
-          </ConditionalInput>
-          <ConditionalInput
+          </ConditionalFormInput>
+          <ConditionalFormInput
             title="경기 시작 시간을 선택해 주세요!"
             readOnly={true}
             isContainModal={true}
             inputLabel="start-time"
-            inputOnClick={toggleStartTimeModal}
-            inputValue={`${playStartTimeHours}:${playStartTimeMinutes}`}
+            onClick={toggleStartTimeModal}
+            value={`${playStartTimeHours}:${playStartTimeMinutes}`}
             isModalOpen={isStartTimeModalOpen}
             closeModal={toggleStartTimeModal}
           >
@@ -191,14 +191,14 @@ export const CreateGamePage = () => {
                 onItemSelected={setStartTimeMinutes}
               />
             </StyledTimeSelector>
-          </ConditionalInput>
-          <ConditionalInput
+          </ConditionalFormInput>
+          <ConditionalFormInput
             title="경기 플레이타임을 선택해 주세요!"
             readOnly={true}
             isContainModal={true}
             inputLabel="play-time"
-            inputOnClick={togglePlayTimeModal}
-            inputValue={playTimeMinutes}
+            onClick={togglePlayTimeModal}
+            value={playTimeMinutes}
             isModalOpen={isPlayTimeModalOpen}
             closeModal={togglePlayTimeModal}
           >
@@ -207,35 +207,35 @@ export const CreateGamePage = () => {
               list={[...PLAY_TIME_LIST]}
               onItemSelected={setPlayTimeMinutes}
             />
-          </ConditionalInput>
+          </ConditionalFormInput>
           <Text size={16} weight={300}>
             선호하는 포지션을 선택해 주세요!
           </Text>
           <StyledPositionsWrapper>
             <SelectPosition setPositions={setPositions} />
           </StyledPositionsWrapper>
-          <ConditionalInput
+          <ConditionalFormInput
             title="주소를 입력해 주세요!"
             isContainModal={false}
             inputLabel="address"
-            inputOnClick={handleAddressSelect}
-            inputValue={mainAddress}
+            onClick={handleAddressSelect}
+            value={mainAddress}
           />
-          <ConditionalInput
+          <ConditionalFormInput
             title="상세장소를 입력해 주세요!"
             isContainModal={false}
             inputLabel="address-detail"
             inputOnChange={setDetailAddress}
-            inputValue={detailAddress}
+            value={detailAddress}
           />
-          <ConditionalInput
+          <ConditionalFormInput
             title="참가비용을 입력해 주세요!"
             isContainModal={false}
             inputLabel="cost"
             inputOnChange={handleCost}
-            inputValue={cost}
-            inputType="number"
-            inputPattern="\d*"
+            value={cost}
+            type="number"
+            pattern="\d*"
             min={'0'}
             step={1000}
             max={'100000'}
