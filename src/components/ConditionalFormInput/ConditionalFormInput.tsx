@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import { Modal } from '@components/Modal';
 import { Text } from '@components/shared/Text';
@@ -15,6 +15,7 @@ export type ConditionalFormInputProps = {
   inputValue?: string;
   isModalOpen?: boolean;
   isContainModal: boolean;
+  isRequired?: boolean;
   children?: React.ReactNode;
   inputOnChange?: (item: string) => void;
   closeModal?: () => void;
@@ -27,10 +28,11 @@ export const ConditionalFormInput = ({
   inputOnChange,
   isModalOpen,
   closeModal,
+  isRequired,
   children,
   ...inputProps
 }: React.ComponentProps<'input'> & ConditionalFormInputProps) => {
-  const { register } = useForm();
+  const { register } = useFormContext();
   return (
     <>
       <StyledSubTitle>
@@ -39,7 +41,7 @@ export const ConditionalFormInput = ({
         </Text>
       </StyledSubTitle>
       <StyledInput
-        {...register(inputLabel)}
+        {...register(inputLabel, { required: isRequired })}
         {...inputProps}
         onChange={(event) => inputOnChange && inputOnChange(event.target.value)}
       />
