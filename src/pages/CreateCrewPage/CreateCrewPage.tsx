@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { ConditionalInput } from '@components/ConditionalInput';
@@ -16,6 +16,7 @@ import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
 
+import { PostCrewRequest } from '@type/api/crews';
 import { Member } from '@type/models';
 
 import { MAX_MEMBER_COUNT_LIST } from '@consts/createCrewOptions';
@@ -50,13 +51,13 @@ export const CreateCrewPage = () => {
     throw new Error('로그인이 필요한 서비스입니다.');
   }
   const { mutate } = useCrewMutation();
-  const { handleSubmit } = useForm();
+  const { handleSubmit } = useForm<PostCrewRequest>();
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
-  const [selectedLocation, setSelectedLocation] = useState<string[]>();
   const [name, setName] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [maxMemberCount, setMaxMemberCount] = useState<string>('');
+  const [selectedLocation, setSelectedLocation] = useState<string[]>();
 
   const [isOpenMaxMemberCountModal, setIsOpenMaxMemberCountModal] =
     useState(false);
@@ -79,7 +80,7 @@ export const CreateCrewPage = () => {
     setIsOpenAddressDepth2Modal((prev) => !prev);
   };
 
-  const onSubmit = async () => {
+  const onSubmit: SubmitHandler<PostCrewRequest> = async () => {
     const data = {
       name,
       content,
@@ -87,7 +88,8 @@ export const CreateCrewPage = () => {
       addressDepth1: '서울시',
       addressDepth2: selectedLocation![0],
     };
-    mutate(data, {
+
+    await mutate(data, {
       onSuccess: ({ crewId }) => {
         navigate(PATH_NAME.GET_CREWS_PATH(String(crewId)));
       },

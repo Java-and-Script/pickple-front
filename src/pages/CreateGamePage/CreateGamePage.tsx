@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { CalendarComponent } from '@components/Calendar';
@@ -16,6 +16,7 @@ import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
 
+import { PostGameRequest } from '@type/api/games';
 import { Member } from '@type/models';
 import { Position } from '@type/models/Position';
 
@@ -55,7 +56,7 @@ export const CreateGamePage = () => {
   }
 
   const { mutate } = useGameMutation();
-  const { handleSubmit } = useForm();
+  const { handleSubmit } = useForm<PostGameRequest>();
 
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
@@ -75,7 +76,7 @@ export const CreateGamePage = () => {
   const [isStartTimeModalOpen, setIsStartTimeModalOpen] = useState(false);
   const [isPlayTimeModalOpen, setIsPlayTimeModalOpen] = useState(false);
 
-  const onSubmit = async () => {
+  const onSubmit: SubmitHandler<PostGameRequest> = async () => {
     const gameData = {
       maxMemberCount: parseInt(maxMemberCount),
       playDate,
@@ -88,7 +89,7 @@ export const CreateGamePage = () => {
       content,
     };
 
-    mutate(gameData, {
+    await mutate(gameData, {
       onSuccess: ({ gameId }) => {
         navigate(PATH_NAME.GET_GAMES_PATH(String(gameId)));
       },
