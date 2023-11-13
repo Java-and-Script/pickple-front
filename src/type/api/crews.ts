@@ -1,5 +1,4 @@
-import type { Crew, CrewProfile, Member } from '@type/models';
-import type { Authenticated } from '@type/models';
+import type { Authenticated, Crew, CrewProfile, Member } from '@type/models';
 
 export type PostCrewRequest = Pick<
   Crew,
@@ -17,7 +16,6 @@ export type GetCrewDetailResponse = CrewProfile;
 
 export type PostCrewParticipateRequest = {
   crewId: Crew['id'];
-  memberId: Member['id'];
 };
 
 export type GetCrewParticipateListRequest = {

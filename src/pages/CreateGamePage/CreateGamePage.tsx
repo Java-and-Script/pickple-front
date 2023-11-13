@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { CalendarComponent } from '@components/Calendar';
 import { Header } from '@components/Header';
@@ -14,7 +15,10 @@ import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
 
+import { Member } from '@type/models';
 import { Position } from '@type/models/Position';
+
+import { PATH_NAME } from '@consts/pathName';
 
 import {
   PageLayout,
@@ -29,7 +33,22 @@ import {
   StyledTitle,
 } from './CreateGamePage.styles';
 
+const getMyInfo = (): Member | null => {
+  const json = localStorage.getItem('LOGIN_INFO');
+  if (!json) {
+    return null;
+  }
+  return JSON.parse(json);
+};
+
 export const CreateGamePage = () => {
+  const navigate = useNavigate();
+
+  const myInfo = getMyInfo();
+  if (!myInfo) {
+    throw new Error('로그인이 필요한 서비스입니다.');
+  }
+
   const { mutate } = useGameMutation();
   const { register, handleSubmit } = useForm();
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
@@ -52,7 +71,6 @@ export const CreateGamePage = () => {
 
   const onSubmit = async () => {
     const gameData = {
-      hostId: 1,
       maxMemberCount: parseInt(maxMemberCount),
       playDate,
       playStartTime,
@@ -64,7 +82,11 @@ export const CreateGamePage = () => {
       content,
     };
 
-    mutate(gameData);
+    mutate(gameData, {
+      onSuccess: ({ gameId }) => {
+        navigate(PATH_NAME.GET_GAMES_PATH(String(gameId)));
+      },
+    });
   };
 
   const handleAddressSelect = () => {
