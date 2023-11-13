@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@components/shared/Button';
 
 import { theme } from '@styles/theme';
+
+import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import bellIcon from '@assets/bell.svg';
 import leftArrowIcon from '@assets/leftArrow.svg';
@@ -61,23 +62,7 @@ export const Header = ({
     navigate('/login');
   };
 
-  const url = useParams();
-  const [isLogin, setIsLogin] = useState(false);
-  useEffect(() => {
-    const loginInfo = localStorage.getItem('LOGIN_INFO');
-
-    if (!loginInfo) {
-      setIsLogin(false);
-    } else {
-      const { refreshToken } = JSON.parse(loginInfo);
-
-      if (!refreshToken) {
-        setIsLogin(false);
-      } else {
-        setIsLogin(true);
-      }
-    }
-  }, [url]);
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
   return (
     <>
@@ -97,7 +82,7 @@ export const Header = ({
             </BackwardWrapper>
           )}
           {title === '' ? <></> : <Title>{title}</Title>}
-          {isLogin ? (
+          {loginInfo ? (
             <RightSideContainer className={isRightContainer ? '' : 'invisible'}>
               <RightSideIconWrapper>
                 <RightSideIcon onClick={() => handleSearchIconClick()}>

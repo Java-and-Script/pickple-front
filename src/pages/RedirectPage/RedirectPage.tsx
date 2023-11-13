@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { useLoginQuery } from '@hooks/queries/useLoginQuery';
 
+import { useLoginInfoStore } from '@stores/loginInfo.store';
+
 import { Authenticated, Registration } from '@type/models';
 
 export const RedirectPage = () => {
@@ -14,7 +16,6 @@ export const RedirectPage = () => {
     oauthProvider: 'KAKAO',
     authCode: authCode!,
   });
-  console.log('authCode', authCode);
 
   const isAuthenticated = (target: Authenticated | Registration) => {
     const result = target.refreshToken === null;
@@ -22,25 +23,22 @@ export const RedirectPage = () => {
     return !result;
   };
 
+  const { setLoginInfo } = useLoginInfoStore();
+
   const getLoginInfo = useCallback(async () => {
     const { data } = await refetch();
 
     if (!data) {
       return;
     }
-
-    localStorage.setItem('LOGIN_INFO', JSON.stringify(data));
-    localStorage.setItem(
-      'ACCESS_TOKEN',
-      JSON.stringify({ accessToken: data.accessToken })
-    );
+    setLoginInfo(data);
 
     if (isAuthenticated(data)) {
       navigate('/');
     } else {
       navigate('/register');
     }
-  }, [navigate, refetch]);
+  }, [navigate, refetch, setLoginInfo]);
 
   useEffect(() => {
     getLoginInfo();

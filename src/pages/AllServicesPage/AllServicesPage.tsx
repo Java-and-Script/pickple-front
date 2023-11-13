@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Header } from '@components/Header';
 import { Text } from '@components/shared/Text';
 
+import { useLoginInfoStore } from '@stores/loginInfo.store';
+
 import { PATH_NAME } from '@consts/pathName';
 
 import Ball from '@assets/ball.svg?react';
@@ -25,6 +27,7 @@ import {
 import { MenuItem } from './MenuItem';
 
 export const AllServicesPage = () => {
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const navigate = useNavigate();
 
   const moveToPage = (pathName: string) => {
@@ -32,15 +35,13 @@ export const AllServicesPage = () => {
   };
 
   const getMyId = (): string | null => {
-    const data = localStorage.getItem('LOGIN_INFO');
-
-    if (!data) {
+    if (!loginInfo?.id) {
       return null;
     }
 
-    const { id } = JSON.parse(data);
+    const { id } = loginInfo;
 
-    return id;
+    return String(id);
   };
 
   return (

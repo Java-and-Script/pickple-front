@@ -112,7 +112,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/participate',
-        element: <CrewsParticipatePage />,
+        element: (
+          <Suspense fallback={null}>
+            <CrewsParticipatePage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/:id',
@@ -136,11 +140,19 @@ export const router = createBrowserRouter([
       },
       {
         path: 'create/game',
-        element: <CreateGamePage />,
+        element: (
+          <Suspense fallback={null}>
+            <CreateGamePage />
+          </Suspense>
+        ),
       },
       {
         path: 'create/crew',
-        element: <CreateCrewPage />,
+        element: (
+          <Suspense fallback={null}>
+            <CreateCrewPage />
+          </Suspense>
+        ),
       },
       {
         path: 'profile/:id',

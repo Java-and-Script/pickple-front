@@ -7,6 +7,8 @@ import { Text } from '@components/shared/Text';
 import { useCreatedCrewsQuery } from '@hooks/queries/useCreatedCrewsQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
+import { useLoginInfoStore } from '@stores/loginInfo.store';
+
 import { Crew } from '@type/models';
 
 import { PATH_NAME } from '@consts/pathName';
@@ -21,14 +23,13 @@ export const CrewsChiefPage = () => {
   const moveToManage = (crewId: Crew['id']) => {
     navigate(PATH_NAME.GET_CREWS_MANAGE_PATH(String(crewId)));
   };
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
-  const loginInfo = localStorage.getItem('LOGIN_INFO');
-
-  if (!loginInfo) {
+  if (!loginInfo?.id) {
     throw new Error('로그인이 필요한 서비스입니다.');
   }
 
-  const { id: myId } = JSON.parse(loginInfo);
+  const { id: myId } = loginInfo;
 
   const { data: crewsData } = useCreatedCrewsQuery({ memberId: myId });
 

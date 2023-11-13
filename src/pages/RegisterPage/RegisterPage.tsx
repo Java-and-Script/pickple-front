@@ -16,6 +16,8 @@ import { useRegistrationMutation } from '@hooks/mutations/useRegistrationMutatio
 
 import { theme } from '@styles/theme';
 
+import { useLoginInfoStore } from '@stores/loginInfo.store';
+
 import { Position } from '@type/models/Position';
 
 import { SEOUL } from '@consts/location';
@@ -34,11 +36,10 @@ import {
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
-  const json = localStorage.getItem('LOGIN_INFO');
-  if (!json) {
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+  if (!loginInfo) {
     throw new Error('no login info available');
   }
-  const userInfo = JSON.parse(json);
 
   const [selectedLocation, setSelectedLocation] = useState<string[]>();
   const [selectedPosition, setSelectedPosition] = useState<string[]>();
@@ -63,7 +64,7 @@ export const RegisterPage = () => {
 
   const submitRegistration = () => {
     const { email, nickname, profileImageUrl, oauthId, oauthProvider } =
-      userInfo;
+      loginInfo;
     if (!selectedLocation) {
       window.alert('지역을 선택해주세요');
       return;

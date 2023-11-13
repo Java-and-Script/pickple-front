@@ -7,27 +7,23 @@ import { Text } from '@components/shared/Text';
 import { useJoinedCrewsQuery } from '@hooks/queries/useJoinedCrewsQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
-import { Member } from '@type/models';
+import { useLoginInfoStore } from '@stores/loginInfo.store';
+
+import { PATH_NAME } from '@consts/pathName';
 
 import { PageContent, PageWrapper } from './CrewsParticipatePage.styles';
 
-const getMyInfo = (): Member | null => {
-  const json = localStorage.getItem('LOGIN_INFO');
-  if (!json) {
-    return null;
-  }
-  return JSON.parse(json);
-};
-
 export const CrewsParticipatePage = () => {
-  const myInfo = getMyInfo();
-  if (!myInfo) {
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+
+  if (!loginInfo?.id) {
     throw new Error('로그인이 필요한 서비스입니다.');
   }
+
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
   const { data: crews } = useJoinedCrewsQuery({
-    memberId: myInfo.id,
+    memberId: loginInfo.id,
     status: '확정',
   });
 
@@ -35,7 +31,7 @@ export const CrewsParticipatePage = () => {
 
   return (
     <PageWrapper>
-      <Header isLogo={true} title={showHeaderTitle ? '내가 속한 크루' : ''} />
+      <Header isLogo={false} title={showHeaderTitle ? '내가 속한 크루' : ''} />
       <PageContent direction="column" gap={16}>
         <div ref={entryRef}>
           <Text size={20} weight={700}>
@@ -55,7 +51,9 @@ export const CrewsParticipatePage = () => {
               membersProfileImageUrls={membersProfileImageUrls}
               memberCount={crew.memberCount}
               maxMemberCount={crew.maxMemberCount}
-              onClick={() => navigate(`/crews/${crew.id}`)}
+              onClick={() =>
+                navigate(PATH_NAME.GET_CREWS_PATH(String(crew.id)))
+              }
             />
           );
         })}

@@ -16,12 +16,11 @@ import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
 
+import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { PostCrewRequest } from '@type/api/crews';
-import { Member } from '@type/models';
 
 import { MAX_MEMBER_COUNT_LIST } from '@consts/createCrewOptions';
-
 import { SEOUL } from '@consts/location';
 import { PATH_NAME } from '@consts/pathName';
 
@@ -38,20 +37,14 @@ import {
   StyledToggleButton,
 } from './CreateCrewPage.styles';
 
-const getMyInfo = (): Member | null => {
-  const json = localStorage.getItem('LOGIN_INFO');
-  if (!json) {
-    return null;
-  }
-  return JSON.parse(json);
-};
-
 export const CreateCrewPage = () => {
-  const navigate = useNavigate();
-  const myInfo = getMyInfo();
-  if (!myInfo) {
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+
+  if (!loginInfo?.id) {
     throw new Error('로그인이 필요한 서비스입니다.');
   }
+  const navigate = useNavigate();
+
   const { mutate } = useCrewMutation();
   const methods = useForm();
 
@@ -83,7 +76,7 @@ export const CreateCrewPage = () => {
     setIsOpenAddressDepth2Modal((prev) => !prev);
   };
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     const data: PostCrewRequest = {
       name,
       content,
@@ -92,7 +85,7 @@ export const CreateCrewPage = () => {
       addressDepth2: selectedLocation![0],
     };
 
-    await mutate(data, {
+    mutate(data, {
       onSuccess: ({ crewId }) => {
         navigate(PATH_NAME.GET_CREWS_PATH(String(crewId)));
       },

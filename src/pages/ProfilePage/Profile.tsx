@@ -11,6 +11,8 @@ import { useMemberProfileQuery } from '@hooks/queries/useMemberProfileQuery';
 
 import { theme } from '@styles/theme';
 
+import { useLoginInfoStore } from '@stores/loginInfo.store';
+
 import { Member } from '@type/models';
 
 import { PATH_NAME } from '@consts/pathName';
@@ -48,18 +50,8 @@ type NumberedItemProps = {
   color?: string;
 };
 
-const isMyProfile = (memberId: number) => {
-  const json = localStorage.getItem('LOGIN_INFO');
-  if (json) {
-    const { id: myId } = JSON.parse(json);
-    if (myId === memberId) {
-      return true;
-    }
-  }
-  return false;
-};
-
 export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
+  const myId = useLoginInfoStore((state) => state.loginInfo?.id);
   const navigate = useNavigate();
 
   const { data: profileData } = useMemberProfileQuery({ memberId });
@@ -110,7 +102,7 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
           </NumberedItemWrapper>
           <NumberedItem text="팔로우" icon={<Social />} count={0} />
         </Flex>
-        {isMyProfile(memberId) ? (
+        {myId === memberId ? (
           <EventButton
             text="내 정보 수정"
             width="100%"

@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import { Authenticated, Registration } from '@/type/models';
-
 import { CrewItem } from '@components/CrewItem';
 import { Header } from '@components/Header';
 import { MatchItem } from '@components/MatchItem';
@@ -9,6 +7,8 @@ import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 
 import { theme } from '@styles/theme';
+
+import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { PATH_NAME } from '@consts/pathName';
 
@@ -18,35 +18,19 @@ import { useMainPageNearGamesQuery } from './useMainPageNearGamesQuery';
 
 export const MainPage = () => {
   const navigate = useNavigate();
-  const localStorageInfo = localStorage.getItem('LOGIN_INFO');
-  const loginInfo: Registration | Authenticated =
-    localStorageInfo !== null
-      ? JSON.parse(localStorageInfo)
-      : {
-          accessToken:
-            'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4NTA1NzM2LCJleHAiOjE2OTg1MDU4NTZ9.E0p1V4PiBDmZIZqglGjQFWh-bgbA7n7qryYnOZ3cxMuaBvp-ejkXC2b-bA5kDjZrlzyyiWuTwe-sbYk73tIR0w',
-          refreshToken: null,
-          id: null,
-          nickname: '창현',
-          profileImageUrl:
-            'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
-          email: 'changhyeon.h@kakao.com',
-          oauthId: 32014123,
-          oauthProvider: 'KAKAO',
-          addressDepth1: null,
-          addressDepth2: null,
-        };
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
-  const { addressDepth1, addressDepth2 } = loginInfo;
+  const addressDepth1 = loginInfo?.addressDepth1 ?? '서울시';
+  const addressDepth2 = loginInfo?.addressDepth2 ?? '강남구';
+
   const { data: gameData } = useMainPageNearGamesQuery({
     category: 'location',
-    value:
-      addressDepth1 === null ? '서울시+강남구' : addressDepth1 + addressDepth2,
+    value: `${addressDepth1}+${addressDepth2}`,
   });
 
   const { data: crewData } = useMainPageNearCrewListQuery({
-    addressDepth1: addressDepth1 === null ? '서울시' : addressDepth1,
-    addressDepth2: addressDepth2 === null ? '강남구' : addressDepth2,
+    addressDepth1,
+    addressDepth2,
   });
 
   const filteredGameData = gameData.map(

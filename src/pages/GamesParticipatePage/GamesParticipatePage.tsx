@@ -7,7 +7,7 @@ import { Text } from '@components/shared/Text';
 import { useConfirmGamesQuery } from '@hooks/queries/useConfirmGamesQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
-import { Member } from '@type/models';
+import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { PATH_NAME } from '@consts/pathName';
 
@@ -15,23 +15,15 @@ import { getGameStartDate } from '@utils/domain';
 
 import { PageContent, PageWrapper } from './GamesParticipatePage.styles';
 
-const getMyInfo = (): Member | null => {
-  const json = localStorage.getItem('LOGIN_INFO');
-  if (!json) {
-    return null;
-  }
-  return JSON.parse(json);
-};
-
 export const GamesParticipatePage = () => {
-  const myInfo = getMyInfo();
-  if (!myInfo) {
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+  if (!loginInfo?.id) {
     throw new Error('로그인이 필요한 서비스입니다.');
   }
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
   const { data: confirmedGames } = useConfirmGamesQuery({
-    memberId: myInfo.id,
+    memberId: loginInfo.id,
   });
 
   const navigate = useNavigate();

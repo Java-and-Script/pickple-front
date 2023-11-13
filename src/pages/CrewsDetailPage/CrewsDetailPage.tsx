@@ -13,7 +13,7 @@ import { useCrewDetailQuery } from '@hooks/queries/useCrewDetailQuery';
 
 import { theme } from '@styles/theme';
 
-import { Authenticated, Registration } from '@type/models';
+import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { PATH_NAME } from '@consts/pathName';
 
@@ -34,21 +34,13 @@ import {
   ProfileImage,
 } from './CrewsDetailPage.styles';
 
-const getMyInfo = (): Authenticated | Registration | null => {
-  const json = localStorage.getItem('LOGIN_INFO');
-  if (!json) {
-    return null;
-  }
-  return JSON.parse(json);
-};
-
 export const CrewsDetailPage = () => {
   const { id } = useParams();
   if (id === undefined || isNaN(Number(id))) {
     throw new Error('"crew id" is invalid');
   }
 
-  const myInfo = getMyInfo();
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const queryClient = useQueryClient();
   const { data: crew } = useCrewDetailQuery({ crewId: Number(id) });
   const { mutate: participateMutate } = useCrewParticipateCreateMutation();
@@ -57,12 +49,14 @@ export const CrewsDetailPage = () => {
     navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
 
   const renderManageButton =
-    myInfo !== null && myInfo.id !== null && crew.leader.id === myInfo.id;
+    loginInfo !== null &&
+    loginInfo.id !== null &&
+    crew.leader.id === loginInfo.id;
   const renderParticipateButton =
-    myInfo !== null &&
-    myInfo.id !== null &&
-    crew.leader.id !== myInfo.id &&
-    crew.members.every((member) => member.id !== myInfo.id);
+    loginInfo !== null &&
+    loginInfo.id !== null &&
+    crew.leader.id !== loginInfo.id &&
+    crew.members.every((member) => member.id !== loginInfo.id);
 
   const onParticipateSuccess = () => {
     queryClient.invalidateQueries({

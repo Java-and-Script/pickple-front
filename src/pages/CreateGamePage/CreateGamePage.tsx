@@ -16,8 +16,9 @@ import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
 
+import { useLoginInfoStore } from '@stores/loginInfo.store';
+
 import { PostGameRequest } from '@type/api/games';
-import { Member } from '@type/models';
 import { Position } from '@type/models/Position';
 
 import {
@@ -39,19 +40,11 @@ import {
   StyledTitle,
 } from './CreateGamePage.styles';
 
-const getMyInfo = (): Member | null => {
-  const json = localStorage.getItem('LOGIN_INFO');
-  if (!json) {
-    return null;
-  }
-  return JSON.parse(json);
-};
-
 export const CreateGamePage = () => {
   const navigate = useNavigate();
 
-  const myInfo = getMyInfo();
-  if (!myInfo) {
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+  if (!loginInfo?.id) {
     throw new Error('로그인이 필요한 서비스입니다.');
   }
 
@@ -76,7 +69,7 @@ export const CreateGamePage = () => {
   const [isStartTimeModalOpen, setIsStartTimeModalOpen] = useState(false);
   const [isPlayTimeModalOpen, setIsPlayTimeModalOpen] = useState(false);
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     const gameData: PostGameRequest = {
       maxMemberCount: parseInt(maxMemberCount),
       playDate,
@@ -89,7 +82,7 @@ export const CreateGamePage = () => {
       content,
     };
 
-    await mutate(gameData, {
+    mutate(gameData, {
       onSuccess: ({ gameId }) => {
         navigate(PATH_NAME.GET_GAMES_PATH(String(gameId)));
       },

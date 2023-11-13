@@ -6,7 +6,7 @@ import { useGamesQuery } from '@hooks/queries/useGamesQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
 
-import { Member } from '@type/models';
+import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { DEFAULT_ADDRESS_DEPTHS } from '@consts/location';
 
@@ -14,24 +14,16 @@ import { getGameStartDate } from '@utils/domain';
 
 import { PageContent, PageLayout } from './GamesNearPage.styles';
 
-const getMyInfo = () => {
-  const json = localStorage.getItem('LOGIN_INFO');
-  if (!json) {
-    return null;
-  }
-  return JSON.parse(json) as Member;
-};
-
 /** TODO: 내 정보에서 주 활동지역을 가져와서 useGamesQuery에 넘겨줘야 함 */
 export const GamesNearPage = () => {
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
-  const myInfo = getMyInfo();
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
   const { games, fetchNextPage } = useGamesQuery({
     category: 'location',
-    value: `${myInfo?.addressDepth1 || DEFAULT_ADDRESS_DEPTHS.addressDepth1}+${
-      myInfo?.addressDepth2 || DEFAULT_ADDRESS_DEPTHS.addressDepth2
-    }`,
+    value: `${
+      loginInfo?.addressDepth1 || DEFAULT_ADDRESS_DEPTHS.addressDepth1
+    }+${loginInfo?.addressDepth2 || DEFAULT_ADDRESS_DEPTHS.addressDepth2}`,
   });
   const lastElementRef = useInfiniteScroll<HTMLDivElement>(fetchNextPage);
 

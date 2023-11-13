@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useLoginInfoStore } from '@/stores/loginInfo.store';
+
 import { AllowCard } from '@components/Participation/components/AllowCard';
 
 import { Member } from '@type/models';
@@ -21,14 +23,14 @@ export const Participation = ({
   handleGuestAction,
 }: ParticipationProps) => {
   const navigate = useNavigate();
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
   useEffect(() => {
-    const stringifiedInfo = localStorage.getItem('LOGIN_INFO') ?? '';
-    if (!stringifiedInfo) {
+    if (!loginInfo?.id) {
       navigate(PATH_NAME.LOGIN);
       return;
     }
-    const { id: myId } = JSON.parse(stringifiedInfo);
+    const { id: myId } = loginInfo;
 
     if (id !== Number(myId)) {
       navigate(PATH_NAME.LOGIN);

@@ -14,7 +14,7 @@ import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
 
 import { theme } from '@styles/theme';
 
-import { Member } from '@type/models';
+import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
@@ -38,14 +38,6 @@ import {
   UserDataWrapper,
 } from './GamesDetailPage.styles';
 
-const getMyInfo = (): Member | null => {
-  const json = localStorage.getItem('LOGIN_INFO');
-  if (!json) {
-    return null;
-  }
-  return JSON.parse(json);
-};
-
 export const GamesDetailPage = () => {
   const { id } = useParams();
   if (id === undefined) {
@@ -53,13 +45,14 @@ export const GamesDetailPage = () => {
   }
   const gameId = Number(id);
 
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data: match } = useGameDetailQuery(gameId);
-  const myInfo = getMyInfo();
-  const isMyMatch = match.host.id === myInfo?.id;
+
+  const isMyMatch = match.host.id === loginInfo?.id;
   const isParticipant = match.members.find(
-    (member) => member.id === myInfo?.id
+    (member) => member.id === loginInfo?.id
   );
   const canParticipate = !isMyMatch && !isParticipant;
   const canReview = isMyMatch || isParticipant;
@@ -119,7 +112,7 @@ export const GamesDetailPage = () => {
             </Flex>
           </Flex>
           {/* TODO: 버튼 클릭 핸들러 */}
-          {myInfo && !isMyMatch && (
+          {loginInfo && !isMyMatch && (
             <Button
               fontWeight={500}
               width="80px"
@@ -200,7 +193,7 @@ export const GamesDetailPage = () => {
             ))}
           </Guests>
         </GuestsContainer>
-        {myInfo && !isStarted && canParticipate && (
+        {loginInfo && !isStarted && canParticipate && (
           <Button
             {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
             height="50px"
@@ -217,7 +210,7 @@ export const GamesDetailPage = () => {
           </Button>
         )}
         <ButtonWrapper>
-          {myInfo && !isStarted && isMyMatch && (
+          {loginInfo && !isStarted && isMyMatch && (
             <Button
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
               height="50px"
@@ -229,7 +222,7 @@ export const GamesDetailPage = () => {
               매치 관리
             </Button>
           )}
-          {myInfo && isEnded && canReview && (
+          {loginInfo && isEnded && canReview && (
             <Button
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
               height="50px"

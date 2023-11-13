@@ -1,12 +1,14 @@
 import { InternalAxiosRequestConfig } from 'axios';
 
+import { useTokenStore } from '@stores/accessToken.store';
+
 export const setAuthorization = (config: InternalAxiosRequestConfig) => {
-  const stringifiedAccessToken = localStorage.getItem('ACCESS_TOKEN');
-  if (!stringifiedAccessToken) {
+  const accessToken = useTokenStore.getState().accessToken;
+
+  if (!accessToken) {
     return config;
   }
 
-  const { accessToken } = JSON.parse(stringifiedAccessToken);
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
