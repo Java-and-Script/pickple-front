@@ -16,7 +16,7 @@ export const PageContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 10px 0 1rem 0;
+  padding: 10px 0 60px 0;
 `;
 
 export const UserDataWrapper = styled.div`
@@ -65,4 +65,13 @@ export const GuestName = styled(Text)`
   text-overflow: ellipsis;
   overflow: hidden;
   width: 60px;
+`;
+
+export const ButtonWrapper = styled.div`
+  position: fixed;
+  padding: 5px 16px;
+  background-color: white;
+  width: 100dvw;
+  bottom: 70px;
+  left: 0;
 `;
