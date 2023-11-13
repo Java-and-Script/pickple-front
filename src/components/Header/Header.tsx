@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
+import { Avatar } from '@components/Avatar';
 import { Button } from '@components/shared/Button';
 
 import { theme } from '@styles/theme';
@@ -11,7 +12,6 @@ import { PATH_NAME } from '@consts/pathName';
 import bellIcon from '@assets/bell.svg';
 import leftArrowIcon from '@assets/leftArrow.svg';
 import logoSvg from '@assets/logoSvg.svg';
-import profileIcon from '@assets/profile.svg';
 import searchIcon from '@assets/search.svg';
 
 import {
@@ -99,7 +99,7 @@ export const Header = ({
               </RightSideIconWrapper>
               <RightSideIconWrapper>
                 <RightSideIcon onClick={() => handleProfileIconClick()}>
-                  <img src={profileIcon} alt="" />
+                  <Avatar src={loginInfo.profileImageUrl} />
                 </RightSideIcon>
               </RightSideIconWrapper>
             </RightSideContainer>
