@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
 import { Button } from '@components/shared/Button';
@@ -12,15 +13,20 @@ import { theme } from '@styles/theme';
 
 import { Member } from '@type/models';
 
+import { PATH_NAME } from '@consts/pathName';
+
 import Social from '@assets/follow.svg?react';
+import HandHeart from '@assets/handHeart.svg?react';
 import Heart from '@assets/heart.svg?react';
 
 import {
   ColoredSvgWrapper,
+  CrewGroup,
   FlexItem,
   Introduce,
   ItemBox,
   Main,
+  NumberedItemWrapper,
   ProfileFieldContainer,
 } from './ProfilePage.style';
 
@@ -31,6 +37,7 @@ type ProfileFieldProps = {
 
 type EventButtonProps = {
   text: string;
+  width?: string;
   onClick: () => void;
 };
 
@@ -41,31 +48,85 @@ type NumberedItemProps = {
   color?: string;
 };
 
+const isMyProfile = (memberId: number) => {
+  const json = localStorage.getItem('LOGIN_INFO');
+  if (json) {
+    const { id: myId } = JSON.parse(json);
+    if (myId === memberId) {
+      return true;
+    }
+  }
+  return false;
+};
+
 export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
+  const navigate = useNavigate();
+
   const { data: profileData } = useMemberProfileQuery({ memberId });
+
+  const [isHeartClicked, setIsHeartClicked] = useState(false);
+
+  const onClickHeart = () => {
+    setIsHeartClicked((prev: boolean) => !prev);
+  };
+
+  const moveToPage = (path: string) => {
+    navigate(path);
+  };
 
   return (
     <Main>
       <FlexItem>
-        <Text size={24}>{profileData.nickname}</Text>
+        <Flex align="flex-end" gap={8}>
+          <Text size={24} lineHeight="">
+            {profileData.nickname}
+          </Text>
+          <Text size={12}>
+            {profileData.addressDepth1 + ' ' + profileData.addressDepth2}
+          </Text>
+        </Flex>
         <Flex justify="center" gap={40} align="center">
           <Avatar
             src={profileData.profileImageUrl}
             size={100}
             border={`1px solid ${theme.PALETTE.GRAY_400}`}
           />
-          <NumberedItem
-            text="매너스코어"
-            icon={<Heart />}
-            count={profileData.mannerScoreCount}
-            color="pink"
-          />
+          <NumberedItemWrapper
+            isClicked={isHeartClicked}
+            onClick={onClickHeart}
+          >
+            <NumberedItem
+              text="매너스코어"
+              icon={<Heart />}
+              count={profileData.mannerScore}
+              color="pink"
+            />
+            <NumberedItem
+              text="평가한 사람"
+              icon={<HandHeart />}
+              count={profileData.mannerScoreCount}
+              color="black"
+            />
+          </NumberedItemWrapper>
           <NumberedItem text="팔로우" icon={<Social />} count={0} />
         </Flex>
-        <Flex justify="center" gap={10}>
-          <EventButton text="팔로우" onClick={() => console.log('팔로우')} />
-          <EventButton text="대화하기" onClick={() => console.log('대화')} />
-        </Flex>
+        {isMyProfile(memberId) ? (
+          <EventButton
+            text="내 정보 수정"
+            width="100%"
+            onClick={() => moveToPage(PATH_NAME.PROFILE_UPDATE)}
+          />
+        ) : (
+          <Flex justify="center" gap={10}>
+            <EventButton text="팔로우" onClick={() => console.log('팔로우')} />
+            <EventButton
+              text="대화하기"
+              onClick={() =>
+                moveToPage(PATH_NAME.GET_MESSAGE_PATH(String(memberId)))
+              }
+            />
+          </Flex>
+        )}
         <ProfileField category="포지션">
           {profileData.positions.length
             ? profileData.positions.map((position) => (
@@ -74,17 +135,19 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
             : '없음'}
         </ProfileField>
         <ProfileField category="소속 크루">
-          {profileData.crews.length
-            ? profileData.crews.map((crew) => (
-                <ItemBox border="none" key={crew.id}>
-                  <Image
-                    src={crew.profileImageUrl}
-                    width="45"
-                    alt={crew.name}
-                  />
-                </ItemBox>
-              ))
-            : '없음'}
+          <CrewGroup>
+            {profileData.crews.length
+              ? profileData.crews.map((crew) => (
+                  <ItemBox border="none" key={crew.id}>
+                    <Image
+                      src={crew.profileImageUrl}
+                      width="45"
+                      alt={crew.name}
+                    />
+                  </ItemBox>
+                ))
+              : '없음'}
+          </CrewGroup>
         </ProfileField>
         <ProfileField category="획득한 뱃지">{'없음'}</ProfileField>
         <ProfileField category="자기소개">
@@ -110,9 +173,9 @@ const ProfileField = ({ category, children }: ProfileFieldProps) => {
   );
 };
 
-const EventButton = ({ text, onClick }: EventButtonProps) => (
+const EventButton = ({ text, width, onClick }: EventButtonProps) => (
   <Button
-    width="160px"
+    width={width ?? '160px'}
     height="32px"
     backgroundColor="white"
     textColor={theme.PALETTE.GRAY_400}

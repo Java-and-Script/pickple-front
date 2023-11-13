@@ -144,6 +144,7 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      { path: 'profile/update', element: <h1>프로필 수정 페이지</h1> },
       {
         path: 'map',
         element: <h3>map</h3>,
@@ -151,6 +152,10 @@ export const router = createBrowserRouter([
       {
         path: 'message',
         element: <h3>message</h3>,
+      },
+      {
+        path: 'message/:id',
+        element: <h3>message room</h3>,
       },
       {
         path: 'auth/kakao/callback',

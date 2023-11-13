@@ -4,6 +4,7 @@ export const PATH_NAME = {
   REGISTER: '/register',
   ALL_SERVICES: '/all-services',
   GET_PROFILE_PATH: (id: string) => `/profile/${id}`,
+  PROFILE_UPDATE: '/profile/update',
   GAMES_NEAR: '/games/near',
   GAMES_HOST: '/games/host',
   GAMES_PARTICIPATE: '/games/participate',
@@ -20,4 +21,5 @@ export const PATH_NAME = {
   CREATE_CREW: '/create/crew',
   MAP: '/map',
   MESSAGE: '/message',
+  GET_MESSAGE_PATH: (id: string) => `/message/${id}`,
 } as const;
