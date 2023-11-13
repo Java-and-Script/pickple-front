@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { CalendarComponent } from '@components/Calendar';
+import { ConditionalFormInput } from '@components/ConditionalFormInput';
 import { Header } from '@components/Header';
-import { Modal } from '@components/Modal';
 import { SelectPosition } from '@components/SelectPosition/SelectPosition';
+import { TextArea } from '@components/TextArea';
 import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 import { VirtualScroll } from '@components/shared/VirtualScroll';
@@ -14,35 +16,59 @@ import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
 
+import { PostGameRequest } from '@type/api/games';
+import { Member } from '@type/models';
 import { Position } from '@type/models/Position';
+
+import {
+  MAX_MEMBER_COUNT_LIST,
+  PLAY_TIME_LIST,
+  START_TIME_HOUR_LIST,
+  START_TIME_MINUTES_LIST,
+} from '@consts/createGameOptions';
+import { PATH_NAME } from '@consts/pathName';
 
 import {
   PageLayout,
   PageWrapper,
   StyledCreateForm,
   StyledEmptyContainer,
-  StyledInput,
-  StyledModalHeader,
   StyledPositionsWrapper,
-  StyledSubTitle,
-  StyledTextArea,
+  StyledTimeColon,
+  StyledTimeSelector,
   StyledTitle,
 } from './CreateGamePage.styles';
 
+const getMyInfo = (): Member | null => {
+  const json = localStorage.getItem('LOGIN_INFO');
+  if (!json) {
+    return null;
+  }
+  return JSON.parse(json);
+};
+
 export const CreateGamePage = () => {
+  const navigate = useNavigate();
+
+  const myInfo = getMyInfo();
+  if (!myInfo) {
+    throw new Error('로그인이 필요한 서비스입니다.');
+  }
+
   const { mutate } = useGameMutation();
-  const { register, handleSubmit } = useForm();
+  const methods = useForm();
+
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
   const [maxMemberCount, setMaxMemberCount] = useState<string>('');
   const [playDate, setPlayDate] = useState<string>('');
-  const [playStartTime, setPlayStartTime] = useState<string>('');
+  const [playStartTimeHours, setStartTimeHours] = useState<string>('');
+  const [playStartTimeMinutes, setStartTimeMinutes] = useState<string>('');
   const [playTimeMinutes, setPlayTimeMinutes] = useState<string>('');
   const [positions, setPositions] = useState<Position[]>([]);
-
   const [mainAddress, setMainAddress] = useState<string>('');
   const [detailAddress, setDetailAddress] = useState<string>('');
-  const [cost, setCost] = useState<string>('');
+  const [cost, setCost] = useState<string>('0');
   const [content, setContent] = useState<string>('');
 
   const [isGuestCountModalOpen, setIsGuestCountModalOpen] = useState(false);
@@ -51,11 +77,10 @@ export const CreateGamePage = () => {
   const [isPlayTimeModalOpen, setIsPlayTimeModalOpen] = useState(false);
 
   const onSubmit = async () => {
-    const gameData = {
-      hostId: 1,
+    const gameData: PostGameRequest = {
       maxMemberCount: parseInt(maxMemberCount),
       playDate,
-      playStartTime,
+      playStartTime: `${playStartTimeHours}:${playStartTimeMinutes}`,
       playTimeMinutes: parseInt(playTimeMinutes),
       positions,
       mainAddress,
@@ -64,7 +89,11 @@ export const CreateGamePage = () => {
       content,
     };
 
-    mutate(gameData);
+    await mutate(gameData, {
+      onSuccess: ({ gameId }) => {
+        navigate(PATH_NAME.GET_GAMES_PATH(String(gameId)));
+      },
+    });
   };
 
   const handleAddressSelect = () => {
@@ -75,279 +104,165 @@ export const CreateGamePage = () => {
     }).open();
   };
 
-  const handleGuestCountSelect = (item: string) => {
-    setMaxMemberCount(item);
+  const handleCost = (item: string) => {
+    if (parseInt(item) < 0) {
+      setCost('0');
+    } else if (parseInt(item) > 100000) {
+      setCost('100000');
+    } else setCost(item);
   };
 
-  const openGuestCountModal = () => {
-    setIsGuestCountModalOpen(true);
+  const toggleGuestCountModal = () => {
+    setIsGuestCountModalOpen((prev) => !prev);
   };
 
-  const closeGuestCountModal = () => {
-    setIsGuestCountModalOpen(false);
+  const toggleMatchDateModal = () => {
+    setIsMatchDateModalOpen((prev) => !prev);
   };
 
-  const openMatchDateModal = () => {
-    setIsMatchDateModalOpen(true);
+  const toggleStartTimeModal = () => {
+    setIsStartTimeModalOpen((prev) => !prev);
   };
 
-  const closeMatchDateModal = () => {
-    setIsMatchDateModalOpen(false);
-  };
-
-  const handleStartTimeSelect = (item: string) => {
-    setPlayStartTime(item);
-  };
-
-  const openStartTimeModal = () => {
-    setIsStartTimeModalOpen(true);
-  };
-
-  const closeStartTimeModal = () => {
-    setIsStartTimeModalOpen(false);
-  };
-
-  const handlePlayTimeSelect = (item: string) => {
-    setPlayTimeMinutes(item);
-  };
-
-  const openPlayTimeModal = () => {
-    setIsPlayTimeModalOpen(true);
-  };
-
-  const closePlayTimeModal = () => {
-    setIsPlayTimeModalOpen(false);
+  const togglePlayTimeModal = () => {
+    setIsPlayTimeModalOpen((prev) => !prev);
   };
 
   return (
     <PageLayout>
       <PageWrapper>
         <Header title={showHeaderTitle ? '게스트 모집하기' : ''} />
-        <StyledCreateForm onSubmit={handleSubmit(onSubmit)}>
-          <StyledTitle>
-            <div ref={entryRef}>
-              <Text size={20} weight={700}>
-                게스트 모집하기
-              </Text>
-            </div>
-          </StyledTitle>
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              게스트 인원을 선택해 주세요!
-            </Text>
-          </StyledSubTitle>
-          <StyledInput
-            {...register('guest-count')}
-            readOnly={true}
-            onClick={openGuestCountModal}
-            value={maxMemberCount}
-          />
-          <Modal
-            isOpen={isGuestCountModalOpen}
-            close={closeGuestCountModal}
-            header={true}
-          >
-            <StyledModalHeader>
-              <Text size={20} weight={700}>
-                게스트 인원을 선택해 주세요!
-              </Text>
-            </StyledModalHeader>
-            <Modal.Content>
+        <FormProvider {...methods}>
+          <StyledCreateForm onSubmit={methods.handleSubmit(onSubmit)}>
+            <StyledTitle>
+              <div ref={entryRef}>
+                <Text size={20} weight={700}>
+                  게스트 모집하기
+                </Text>
+              </div>
+            </StyledTitle>
+            <ConditionalFormInput
+              title="게스트 인원을 선택해 주세요!"
+              readOnly={true}
+              isContainModal={true}
+              inputLabel="guest-count"
+              onClick={toggleGuestCountModal}
+              value={maxMemberCount}
+              isModalOpen={isGuestCountModalOpen}
+              closeModal={toggleGuestCountModal}
+            >
               <VirtualScroll
                 width="100%"
-                list={[
-                  '1명',
-                  '2명',
-                  '3명',
-                  '4명',
-                  '5명',
-                  '6명',
-                  '7명',
-                  '8명',
-                  '9명',
-                  '10명',
-                  '11명',
-                  '12명',
-                  '13명',
-                  '14명',
-                  '15명',
-                ]}
-                onItemSelected={handleGuestCountSelect}
+                list={[...MAX_MEMBER_COUNT_LIST]}
+                onItemSelected={setMaxMemberCount}
               />
-            </Modal.Content>
-          </Modal>
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              게스트 매치 날짜를 선택해 주세요!
-            </Text>
-          </StyledSubTitle>
-          <StyledInput
-            {...register('match-date')}
-            readOnly={true}
-            onClick={openMatchDateModal}
-            value={playDate}
-          />
-          <Modal
-            isOpen={isMatchDateModalOpen}
-            close={closeMatchDateModal}
-            header={true}
-          >
-            <StyledModalHeader>
-              <Text size={20} weight={700}>
-                게스트 매치 날짜를 선택해 주세요!
-              </Text>
-            </StyledModalHeader>
-            <Modal.Content
-              style={{ display: 'flex', justifyContent: 'center' }}
+            </ConditionalFormInput>
+            <ConditionalFormInput
+              title="경기 날짜를 선택해 주세요!"
+              readOnly={true}
+              isContainModal={true}
+              inputLabel="match-date"
+              onClick={toggleMatchDateModal}
+              value={playDate}
+              isModalOpen={isMatchDateModalOpen}
+              closeModal={toggleMatchDateModal}
             >
               <CalendarComponent setDate={setPlayDate} />
-            </Modal.Content>
-          </Modal>
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              경기 시작 시간을 선택해 주세요!
-            </Text>
-          </StyledSubTitle>
-          <StyledInput
-            {...register('start-time')}
-            readOnly={true}
-            onClick={openStartTimeModal}
-            value={playStartTime}
-          />
-          <Modal
-            isOpen={isStartTimeModalOpen}
-            close={closeStartTimeModal}
-            header={true}
-          >
-            <StyledModalHeader>
-              <Text size={20} weight={700}>
-                경기 시작 시간을 선택해 주세요!
-              </Text>
-            </StyledModalHeader>
-            <Modal.Content>
+            </ConditionalFormInput>
+            <ConditionalFormInput
+              title="경기 시작 시간을 선택해 주세요!"
+              readOnly={true}
+              isContainModal={true}
+              inputLabel="start-time"
+              onClick={toggleStartTimeModal}
+              value={`${playStartTimeHours}:${playStartTimeMinutes}`}
+              isModalOpen={isStartTimeModalOpen}
+              closeModal={toggleStartTimeModal}
+            >
+              <StyledTimeSelector>
+                <VirtualScroll
+                  width="20%"
+                  list={[...START_TIME_HOUR_LIST]}
+                  onItemSelected={setStartTimeHours}
+                />
+                <StyledTimeColon>{':'}</StyledTimeColon>
+                <VirtualScroll
+                  width="20%"
+                  list={[...START_TIME_MINUTES_LIST]}
+                  onItemSelected={setStartTimeMinutes}
+                />
+              </StyledTimeSelector>
+            </ConditionalFormInput>
+            <ConditionalFormInput
+              title="경기 플레이타임을 선택해 주세요!"
+              readOnly={true}
+              isContainModal={true}
+              inputLabel="play-time"
+              onClick={togglePlayTimeModal}
+              value={playTimeMinutes}
+              isModalOpen={isPlayTimeModalOpen}
+              closeModal={togglePlayTimeModal}
+            >
               <VirtualScroll
                 width="100%"
-                list={[
-                  '09:00',
-                  '10:00',
-                  '11:00',
-                  '12:00',
-                  '13:00',
-                  '14:00',
-                  '15:00',
-                  '16:00',
-                  '17:00',
-                  '18:00',
-                  '19:00',
-                  '20:00',
-                ]}
-                onItemSelected={handleStartTimeSelect}
+                list={[...PLAY_TIME_LIST]}
+                onItemSelected={setPlayTimeMinutes}
               />
-            </Modal.Content>
-          </Modal>
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              경기 플레이타임을 선택해 주세요!
-            </Text>
-          </StyledSubTitle>
-          <StyledInput
-            {...register('play-time')}
-            readOnly={true}
-            onClick={openPlayTimeModal}
-            value={playTimeMinutes}
-          />
-          <Modal
-            isOpen={isPlayTimeModalOpen}
-            close={closePlayTimeModal}
-            header={true}
-          >
-            <StyledModalHeader>
-              <Text size={20} weight={700}>
-                경기 플레이타임을 선택해 주세요!
-              </Text>
-            </StyledModalHeader>
-            <Modal.Content>
-              <VirtualScroll
-                width="100%"
-                list={[
-                  '30분',
-                  '60분',
-                  '90분',
-                  '120분',
-                  '150분',
-                  '180분',
-                  '210분',
-                  '240분',
-                  '270분',
-                  '300분',
-                  '330분',
-                  '360분',
-                ]}
-                onItemSelected={handlePlayTimeSelect}
-              />
-            </Modal.Content>
-          </Modal>
-          <StyledSubTitle>
+            </ConditionalFormInput>
             <Text size={16} weight={300}>
               선호하는 포지션을 선택해 주세요!
             </Text>
-          </StyledSubTitle>
-          <StyledPositionsWrapper>
-            <SelectPosition setPositions={setPositions} />
-          </StyledPositionsWrapper>
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              주소를 입력해 주세요!
-            </Text>
-          </StyledSubTitle>
-          <StyledInput
-            {...register('address')}
-            readOnly={true}
-            onClick={handleAddressSelect}
-            value={mainAddress}
-          />
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              상세장소를 입력해 주세요! (ex. 1층 201호)
-            </Text>
-          </StyledSubTitle>
-          <StyledInput
-            {...register('address-detail')}
-            onChange={(event) => setDetailAddress(event.target.value)}
-          />
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              참가 비용을 입력해 주세요!
-            </Text>
-          </StyledSubTitle>
-          <StyledInput
-            {...register('price')}
-            type="number"
-            pattern="\d*"
-            onChange={(event) => setCost(event.target.value)}
-          />
-          <StyledSubTitle>
-            <Text size={16} weight={300}>
-              상세설명을 입력해 주세요!
-            </Text>
-          </StyledSubTitle>
-          <StyledTextArea
-            {...register('description')}
-            onChange={(event) => setContent(event.target.value)}
-          />
-          <Button
-            width="100%"
-            height="50px"
-            fontSize="20px"
-            fontWeight={700}
-            textColor={'white'}
-            backgroundColor={theme.PALETTE.RED_600}
-            onClick={handleSubmit(onSubmit)}
-          >
-            모집하기
-          </Button>
-          <StyledEmptyContainer />
-        </StyledCreateForm>
+            <StyledPositionsWrapper>
+              <SelectPosition setPositions={setPositions} />
+            </StyledPositionsWrapper>
+            <ConditionalFormInput
+              title="주소를 입력해 주세요!"
+              isRequired={true}
+              readOnly={true}
+              isContainModal={false}
+              inputLabel="address"
+              onClick={handleAddressSelect}
+              value={mainAddress}
+            />
+            <ConditionalFormInput
+              isRequired={true}
+              title="상세장소를 입력해 주세요!"
+              isContainModal={false}
+              inputLabel="address-detail"
+              inputOnChange={setDetailAddress}
+              value={detailAddress}
+            />
+            <ConditionalFormInput
+              title="참가비용을 입력해 주세요!"
+              isContainModal={false}
+              inputLabel="cost"
+              inputOnChange={handleCost}
+              value={cost}
+              type="number"
+              pattern="\d*"
+              min={'0'}
+              step={1000}
+              max={'100000'}
+            />
+            <TextArea
+              title="상세설명을 입력해 주세요!"
+              inputLabel="content"
+              inputOnChange={setContent}
+            />
+            <Button
+              width="100%"
+              height="50px"
+              fontSize="20px"
+              fontWeight={700}
+              textColor={'white'}
+              backgroundColor={theme.PALETTE.RED_600}
+              type="submit"
+            >
+              모집하기
+            </Button>
+            <StyledEmptyContainer />
+          </StyledCreateForm>
+        </FormProvider>
       </PageWrapper>
     </PageLayout>
   );

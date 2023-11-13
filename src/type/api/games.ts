@@ -9,7 +9,6 @@ export type GetGameDetailResponse = Game;
 export type GetGameMembersResponse = Game;
 
 export type PostGameRequest = {
-  hostId: number;
   latitude?: number;
   longitude?: number;
 } & Pick<
@@ -27,10 +26,6 @@ export type PostGameRequest = {
 
 export type PostGameResponse = {
   gameId: Game['id'];
-};
-
-export type PostGameParticipateRequest = {
-  memberId: Member['id'];
 };
 
 export type PatchGameParticipateApplyRequest = {
