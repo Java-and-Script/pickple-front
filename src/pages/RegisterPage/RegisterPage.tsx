@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { LogoImage } from '@pages/LoginPage/LoginPage.style';
 
@@ -16,8 +17,6 @@ import { useRegistrationMutation } from '@hooks/mutations/useRegistrationMutatio
 
 import { theme } from '@styles/theme';
 
-import { useLoginInfoStore } from '@stores/loginInfo.store';
-
 import { Position } from '@type/models/Position';
 
 import { SEOUL } from '@consts/location';
@@ -26,6 +25,7 @@ import { POSITIONS_BUTTON } from '@consts/positions';
 
 import LOGO_SRC from '@assets/logoSvg.svg';
 
+// 1번 라인
 import {
   FieldContainer,
   Main,
@@ -36,7 +36,10 @@ import {
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+
+  const { state } = useLocation();
+  const loginInfo = state;
+
   if (!loginInfo) {
     throw new Error('no login info available');
   }
@@ -65,10 +68,12 @@ export const RegisterPage = () => {
   const submitRegistration = () => {
     const { email, nickname, profileImageUrl, oauthId, oauthProvider } =
       loginInfo;
+
     if (!selectedLocation) {
       window.alert('지역을 선택해주세요');
       return;
     }
+
     mutate({
       email,
       nickname,
