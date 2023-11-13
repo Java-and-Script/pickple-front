@@ -6,6 +6,8 @@ import { theme } from '@styles/theme';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
+import { PATH_NAME } from '@consts/pathName';
+
 import bellIcon from '@assets/bell.svg';
 import leftArrowIcon from '@assets/leftArrow.svg';
 import logoSvg from '@assets/logoSvg.svg';
@@ -36,6 +38,7 @@ export const Header = ({
   title = '',
   isRightContainer = true,
 }: Partial<HeaderProps>) => {
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
@@ -55,14 +58,14 @@ export const Header = ({
   };
 
   const handleProfileIconClick = () => {
-    navigate('/all-services');
+    if (loginInfo?.id) {
+      navigate(PATH_NAME.GET_PROFILE_PATH(String(loginInfo.id)));
+    }
   };
 
   const handleLoginClick = () => {
-    navigate('/login');
+    navigate(PATH_NAME.LOGIN);
   };
-
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
   return (
     <>
