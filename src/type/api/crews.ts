@@ -16,7 +16,6 @@ export type GetCrewDetailResponse = CrewProfile;
 
 export type PostCrewParticipateRequest = {
   crewId: Crew['id'];
-  memberId: Member['id'];
 };
 
 export type GetCrewParticipateListRequest = {
