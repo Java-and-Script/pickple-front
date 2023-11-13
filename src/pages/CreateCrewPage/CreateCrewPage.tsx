@@ -16,10 +16,12 @@ import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
 
+
 import { PostCrewRequest } from '@type/api/crews';
 import { Member } from '@type/models';
 
 import { MAX_MEMBER_COUNT_LIST } from '@consts/createCrewOptions';
+
 import { SEOUL } from '@consts/location';
 import { PATH_NAME } from '@consts/pathName';
 
