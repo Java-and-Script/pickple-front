@@ -7,7 +7,7 @@ import { Text } from '@components/shared/Text';
 import { useCreatedCrewsQuery } from '@hooks/queries/useCreatedCrewsQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
-import { Crew, Member } from '@type/models';
+import { Crew } from '@type/models';
 
 import { PATH_NAME } from '@consts/pathName';
 
@@ -42,11 +42,8 @@ export const CrewsChiefPage = () => {
           </Text>
         </div>
         {crewsData.map((crew) => {
-          const membersProfile: Member['profileImageUrl'][] = [];
-
-          const membersProfileImageUrls = crew.members.reduce(
-            (arr, member) => arr.concat(member.profileImageUrl),
-            membersProfile
+          const membersProfileImageUrls = crew.members.map(
+            (member) => member.profileImageUrl
           );
 
           return (
