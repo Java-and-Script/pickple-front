@@ -3,7 +3,7 @@ import type { Authenticated, Crew, CrewProfile, Member } from '@type/models';
 export type PostCrewRequest = Pick<
   Crew,
   'name' | 'content' | 'maxMemberCount' | 'addressDepth1' | 'addressDepth2'
-> & { leaderId: Member['id'] };
+>;
 
 export type PostCrewResponse = {
   crewId: Crew['id'];
