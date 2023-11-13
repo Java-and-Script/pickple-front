@@ -1,8 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 import { Header } from '@components/Header';
-import { Participation } from '@components/Participation/Participation';
-import { ManageContainer } from '@components/Participation/Participation.style';
+import { ManageContainer, Participation } from '@components/Participation';
 
 import { useAllowGameParticipateMutation } from '@hooks/mutations/useAllowGameParticipateMutation';
 import { useRefuseGameParticipateMutation } from '@hooks/mutations/useDisallowGameParticipateMutation';

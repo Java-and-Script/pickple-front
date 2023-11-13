@@ -1,8 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 import { Header } from '@components/Header';
-import { Participation } from '@components/Participation/Participation';
-import { ManageContainer } from '@components/Participation/Participation.style';
+import { ManageContainer, Participation } from '@components/Participation';
 
 import { useAllowCrewParticipateMutation } from '@hooks/mutations/useAllowCrewParticipateMutation';
 import { useDisallowCrewParticipateMutation } from '@hooks/mutations/useDisallowCrewParticipateMutation';
