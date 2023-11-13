@@ -200,25 +200,23 @@ export const GamesDetailPage = () => {
             ))}
           </Guests>
         </GuestsContainer>
+        {myInfo && !isStarted && canParticipate && (
+          <Button
+            {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
+            height="50px"
+            onClick={() =>
+              participateMutate(
+                {
+                  gameId,
+                },
+                { onSuccess: onParticipateSuccess }
+              )
+            }
+          >
+            참여 신청하기
+          </Button>
+        )}
         <ButtonWrapper>
-          {myInfo && !isStarted && canParticipate && (
-            <Button
-              {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
-              height="50px"
-              width="100%"
-              onClick={() =>
-                participateMutate(
-                  {
-                    gameId,
-                    payload: { memberId: myInfo.id },
-                  },
-                  { onSuccess: onParticipateSuccess }
-                )
-              }
-            >
-              참여 신청하기
-            </Button>
-          )}
           {myInfo && !isStarted && isMyMatch && (
             <Button
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
