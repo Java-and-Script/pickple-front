@@ -9,8 +9,8 @@ export const getConfirmedGames = async ({
   memberId,
 }: GetConfirmedGamesRequest) => {
   const { data } = await axiosInstance.get<GetConfirmedGamesResponse>(
-    `/members/${memberId}/confirmed-games`,
-    {}
+    `/members/${memberId}/games`,
+    { params: { status: '확정' } }
   );
 
   return data;

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Authenticated, Registration } from '@/type/models';
 
+import { CrewItem } from '@components/CrewItem';
 import { Header } from '@components/Header';
 import { MatchItem } from '@components/MatchItem';
 import { Button } from '@components/shared/Button';
@@ -12,6 +13,7 @@ import { theme } from '@styles/theme';
 import { PATH_NAME } from '@consts/pathName';
 
 import { MainPageContainer, MainPageSubContainer } from './MainPage.style';
+import { useMainPageNearCrewListQuery } from './useMainPageNearCrewListQuery';
 import { useMainPageNearGamesQuery } from './useMainPageNearGamesQuery';
 
 export const MainPage = () => {
@@ -36,14 +38,18 @@ export const MainPage = () => {
         };
 
   const { addressDepth1, addressDepth2 } = loginInfo;
-  const { data } = useMainPageNearGamesQuery({
+  const { data: gameData } = useMainPageNearGamesQuery({
     category: 'location',
     value:
-      addressDepth1 === null ? '서울시+강남구' : addressDepth2 + addressDepth2,
+      addressDepth1 === null ? '서울시+강남구' : addressDepth1 + addressDepth2,
   });
-  console.log(data);
 
-  const filteredData = data.map(
+  const { data: crewData } = useMainPageNearCrewListQuery({
+    addressDepth1: addressDepth1 === null ? '서울시' : addressDepth1,
+    addressDepth2: addressDepth2 === null ? '강남구' : addressDepth2,
+  });
+
+  const filteredGameData = gameData.map(
     ({
       id,
       //playStartTime,
@@ -68,12 +74,38 @@ export const MainPage = () => {
     )
   );
 
+  const filteredCrewData = crewData.map(
+    ({
+      id,
+      name,
+      addressDepth1,
+      addressDepth2,
+      profileImageUrl,
+      members,
+      memberCount,
+      maxMemberCount,
+    }) => (
+      <CrewItem
+        key={id.toString()}
+        name={name}
+        address={`${addressDepth1} ${addressDepth2}`}
+        imgSrc={profileImageUrl}
+        membersProfileImageUrls={members.map(
+          ({ profileImageUrl }) => profileImageUrl
+        )}
+        memberCount={memberCount}
+        maxMemberCount={maxMemberCount}
+        onClick={() => navigate(PATH_NAME.GET_CREWS_PATH(id.toString()))}
+      />
+    )
+  );
+
   return (
     <MainPageContainer>
       <Header isLogo={true} />
       <MainPageSubContainer>
         <Text children={'내 근처의 경기'} weight={700} size={'1.25rem'} />
-        {filteredData}
+        {filteredGameData}
         <Button
           {...MAIN_PAGE_BUTTON_PROP}
           onClick={() => navigate(PATH_NAME.GAMES_NEAR)}
@@ -83,8 +115,11 @@ export const MainPage = () => {
       </MainPageSubContainer>
       <MainPageSubContainer>
         <Text children={'추천 크루'} weight={700} size={'1.25rem'} />
-        {filteredData}
-        <Button {...MAIN_PAGE_BUTTON_PROP} onClick={() => console.log('hi')}>
+        {filteredCrewData}
+        <Button
+          {...MAIN_PAGE_BUTTON_PROP}
+          onClick={() => navigate(PATH_NAME.CREWS_RECOMMEND)}
+        >
           더보기
         </Button>
       </MainPageSubContainer>

@@ -9,7 +9,6 @@ export type GetGameDetailResponse = Game;
 export type GetGameMembersResponse = Game;
 
 export type PostGameRequest = {
-  hostId: number;
   latitude?: number;
   longitude?: number;
 } & Pick<

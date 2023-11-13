@@ -25,3 +25,8 @@ export const SEOUL = {
   SONGPA_GU: '송파구',
   GANGDONG_GU: '강동구',
 } as const;
+
+export const DEFAULT_ADDRESS_DEPTHS = {
+  addressDepth1: '서울시',
+  addressDepth2: '강남구',
+} as const;

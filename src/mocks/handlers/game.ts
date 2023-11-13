@@ -13,46 +13,45 @@ import { Game, Member } from '@type/models';
 
 import { games, pendingMembersMap } from '@mocks/data/game';
 
-const mockPostGame = http.post<
-  PathParams,
-  { data: PostGameRequest },
-  PostGameResponse
->('/api/games', async ({ request }) => {
-  const {
-    data: { hostId, ...restRequestBody },
-  } = await request.json();
-  const gameId = new Date().getTime();
+const mockPostGame = http.post<PathParams, PostGameRequest, PostGameResponse>(
+  '/api/games',
+  async ({ request }) => {
+    const data = await request.json();
 
-  const host: Member = {
-    id: Number(hostId),
-    addressDepth1: '서울시',
-    addressDepth2: '강남구',
-    email: 'example@example.com',
-    introduction: '예시 소개글입니다.',
-    mannerScore: 0,
-    mannerScoreCount: 0,
-    nickname: `testuser${hostId}`,
-    positions: [],
-    profileImageUrl: '',
-  };
+    const gameId = new Date().getTime();
+    const hostId = new Date().getTime();
 
-  const newGame: Game = {
-    id: gameId,
-    ...restRequestBody,
-    playEndTime: '00:00',
-    status: '모집 중',
-    viewCount: 0,
-    memberCount: 0,
-    host,
-    addressDepth1: '서울시',
-    addressDepth2: '강남구',
-    members: [],
-  };
+    const host: Member = {
+      id: hostId,
+      addressDepth1: '서울시',
+      addressDepth2: '강남구',
+      email: 'example@example.com',
+      introduction: '예시 소개글입니다.',
+      mannerScore: 0,
+      mannerScoreCount: 0,
+      nickname: `testuser${hostId}`,
+      positions: [],
+      profileImageUrl: '',
+    };
 
-  games.push(newGame);
+    const newGame: Game = {
+      id: gameId,
+      ...data,
+      playEndTime: '00:00',
+      status: '모집 중',
+      viewCount: 0,
+      memberCount: 0,
+      host,
+      addressDepth1: '서울시',
+      addressDepth2: '강남구',
+      members: [],
+    };
 
-  return HttpResponse.json({ gameId });
-});
+    games.push(newGame);
+
+    return HttpResponse.json({ gameId });
+  }
+);
 
 /** TODO: category, value 구현해야함 */
 const mockGetGames = http.get('/api/games', ({ request }) => {
