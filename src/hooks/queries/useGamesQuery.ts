@@ -2,7 +2,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { getGames } from '@api/games/getGames';
 
-const FETCH_SIZE = 20;
+import { FETCH_SIZE } from '@consts/network';
 
 /**
  * 장소 기준 => ?category=location&value=서울시+영등포구&page=1&size=10
@@ -10,8 +10,8 @@ const FETCH_SIZE = 20;
  * 포지션 기준 => ?category=positions&value=SF+SG&page=1&size=10
  * */
 export type GamesQueryProps = {
-  category?: 'location' | 'playDate' | 'position';
-  value?: string;
+  category: 'location' | 'playDate' | 'position';
+  value: string;
 };
 
 export const useGamesQuery = ({ category, value }: GamesQueryProps) => {
