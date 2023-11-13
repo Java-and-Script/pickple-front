@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useLoginQuery } from '@hooks/queries/useLoginQuery';
 
+import { useTokenStore } from '@stores/accessToken.store';
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { Authenticated, Registration } from '@type/models';
@@ -24,6 +25,7 @@ export const RedirectPage = () => {
   };
 
   const { setLoginInfo } = useLoginInfoStore();
+  const { setAccessToken } = useTokenStore();
 
   const getLoginInfo = useCallback(async () => {
     const { data } = await refetch();
@@ -32,13 +34,14 @@ export const RedirectPage = () => {
       return;
     }
     setLoginInfo(data);
+    setAccessToken(data.accessToken);
 
     if (isAuthenticated(data)) {
       navigate('/');
     } else {
       navigate('/register');
     }
-  }, [navigate, refetch, setLoginInfo]);
+  }, [navigate, refetch, setLoginInfo, setAccessToken]);
 
   useEffect(() => {
     getLoginInfo();
