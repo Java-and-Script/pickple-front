@@ -5,9 +5,14 @@ import { AllServicesPage } from '@pages/AllServicesPage';
 import { CreateCrewPage } from '@pages/CreateCrewPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
+import { CrewsChiefPage } from '@pages/CrewsChiefPage';
+import { CrewsDetailPage } from '@pages/CrewsDetailPage';
+import { CrewsManageParticipatePage } from '@pages/CrewsManageParticipatePage';
+import { CrewsParticipatePage } from '@pages/CrewsParticipatePage';
+import { CrewsRecommendPage } from '@pages/CrewsRecommendPage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesHostPage } from '@pages/GamesHostPage';
-import { GamesManagePage } from '@pages/GamesManagePage';
+import { GamesManageParticipatePage } from '@pages/GamesManageParticipatePage';
 import { GamesNearPage } from '@pages/GamesNearPage';
 import { GamesParticipatePage } from '@pages/GamesParticipatePage';
 import { Layout } from '@pages/Layout';
@@ -71,7 +76,7 @@ export const router = createBrowserRouter([
         path: 'games/:id/manage',
         element: (
           <Suspense fallback={null}>
-            <GamesManagePage />
+            <GamesManageParticipatePage />
           </Suspense>
         ),
       },
@@ -85,23 +90,39 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/recommend',
-        element: <h3>crews/recommend</h3>,
+        element: (
+          <Suspense fallback={null}>
+            <CrewsRecommendPage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/chief',
-        element: <h3>crews/chief</h3>,
+        element: (
+          <Suspense fallback={null}>
+            <CrewsChiefPage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/participate',
-        element: <h3>crews/participate</h3>,
+        element: <CrewsParticipatePage />,
       },
       {
         path: 'crews/:id',
-        element: <h3>crews/:id</h3>,
+        element: (
+          <Suspense fallback={null}>
+            <CrewsDetailPage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/:id/manage',
-        element: <>crew/:id/manage</>,
+        element: (
+          <Suspense fallback={null}>
+            <CrewsManageParticipatePage />
+          </Suspense>
+        ),
       },
       {
         path: 'create',

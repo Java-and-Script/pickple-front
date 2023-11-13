@@ -2,11 +2,13 @@ import { Header } from '@components/Header';
 import { MatchItem } from '@components/MatchItem';
 import { Text } from '@components/shared/Text';
 
-import { GamesQueryProps, useGamesQuery } from '@hooks/queries/useGamesQuery';
+import { useGamesQuery } from '@hooks/queries/useGamesQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
 
 import { Member } from '@type/models';
+
+import { DEFAULT_ADDRESS_DEPTHS } from '@consts/location';
 
 import { getGameStartDate } from '@utils/domain';
 
@@ -25,13 +27,12 @@ export const GamesNearPage = () => {
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
   const myInfo = getMyInfo();
 
-  const gamesQueryProps: GamesQueryProps = myInfo
-    ? {
-        category: 'location',
-        value: `${myInfo?.addressDepth1}+${myInfo?.addressDepth2}`,
-      }
-    : {};
-  const { games, fetchNextPage } = useGamesQuery(gamesQueryProps);
+  const { games, fetchNextPage } = useGamesQuery({
+    category: 'location',
+    value: `${myInfo?.addressDepth1 || DEFAULT_ADDRESS_DEPTHS.addressDepth1}+${
+      myInfo?.addressDepth2 || DEFAULT_ADDRESS_DEPTHS.addressDepth2
+    }`,
+  });
   const lastElementRef = useInfiniteScroll<HTMLDivElement>(fetchNextPage);
 
   return (
