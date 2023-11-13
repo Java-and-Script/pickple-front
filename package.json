@@ -28,6 +28,7 @@
     "react-calendar": "^4.6.1",
     "react-dom": "^18.2.0",
     "react-draggable-bottom-sheet": "^1.14.0",
+    "react-error-boundary": "^4.0.11",
     "react-hook-form": "^7.47.0",
     "react-router-dom": "^6.17.0",
     "zustand": "^4.4.6"
