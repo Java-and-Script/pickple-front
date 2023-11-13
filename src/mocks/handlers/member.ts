@@ -126,7 +126,7 @@ const mockGetCreatedGames = http.get<
 });
 
 const mockGetJoinedCrews = http.get(
-  '/members/:memberId/joined-crews',
+  '/api/members/:memberId/crews',
   ({ params }) => {
     const { memberId } = params;
 
