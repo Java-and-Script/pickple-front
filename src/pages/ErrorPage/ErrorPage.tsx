@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import { Header } from '@components/Header';
 import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 
@@ -43,7 +42,6 @@ export const ErrorPage = ({ error, resetErrorBoundary }: FallbackProps) => {
 
   return (
     <PageWrapper>
-      <Header />
       <PageContent direction="column" gap={20} align="center" justify="start">
         <LogoImage src={LOGO_SRC} width="35%" height="auto" alt="pickle logo" />
         <div>
