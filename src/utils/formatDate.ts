@@ -2,11 +2,8 @@ export const formatDate = (date: Date) => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
-  const dayOfWeek = date.toLocaleDateString('ko-KR', {
-    weekday: 'long',
-  });
 
-  const formattedDate = `${year}년 ${month}월 ${day}일 (${dayOfWeek})`;
-
-  return formattedDate;
+  return `${year}-${month >= 10 ? month : '0' + month}-${
+    day >= 10 ? day : '0' + day
+  }`;
 };

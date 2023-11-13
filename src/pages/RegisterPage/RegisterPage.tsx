@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { LogoImage } from '@pages/LoginPage/LoginPage.style';
 
@@ -11,10 +12,15 @@ import {
   useToggleButtons,
 } from '@components/shared/ToggleButton';
 
+import { useRegistrationMutation } from '@hooks/mutations/useRegistrationMutation';
+
 import { theme } from '@styles/theme';
 
+import { Position } from '@type/models/Position';
+
 import { SEOUL } from '@consts/location';
-import { POSITIONS } from '@consts/positions';
+import { PATH_NAME } from '@consts/pathName';
+import { POSITIONS_BUTTON } from '@consts/positions';
 
 import LOGO_SRC from '@assets/logoSvg.svg';
 
@@ -27,6 +33,13 @@ import {
 } from './RegisterPage.style';
 
 export const RegisterPage = () => {
+  const navigate = useNavigate();
+  const json = localStorage.getItem('LOGIN_INFO');
+  if (!json) {
+    throw new Error('no login info available');
+  }
+  const userInfo = JSON.parse(json);
+
   const [selectedLocation, setSelectedLocation] = useState<string[]>();
   const [selectedPosition, setSelectedPosition] = useState<string[]>();
 
@@ -46,6 +59,28 @@ export const RegisterPage = () => {
     isMultipleSelect: true,
   });
 
+  const { mutate } = useRegistrationMutation();
+
+  const submitRegistration = () => {
+    const { email, nickname, profileImageUrl, oauthId, oauthProvider } =
+      userInfo;
+    if (!selectedLocation) {
+      window.alert('지역을 선택해주세요');
+      return;
+    }
+    mutate({
+      email,
+      nickname,
+      profileImageUrl,
+      positions: selectedPosition as Position[],
+      addressDepth1: '서울시',
+      addressDepth2: selectedLocation[0],
+      oauthId,
+      oauthProvider,
+    });
+
+    navigate(PATH_NAME.MAIN);
+  };
   return (
     <RegisterContainer>
       <Header isLogo={false} title="정보 입력" isRightContainer={false} />
@@ -74,10 +109,11 @@ export const RegisterPage = () => {
             주 포지션
           </Text>
           <PositionButtonGroup>
-            {POSITIONS.map((position) => (
+            {Object.entries(POSITIONS_BUTTON).map(([position, value]) => (
               <ToggleButton
                 key={position}
-                value={position}
+                value={value}
+                label={position}
                 isActive={selectedPositions.includes(position)}
                 onToggle={handleTogglePosition}
               />
@@ -89,7 +125,7 @@ export const RegisterPage = () => {
             width="100%"
             height="3.125rem"
             {...theme.BUTTON_PROPS.LARGE_RED_OUTLINED_BUTTON_PROPS}
-            onClick={() => console.log(selectedLocation, selectedPosition)}
+            onClick={submitRegistration}
           >
             입력 완료
           </Button>

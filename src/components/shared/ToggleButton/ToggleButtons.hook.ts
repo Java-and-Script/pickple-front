@@ -1,18 +1,25 @@
 import { useState } from 'react';
 
-type ToggleButtonsProps = {
-  initialValues?: string[];
-  onToggle: (value: string[]) => void;
+type ToggleButtonsProps<T> = {
+  initialValues?: T[];
+  onToggle: (value: T[]) => void;
   isMultipleSelect: boolean;
 };
-export const useToggleButtons = ({
-  initialValues = [],
+
+export const useToggleButtons = <T>({
+  initialValues = [] as T[],
   isMultipleSelect,
   onToggle,
-}: ToggleButtonsProps) => {
-  const [selectedItems, setSelectedItems] = useState<string[]>(initialValues);
+}: ToggleButtonsProps<T>) => {
+  const [selectedItems, setSelectedItems] = useState<T[]>(initialValues);
 
-  const handleToggle = (value: string) => {
+  const handleToggle = (value: T) => {
+    if (!value) {
+      setSelectedItems([]);
+      onToggle([]);
+      return;
+    }
+
     const updatedItems = isMultipleSelect
       ? selectedItems.includes(value)
         ? selectedItems.filter((item) => item !== value)
@@ -23,5 +30,5 @@ export const useToggleButtons = ({
     onToggle(updatedItems);
   };
 
-  return { handleToggle, selectedItems };
+  return { handleToggle, selectedItems, setSelectedItems };
 };
