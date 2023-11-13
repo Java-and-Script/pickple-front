@@ -6,6 +6,7 @@ import { CreateCrewPage } from '@pages/CreateCrewPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
 import { CrewsManageParticipatePage } from '@pages/CrewsManageParticipatePage';
+import { CrewsParticipatePage } from '@pages/CrewsParticipatePage';
 import { CrewsRecommendPage } from '@pages/CrewsRecommendPage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesHostPage } from '@pages/GamesHostPage';
@@ -99,7 +100,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/participate',
-        element: <h3>crews/participate</h3>,
+        element: <CrewsParticipatePage />,
       },
       {
         path: 'crews/:id',
