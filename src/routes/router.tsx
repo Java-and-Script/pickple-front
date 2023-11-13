@@ -5,9 +5,10 @@ import { AllServicesPage } from '@pages/AllServicesPage';
 import { CreateCrewPage } from '@pages/CreateCrewPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
+import { CrewsManageParticipatePage } from '@pages/CrewsManageParticipatePage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesHostPage } from '@pages/GamesHostPage';
-import { GamesManagePage } from '@pages/GamesManagePage';
+import { GamesManageParticipatePage } from '@pages/GamesManageParticipatePage';
 import { GamesNearPage } from '@pages/GamesNearPage';
 import { GamesParticipatePage } from '@pages/GamesParticipatePage';
 import { Layout } from '@pages/Layout';
@@ -71,7 +72,7 @@ export const router = createBrowserRouter([
         path: 'games/:id/manage',
         element: (
           <Suspense fallback={null}>
-            <GamesManagePage />
+            <GamesManageParticipatePage />
           </Suspense>
         ),
       },
@@ -101,7 +102,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/:id/manage',
-        element: <>crew/:id/manage</>,
+        element: (
+          <Suspense fallback={null}>
+            <CrewsManageParticipatePage />
+          </Suspense>
+        ),
       },
       {
         path: 'create',
