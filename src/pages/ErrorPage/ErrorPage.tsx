@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useQueryClient } from '@tanstack/react-query';
@@ -6,6 +7,8 @@ import { Header } from '@components/Header';
 import { Navbar } from '@components/Navbar';
 import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
+
+import { usePathnameChange } from '@hooks/usePathnameChange';
 
 import { theme } from '@styles/theme';
 
@@ -35,15 +38,17 @@ export const ErrorPage = ({ resetErrorBoundary }: FallbackProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const reset = () => {
+  const reset = useCallback(() => {
     resetErrorBoundary();
     queryClient.clear();
-  };
+  }, [queryClient, resetErrorBoundary]);
+
+  usePathnameChange(reset);
 
   return (
     <>
       <PageWrapper>
-        <Header onNavigate={reset} />
+        <Header />
         <PageContent direction="column" gap={20} align="center" justify="start">
           <LogoImage
             src={LOGO_SRC}
@@ -59,19 +64,13 @@ export const ErrorPage = ({ resetErrorBoundary }: FallbackProps) => {
             <Button {...buttonProps} onClick={reset}>
               페이지 다시 로드
             </Button>
-            <Button
-              {...buttonProps}
-              onClick={() => {
-                reset();
-                navigate(PATH_NAME.MAIN);
-              }}
-            >
+            <Button {...buttonProps} onClick={() => navigate(PATH_NAME.MAIN)}>
               홈페이지로
             </Button>
           </ButtonContainer>
         </PageContent>
       </PageWrapper>
-      <Navbar onNavigate={reset} />
+      <Navbar />
     </>
   );
 };
