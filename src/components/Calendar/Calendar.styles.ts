@@ -11,21 +11,26 @@ export const StyledCalendar = styled(Calendar)`
   }
   .react-calendar__navigation button {
     min-width: 44px;
-    font-size: ${({ theme }) => theme.FONT_SIZE.LG};
+    color: black;
+    font-size: ${({ theme }) => theme.FONT_SIZE.MD};
   }
   .react-calendar__navigation button:enabled:hover,
   .react-calendar__navigation button:enabled:focus {
-    background-color: ${({ theme }) => theme.PALETTE.RED_300};
+    background: none;
   }
   .react-calendar__navigation button[disabled] {
     background: none;
     color: ${({ theme }) => theme.PALETTE.GRAY_300};
   }
+  .react-calendar__tile {
+    color: black;
+  }
   .react-calendar__tile:enabled:hover {
     background-color: ${({ theme }) => theme.PALETTE.RED_300};
+    background: none;
   }
   .react-calendar__tile:enabled:focus {
-    background-color: ${({ theme }) => theme.PALETTE.RED_500};
+    background: none;
   }
   .react-calendar__tile:disabled {
     background: none;
@@ -39,13 +44,14 @@ export const StyledCalendar = styled(Calendar)`
   .react-calendar__tile--now:enabled:focus {
     font-weight: bold;
   }
+
   .react-calendar__tile--active {
+    background: ${({ theme }) => theme.PALETTE.RED_500};
     color: white;
-    font-weight: bold;
-    background-color: ${({ theme }) => theme.PALETTE.RED_500};
   }
+
   .react-calendar__tile--active:enabled:hover,
   .react-calendar__tile--active:enabled:focus {
-    color: white;
+    background: ${({ theme }) => theme.PALETTE.RED_500};
   }
 `;
