@@ -15,16 +15,21 @@ export const StyledCalendar = styled(Calendar)`
   }
   .react-calendar__navigation button:enabled:hover,
   .react-calendar__navigation button:enabled:focus {
-    background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
+    background-color: ${({ theme }) => theme.PALETTE.RED_300};
   }
   .react-calendar__navigation button[disabled] {
-    background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
+    background: none;
+    color: ${({ theme }) => theme.PALETTE.GRAY_300};
   }
   .react-calendar__tile:enabled:hover {
     background-color: ${({ theme }) => theme.PALETTE.RED_300};
   }
   .react-calendar__tile:enabled:focus {
     background-color: ${({ theme }) => theme.PALETTE.RED_500};
+  }
+  .react-calendar__tile:disabled {
+    background: none;
+    color: ${({ theme }) => theme.PALETTE.GRAY_300};
   }
   .react-calendar__tile--now {
     background: none;
