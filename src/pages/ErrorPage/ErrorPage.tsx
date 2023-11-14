@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { useQueryClient } from '@tanstack/react-query';
 
+import { Header } from '@components/Header';
+import { Navbar } from '@components/Navbar';
 import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 
@@ -29,11 +31,9 @@ const buttonProps = {
   borderColor: theme.PALETTE.GRAY_400,
 } as const;
 
-export const ErrorPage = ({ error, resetErrorBoundary }: FallbackProps) => {
+export const ErrorPage = ({ resetErrorBoundary }: FallbackProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  console.log(error);
 
   const reset = () => {
     resetErrorBoundary();
@@ -41,28 +41,37 @@ export const ErrorPage = ({ error, resetErrorBoundary }: FallbackProps) => {
   };
 
   return (
-    <PageWrapper>
-      <PageContent direction="column" gap={20} align="center" justify="start">
-        <LogoImage src={LOGO_SRC} width="35%" height="auto" alt="pickle logo" />
-        <div>
-          <Text size={40}>예상치 못한 오류가</Text>
-          <Text size={40}>발생했습니다.</Text>
-        </div>
-        <ButtonContainer gap={16}>
-          <Button {...buttonProps} onClick={reset}>
-            페이지 다시 로드
-          </Button>
-          <Button
-            {...buttonProps}
-            onClick={() => {
-              reset();
-              navigate(PATH_NAME.MAIN);
-            }}
-          >
-            홈페이지로
-          </Button>
-        </ButtonContainer>
-      </PageContent>
-    </PageWrapper>
+    <>
+      <PageWrapper>
+        <Header onNavigate={reset} />
+        <PageContent direction="column" gap={20} align="center" justify="start">
+          <LogoImage
+            src={LOGO_SRC}
+            width="35%"
+            height="auto"
+            alt="pickle logo"
+          />
+          <div>
+            <Text size={40}>예상치 못한 오류가</Text>
+            <Text size={40}>발생했습니다.</Text>
+          </div>
+          <ButtonContainer gap={16}>
+            <Button {...buttonProps} onClick={reset}>
+              페이지 다시 로드
+            </Button>
+            <Button
+              {...buttonProps}
+              onClick={() => {
+                reset();
+                navigate(PATH_NAME.MAIN);
+              }}
+            >
+              홈페이지로
+            </Button>
+          </ButtonContainer>
+        </PageContent>
+      </PageWrapper>
+      <Navbar onNavigate={reset} />
+    </>
   );
 };
