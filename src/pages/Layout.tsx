@@ -1,14 +1,19 @@
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import styled from '@emotion/styled';
 
 import { Navbar } from '@components/Navbar/Navbar';
 
+import { FallbackPage } from './FallbackPage';
+
 export const Layout = () => {
   return (
     <>
       <LayoutWrapper>
-        <Outlet />
+        <Suspense fallback={<FallbackPage />}>
+          <Outlet />
+        </Suspense>
       </LayoutWrapper>
       <Navbar />
     </>

@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -36,11 +35,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: (
-          <Suspense fallback={null}>
-            <MainPage />
-          </Suspense>
-        ),
+        element: <MainPage />,
       },
       { path: 'login', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
@@ -48,91 +43,47 @@ export const router = createBrowserRouter([
       { path: 'players/:id', element: <h1>players</h1> },
       {
         path: 'games/near',
-        element: (
-          <Suspense>
-            <GamesNearPage />
-          </Suspense>
-        ),
+        element: <GamesNearPage />,
       },
       {
         path: 'games/host',
-        element: (
-          <Suspense fallback={null}>
-            <GamesHostPage />
-          </Suspense>
-        ),
+        element: <GamesHostPage />,
       },
       {
         path: 'games/participate',
-        element: (
-          <Suspense fallback={null}>
-            <GamesParticipatePage />
-          </Suspense>
-        ),
+        element: <GamesParticipatePage />,
       },
       {
         path: 'games/:id',
-        element: (
-          <Suspense fallback={null}>
-            <GamesDetailPage />
-          </Suspense>
-        ),
+        element: <GamesDetailPage />,
       },
       {
         path: 'games/:id/manage',
-        element: (
-          <Suspense fallback={null}>
-            <GamesManageParticipatePage />
-          </Suspense>
-        ),
+        element: <GamesManageParticipatePage />,
       },
       {
         path: 'games/:id/review',
-        element: (
-          <Suspense fallback={null}>
-            <MannerScoreReviewPage />
-          </Suspense>
-        ),
+        element: <MannerScoreReviewPage />,
       },
       {
         path: 'crews/recommend',
-        element: (
-          <Suspense fallback={null}>
-            <CrewsRecommendPage />
-          </Suspense>
-        ),
+        element: <CrewsRecommendPage />,
       },
       {
         path: 'crews/chief',
-        element: (
-          <Suspense fallback={null}>
-            <CrewsChiefPage />
-          </Suspense>
-        ),
+        element: <CrewsChiefPage />,
       },
       {
         path: 'crews/participate',
-        element: (
-          <Suspense fallback={null}>
-            <CrewsParticipatePage />
-          </Suspense>
-        ),
+        element: <CrewsParticipatePage />,
       },
       {
         path: 'crews/:id',
-        element: (
-          <Suspense fallback={null}>
-            <CrewsDetailPage />
-          </Suspense>
-        ),
+        element: <CrewsDetailPage />,
       },
       {
         path: 'crews/:id/manage',
-        element: (
-          <Suspense fallback={null}>
-            <CrewsManageParticipatePage />
-          </Suspense>
-        ),
+        element: <CrewsManageParticipatePage />,
       },
       {
         path: 'create',
@@ -140,27 +91,15 @@ export const router = createBrowserRouter([
       },
       {
         path: 'create/game',
-        element: (
-          <Suspense fallback={null}>
-            <CreateGamePage />
-          </Suspense>
-        ),
+        element: <CreateGamePage />,
       },
       {
         path: 'create/crew',
-        element: (
-          <Suspense fallback={null}>
-            <CreateCrewPage />
-          </Suspense>
-        ),
+        element: <CreateCrewPage />,
       },
       {
         path: 'profile/:id',
-        element: (
-          <Suspense fallback={null}>
-            <ProfilePage />
-          </Suspense>
-        ),
+        element: <ProfilePage />,
       },
       { path: 'profile/update', element: <h1>프로필 수정 페이지</h1> },
       {
