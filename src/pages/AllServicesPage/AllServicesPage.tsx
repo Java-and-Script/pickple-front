@@ -28,20 +28,19 @@ import { MenuItem } from './MenuItem';
 
 export const AllServicesPage = () => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+  const myId = loginInfo?.id ? String(loginInfo?.id) : null;
+
   const navigate = useNavigate();
 
   const moveToPage = (pathName: string) => {
     navigate(pathName);
   };
 
-  const getMyId = (): string | null => {
-    if (!loginInfo?.id) {
-      return null;
+  const logout = () => {
+    if (myId) {
+      localStorage.removeItem('LOGIN_INFO_PERSIST');
+      localStorage.removeItem('ACCESS_TOKEN_PERSIST');
     }
-
-    const { id } = loginInfo;
-
-    return String(id);
   };
 
   return (
@@ -74,7 +73,7 @@ export const AllServicesPage = () => {
             icon={<Profile />}
             pageName="내 정보"
             onClickMenuItem={() =>
-              moveToPage(PATH_NAME.GET_PROFILE_PATH(getMyId() ?? '0'))
+              myId && moveToPage(PATH_NAME.GET_PROFILE_PATH(myId))
             }
           />
           <MenuItem icon={<Social />} pageName="소셜링" />
@@ -86,12 +85,14 @@ export const AllServicesPage = () => {
           <MenuItem
             icon={<Ball />}
             pageName="내가 참여한 게스트 매치"
-            onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_PARTICIPATE)}
+            onClickMenuItem={() =>
+              myId && moveToPage(PATH_NAME.GAMES_PARTICIPATE)
+            }
           />
           <MenuItem
             icon={<Whistle />}
             pageName="내가 만든 게스트 매치"
-            onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_HOST)}
+            onClickMenuItem={() => myId && moveToPage(PATH_NAME.GAMES_HOST)}
           />
         </FieldContainer>
         <FieldContainer>
@@ -101,12 +102,14 @@ export const AllServicesPage = () => {
           <MenuItem
             icon={<CrewManage />}
             pageName="내가 속한 크루"
-            onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_PARTICIPATE)}
+            onClickMenuItem={() =>
+              myId && moveToPage(PATH_NAME.CREWS_PARTICIPATE)
+            }
           />
           <MenuItem
             icon={<CrewMember />}
             pageName="내가 만든 크루"
-            onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_CHIEF)}
+            onClickMenuItem={() => myId && moveToPage(PATH_NAME.CREWS_CHIEF)}
           />
           <MenuItem icon={<Medal />} pageName="크루 랭킹" />
         </FieldContainer>
@@ -114,7 +117,11 @@ export const AllServicesPage = () => {
           <Text size="1rem" weight={700}>
             설정
           </Text>
-          <MenuItem icon={<Exit />} pageName="로그아웃" />
+          <MenuItem
+            icon={<Exit />}
+            pageName="로그아웃"
+            onClickMenuItem={logout}
+          />
         </FieldContainer>
       </Main>
     </AllServicesContainer>
