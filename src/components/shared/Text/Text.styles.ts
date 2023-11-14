@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 
-type StyledParagraphProps = {
+type StyledSpanProps = {
   size: string;
   weight: number;
   lineHeight: string;
   lineClamp: string;
 };
 
-export const StyledParagraph = styled.p<StyledParagraphProps>`
+export const StyledSpan = styled.span<StyledSpanProps>`
   margin: 0;
   color: ${({ color }) => color};
   font-size: ${({ size }) => size};

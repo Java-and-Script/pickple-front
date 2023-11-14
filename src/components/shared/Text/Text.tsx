@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react';
 
 import { LINE_HEIGHT } from '@styles/font';
 
-import { StyledParagraph } from './Text.styles';
+import { StyledSpan } from './Text.styles';
 
 type Textprops = {
   children: React.ReactNode;
@@ -33,7 +33,7 @@ export const Text = ({
     : '';
 
   return (
-    <StyledParagraph
+    <StyledSpan
       size={stringifiedSize}
       weight={weight}
       lineHeight={lineHeight}
@@ -42,6 +42,6 @@ export const Text = ({
       {...props}
     >
       {children}
-    </StyledParagraph>
+    </StyledSpan>
   );
 };
