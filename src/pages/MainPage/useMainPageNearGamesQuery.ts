@@ -13,6 +13,6 @@ export const useMainPageNearGamesQuery = ({
 }) => {
   return useSuspenseQuery({
     queryKey: ['mainpage-games', category, value],
-    queryFn: () => getGames({ category, value, page: 1, size: FETCH_SIZE }),
+    queryFn: () => getGames({ category, value, page: 0, size: FETCH_SIZE }),
   });
 };
