@@ -116,7 +116,7 @@ export const router = createBrowserRouter([
         element: <h3>message room</h3>,
       },
       {
-        path: 'notification/:id',
+        path: 'notification',
         element: <NotificationPage />,
       },
       {
