@@ -20,6 +20,7 @@ import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
+import { MessagePage } from '@pages/MessagePage';
 import { NotificationPage } from '@pages/NotificationPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { RedirectPage } from '@pages/RedirectPage';
@@ -109,7 +110,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'message',
-        element: <h3>message</h3>,
+        element: <MessagePage />,
       },
       {
         path: 'message/:id',
