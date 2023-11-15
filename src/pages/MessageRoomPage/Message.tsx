@@ -81,12 +81,13 @@ const Balloon = styled(Text)<{ isMe: boolean }>`
   ${({ isMe, theme }) =>
     isMe
       ? ` 
-      border-radius: 0 8px 8px 8px;
-      background-color: ${theme.PALETTE.GRAY_200}; 
+      border-radius: 0 8px 8px 8px; 
+      border:1px solid ${theme.PALETTE.GRAY_200}; 
     `
       : `  
+      color:white;
       border-radius: 8px 0 8px 8px;
-      background-color: ${theme.PALETTE.RED_200};
+      background-color: ${theme.PALETTE.RED_300};
   `};
 `;
 
