@@ -55,7 +55,7 @@ export const MessageRoomPage = () => {
           title={'10월 21일 용산구 (8명)'}
           isRightContainer={true}
         />
-        <Main>
+        <Main direction="column" gap={8}>
           {messages.map((message, index) => (
             <Message key={index} message={message} isMe={message.id === 1} />
           ))}
