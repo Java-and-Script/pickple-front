@@ -1,12 +1,11 @@
 import axios from 'axios';
 
+import { BASE_URL } from '@consts/network';
+
 import { setAuthorization } from './interceptors';
 
-const PROD = import.meta.env.MODE === 'production';
-const baseURL = PROD ? import.meta.env.VITE_BASE_URL : '/api';
-
 export const axiosInstance = axios.create({
-  baseURL,
+  baseURL: BASE_URL,
   headers: {
     'Content-type': 'application/json',
   },
