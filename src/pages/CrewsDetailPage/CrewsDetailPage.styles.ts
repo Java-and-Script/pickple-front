@@ -14,7 +14,7 @@ export const PageContent = styled(Flex)`
 `;
 
 export const CrewProfileInfo = styled(Flex)`
-  height: 300px;
+  height: calc(100dvw * 10 / 16 + 50px);
 `;
 
 export const BackgoundImage = styled(Image)`
