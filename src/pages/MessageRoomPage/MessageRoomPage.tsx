@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Header } from '@components/Header';
 import { Input } from '@components/shared/Input';
@@ -14,18 +14,37 @@ import {
 } from './MessageRoomPage.style';
 
 export const MessageRoomPage = () => {
-  const ref = useRef<HTMLInputElement | null>(null);
+  const [messages, setMessages] = useState(data);
+
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!ref.current) {
+    if (!inputRef.current || inputRef.current.value === '') {
       return;
     }
-    console.log(ref.current.value);
 
-    ref.current.value = '';
+    const value = inputRef.current.value;
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: 2,
+        name: 'hi',
+        content: value,
+        time: '22:30',
+      },
+    ]);
+
+    inputRef.current.value = '';
   };
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView();
+  }, [messages]);
 
   return (
     <>
@@ -46,16 +65,17 @@ export const MessageRoomPage = () => {
           onSubmit={sendMessage}
           height="48px"
           backgroundColor={theme.PALETTE.GRAY_200}
-          ref={ref}
+          ref={inputRef}
         >
           <SendButton>전송</SendButton>
         </Input>
       </InputWrapper>
+      <div ref={messageEndRef}></div>
     </>
   );
 };
 
-const messages = [
+const data = [
   {
     id: 1,
     name: '원지',
