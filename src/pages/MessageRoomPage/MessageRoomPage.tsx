@@ -36,6 +36,7 @@ export const MessageRoomPage = () => {
         name: 'hi',
         content: value,
         time: '22:30',
+        type: 'conversation',
       },
     ]);
 
@@ -75,89 +76,67 @@ export const MessageRoomPage = () => {
   );
 };
 
-const data = [
+const data: {
+  id: number;
+  name: string;
+  content: string;
+  time: string;
+  type: 'conversation' | 'system';
+}[] = [
   {
     id: 1,
     name: '원지',
     content: '안녕안녕안녕안녕안녕 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
     time: '20:30',
+    type: 'conversation',
   },
   {
     id: 1,
     name: '원지',
     content: '안녕안녕안녕안녕안녕 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
     time: '20:30',
+    type: 'conversation',
   },
   {
     id: 1,
     name: '원지',
     content: '안녕안녕안녕안녕안녕 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
     time: '20:30',
+    type: 'conversation',
   },
   {
     id: 1,
     name: '원지',
     content: '안녕안녕안녕안녕안녕 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
     time: '20:30',
+    type: 'conversation',
   },
   {
     id: 1,
     name: '원지',
     content: '안녕안녕안녕안녕안녕 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
     time: '20:30',
+    type: 'conversation',
   },
   {
     id: 1,
     name: '원지',
-    content: '안녕안녕안녕안녕안녕 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
+    content: '원지님이 입장했습니다.',
     time: '20:30',
-  },
-  {
-    id: 1,
-    name: '원지',
-    content: '안녕안녕안녕안녕안녕 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
-    time: '20:30',
-  },
-  {
-    id: 1,
-    name: '원지',
-    content: '안녕안녕안녕안녕안녕 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
-    time: '20:30',
-  },
-  {
-    id: 1,
-    name: '원지',
-    content: '안녕안녕안녕안녕안녕 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
-    time: '20:30',
-  },
-  {
-    id: 1,
-    name: '원지',
-    content: '안녕안녕안녕안녕안녕 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
-    time: '20:30',
-  },
-  {
-    id: 1,
-    name: '원지',
-    content: '안녕안녕안녕안녕안녕 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
-    time: '20:30',
-  },
-  {
-    id: 1,
-    name: '원지',
-    content: ' 안녕안녕안녕안녕안녕안녕안녕 안녕안녕',
-    time: '20:32',
+    type: 'system',
   },
   {
     id: 2,
     name: 'hi',
     content: '안녕',
     time: '22:30',
+    type: 'conversation',
   },
   {
     id: 2,
     name: 'hi',
     content: '안녕',
     time: '22:30',
+    type: 'conversation',
   },
 ];

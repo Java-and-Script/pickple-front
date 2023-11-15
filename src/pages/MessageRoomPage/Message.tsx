@@ -12,16 +12,19 @@ type MessageProps = {
     name: string;
     content: string;
     time: string;
+    type: 'conversation' | 'system';
   };
   isMe: boolean;
 };
 
 export const Message = ({ message, isMe }: MessageProps) => {
-  return (
+  return message.type === 'conversation' ? (
     <MessageItem key={message.id} isMe={isMe}>
       {isMe && (
         <Avatar
-          src={'https://cdn.aitimes.kr/news/photo/202303/27617_41603_044.jpg'}
+          src={
+            'https://velog.velcdn.com/images/sharphand1/post/e7f981a1-fe04-4687-800a-f7e411e6abff/image.png'
+          }
           size={30}
         />
       )}
@@ -38,8 +41,25 @@ export const Message = ({ message, isMe }: MessageProps) => {
         </Text>
       </BalloonInfo>
     </MessageItem>
+  ) : (
+    <SystemMessage>
+      <Text size={10} weight={300} color="white">
+        {message.content}
+      </Text>
+    </SystemMessage>
   );
 };
+
+const SystemMessage = styled.div`
+  text-align: center;
+  padding: 12px;
+  & > p {
+    display: inline;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: ${({ theme }) => theme.PALETTE.GRAY_400};
+  }
+`;
 
 const BalloonInfo = styled(Flex)<{ isMe: boolean }>`
   align-items: ${({ isMe }) => (isMe ? 'flex-start' : 'flex-end')};
