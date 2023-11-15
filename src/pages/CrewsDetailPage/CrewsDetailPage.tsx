@@ -152,7 +152,7 @@ export const CrewsDetailPage = () => {
                 navigate(PATH_NAME.GET_CREWS_MANAGE_PATH(String(crew.id)))
               }
             >
-              매치 관리
+              크루 관리
             </Button>
           )}
           {renderParticipateButton && (

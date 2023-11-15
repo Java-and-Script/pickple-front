@@ -21,6 +21,7 @@ import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
 import { MessageRoomPage } from '@pages/MessageRoomPage';
+import { NotificationPage } from '@pages/NotificationPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { RedirectPage } from '@pages/RedirectPage';
 import { RegisterPage } from '@pages/RegisterPage';
@@ -114,6 +115,10 @@ export const router = createBrowserRouter([
       {
         path: 'message/:id',
         element: <MessageRoomPage />,
+      },
+      {
+        path: 'notification',
+        element: <NotificationPage />,
       },
       {
         path: 'auth/kakao/callback',

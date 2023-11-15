@@ -20,6 +20,7 @@ export const CalendarComponent = ({
   return (
     <div>
       <StyledCalendar
+        minDate={new Date()}
         onChange={(newDate) => {
           onChange(newDate as Date);
         }}

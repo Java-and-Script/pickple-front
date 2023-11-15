@@ -27,25 +27,26 @@ export const RedirectPage = () => {
   const { setLoginInfo } = useLoginInfoStore();
   const { setAccessToken } = useTokenStore();
 
-  const getLoginInfo = useCallback(async () => {
+  const fetchLoginInfo = useCallback(async () => {
     const { data } = await refetch();
 
     if (!data) {
       return;
     }
-    setLoginInfo(data);
-    setAccessToken(data.accessToken);
 
     if (isAuthenticated(data)) {
+      setLoginInfo(data);
+      setAccessToken(data.accessToken);
+
       navigate('/');
     } else {
-      navigate('/register');
+      navigate('/register', { state: data });
     }
   }, [navigate, refetch, setLoginInfo, setAccessToken]);
 
   useEffect(() => {
-    getLoginInfo();
-  }, [getLoginInfo]);
+    fetchLoginInfo();
+  }, [fetchLoginInfo]);
 
   return <div>로그인 중입니다.</div>;
 };

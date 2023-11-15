@@ -8,12 +8,11 @@ import plusIcon from '@/assets/plus.svg';
 
 import { NavbarButton, NavbarContainer } from './Navbar.style';
 
-export const Navbar = ({ onNavigate }: { onNavigate?: VoidFunction }) => {
+export const Navbar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const handleNavbarClick = (page: string) => {
-    onNavigate?.();
     navigate(`/${page}`);
   };
 
