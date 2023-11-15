@@ -29,44 +29,37 @@ type HeaderProps = {
   isLogo: boolean;
   title: string;
   isRightContainer: boolean;
-  onNavigate?: VoidFunction;
 };
 
 export const Header = ({
   isLogo = false,
   title = '',
   isRightContainer = true,
-  onNavigate,
 }: Partial<HeaderProps>) => {
   const navigate = useNavigate();
 
-  const handleClick = (callback: VoidFunction) => {
-    onNavigate?.();
-    callback();
-  };
-
   const handleLogoClick = () => {
-    handleClick(() => navigate('/'));
+    navigate('/');
   };
 
   const handleBackwardIconClick = () => {
-    handleClick(() => navigate(-1));
+    navigate(-1);
   };
 
   const handleSearchIconClick = () => {
-    handleClick(() => navigate('/search'));
+    navigate('/search');
   };
 
   const handleBellIconClick = () => {
-    handleClick(() => navigate('/notification'));
+    navigate('/notification');
   };
 
   const handleProfileIconClick = () => {
-    handleClick(() => navigate('/all-services'));
+    navigate('/all-services');
   };
 
   const handleLoginClick = () => {
-    handleClick(() => navigate('/login'));
+    navigate('/login');
   };
 
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
