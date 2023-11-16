@@ -33,7 +33,7 @@ export const InputWrapper = styled.div`
 export const BalloonContainer = styled(Flex)<{ isMe: boolean }>`
   max-width: 70%;
   padding-left: 10px;
-  & > p {
+  & > span {
     padding: 10px;
     white-space: pre-wrap;
     ${({ isMe, theme }) =>
@@ -57,7 +57,7 @@ export const BalloonInfo = styled(Flex)`
 export const SystemMessage = styled.div`
   text-align: center;
   padding: 12px;
-  & > p {
+  & > span {
     display: inline;
     padding: 4px;
     border-radius: 4px;
