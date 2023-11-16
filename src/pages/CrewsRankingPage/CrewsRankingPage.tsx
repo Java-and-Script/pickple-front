@@ -41,28 +41,28 @@ export const CrewsRankingPage = () => {
         <RankingItem
           rank={1}
           name="민재 크루"
-          profilImageUrl="asd"
+          profilImageUrl="https://picsum.photos/41"
           rating={20000}
           onClick={() => openModal(1)}
         />
         <RankingItem
           rank={2}
-          name="진욱 크루"
-          profilImageUrl="asd"
-          rating={1000}
+          name="찬 크루"
+          profilImageUrl="https://picsum.photos/42"
+          rating={10000}
           onClick={() => openModal(2)}
         />
         <RankingItem
           rank={3}
-          name="진욱 크루"
-          profilImageUrl="asd"
-          rating={1000}
+          name="원지 크루"
+          profilImageUrl="https://picsum.photos/43"
+          rating={5000}
           onClick={() => openModal(3)}
         />
         <RankingItem
           rank={49}
           name="진욱 크루"
-          profilImageUrl="asd"
+          profilImageUrl="https://picsum.photos/44"
           rating={1000}
           onClick={() => openModal(49)}
         />
