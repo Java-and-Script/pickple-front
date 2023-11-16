@@ -14,7 +14,11 @@ export const useAlarmsQuery = () => {
       if (!lastPage.hasNext) {
         return undefined;
       }
-      return lastPage.alarms[lastPage.alarms.length - 1].id;
+      const lastAlarm = lastPage.alarms[lastPage.alarms.length - 1];
+      if ('crewId' in lastAlarm) {
+        return lastAlarm.crewId;
+      }
+      return lastAlarm.gameId;
     },
     initialPageParam: 0,
   });

@@ -1,24 +1,30 @@
 export type DefaultAlarm = {
-  id: number;
-  alarmType: string;
   createdAt: string;
-  status: 'read' | 'unread';
+  isRead: boolean;
 };
 
-export type CrewAlarmType = 'crewLeader-1' | 'crew-1' | 'crew-2';
 export type CrewAlarm = DefaultAlarm & {
-  alarmType: CrewAlarmType;
+  crewAlarmId: number;
+  crewId: number;
   crewName: string;
   crewImageUrl: string;
+  crewAlarmMessage:
+    | '가입 수락을 기다리고 있어요'
+    | '크루 가입이 수락되었어요'
+    | '크루 가입이 거절되었어요';
 };
 
-export type GameAlarmType = 'host-1' | 'guest-1' | 'guest-2';
 export type GameAlarm = DefaultAlarm & {
-  alarmType: GameAlarmType;
+  gameAlarmId: number;
+  gameId: number;
   mainAddress: string;
   playDate: string;
   playStartTime: string;
   playTimeMinutes: number;
+  gameAlarmMessage:
+    | '게스트 참여가 수락되었어요'
+    | '게스트 모집 참여 수락을 기다리고 있어요'
+    | '게스트 참여가 거절되었어요';
 };
 
 export type Alarm = GameAlarm | CrewAlarm;

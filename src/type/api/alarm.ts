@@ -1,10 +1,5 @@
 import type { Alarm } from '@type/models';
 
-export type DeleteAlarmsRequest = {
-  cursorId: number;
-  size: number;
-};
-
 export type PatchAlarmsRequest = {
   isRead: 'read';
 };

@@ -4,17 +4,16 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 
-import { patchAlarms } from '@api/alarms/patchAlarms';
+import { patchGameAlarms } from '@api/alarms/patchGameAlarms';
 
 import { GetAlarmsResponse } from '@type/api/alarm';
 
-export const useAlarmsPatchMutation = (alarmId: number) => {
+export const useGameAlarmsPatchMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['alarms', alarmId],
-    mutationFn: () => patchAlarms(alarmId),
-    onSuccess: () => {
+    mutationFn: (alarmId: number) => patchGameAlarms(alarmId),
+    onSuccess: (_, alarmId) => {
       const previousAlarms = queryClient.getQueryData<
         InfiniteData<GetAlarmsResponse, unknown>
       >(['alarms']);
