@@ -16,15 +16,21 @@ import {
 } from './MessagePage.style.ts';
 import { MessageRoomInfo } from './MessagePage.tsx';
 
-type MessageRoomProps = { messageRoom: MessageRoomInfo };
+type MessageRoomProps = {
+  messageRoom: MessageRoomInfo;
+  onClickMessage: () => void;
+};
 
-export const MessageRoom = ({ messageRoom }: MessageRoomProps) => {
+export const MessageRoom = ({
+  messageRoom,
+  onClickMessage,
+}: MessageRoomProps) => {
   const { nickname, content, date, img, type } = messageRoom;
 
   const startTime = getGameStartDate('2023-12-01', '11:30');
 
   return (
-    <MessageRoomItem justify="space-between">
+    <MessageRoomItem justify="space-between" onClick={onClickMessage}>
       <Flex gap={8}>
         {type === 'game' ? (
           <MessageMatchStatus>

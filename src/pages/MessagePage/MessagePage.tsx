@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Header } from '@components/Header';
+
+import { PATH_NAME } from '@consts/pathName.ts';
 
 import {
   Main,
@@ -21,10 +24,16 @@ export type MessageRoomInfo = {
 };
 
 export const MessagePage = () => {
+  const navigate = useNavigate();
+
   const [selectedTab, setSelectedTab] = useState(TEMP_TAB_TITLE.GROUP);
 
   const handleTabClick = (tab: string) => {
     setSelectedTab(tab);
+  };
+
+  const moveToPage = (pathName: string) => {
+    navigate(pathName);
   };
 
   return (
@@ -48,7 +57,11 @@ export const MessagePage = () => {
         {data
           .filter(({ type }) => selectedTab.includes(type))
           .map((messageRoom, i) => (
-            <MessageRoom messageRoom={messageRoom} key={i} />
+            <MessageRoom
+              messageRoom={messageRoom}
+              key={i}
+              onClickMessage={() => moveToPage(PATH_NAME.GET_MESSAGE_PATH('1'))}
+            />
           ))}
       </Main>
     </MessageContainer>
