@@ -6,11 +6,16 @@ import { Text } from '@components/shared/Text';
 
 import { theme } from '@styles/theme';
 
+import { getGameStartDate, isGameEnded } from '@utils/domain.ts';
+
 import {
   DateText,
   Main,
   MessageContainer,
   MessageItemAvatar,
+  MessageMatchDuration,
+  MessageMatchStartTime,
+  MessageMatchStatus,
   MessageRoomItem,
   Nickname,
   TabBar,
@@ -28,11 +33,28 @@ type MessageRoom = {
 };
 
 const MessageRoom = ({ messageRoom }: { messageRoom: MessageRoom }) => {
-  const { nickname, content, date, img } = messageRoom;
+  const { nickname, content, date, img, type } = messageRoom;
+  const startTime = getGameStartDate('2023-12-01', '11:30');
+
   return (
     <MessageRoomItem justify="space-between">
       <Flex gap={8}>
-        <MessageItemAvatar width="40" alt="avatar" src={img} />
+        {type === 'game' ? (
+          <MessageMatchStatus>
+            {isGameEnded(startTime, 90) ? (
+              <MessageMatchStartTime>종료</MessageMatchStartTime>
+            ) : (
+              <>
+                <MessageMatchStartTime>
+                  {`${startTime.toTimeString().slice(0, 5)}`}
+                </MessageMatchStartTime>
+                <MessageMatchDuration>{`${90 / 60}h`}</MessageMatchDuration>
+              </>
+            )}
+          </MessageMatchStatus>
+        ) : (
+          <MessageItemAvatar width="40" alt="avatar" src={img} />
+        )}
         <Flex direction="column">
           <Nickname size={12} weight={500} ellipsis={1}>
             {nickname}
@@ -50,7 +72,7 @@ const MessageRoom = ({ messageRoom }: { messageRoom: MessageRoom }) => {
 };
 
 export const MessagePage = () => {
-  const [selectedTab, setSelectedTab] = useState(TEMP_TAB_TITLE.ONE_TO_ONE);
+  const [selectedTab, setSelectedTab] = useState(TEMP_TAB_TITLE.GROUP);
 
   const handleTabClick = (tab: string) => {
     setSelectedTab(tab);
@@ -83,14 +105,14 @@ export const MessagePage = () => {
 
 const data: MessageRoom[] = [
   {
-    nickname: '강원지',
+    nickname: '11.16 용산구',
     content: '아아아아아아',
     date: '2023년 11월 16일',
     img: 'https://velog.velcdn.com/images/sharphand1/post/e7f981a1-fe04-4687-800a-f7e411e6abff/image.png',
     type: 'game',
   },
   {
-    nickname: '강원지',
+    nickname: '크크루루',
     content: '아아아아아아',
     date: '2023년 11월 16일',
     img: 'https://velog.velcdn.com/images/sharphand1/post/e7f981a1-fe04-4687-800a-f7e411e6abff/image.png',

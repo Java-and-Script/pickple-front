@@ -1,5 +1,10 @@
 import styled from '@emotion/styled';
 
+import {
+  MatchDuration,
+  MatchStartTime,
+  MatchStatus,
+} from '@components/MatchItem/MatchItem.styles';
 import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
@@ -33,9 +38,24 @@ export const MessageItemAvatar = styled(Image)`
   border-radius: 4px;
   border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_400};
 `;
+
 export const Nickname = styled(Text)`
   width: 100%;
 `;
+
 export const DateText = styled(Text)`
   min-width: 70px;
+`;
+
+export const MessageMatchStatus = styled(MatchStatus)`
+  width: 40px;
+  height: 40px;
+`;
+
+export const MessageMatchStartTime = styled(MatchStartTime)`
+  font-size: ${({ theme }) => theme.FONT_SIZE.XXS};
+`;
+
+export const MessageMatchDuration = styled(MatchDuration)`
+  font-size: 8px;
 `;
