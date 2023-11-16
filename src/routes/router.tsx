@@ -9,6 +9,7 @@ import { CrewsChiefPage } from '@pages/CrewsChiefPage';
 import { CrewsDetailPage } from '@pages/CrewsDetailPage';
 import { CrewsManageParticipatePage } from '@pages/CrewsManageParticipatePage';
 import { CrewsParticipatePage } from '@pages/CrewsParticipatePage';
+import { CrewsRankingPage } from '@pages/CrewsRankingPage';
 import { CrewsRecommendPage } from '@pages/CrewsRecommendPage';
 import { ErrorPage } from '@pages/ErrorPage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
@@ -80,7 +81,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/ranking',
-        element: <>ranking</>,
+        element: <CrewsRankingPage />,
       },
       {
         path: 'crews/:id',
