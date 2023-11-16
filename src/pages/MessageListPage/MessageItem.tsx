@@ -11,26 +11,25 @@ import {
   MessageMatchDuration,
   MessageMatchStartTime,
   MessageMatchStatus,
-  MessageRoomItem,
   Nickname,
-} from './MessagePage.style.ts';
-import { MessageRoomInfo } from './MessagePage.tsx';
+} from './MessageListPage.style.ts';
+import { MessageItemInfo } from './MessageListPage.tsx';
 
-type MessageRoomProps = {
-  messageRoom: MessageRoomInfo;
+type MessageItemProps = {
+  messageItem: MessageItemInfo;
   onClickMessage: () => void;
 };
 
-export const MessageRoom = ({
-  messageRoom,
+export const MessageItem = ({
+  messageItem,
   onClickMessage,
-}: MessageRoomProps) => {
-  const { nickname, content, date, img, type } = messageRoom;
+}: MessageItemProps) => {
+  const { nickname, content, date, img, type } = messageItem;
 
   const startTime = getGameStartDate('2023-12-01', '11:30');
 
   return (
-    <MessageRoomItem justify="space-between" onClick={onClickMessage}>
+    <Flex justify="space-between" onClick={onClickMessage}>
       <Flex gap={8}>
         {type === 'game' ? (
           <MessageMatchStatus>
@@ -60,6 +59,6 @@ export const MessageRoom = ({
       <DateText size={8} color={theme.PALETTE.GRAY_500}>
         {date}
       </DateText>
-    </MessageRoomItem>
+    </Flex>
   );
 };

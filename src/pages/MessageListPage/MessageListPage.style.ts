@@ -32,8 +32,6 @@ export const TabBarButton = styled.button<{ isSelected: boolean }>`
   padding: 10px;
 `;
 
-export const MessageRoomItem = styled(Flex)``;
-
 export const MessageItemAvatar = styled(Image)`
   border-radius: 4px;
   border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_400};

@@ -5,17 +5,17 @@ import { Header } from '@components/Header';
 
 import { PATH_NAME } from '@consts/pathName.ts';
 
+import { MessageItem } from './MessageItem.tsx';
 import {
   Main,
   MessageContainer,
   TabBar,
   TabBarButton,
-} from './MessagePage.style.ts';
-import { MessageRoom } from './MessageRoom.tsx';
+} from './MessageListPage.style.ts';
 
 const TEMP_TAB_TITLE = { ONE_TO_ONE: 'one', GROUP: 'crew, game' };
 
-export type MessageRoomInfo = {
+export type MessageItemInfo = {
   nickname: string;
   content: string;
   date: string;
@@ -23,7 +23,7 @@ export type MessageRoomInfo = {
   type: string;
 };
 
-export const MessagePage = () => {
+export const MessageListPage = () => {
   const navigate = useNavigate();
 
   const [selectedTab, setSelectedTab] = useState(TEMP_TAB_TITLE.GROUP);
@@ -56,9 +56,9 @@ export const MessagePage = () => {
         </TabBar>
         {data
           .filter(({ type }) => selectedTab.includes(type))
-          .map((messageRoom, i) => (
-            <MessageRoom
-              messageRoom={messageRoom}
+          .map((messageItem, i) => (
+            <MessageItem
+              messageItem={messageItem}
               key={i}
               onClickMessage={() => moveToPage(PATH_NAME.GET_MESSAGE_PATH('1'))}
             />
@@ -68,7 +68,7 @@ export const MessagePage = () => {
   );
 };
 
-const data: MessageRoomInfo[] = [
+const data: MessageItemInfo[] = [
   {
     nickname: '11.16 용산구',
     content: '아아아아아아',
