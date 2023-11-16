@@ -34,9 +34,10 @@ export const RedirectPage = () => {
       return;
     }
 
+    setAccessToken(data.accessToken);
+
     if (isAuthenticated(data)) {
       setLoginInfo(data);
-      setAccessToken(data.accessToken);
 
       navigate('/');
     } else {
