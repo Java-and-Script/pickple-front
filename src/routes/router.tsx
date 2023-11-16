@@ -79,6 +79,10 @@ export const router = createBrowserRouter([
         element: <CrewsParticipatePage />,
       },
       {
+        path: 'crews/ranking',
+        element: <>ranking</>,
+      },
+      {
         path: 'crews/:id',
         element: <CrewsDetailPage />,
       },
