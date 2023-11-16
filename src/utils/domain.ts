@@ -2,7 +2,9 @@ export const getGameStartDate = (
   gamePlayDate: string,
   gamePlayStartTime: string
 ) => {
-  const result = new Date(`${gamePlayDate}:${gamePlayStartTime}`);
+  const result = new Date(
+    `${gamePlayDate} ${gamePlayStartTime}`.replace(/-/g, '/')
+  );
   if (result.toString() === 'Invalid Date') {
     throw new Error('Invalid Date');
   }
