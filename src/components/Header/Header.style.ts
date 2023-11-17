@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { Button } from '@components/shared/Button';
+
 export const HeaderBackground = styled.div`
   position: fixed;
   top: 0;
@@ -98,4 +100,8 @@ export const RightSideIcon = styled.button`
     width: 100%;
     height: 100%;
   }
+`;
+
+export const LoginButton = styled(Button)`
+  white-space: nowrap;
 `;
