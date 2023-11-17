@@ -33,12 +33,12 @@ const NotificationItem = ({
       {box}
       <Flex direction="column" gap={5}>
         <Flex gap={5}>
-          <Text size={12} weight={700}>
+          <Text size={12} weight={700} nowrap>
             {title}
           </Text>
-          <AgoText size={8} weight={300}>
+          <AgoText size={8} weight={300} nowrap>
             {createdAtToString(createdAt)}
-            {read && <Badge />}
+            {!read && <Badge />}
           </AgoText>
         </Flex>
         {content}
