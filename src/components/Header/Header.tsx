@@ -1,6 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 
+import { useQueryClient } from '@tanstack/react-query';
+
 import { Avatar } from '@components/Avatar';
+
+import { useEventSource } from '@hooks/useEventSource';
 
 import { theme } from '@styles/theme';
 
@@ -16,6 +20,8 @@ import searchIcon from '@assets/search.svg';
 import {
   BackwardIcon,
   BackwardWrapper,
+  Badge,
+  BellIcon,
   HeaderBackground,
   HeaderContainer,
   LoginButton,
@@ -41,7 +47,17 @@ export const Header = ({
   rightElement,
 }: Partial<HeaderProps>) => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  // TODO: 알림 api 나오면 주석 풀기
+  // const {
+  //   data: { unread },
+  // } = useAlarmsUnreadQuery();
+  useEventSource('/alarms/subscribe', () => {
+    queryClient.resetQueries({ queryKey: ['alarms'] });
+    queryClient.invalidateQueries({ queryKey: ['alarms-unread'] });
+  });
 
   const handleLogoClick = () => {
     navigate('/');
@@ -97,9 +113,10 @@ export const Header = ({
                 </RightSideIcon>
               </RightSideIconWrapper>
               <RightSideIconWrapper>
-                <RightSideIcon onClick={() => handleBellIconClick()}>
+                <BellIcon onClick={() => handleBellIconClick()}>
                   <img src={bellIcon} alt="" />
-                </RightSideIcon>
+                  <Badge />
+                </BellIcon>
               </RightSideIconWrapper>
               <RightSideIconWrapper>
                 <RightSideIcon onClick={() => handleProfileIconClick()}>
