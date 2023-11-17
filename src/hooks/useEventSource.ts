@@ -7,7 +7,7 @@ import { useLoginInfoStore } from '@stores/loginInfo.store';
 export const useEventSource = (
   subscribeUrl: string,
   onmessage: EventSourcePolyfill['onmessage'],
-  onerror: EventSourcePolyfill['onerror']
+  onerror?: EventSourcePolyfill['onerror']
 ) => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
@@ -21,9 +21,7 @@ export const useEventSource = (
       headers: { Authorization: loginInfo.accessToken },
     });
 
-    eventSource.onmessage = onmessage;
-
-    eventSource.onerror = onerror;
+    onerror && (eventSource.onerror = onerror);
 
     return () => {
       eventSource.close();
