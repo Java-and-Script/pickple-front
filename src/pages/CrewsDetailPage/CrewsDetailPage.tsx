@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
+import { InfoItem } from '@components/InfoItem';
 import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
@@ -25,7 +26,6 @@ import {
   BackgoundImage,
   ButtonWrapper,
   CrewProfileInfo,
-  InfoItem,
   MemberName,
   MemberWrapper,
   MembersContainer,
@@ -114,32 +114,17 @@ export const CrewsDetailPage = () => {
           크루 정보
         </Text>
         <Flex gap={10}>
-          <InfoItem>
-            <Text size={12} color={theme.PALETTE.GRAY_400}>
-              주 활동 지역
-            </Text>
+          <InfoItem
+            title={'주 활동 지역'}
+            text={`${crew.addressDepth1} ${crew.addressDepth2}`}
+          >
             <Map width={40} height={40} />
-            <Text
-              size="80%"
-              lineHeight="1rem"
-            >{`${crew.addressDepth1} ${crew.addressDepth2}`}</Text>
           </InfoItem>
-          <InfoItem>
-            <Text size={12} color={theme.PALETTE.GRAY_400}>
-              현재원
-            </Text>
+          <InfoItem title={'현재원'} text={`${crew.memberCount}명`}>
             <Ball width={40} height={40} />
-            <Text size={16} lineHeight="1rem">{`${crew.memberCount}명`}</Text>
           </InfoItem>
-          <InfoItem>
-            <Text size={12} color={theme.PALETTE.GRAY_400}>
-              정원
-            </Text>
+          <InfoItem title={'정원'} text={`${crew.maxMemberCount}명`}>
             <CrewMember width={40} height={40} />
-            <Text
-              size={16}
-              lineHeight="1rem"
-            >{`${crew.maxMemberCount}명`}</Text>
           </InfoItem>
         </Flex>
         <ButtonWrapper>

@@ -47,6 +47,9 @@ const Modal = ({ children, isOpen, header = false, close }: ModalProps) => {
           },
         },
         window: {
+          content: {
+            fontFamily: 'GmarketSans',
+          },
           wrap: {
             borderTopLeftRadius: '16px',
             borderTopRightRadius: '16px',
