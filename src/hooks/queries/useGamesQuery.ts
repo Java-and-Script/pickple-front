@@ -19,7 +19,10 @@ export const useGamesQuery = ({ category, value }: GamesQueryProps) => {
     queryKey: ['games', category, value],
     queryFn: ({ pageParam }) =>
       getGames({ category, value, page: pageParam, size: FETCH_SIZE }),
-    getNextPageParam: (_, pages) => {
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.length < FETCH_SIZE) {
+        return undefined;
+      }
       return pages.length;
     },
     initialPageParam: 0,
