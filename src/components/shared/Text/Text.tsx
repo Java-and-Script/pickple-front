@@ -11,7 +11,8 @@ type Textprops = {
   lineHeight?: string;
   ellipsis?: number;
   color?: string;
-} & Omit<HTMLAttributes<HTMLParagraphElement>, 'children'>;
+  nowrap?: true;
+} & Omit<HTMLAttributes<HTMLSpanElement>, 'children'>;
 
 export const Text = ({
   children,
@@ -20,6 +21,7 @@ export const Text = ({
   lineHeight = LINE_HEIGHT,
   ellipsis,
   color = 'inherit',
+  nowrap,
   ...props
 }: Textprops) => {
   const stringifiedSize = typeof size === 'number' ? `${size / 16}rem` : size;
@@ -39,6 +41,7 @@ export const Text = ({
       lineHeight={lineHeight}
       lineClamp={lineClamp}
       color={color}
+      nowrap={nowrap}
       {...props}
     >
       {children}
