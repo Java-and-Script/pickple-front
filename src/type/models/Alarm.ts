@@ -5,14 +5,16 @@ export type DefaultAlarm = {
   status: 'read' | 'unread';
 };
 
+export type CrewAlarmType = 'crewLeader-1' | 'crew-1' | 'crew-2';
 export type CrewAlarm = DefaultAlarm & {
-  alarmType: 'crewLeader-1' | 'crew-1' | 'crew-2';
+  alarmType: CrewAlarmType;
   crewName: string;
   crewImageUrl: string;
 };
 
+export type GameAlarmType = 'host-1' | 'guest-1' | 'guest-2';
 export type GameAlarm = DefaultAlarm & {
-  alarmType: 'host-1' | 'guest-1' | 'guest2';
+  alarmType: GameAlarmType;
   mainAddress: string;
   playDate: string;
   playStartTime: string;
