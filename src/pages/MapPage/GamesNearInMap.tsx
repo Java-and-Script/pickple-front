@@ -1,13 +1,31 @@
 import styled from '@emotion/styled';
 
-import { MatchItem } from '@components/MatchItem';
 import { Text } from '@components/shared/Text';
 
 import { Game } from '@type/models';
 
 import { getGameStartDate } from '@utils/domain';
 
-export const GamesNearInMap = ({ games }: { games: Game[] | null }) => {
+import { MatchItem } from './MatchItem';
+
+export const GamesNearInMap = ({
+  games,
+  setCurrentMarkerId,
+  setPosition,
+}: {
+  games: Game[] | null;
+  setCurrentMarkerId: (index: number) => void;
+  setPosition: ({
+    latitude,
+    longitude,
+  }: {
+    latitude: number;
+    longitude: number;
+  }) => void;
+}) => {
+  if (games === null) {
+    return <></>;
+  }
   return (
     <PageLayout>
       <PageContent>
@@ -29,6 +47,10 @@ export const GamesNearInMap = ({ games }: { games: Game[] | null }) => {
                 memberCount={game.memberCount}
                 maxMemberCount={game.maxMemberCount}
                 membersProfileImageUrls={membersProfileImageUrls}
+                setCurrentMarkerId={setCurrentMarkerId}
+                latitude={game.latitude}
+                longitude={game.longitude}
+                setPosition={setPosition}
               />
             );
           })}
@@ -38,7 +60,8 @@ export const GamesNearInMap = ({ games }: { games: Game[] | null }) => {
 };
 
 const PageLayout = styled.div`
-  ${({ theme }) => theme.STYLES.LAYOUT}
+  padding: 0.5rem 1rem 4.375rem 1rem;
+  background-color: #f3f4f6;
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
 `;
 
