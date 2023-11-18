@@ -51,7 +51,7 @@ export const CrewsChiefPage = () => {
             <CrewItem
               key={crew.id}
               name={crew.name}
-              address={crew.addressDepth1 + crew.addressDepth2}
+              address={`${crew.addressDepth1} ${crew.addressDepth2}`}
               imgSrc={crew.profileImageUrl}
               membersProfileImageUrls={membersProfileImageUrls}
               memberCount={crew.memberCount}
