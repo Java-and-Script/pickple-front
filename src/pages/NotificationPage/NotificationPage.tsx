@@ -13,8 +13,8 @@ import {
 
 export const NotificationPage = () => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-
-  if (!loginInfo?.id) {
+  const isLoggedIn = Boolean(loginInfo?.id);
+  if (!isLoggedIn) {
     throw new Error('로그인이 필요한 서비스입니다.');
   }
 
