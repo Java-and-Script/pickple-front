@@ -18,18 +18,18 @@ export const useMapPage = () => {
   const [games, setGames] = useState<Game[] | null>(null);
   const [initializer, setInitializer] = useState<boolean>(false);
   const [level, setLevel] = useState<number>(3);
+  const [isDragEnd, setIsDragEnd] = useState<boolean>(false);
+  const [isLoadingRefresh, setIsLoadingRefresh] = useState<boolean>(false);
+  const [currentMarkerId, setCurrentMarkerId] = useState<number>(0);
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(successHandler, errorHandler, {
       enableHighAccuracy: true,
     });
   }, []);
 
-  // km->m로 변경
-  //http://localhost:8080/games/by-location?latitude=37.5066680941127&longitude=126.897412723839&distance=1000&page=0&size=20
-  //http://192.168.0.194:8080//
-
   const getDistance = (level: number): number => {
-    return (0.1 * 2 ** (level - 1)) / 2;
+    return (100 * 2 ** (level - 1)) / 2;
   };
 
   const successHandler = async (response: GeolocationPosition) => {
@@ -85,6 +85,12 @@ export const useMapPage = () => {
     initializer,
     level,
     setLevel,
+    isDragEnd,
+    setIsDragEnd,
+    isLoadingRefresh,
+    setIsLoadingRefresh,
+    currentMarkerId,
+    setCurrentMarkerId,
     fetchGames,
   };
 };
