@@ -5,6 +5,7 @@ export const MainPageContainer = styled.div`
   margin-top: 0.6rem;
   ${({ theme }) => theme.STYLES.LAYOUT}
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
+  min-height: 100dvh;
 `;
 
 export const MainPageSubContainer = styled.div`

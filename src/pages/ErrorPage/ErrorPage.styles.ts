@@ -5,7 +5,7 @@ import { Image } from '@components/shared/Image';
 
 export const PageWrapper = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
-  height: 100dvh;
+  min-height: 100dvh;
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
 `;
 
