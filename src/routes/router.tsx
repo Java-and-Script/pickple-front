@@ -21,6 +21,7 @@ import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
+import { MessageListPage } from '@pages/MessageListPage';
 import { MessageRoomPage } from '@pages/MessageRoomPage';
 import { NotificationPage } from '@pages/NotificationPage';
 import { ProfilePage } from '@pages/ProfilePage';
@@ -115,7 +116,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'message',
-        element: <h3>message</h3>,
+        element: <MessageListPage />,
       },
       {
         path: 'message/:id',
