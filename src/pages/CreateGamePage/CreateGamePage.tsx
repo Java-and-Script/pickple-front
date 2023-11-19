@@ -1,6 +1,7 @@
 import { FormProvider } from 'react-hook-form';
 
 import {
+  CREATE_GAME_STRINGS,
   MAX_MEMBER_COUNT_LIST,
   PLAY_TIME_LIST,
   START_TIME_HOUR_LIST,
@@ -73,18 +74,18 @@ export const CreateGamePage = () => {
   return (
     <PageLayout>
       <PageWrapper>
-        <Header title={showHeaderTitle ? '게스트 모집하기' : ''} />
+        <Header title={showHeaderTitle ? CREATE_GAME_STRINGS.TITLE : ''} />
         <FormProvider {...methods}>
           <StyledCreateForm onSubmit={methods.handleSubmit(onSubmit)}>
             <StyledTitle>
               <div ref={entryRef}>
                 <Text size={20} weight={700}>
-                  게스트 모집하기
+                  {CREATE_GAME_STRINGS.TITLE}
                 </Text>
               </div>
             </StyledTitle>
             <ConditionalFormInput
-              title="게스트 인원을 선택해 주세요!"
+              title={CREATE_GAME_STRINGS.GUEST_COUNT}
               readOnly={true}
               isContainModal={true}
               inputLabel="guest-count"
@@ -100,7 +101,7 @@ export const CreateGamePage = () => {
               />
             </ConditionalFormInput>
             <ConditionalFormInput
-              title="경기 날짜를 선택해 주세요!"
+              title={CREATE_GAME_STRINGS.MATCH_DATE}
               readOnly={true}
               isContainModal={true}
               inputLabel="match-date"
@@ -112,7 +113,7 @@ export const CreateGamePage = () => {
               <CalendarComponent setDate={setPlayDate} />
             </ConditionalFormInput>
             <ConditionalFormInput
-              title="경기 시작 시간을 선택해 주세요!"
+              title={CREATE_GAME_STRINGS.START_TIME}
               readOnly={true}
               isContainModal={true}
               inputLabel="start-time"
@@ -136,7 +137,7 @@ export const CreateGamePage = () => {
               </StyledTimeSelector>
             </ConditionalFormInput>
             <ConditionalFormInput
-              title="경기 플레이타임을 선택해 주세요!"
+              title={CREATE_GAME_STRINGS.PLAY_TIME}
               readOnly={true}
               isContainModal={true}
               inputLabel="play-time"
@@ -152,13 +153,13 @@ export const CreateGamePage = () => {
               />
             </ConditionalFormInput>
             <Text size={16} weight={300}>
-              선호하는 포지션을 선택해 주세요!
+              {CREATE_GAME_STRINGS.POSITION}
             </Text>
             <StyledPositionsWrapper>
               <SelectPosition setPositions={setPositions} />
             </StyledPositionsWrapper>
             <ConditionalFormInput
-              title="주소를 입력해 주세요!"
+              title={CREATE_GAME_STRINGS.MAIN_ADDRESS}
               isRequired={true}
               readOnly={true}
               isContainModal={false}
@@ -168,14 +169,14 @@ export const CreateGamePage = () => {
             />
             <ConditionalFormInput
               isRequired={true}
-              title="상세장소를 입력해 주세요!"
+              title={CREATE_GAME_STRINGS.DETAIL_ADDRESS}
               isContainModal={false}
               inputLabel="address-detail"
               inputOnChange={setDetailAddress}
               value={detailAddress}
             />
             <ConditionalFormInput
-              title="참가비용을 입력해 주세요!"
+              title={CREATE_GAME_STRINGS.COST}
               isContainModal={false}
               inputLabel="cost"
               inputOnChange={handleCost}
@@ -187,7 +188,7 @@ export const CreateGamePage = () => {
               max={'100000'}
             />
             <TextArea
-              title="상세설명을 입력해 주세요!"
+              title={CREATE_GAME_STRINGS.CONTENT}
               inputLabel="content"
               inputOnChange={setContent}
             />
@@ -200,7 +201,7 @@ export const CreateGamePage = () => {
               backgroundColor={theme.PALETTE.RED_600}
               type="submit"
             >
-              모집하기
+              {CREATE_GAME_STRINGS.CREATE}
             </Button>
             <StyledEmptyContainer />
           </StyledCreateForm>
