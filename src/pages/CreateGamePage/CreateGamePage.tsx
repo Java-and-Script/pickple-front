@@ -1,6 +1,11 @@
-import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { FormProvider } from 'react-hook-form';
+
+import {
+  MAX_MEMBER_COUNT_LIST,
+  PLAY_TIME_LIST,
+  START_TIME_HOUR_LIST,
+  START_TIME_MINUTES_LIST,
+} from '@pages/CreateGamePage/consts/createGameOptions';
 
 import { CalendarComponent } from '@components/Calendar';
 import { ConditionalFormInput } from '@components/ConditionalFormInput';
@@ -11,23 +16,9 @@ import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 import { VirtualScroll } from '@components/shared/VirtualScroll';
 
-import { useGameMutation } from '@hooks/mutations/useGameMutation';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
-
-import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { PostGameRequest } from '@type/api/games';
-import { Position } from '@type/models/Position';
-
-import {
-  MAX_MEMBER_COUNT_LIST,
-  PLAY_TIME_LIST,
-  START_TIME_HOUR_LIST,
-  START_TIME_MINUTES_LIST,
-} from '@consts/createGameOptions';
-import { PATH_NAME } from '@consts/pathName';
 
 import {
   PageLayout,
@@ -39,87 +30,45 @@ import {
   StyledTimeSelector,
   StyledTitle,
 } from './CreateGamePage.styles';
+import { useCreateGamePage } from './useCreateGamePage';
 
 export const CreateGamePage = () => {
-  const navigate = useNavigate();
-
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-  if (!loginInfo?.id) {
-    throw new Error('로그인이 필요한 서비스입니다.');
-  }
-
-  const { mutate } = useGameMutation();
-  const methods = useForm();
+  const {
+    state,
+    methods,
+    onSubmit,
+    handleAddressSelect,
+    handleCost,
+    toggleGuestCountModal,
+    toggleMatchDateModal,
+    toggleStartTimeModal,
+    togglePlayTimeModal,
+    setMaxMemberCount,
+    setPlayDate,
+    setPlayStartTimeHours,
+    setPlayStartTimeMinutes,
+    setPlayTimeMinutes,
+    setPositions,
+    setDetailAddress,
+    setContent,
+  } = useCreateGamePage();
 
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
-  const [maxMemberCount, setMaxMemberCount] = useState<string>('');
-  const [playDate, setPlayDate] = useState<string>('');
-  const [playStartTimeHours, setStartTimeHours] = useState<string>('');
-  const [playStartTimeMinutes, setStartTimeMinutes] = useState<string>('');
-  const [playTimeMinutes, setPlayTimeMinutes] = useState<string>('');
-  const [positions, setPositions] = useState<Position[]>([]);
-  const [mainAddress, setMainAddress] = useState<string>('');
-  const [detailAddress, setDetailAddress] = useState<string>('');
-  const [cost, setCost] = useState<string>('0');
-  const [content, setContent] = useState<string>('');
-
-  const [isGuestCountModalOpen, setIsGuestCountModalOpen] = useState(false);
-  const [isMatchDateModalOpen, setIsMatchDateModalOpen] = useState(false);
-  const [isStartTimeModalOpen, setIsStartTimeModalOpen] = useState(false);
-  const [isPlayTimeModalOpen, setIsPlayTimeModalOpen] = useState(false);
-
-  const onSubmit = () => {
-    const gameData: PostGameRequest = {
-      maxMemberCount: parseInt(maxMemberCount),
-      playDate,
-      playStartTime: `${playStartTimeHours}:${playStartTimeMinutes}`,
-      playTimeMinutes: parseInt(playTimeMinutes),
-      positions,
-      mainAddress,
-      detailAddress,
-      cost: parseInt(cost),
-      content,
-    };
-
-    mutate(gameData, {
-      onSuccess: ({ gameId }) => {
-        navigate(PATH_NAME.GET_GAMES_PATH(String(gameId)));
-      },
-    });
-  };
-
-  const handleAddressSelect = () => {
-    new daum.Postcode({
-      oncomplete: ({ address }: { address: string }) => {
-        setMainAddress(address);
-      },
-    }).open();
-  };
-
-  const handleCost = (item: string) => {
-    if (parseInt(item) < 0) {
-      setCost('0');
-    } else if (parseInt(item) > 100000) {
-      setCost('100000');
-    } else setCost(item);
-  };
-
-  const toggleGuestCountModal = () => {
-    setIsGuestCountModalOpen((prev) => !prev);
-  };
-
-  const toggleMatchDateModal = () => {
-    setIsMatchDateModalOpen((prev) => !prev);
-  };
-
-  const toggleStartTimeModal = () => {
-    setIsStartTimeModalOpen((prev) => !prev);
-  };
-
-  const togglePlayTimeModal = () => {
-    setIsPlayTimeModalOpen((prev) => !prev);
-  };
+  const {
+    maxMemberCount,
+    playDate,
+    playStartTimeHours,
+    playStartTimeMinutes,
+    playTimeMinutes,
+    mainAddress,
+    detailAddress,
+    cost,
+    isGuestCountModalOpen,
+    isMatchDateModalOpen,
+    isStartTimeModalOpen,
+    isPlayTimeModalOpen,
+  } = state;
 
   return (
     <PageLayout>
@@ -176,13 +125,13 @@ export const CreateGamePage = () => {
                 <VirtualScroll
                   width="20%"
                   list={[...START_TIME_HOUR_LIST]}
-                  onItemSelected={setStartTimeHours}
+                  onItemSelected={setPlayStartTimeHours}
                 />
                 <StyledTimeColon>{':'}</StyledTimeColon>
                 <VirtualScroll
                   width="20%"
                   list={[...START_TIME_MINUTES_LIST]}
-                  onItemSelected={setStartTimeMinutes}
+                  onItemSelected={setPlayStartTimeMinutes}
                 />
               </StyledTimeSelector>
             </ConditionalFormInput>
