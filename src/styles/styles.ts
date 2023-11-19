@@ -12,6 +12,10 @@ export const STYLES = {
 		display: flex;
 		justify-content: center;
 	`,
+  FLEX_DIRECTION_COLUMN: `
+		display: flex;
+  	flex-direction: column;
+	`,
   ABSOLUTE_CENTER: `
 		position: absolute;
 		left: 50%;
