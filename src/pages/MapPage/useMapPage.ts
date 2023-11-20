@@ -38,10 +38,6 @@ export const useMapPage = () => {
     });
   }, []);
 
-  const getDistance = (level: number): number => {
-    return (100 * 2 ** (level - 1)) / 2;
-  };
-
   const successHandler = async (response: GeolocationPosition) => {
     const { latitude, longitude } = validateCoordinate(response.coords)
       ? response.coords
@@ -122,6 +118,10 @@ export const useMapPage = () => {
     polygon,
     fetchGames,
   };
+};
+
+const getDistance = (level: number): number => {
+  return (100 * 2 ** (level - 1)) / 2;
 };
 
 const validateCoordinate = (coordinate: {
