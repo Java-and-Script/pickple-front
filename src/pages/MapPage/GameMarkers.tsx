@@ -3,19 +3,16 @@ import { MapMarker, useMap } from 'react-kakao-maps-sdk';
 import { Game } from '@type/models';
 
 export const GameMarkers = ({
-  initializer,
   games,
   currentMarkerId,
   setCurrentMarkerId,
 }: {
-  initializer: boolean;
   games: Game[] | null;
   currentMarkerId: number;
   setCurrentMarkerId: (currentMarkerId: number) => void;
 }) => {
   const map = useMap();
   return (
-    initializer &&
     games &&
     games.map(({ longitude, latitude, id }) => {
       return (

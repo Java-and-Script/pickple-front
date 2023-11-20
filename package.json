@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "env-cmd -f .env.development vite",
-    "dev:prod": "env-cmd -f .env.production vite --host",
+    "dev:prod": "env-cmd -f .env.production vite",
     "test": "env-cmd -f .env.development npx vitest --ui",
     "test:prod": "env-cmd -f .env.production npx vitest --ui",
     "preview": "env-cmd -f .env.production npm run build && vite preview",

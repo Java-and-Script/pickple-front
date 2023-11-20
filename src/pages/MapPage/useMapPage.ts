@@ -1,10 +1,18 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { getGamesByAddress } from '@api/map/getGamesByAddress';
 import { getGamesInMap } from '@api/map/getGamesInMap';
+
+import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { Game } from '@type/models';
 
+import { PATH_NAME } from '@consts/pathName';
+
 export const useMapPage = () => {
+  const navigate = useNavigate();
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const [location, setLocation] = useState<{
     latitude: number;
     longitude: number;
@@ -21,8 +29,10 @@ export const useMapPage = () => {
   const [isDragEnd, setIsDragEnd] = useState<boolean>(false);
   const [isLoadingRefresh, setIsLoadingRefresh] = useState<boolean>(false);
   const [currentMarkerId, setCurrentMarkerId] = useState<number>(0);
+  const [polygon, setPolygon] = useState<{ lat: number; lng: number }[]>([]);
 
   useEffect(() => {
+    timer();
     navigator.geolocation.getCurrentPosition(successHandler, errorHandler, {
       enableHighAccuracy: true,
     });
@@ -44,27 +54,44 @@ export const useMapPage = () => {
       distance: getDistance(level),
     });
     setGames(serverGames);
-    setInitializer(true);
   };
 
   const errorHandler = async (error: GeolocationPositionError) => {
     console.log(error);
-    setLocation(DEFAULT_COORDINATE);
-    setPosition(DEFAULT_COORDINATE);
-    const serverGames = await getGamesInMap({
-      ...DEFAULT_COORDINATE,
-      distance: getDistance(level),
-    });
-    setGames(serverGames);
-    setInitializer(true);
-  };
+    if (loginInfo === null) {
+      setLocation(DEFAULT_COORDINATE);
+      setPosition(DEFAULT_COORDINATE);
+      const serverGames = await getGamesInMap({
+        ...DEFAULT_COORDINATE,
+        distance: getDistance(level),
+      });
+      setGames(serverGames);
+      return;
+    }
 
-  const timer = () => {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1500);
-    });
+    if (loginInfo?.addressDepth1 !== null) {
+      const { addressDepth1, addressDepth2 } = loginInfo!;
+      if (!addressDepth1) {
+        navigate(PATH_NAME.LOGIN);
+        return;
+      }
+      const serverGames = await getGamesByAddress({
+        addressDepth1,
+        addressDepth2,
+      });
+      if (!serverGames) {
+        navigate(PATH_NAME.LOGIN);
+        return;
+      }
+      const { games, location, polygon } = serverGames;
+      setLocation(() => location ?? DEFAULT_COORDINATE);
+      setPosition(() => location ?? DEFAULT_COORDINATE);
+      setLevel(() => (polygon ? 8 : 3));
+      setGames(games);
+      setPolygon(() => polygon ?? []);
+      setInitializer(true);
+      return;
+    }
   };
 
   const fetchGames = async () => {
@@ -83,6 +110,7 @@ export const useMapPage = () => {
     setPosition,
     games,
     initializer,
+    setInitializer,
     level,
     setLevel,
     isDragEnd,
@@ -91,6 +119,7 @@ export const useMapPage = () => {
     setIsLoadingRefresh,
     currentMarkerId,
     setCurrentMarkerId,
+    polygon,
     fetchGames,
   };
 };
@@ -114,4 +143,12 @@ const validateCoordinate = (coordinate: {
 const DEFAULT_COORDINATE = {
   latitude: 37.49927504333466,
   longitude: 127.02679632647265,
+};
+
+const timer = () => {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 3000);
+  });
 };

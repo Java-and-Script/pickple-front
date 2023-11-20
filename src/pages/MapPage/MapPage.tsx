@@ -1,4 +1,4 @@
-import { Map } from 'react-kakao-maps-sdk';
+import { Map, Polygon } from 'react-kakao-maps-sdk';
 
 import { Modal } from '@components/Modal';
 
@@ -28,6 +28,7 @@ export const MapPage = () => {
     setPosition,
     games,
     initializer,
+    setInitializer,
     level,
     setLevel,
     isDragEnd,
@@ -36,6 +37,7 @@ export const MapPage = () => {
     setIsLoadingRefresh,
     currentMarkerId,
     setCurrentMarkerId,
+    polygon,
     fetchGames,
   } = useMapPage();
 
@@ -53,12 +55,22 @@ export const MapPage = () => {
         }}
         onBoundsChanged={(map) => {
           setLevel(map.getLevel());
+          setInitializer(false);
           setIsDragEnd(true);
         }}
       >
+        {initializer && (
+          <Polygon
+            path={polygon}
+            strokeColor={'#39DE2A'}
+            strokeOpacity={0.8}
+            strokeStyle={'longdash'}
+            fillColor={'#A2FF99'}
+            fillOpacity={0.7}
+          />
+        )}
         <CurrentLocationMarker location={location} />
         <GameMarkers
-          initializer={initializer}
           games={games}
           currentMarkerId={currentMarkerId}
           setCurrentMarkerId={setCurrentMarkerId}
