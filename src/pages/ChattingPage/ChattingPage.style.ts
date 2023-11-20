@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { Flex } from '@components/shared/Flex';
 
-export const MessageRoomContainer = styled.div`
+export const ChatRoomContainer = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
   min-height: 100dvh;
 `;
@@ -30,14 +30,14 @@ export const InputWrapper = styled.div`
   background-color: ${({ theme }) => theme.PALETTE.GRAY_200};
 `;
 
-export const BalloonContainer = styled(Flex)<{ isMe: boolean }>`
+export const BalloonContainer = styled(Flex)<{ isOthersMessage: boolean }>`
   max-width: 70%;
   padding-left: 10px;
   & > span {
     padding: 10px;
     white-space: pre-wrap;
-    ${({ isMe, theme }) =>
-      isMe
+    ${({ isOthersMessage, theme }) =>
+      isOthersMessage
         ? ` 
       border-radius: 0 8px 8px 8px; 
       border:1px solid ${theme.PALETTE.GRAY_200}; 
@@ -63,4 +63,13 @@ export const SystemMessage = styled.div`
     border-radius: 4px;
     background-color: ${({ theme }) => theme.PALETTE.GRAY_400};
   }
+`;
+
+export const ModalItem = styled.div`
+  padding: 20px;
+  cursor: pointer;
+`;
+
+export const Pointer = styled.div`
+  cursor: pointer;
 `;
