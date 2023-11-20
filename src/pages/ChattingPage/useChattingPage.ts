@@ -28,7 +28,6 @@ export const useChattingPage = () => {
   if (!roomId) {
     throw new Error('no room id provided');
   }
-  const myId = useLoginInfoStore((state) => state.loginInfo?.id);
 
   const { data: roomDetails } = useChatRoomDetails({
     roomId: Number(roomId),
@@ -36,6 +35,11 @@ export const useChattingPage = () => {
   const { data: prevChatMessages } = useAllChatMessagesQuery({
     roomId: Number(roomId),
   });
+
+  const myId = useLoginInfoStore((state) => state.loginInfo?.id);
+  if (!myId || !roomDetails.members.find(({ id }) => id === myId)) {
+    throw new Error('채팅방의 멤버가 아닙니다.');
+  }
 
   const [sock, setSock] = useState<WebSocket | null>(null);
   const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
