@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+
+import { AxiosError } from 'axios';
 
 import { useToggleButtons } from '@components/shared/ToggleButton';
 
@@ -41,6 +44,12 @@ export const useCreateCrewPage = () => {
     mutate(data, {
       onSuccess: ({ crewId }) => {
         navigate(PATH_NAME.GET_CREWS_PATH(String(crewId)));
+      },
+      onError: (data) => {
+        if (data instanceof AxiosError) {
+          data.response?.data.code === 'CRE-002' &&
+            toast.error('중복된 크루 이름 입니다.');
+        }
       },
     });
   };
