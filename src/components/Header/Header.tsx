@@ -29,14 +29,16 @@ import {
 
 type HeaderProps = {
   isLogo: boolean;
-  title: string;
+  title: React.ReactNode;
   isRightContainer: boolean;
+  rightElement?: React.ReactNode;
 };
 
 export const Header = ({
   isLogo = false,
   title = '',
   isRightContainer = true,
+  rightElement,
 }: Partial<HeaderProps>) => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const navigate = useNavigate();
@@ -85,7 +87,9 @@ export const Header = ({
             </BackwardWrapper>
           )}
           {title === '' ? <></> : <Title>{title}</Title>}
-          {loginInfo ? (
+          {rightElement ? (
+            rightElement
+          ) : loginInfo ? (
             <RightSideContainer className={isRightContainer ? '' : 'invisible'}>
               <RightSideIconWrapper>
                 <RightSideIcon onClick={() => handleSearchIconClick()}>
