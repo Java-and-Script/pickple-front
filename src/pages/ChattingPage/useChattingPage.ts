@@ -25,6 +25,9 @@ export const useChattingPage = () => {
   const navigate = useNavigate();
 
   const { id: roomId } = useParams();
+  if (!roomId) {
+    throw new Error('no room id provided');
+  }
   const myId = useLoginInfoStore((state) => state.loginInfo?.id);
 
   const { data: roomDetails } = useChatRoomDetails({
@@ -44,17 +47,6 @@ export const useChattingPage = () => {
   const chattingEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  if (!roomId) {
-    throw new Error('no room id provided');
-  }
-
-  useEffect(() => {
-    const newSock = new SockJS(stompConfig.webSocketEndpoint);
-
-    setSock(newSock);
-    setStompClient(Stomp.over(newSock));
-  }, []);
-
   useEffect(() => {
     chattingEndRef.current?.scrollIntoView();
   }, [chatMessages]);
@@ -64,7 +56,14 @@ export const useChattingPage = () => {
   }, [prevChatMessages]);
 
   useEffect(() => {
-    if (stompClient === null || sock === null) {
+    const newSock = new SockJS(stompConfig.webSocketEndpoint);
+
+    setSock(newSock);
+    setStompClient(Stomp.over(newSock));
+  }, []);
+
+  useEffect(() => {
+    if (!stompClient || !sock) {
       return;
     }
 
