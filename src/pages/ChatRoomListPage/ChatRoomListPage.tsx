@@ -41,7 +41,7 @@ export const ChatRoomListPage = () => {
               chatRoomItem={messageItem}
               key={i}
               onClickChatRoomItem={() =>
-                moveToPage(PATH_NAME.GET_MESSAGE_PATH(String(messageItem.id)))
+                moveToPage(PATH_NAME.GET_CHAT_PATH(String(messageItem.id)))
               }
             />
           ))

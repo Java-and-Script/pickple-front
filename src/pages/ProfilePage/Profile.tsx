@@ -81,13 +81,13 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
     if (!isChatExisted?.existed) {
       const { id: roomId } = await mutateAsync({ receiverId: memberId });
 
-      moveToPage(PATH_NAME.GET_MESSAGE_PATH(String(roomId)));
+      moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
     } else {
       const { id: roomId } = individualRooms.find(
         ({ roomName }) => roomName === profileData.nickname
       )!;
 
-      moveToPage(PATH_NAME.GET_MESSAGE_PATH(String(roomId)));
+      moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
     }
   };
 

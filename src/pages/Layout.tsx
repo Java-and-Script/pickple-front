@@ -11,7 +11,7 @@ import { FallbackPage } from './FallbackPage';
 
 export const Layout = () => {
   const { pathname } = useLocation();
-  const showNav = !pathname.includes(PATH_NAME.MESSAGE + '/');
+  const showNav = !pathname.includes(PATH_NAME.CHAT + '/');
 
   return (
     <>

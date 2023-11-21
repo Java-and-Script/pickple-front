@@ -4,7 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { AllServicesPage } from '@pages/AllServicesPage';
 import { ChatRoomListPage } from '@pages/ChatRoomListPage';
-import { ChattingPage } from '@pages/ChattingPage'; 
+import { ChattingPage } from '@pages/ChattingPage';
 import { CreateCrewPage } from '@pages/CreateCrewPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
@@ -25,8 +25,7 @@ import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
 import { MapPage } from '@pages/MapPage';
-import { MessageRoomPage } from '@pages/MessageRoomPage';
-import { NotFoundPage } from '@pages/NotFoundPage'; 
+import { NotFoundPage } from '@pages/NotFoundPage';
 import { NotificationPage } from '@pages/NotificationPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { RedirectPage } from '@pages/RedirectPage';
@@ -123,11 +122,11 @@ export const router = createBrowserRouter([
         element: <MapPage />,
       },
       {
-        path: 'message',
+        path: 'chat',
         element: <ChatRoomListPage />,
       },
       {
-        path: 'message/:id',
+        path: 'chat/:id',
         element: <ChattingPage />,
       },
       {

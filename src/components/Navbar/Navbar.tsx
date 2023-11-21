@@ -20,7 +20,7 @@ export const Navbar = () => {
     { name: '홈', page: '', image: homeIcon },
     { name: '지도', page: 'map', image: mapIcon },
     { name: '', page: 'create', image: plusIcon },
-    { name: '메세지', page: 'message', image: chatIcon },
+    { name: '채팅', page: 'chat', image: chatIcon },
     { name: '전체', page: 'all-services', image: hamburgerIcon },
   ];
 
