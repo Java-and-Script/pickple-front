@@ -21,6 +21,6 @@ export const PATH_NAME = {
   CREATE_GAME: '/create/game',
   CREATE_CREW: '/create/crew',
   MAP: '/map',
-  MESSAGE: '/message',
-  GET_MESSAGE_PATH: (id: string) => `/message/${id}`,
+  CHAT: '/chat',
+  GET_CHAT_PATH: (id: string) => `/chat/${id}`,
 } as const;

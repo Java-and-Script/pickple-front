@@ -115,7 +115,7 @@ export const useChattingPage = () => {
 
     leave({ stompClient, roomId, sendData });
 
-    navigate(PATH_NAME.MESSAGE);
+    navigate(PATH_NAME.CHAT);
   };
 
   const handleClickChattingMenu = () => {
