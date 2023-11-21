@@ -8,11 +8,13 @@ type FlexProps = {
   align?: CSSProperties['alignItems'];
   direction?: CSSProperties['flexDirection'];
   flexWrap?: CSSProperties['flexWrap'];
+  grow?: boolean;
 };
 
 export const Flex = styled.div<FlexProps>`
   display: flex;
   gap: ${({ gap }) => gap}px;
+  flex-grow: ${({ grow }) => (grow ? '1' : undefined)};
   flex-direction: ${({ direction }) => direction || 'row'};
   align-items: ${({ align }) => align || 'first'};
   justify-content: ${({ justify }) => justify || 'first'};
