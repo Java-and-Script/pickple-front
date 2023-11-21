@@ -1,8 +1,5 @@
 import Stomp from 'stompjs';
 
-import { SendMessageRequest } from '@type/api/chat';
-import { ChatMessage } from '@type/models/ChatMessage';
-
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 type ChatId = string | number;
@@ -15,31 +12,30 @@ export const stompConfig = {
   leave: (roomId: ChatId) => `/send/messages/leave/${roomId}`,
 };
 
-type ConnectChatProps = {
+type ConnectProps = {
   stompClient: Stomp.Client;
   connectEvent: () => void;
 };
 
-type SubscribeChatRoomProps = {
+type SubscribeProps<T> = {
   stompClient: Stomp.Client;
   roomId: ChatId;
-  subscribeEvent: (received: ChatMessage) => void;
+  subscribeEvent: (received: T) => void;
 };
 
-type SendToChatRoomProps = {
+type SendProps<T> = {
   stompClient: Stomp.Client;
   roomId: ChatId;
-  senderId: ChatId;
-  content: string;
+  sendData: T;
 };
 
-type LeaveChatRoomProps = {
+type LeaveProps<T> = {
   stompClient: Stomp.Client;
   roomId: ChatId;
-  senderId: ChatId;
+  sendData: T;
 };
 
-export const connect = ({ stompClient, connectEvent }: ConnectChatProps) => {
+export const connect = ({ stompClient, connectEvent }: ConnectProps) => {
   stompClient.connect(
     {},
     () => {
@@ -49,41 +45,22 @@ export const connect = ({ stompClient, connectEvent }: ConnectChatProps) => {
   );
 };
 
-export const subscribeChatRoom = ({
+export const subscribe = <T>({
   stompClient,
   roomId,
   subscribeEvent,
-}: SubscribeChatRoomProps) => {
+}: SubscribeProps<T>) => {
   stompClient.subscribe(stompConfig.subscribe(roomId), ({ body }) => {
-    const received: ChatMessage = JSON.parse(body);
+    const received: T = JSON.parse(body);
 
     subscribeEvent(received);
   });
 };
 
-export const sendMessageToChatRoom = ({
-  stompClient,
-  roomId,
-  senderId,
-  content,
-}: SendToChatRoomProps) => {
-  const sendData: SendMessageRequest = {
-    senderId,
-    content,
-  };
-
+export const send = <T>({ stompClient, roomId, sendData }: SendProps<T>) => {
   stompClient.send(stompConfig.send(roomId), {}, JSON.stringify(sendData));
 };
 
-export const leaveChatRoom = ({
-  stompClient,
-  roomId,
-  senderId,
-}: LeaveChatRoomProps) => {
-  const sendData: SendMessageRequest = {
-    senderId,
-    content: null,
-  };
-
+export const leave = <T>({ stompClient, roomId, sendData }: LeaveProps<T>) => {
   stompClient.send(stompConfig.leave(roomId), {}, JSON.stringify(sendData));
 };

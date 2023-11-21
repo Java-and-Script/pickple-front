@@ -9,17 +9,12 @@ import { useChatRoomDetails } from '@hooks/queries/useChatRoomDetails';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
+import { SendMessageRequest } from '@type/api/chat';
 import { ChatMessage } from '@type/models/ChatMessage';
 
 import { PATH_NAME } from '@consts/pathName';
 
-import {
-  connect,
-  leaveChatRoom,
-  sendMessageToChatRoom,
-  stompConfig,
-  subscribeChatRoom,
-} from './stompApi';
+import { connect, leave, send, stompConfig, subscribe } from './stompApi';
 
 export const useChattingPage = () => {
   const navigate = useNavigate();
@@ -76,7 +71,7 @@ export const useChattingPage = () => {
       connectEvent: () => {
         setIsConnected(true);
 
-        subscribeChatRoom({
+        subscribe({
           stompClient,
           roomId,
           subscribeEvent: (received: ChatMessage) =>
@@ -98,14 +93,12 @@ export const useChattingPage = () => {
       return;
     }
 
-    const value = inputRef.current.value;
+    const sendData: SendMessageRequest = {
+      senderId: myId,
+      content: inputRef.current.value,
+    };
 
-    sendMessageToChatRoom({
-      stompClient,
-      roomId,
-      senderId: String(myId),
-      content: value,
-    });
+    send({ stompClient, roomId, sendData });
 
     inputRef.current.value = '';
   };
@@ -115,7 +108,12 @@ export const useChattingPage = () => {
       return;
     }
 
-    leaveChatRoom({ stompClient, roomId, senderId: String(myId) });
+    const sendData: SendMessageRequest = {
+      senderId: myId,
+      content: null,
+    };
+
+    leave({ stompClient, roomId, sendData });
 
     navigate(PATH_NAME.MESSAGE);
   };
