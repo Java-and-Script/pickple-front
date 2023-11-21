@@ -1,6 +1,12 @@
-import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { FormProvider } from 'react-hook-form';
+
+import {
+  CREATE_GAME_STRINGS,
+  MAX_MEMBER_COUNT_LIST,
+  PLAY_TIME_LIST,
+  START_TIME_HOUR_LIST,
+  START_TIME_MINUTES_LIST,
+} from '@pages/CreateGamePage/consts/createGameOptions';
 
 import { CalendarComponent } from '@components/Calendar';
 import { ConditionalFormInput } from '@components/ConditionalFormInput';
@@ -11,23 +17,9 @@ import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 import { VirtualScroll } from '@components/shared/VirtualScroll';
 
-import { useGameMutation } from '@hooks/mutations/useGameMutation';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
-
-import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { PostGameRequest } from '@type/api/games';
-import { Position } from '@type/models/Position';
-
-import {
-  MAX_MEMBER_COUNT_LIST,
-  PLAY_TIME_LIST,
-  START_TIME_HOUR_LIST,
-  START_TIME_MINUTES_LIST,
-} from '@consts/createGameOptions';
-import { PATH_NAME } from '@consts/pathName';
 
 import {
   PageLayout,
@@ -39,103 +31,61 @@ import {
   StyledTimeSelector,
   StyledTitle,
 } from './CreateGamePage.styles';
+import { useCreateGamePage } from './useCreateGamePage';
 
 export const CreateGamePage = () => {
-  const navigate = useNavigate();
-
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-  if (!loginInfo?.id) {
-    throw new Error('로그인이 필요한 서비스입니다.');
-  }
-
-  const { mutate } = useGameMutation();
-  const methods = useForm();
+  const {
+    state,
+    methods,
+    onSubmit,
+    handleAddressSelect,
+    handleCost,
+    toggleGuestCountModal,
+    toggleMatchDateModal,
+    toggleStartTimeModal,
+    togglePlayTimeModal,
+    setMaxMemberCount,
+    setPlayDate,
+    setPlayStartTimeHours,
+    setPlayStartTimeMinutes,
+    setPlayTimeMinutes,
+    setPositions,
+    setDetailAddress,
+    setContent,
+  } = useCreateGamePage();
 
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
-  const [maxMemberCount, setMaxMemberCount] = useState<string>('');
-  const [playDate, setPlayDate] = useState<string>('');
-  const [playStartTimeHours, setStartTimeHours] = useState<string>('');
-  const [playStartTimeMinutes, setStartTimeMinutes] = useState<string>('');
-  const [playTimeMinutes, setPlayTimeMinutes] = useState<string>('');
-  const [positions, setPositions] = useState<Position[]>([]);
-  const [mainAddress, setMainAddress] = useState<string>('');
-  const [detailAddress, setDetailAddress] = useState<string>('');
-  const [cost, setCost] = useState<string>('0');
-  const [content, setContent] = useState<string>('');
-
-  const [isGuestCountModalOpen, setIsGuestCountModalOpen] = useState(false);
-  const [isMatchDateModalOpen, setIsMatchDateModalOpen] = useState(false);
-  const [isStartTimeModalOpen, setIsStartTimeModalOpen] = useState(false);
-  const [isPlayTimeModalOpen, setIsPlayTimeModalOpen] = useState(false);
-
-  const onSubmit = () => {
-    const gameData: PostGameRequest = {
-      maxMemberCount: parseInt(maxMemberCount),
-      playDate,
-      playStartTime: `${playStartTimeHours}:${playStartTimeMinutes}`,
-      playTimeMinutes: parseInt(playTimeMinutes),
-      positions,
-      mainAddress,
-      detailAddress,
-      cost: parseInt(cost),
-      content,
-    };
-
-    mutate(gameData, {
-      onSuccess: ({ gameId }) => {
-        navigate(PATH_NAME.GET_GAMES_PATH(String(gameId)));
-      },
-    });
-  };
-
-  const handleAddressSelect = () => {
-    new daum.Postcode({
-      oncomplete: ({ address }: { address: string }) => {
-        setMainAddress(address);
-      },
-    }).open();
-  };
-
-  const handleCost = (item: string) => {
-    if (parseInt(item) < 0) {
-      setCost('0');
-    } else if (parseInt(item) > 100000) {
-      setCost('100000');
-    } else setCost(item);
-  };
-
-  const toggleGuestCountModal = () => {
-    setIsGuestCountModalOpen((prev) => !prev);
-  };
-
-  const toggleMatchDateModal = () => {
-    setIsMatchDateModalOpen((prev) => !prev);
-  };
-
-  const toggleStartTimeModal = () => {
-    setIsStartTimeModalOpen((prev) => !prev);
-  };
-
-  const togglePlayTimeModal = () => {
-    setIsPlayTimeModalOpen((prev) => !prev);
-  };
+  const {
+    maxMemberCount,
+    playDate,
+    playStartTimeHours,
+    playStartTimeMinutes,
+    playTimeMinutes,
+    mainAddress,
+    detailAddress,
+    cost,
+    isGuestCountModalOpen,
+    isMatchDateModalOpen,
+    isStartTimeModalOpen,
+    isPlayTimeModalOpen,
+  } = state;
 
   return (
     <PageLayout>
       <PageWrapper>
-        <Header title={showHeaderTitle ? '게스트 모집하기' : ''} />
+        <Header title={showHeaderTitle ? CREATE_GAME_STRINGS.TITLE : ''} />
         <FormProvider {...methods}>
           <StyledCreateForm onSubmit={methods.handleSubmit(onSubmit)}>
             <StyledTitle>
               <div ref={entryRef}>
                 <Text size={20} weight={700}>
-                  게스트 모집하기
+                  {CREATE_GAME_STRINGS.TITLE}
                 </Text>
               </div>
             </StyledTitle>
             <ConditionalFormInput
-              title="게스트 인원을 선택해 주세요!"
+              title={CREATE_GAME_STRINGS.GUEST_COUNT}
               readOnly={true}
               isContainModal={true}
               inputLabel="guest-count"
@@ -151,7 +101,7 @@ export const CreateGamePage = () => {
               />
             </ConditionalFormInput>
             <ConditionalFormInput
-              title="경기 날짜를 선택해 주세요!"
+              title={CREATE_GAME_STRINGS.MATCH_DATE}
               readOnly={true}
               isContainModal={true}
               inputLabel="match-date"
@@ -163,7 +113,7 @@ export const CreateGamePage = () => {
               <CalendarComponent setDate={setPlayDate} />
             </ConditionalFormInput>
             <ConditionalFormInput
-              title="경기 시작 시간을 선택해 주세요!"
+              title={CREATE_GAME_STRINGS.START_TIME}
               readOnly={true}
               isContainModal={true}
               inputLabel="start-time"
@@ -176,18 +126,18 @@ export const CreateGamePage = () => {
                 <VirtualScroll
                   width="20%"
                   list={[...START_TIME_HOUR_LIST]}
-                  onItemSelected={setStartTimeHours}
+                  onItemSelected={setPlayStartTimeHours}
                 />
                 <StyledTimeColon>{':'}</StyledTimeColon>
                 <VirtualScroll
                   width="20%"
                   list={[...START_TIME_MINUTES_LIST]}
-                  onItemSelected={setStartTimeMinutes}
+                  onItemSelected={setPlayStartTimeMinutes}
                 />
               </StyledTimeSelector>
             </ConditionalFormInput>
             <ConditionalFormInput
-              title="경기 플레이타임을 선택해 주세요!"
+              title={CREATE_GAME_STRINGS.PLAY_TIME}
               readOnly={true}
               isContainModal={true}
               inputLabel="play-time"
@@ -203,13 +153,13 @@ export const CreateGamePage = () => {
               />
             </ConditionalFormInput>
             <Text size={16} weight={300}>
-              선호하는 포지션을 선택해 주세요!
+              {CREATE_GAME_STRINGS.POSITION}
             </Text>
             <StyledPositionsWrapper>
               <SelectPosition setPositions={setPositions} />
             </StyledPositionsWrapper>
             <ConditionalFormInput
-              title="주소를 입력해 주세요!"
+              title={CREATE_GAME_STRINGS.MAIN_ADDRESS}
               isRequired={true}
               readOnly={true}
               isContainModal={false}
@@ -219,14 +169,14 @@ export const CreateGamePage = () => {
             />
             <ConditionalFormInput
               isRequired={true}
-              title="상세장소를 입력해 주세요!"
+              title={CREATE_GAME_STRINGS.DETAIL_ADDRESS}
               isContainModal={false}
               inputLabel="address-detail"
               inputOnChange={setDetailAddress}
               value={detailAddress}
             />
             <ConditionalFormInput
-              title="참가비용을 입력해 주세요!"
+              title={CREATE_GAME_STRINGS.COST}
               isContainModal={false}
               inputLabel="cost"
               inputOnChange={handleCost}
@@ -238,7 +188,7 @@ export const CreateGamePage = () => {
               max={'100000'}
             />
             <TextArea
-              title="상세설명을 입력해 주세요!"
+              title={CREATE_GAME_STRINGS.CONTENT}
               inputLabel="content"
               inputOnChange={setContent}
             />
@@ -251,7 +201,7 @@ export const CreateGamePage = () => {
               backgroundColor={theme.PALETTE.RED_600}
               type="submit"
             >
-              모집하기
+              {CREATE_GAME_STRINGS.CREATE}
             </Button>
             <StyledEmptyContainer />
           </StyledCreateForm>
