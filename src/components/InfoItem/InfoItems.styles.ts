@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 
 export const StyledInfoItem = styled.div`
   width: 100%;
-  aspect-ratio: 1;
   max-width: 150px;
   border-radius: 8px;
   border: ${({ theme }) => `1px solid ${theme.PALETTE.GRAY_400}`};

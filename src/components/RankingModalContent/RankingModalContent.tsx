@@ -9,6 +9,7 @@ import { theme } from '@styles/theme';
 import Ball from '@assets/ball.svg?react';
 import CrewMember from '@assets/gameMember.svg?react';
 import Map from '@assets/map.svg?react';
+import Tooltip from '@assets/tooltip.svg?react';
 
 import { ContentWrapper, InfoContainer } from './RankingModalContent.styles';
 
@@ -24,6 +25,7 @@ type RankingModalContentProps = {
   addressDepth2: string;
   memberCount: number;
   maxMemberCount: number;
+  onDetailButtonClick: VoidFunction;
 };
 
 export const RankingModalContent = ({
@@ -38,67 +40,73 @@ export const RankingModalContent = ({
   addressDepth2,
   memberCount,
   maxMemberCount,
+  onDetailButtonClick,
 }: RankingModalContentProps) => {
   return (
     <ContentWrapper>
-      <Flex direction="column" gap={20}>
+      <Flex direction="column" gap={16}>
         <Flex gap={10}>
           <Avatar src={profileImageUrl} size={60} radius="5px" />
           <Flex direction="column" justify="space-around">
-            <Text size={24} weight={700}>
+            <Text size={24} weight={700} nowrap>
               {name}
             </Text>
-            <Text size={12} weight={500}>
+            <Text size={12} weight={500} nowrap>
               랭킹 {ranking}위
             </Text>
           </Flex>
         </Flex>
-        <Text size={10} weight={500} color={theme.PALETTE.GRAY_400}>
-          {infoText}
-        </Text>
-        <Flex gap={20}>
-          <InfoContainer direction="column" gap={20}>
-            <Flex direction="column" gap={5}>
-              <Text size={16} weight={700}>
-                활동점수
-              </Text>
-              <Text size={12} weight={700}>
-                {activityScore}점
-              </Text>
-            </Flex>
-            <InfoItem
-              title={'주 활동 지역'}
-              text={`${addressDepth1} ${addressDepth2}`}
-            >
-              <Map width={40} height={40} />
-            </InfoItem>
-          </InfoContainer>
-          <InfoContainer direction="column" gap={20}>
-            <Flex direction="column" gap={5}>
-              <Text size={16} weight={700}>
-                매너지수
-              </Text>
-              <Text size={12} weight={700}>
-                {mannerScore}점
-              </Text>
-            </Flex>
-            <InfoItem title={'현재원'} text={`${memberCount}명`}>
-              <Ball width={40} height={40} />
-            </InfoItem>
-          </InfoContainer>
-          <InfoContainer direction="column" gap={20}>
-            <Flex direction="column" gap={5}>
-              <Text size={16} weight={700}>
-                총점
-              </Text>
-              <Text size={12} weight={700}>
-                {totalScore}점
-              </Text>
-            </Flex>
-            <InfoItem title={'정원'} text={`${maxMemberCount}명`}>
-              <CrewMember width={40} height={40} />
-            </InfoItem>
-          </InfoContainer>
+        <Flex direction="column" gap={10}>
+          <Flex align="center" gap={2}>
+            <Tooltip />
+            <Text size={10} weight={500} color={theme.PALETTE.GRAY_400} nowrap>
+              {infoText}
+            </Text>
+          </Flex>
+          <Flex gap={10}>
+            <InfoContainer direction="column" gap={20}>
+              <Flex direction="column" gap={5}>
+                <Text size={16} weight={700}>
+                  활동점수
+                </Text>
+                <Text size={12} weight={700}>
+                  {activityScore.toLocaleString()}점
+                </Text>
+              </Flex>
+              <InfoItem
+                title={'주 활동 지역'}
+                text={`${addressDepth1} ${addressDepth2}`}
+              >
+                <Map width={40} height={40} />
+              </InfoItem>
+            </InfoContainer>
+            <InfoContainer direction="column" gap={20}>
+              <Flex direction="column" gap={5}>
+                <Text size={16} weight={700}>
+                  매너지수
+                </Text>
+                <Text size={12} weight={700}>
+                  {mannerScore.toLocaleString()}점
+                </Text>
+              </Flex>
+              <InfoItem title={'현재원'} text={`${memberCount}명`}>
+                <Ball width={40} height={40} />
+              </InfoItem>
+            </InfoContainer>
+            <InfoContainer direction="column" gap={20}>
+              <Flex direction="column" gap={5}>
+                <Text size={16} weight={700}>
+                  총점
+                </Text>
+                <Text size={12} weight={700}>
+                  {totalScore.toLocaleString()}점
+                </Text>
+              </Flex>
+              <InfoItem title={'정원'} text={`${maxMemberCount}명`}>
+                <CrewMember width={40} height={40} />
+              </InfoItem>
+            </InfoContainer>
+          </Flex>
         </Flex>
         <Button
           {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
@@ -108,7 +116,7 @@ export const RankingModalContent = ({
           fontWeight={700}
           textColor={'white'}
           backgroundColor={theme.PALETTE.RED_600}
-          onClick={() => {}}
+          onClick={onDetailButtonClick}
         >
           자세히 보기
         </Button>

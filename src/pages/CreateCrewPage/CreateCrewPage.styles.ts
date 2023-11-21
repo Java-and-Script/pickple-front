@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 
+import { Modal } from '@components/Modal';
 import { SelectBox } from '@components/SelectBox';
 import { Button } from '@components/shared/Button';
 import { ToggleButton } from '@components/shared/ToggleButton';
@@ -10,8 +11,7 @@ export const PageLayout = styled.div`
 `;
 
 export const PageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${({ theme }) => theme.STYLES.FLEX_DIRECTION_COLUMN}
   padding-top: 1rem;
 `;
 
@@ -20,8 +20,7 @@ export const StyledTitle = styled.div`
 `;
 
 export const StyledCreateForm = styled.form`
-  display: flex;
-  flex-direction: column;
+  ${({ theme }) => theme.STYLES.FLEX_DIRECTION_COLUMN}
   gap: 4px;
 `;
 
@@ -30,9 +29,7 @@ export const StyledEmptyContainer = styled.div`
 `;
 
 export const StyledModalHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${({ theme }) => theme.STYLES.FLEX_CENTER}
   margin-bottom: 32px;
 `;
 
@@ -72,4 +69,8 @@ export const StyledToggleButton = styled(ToggleButton)<{
   background-color: ${({ theme, isActive }) =>
     isActive ? theme.PALETTE.RED_400 : 'white'};
   border-radius: 0;
+`;
+
+export const StyledModalContent = styled(Modal.Content)`
+  ${({ theme }) => theme.STYLES.FLEX_CENTER}
 `;

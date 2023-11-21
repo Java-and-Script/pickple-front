@@ -3,6 +3,7 @@ import { crewHandlers } from './crew';
 import { gameHandlers } from './game';
 import { memberHandlers } from './member';
 import { otherHandlers } from './other';
+import { rankingHandlers } from './ranking';
 
 export const handlers = [
   ...testHandlers,
@@ -10,4 +11,5 @@ export const handlers = [
   ...crewHandlers,
   ...memberHandlers,
   ...otherHandlers,
+  ...rankingHandlers,
 ];

@@ -12,6 +12,8 @@ import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { PATH_NAME } from '@consts/pathName';
 
+import { getGameStartDate } from '@utils/domain';
+
 import { MainPageContainer, MainPageSubContainer } from './MainPage.style';
 import { useMainPageNearCrewListQuery } from './useMainPageNearCrewListQuery';
 import { useMainPageNearGamesQuery } from './useMainPageNearGamesQuery';
@@ -36,7 +38,8 @@ export const MainPage = () => {
   const filteredGameData = gameData.map(
     ({
       id,
-      //playStartTime,
+      playDate,
+      playStartTime,
       playTimeMinutes,
       mainAddress,
       memberCount,
@@ -46,7 +49,7 @@ export const MainPage = () => {
       <MatchItem
         key={id.toString()}
         matchId={id.toString()}
-        startTime={new Date()}
+        startTime={getGameStartDate(playDate, playStartTime)}
         timeMinutes={playTimeMinutes}
         mainAddress={mainAddress}
         memberCount={memberCount}

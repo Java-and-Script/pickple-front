@@ -4,7 +4,7 @@ import { getNearCrewList } from '@api/crews/getNearCrewList';
 
 import { GetNearCrewListRequest } from '@type/api/crews';
 
-const FETCH_SIZE = 20;
+import { FETCH_SIZE } from '@consts/network';
 
 export const useNearCrewListQuery = ({
   addressDepth1,
@@ -19,7 +19,12 @@ export const useNearCrewListQuery = ({
         page: pageParam,
         size: FETCH_SIZE,
       }),
-    getNextPageParam: (_, pages) => pages.length,
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.length < FETCH_SIZE) {
+        return undefined;
+      }
+      return pages.length;
+    },
     initialPageParam: 0,
   });
   const nearCrews = data.pages.flat();

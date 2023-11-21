@@ -59,3 +59,17 @@ export const PLAY_TIME_LIST = [
   '330분',
   '360분',
 ] as const;
+
+export const CREATE_GAME_STRINGS = {
+  TITLE: '게스트 모집하기',
+  GUEST_COUNT: '게스트 인원을 선택해 주세요!',
+  MATCH_DATE: '경기 날짜를 선택해 주세요!',
+  START_TIME: '경기 시작 시간을 선택해 주세요!',
+  PLAY_TIME: '경기 플레이타임을 선택해 주세요!',
+  POSITION: '선호하는 포지션을 선택해 주세요!',
+  MAIN_ADDRESS: '주소를 입력해 주세요!',
+  DETAIL_ADDRESS: '상세장소를 입력해 주세요!',
+  COST: '참가비용을 입력해 주세요!',
+  CONTENT: '상세설명을 입력해 주세요!',
+  CREATE: '모집하기',
+} as const;

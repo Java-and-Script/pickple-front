@@ -4,7 +4,7 @@ import { Flex } from '@components/shared/Flex';
 
 export const CreatePageContainer = styled(Flex)`
   width: 100%;
-  height: 100dvh;
+  min-height: 100dvh;
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
   ${({ theme }) => theme.STYLES.LAYOUT}
   padding-top: 3.1rem;
