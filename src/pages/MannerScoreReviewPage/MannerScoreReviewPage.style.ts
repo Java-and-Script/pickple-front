@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const ReviewPageContainer = styled.div`
-  height: 100dvh;
+  min-height: 100dvh;
   ${({ theme }) => theme.STYLES.LAYOUT};
   /* background-color: pink; */
   overflow-x: hidden;

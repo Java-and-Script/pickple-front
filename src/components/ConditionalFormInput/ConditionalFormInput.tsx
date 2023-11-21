@@ -44,6 +44,7 @@ export const ConditionalFormInput = ({
         {...register(inputLabel, { required: isRequired })}
         {...inputProps}
         onChange={(event) => inputOnChange && inputOnChange(event.target.value)}
+        onWheel={(event) => event.currentTarget.blur()}
       />
       {isContainModal && (
         <Modal

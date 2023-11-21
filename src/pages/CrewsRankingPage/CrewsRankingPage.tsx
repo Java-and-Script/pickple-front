@@ -1,9 +1,13 @@
-import { Suspense, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
+import { RankingModalContent } from '@components/RankingModalContent';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
+
+import { PATH_NAME } from '@consts/pathName';
 
 import {
   PageContent,
@@ -13,12 +17,19 @@ import {
 import { RankingItem } from './components/RankingItem';
 
 export const CrewsRankingPage = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const crewIdRef = useRef<number | null>(null);
 
   const openModal = (crewId: number) => {
     setIsOpen(true);
     crewIdRef.current = crewId;
+  };
+
+  const handleDetailButtonClick = () => {
+    if (crewIdRef.current) {
+      navigate(PATH_NAME.GET_CREWS_PATH(String(crewIdRef.current)));
+    }
   };
 
   return (
@@ -68,9 +79,22 @@ export const CrewsRankingPage = () => {
         />
       </PageContent>
 
-      <Modal header isOpen={isOpen} close={() => setIsOpen(false)}>
+      <Modal header={20} isOpen={isOpen} close={() => setIsOpen(false)}>
         <Modal.Content>
-          <Suspense fallback={null}>{crewIdRef.current}</Suspense>
+          <RankingModalContent
+            profileImageUrl="asd"
+            name="민재크루"
+            ranking={49}
+            infoText="랭킹은 활동점수와 매너지수를 기반으로 선정됩니다"
+            activityScore={10000}
+            mannerScore={10000}
+            totalScore={20000}
+            addressDepth1="서울시"
+            addressDepth2="강남구"
+            memberCount={3}
+            maxMemberCount={10}
+            onDetailButtonClick={handleDetailButtonClick}
+          />
         </Modal.Content>
       </Modal>
     </PageWrapper>

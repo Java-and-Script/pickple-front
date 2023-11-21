@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
-import { Button } from '@components/shared/Button';
 
 import { theme } from '@styles/theme';
 
@@ -19,6 +18,7 @@ import {
   BackwardWrapper,
   HeaderBackground,
   HeaderContainer,
+  LoginButton,
   LogoIcon,
   LogoWrapper,
   RightSideContainer,
@@ -29,14 +29,16 @@ import {
 
 type HeaderProps = {
   isLogo: boolean;
-  title: string;
+  title: React.ReactNode;
   isRightContainer: boolean;
+  rightElement?: React.ReactNode;
 };
 
 export const Header = ({
   isLogo = false,
   title = '',
   isRightContainer = true,
+  rightElement,
 }: Partial<HeaderProps>) => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const navigate = useNavigate();
@@ -85,7 +87,9 @@ export const Header = ({
             </BackwardWrapper>
           )}
           {title === '' ? <></> : <Title>{title}</Title>}
-          {loginInfo ? (
+          {rightElement ? (
+            rightElement
+          ) : loginInfo ? (
             <RightSideContainer className={isRightContainer ? '' : 'invisible'}>
               <RightSideIconWrapper>
                 <RightSideIcon onClick={() => handleSearchIconClick()}>
@@ -108,7 +112,7 @@ export const Header = ({
               className={isRightContainer ? '' : 'invisible'}
               isLogin={true}
             >
-              <Button
+              <LoginButton
                 width="60px"
                 height="24px"
                 fontWeight={300}
@@ -119,7 +123,7 @@ export const Header = ({
                 onClick={handleLoginClick}
               >
                 로그인
-              </Button>
+              </LoginButton>
             </RightSideContainer>
           )}
         </HeaderContainer>
