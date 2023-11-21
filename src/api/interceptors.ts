@@ -29,9 +29,8 @@ export const handleAuthError = async (
   if (data?.code === 'AUT-002') {
     const { accessToken } = await postRefreshAccessToken();
     useTokenStore.getState().setAccessToken(accessToken);
-  }
-
-  if (error.config) {
-    return axiosInstance(error.config);
+    if (error.config) {
+      return axiosInstance(error.config);
+    }
   }
 };
