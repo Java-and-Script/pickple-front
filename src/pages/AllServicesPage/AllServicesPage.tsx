@@ -111,7 +111,11 @@ export const AllServicesPage = () => {
             pageName="내가 만든 크루"
             onClickMenuItem={() => myId && moveToPage(PATH_NAME.CREWS_CHIEF)}
           />
-          <MenuItem icon={<Medal />} pageName="크루 랭킹" />
+          <MenuItem
+            icon={<Medal />}
+            pageName="크루 랭킹"
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_RANKING)}
+          />
         </FieldContainer>
         <FieldContainer>
           <Text size="1rem" weight={700}>
