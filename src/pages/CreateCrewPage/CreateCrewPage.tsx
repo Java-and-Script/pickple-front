@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { FormProvider } from 'react-hook-form';
+
+import { MAX_MEMBER_COUNT_LIST } from '@pages/CreateCrewPage/consts/createCrewOptions';
+import { CREATE_CREW_STRINGS } from '@pages/CreateCrewPage/consts/createCrewOptions';
 
 import { ConditionalFormInput } from '@components/ConditionalFormInput';
 import { Header } from '@components/Header';
@@ -8,21 +9,13 @@ import { Modal } from '@components/Modal';
 import { TextArea } from '@components/TextArea';
 import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
-import { useToggleButtons } from '@components/shared/ToggleButton';
 import { VirtualScroll } from '@components/shared/VirtualScroll';
 
-import { useCrewMutation } from '@hooks/mutations/useCrewMutation';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
 
-import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { PostCrewRequest } from '@type/api/crews';
-
-import { MAX_MEMBER_COUNT_LIST } from '@consts/createCrewOptions';
 import { SEOUL } from '@consts/location';
-import { PATH_NAME } from '@consts/pathName';
 
 import {
   PageLayout,
@@ -30,83 +23,53 @@ import {
   ScrollBox,
   StyledCreateForm,
   StyledEmptyContainer,
+  StyledModalContent,
   StyledModalHeader,
   StyledSelectBox,
   StyledSelectedLocationButton,
   StyledTitle,
   StyledToggleButton,
 } from './CreateCrewPage.styles';
+import { useCreateCrewPage } from './useCreateCrewPage';
 
 export const CreateCrewPage = () => {
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-
-  if (!loginInfo?.id) {
-    throw new Error('로그인이 필요한 서비스입니다.');
-  }
-  const navigate = useNavigate();
-
-  const { mutate } = useCrewMutation();
-  const methods = useForm();
-
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
-
-  const [name, setName] = useState<string>('');
-  const [content, setContent] = useState<string>('');
-  const [maxMemberCount, setMaxMemberCount] = useState<string>('');
-  const [selectedLocation, setSelectedLocation] = useState<string[]>();
-
-  const [isOpenMaxMemberCountModal, setIsOpenMaxMemberCountModal] =
-    useState(false);
-  const [isOpenAddressDepth2Modal, setIsOpenAddressDepth2Modal] =
-    useState(false);
+  const {
+    state,
+    methods,
+    onSubmit,
+    setName,
+    setContent,
+    setMaxMemberCount,
+    handleToggleLocation,
+    toggleMaxMemberCountModal,
+    toggleAddressDepth2Modal,
+  } = useCreateCrewPage();
 
   const {
-    handleToggle: handleToggleLocation,
-    selectedItems: selectedLocations,
-  } = useToggleButtons({
-    onToggle: setSelectedLocation,
-    isMultipleSelect: false,
-  });
-
-  const toggleMaxMemberCountModal = () => {
-    setIsOpenMaxMemberCountModal((prev) => !prev);
-  };
-
-  const toggleAddressDepth2Modal = () => {
-    setIsOpenAddressDepth2Modal((prev) => !prev);
-  };
-
-  const onSubmit = () => {
-    const data: PostCrewRequest = {
-      name,
-      content,
-      maxMemberCount: parseInt(maxMemberCount),
-      addressDepth1: '서울시',
-      addressDepth2: selectedLocation![0],
-    };
-
-    mutate(data, {
-      onSuccess: ({ crewId }) => {
-        navigate(PATH_NAME.GET_CREWS_PATH(String(crewId)));
-      },
-    });
-  };
+    name,
+    maxMemberCount,
+    selectedLocation,
+    selectedLocations,
+    isOpenMaxMemberCountModal,
+    isOpenAddressDepth2Modal,
+  } = state;
 
   return (
     <PageLayout>
       <PageWrapper>
-        <Header title={showHeaderTitle ? '크루 만들기' : ''} />
+        <Header title={showHeaderTitle ? CREATE_CREW_STRINGS.TITLE : ''} />
         <FormProvider {...methods}>
           <StyledCreateForm onSubmit={methods.handleSubmit(onSubmit)}>
             <StyledTitle>
               <div ref={entryRef}>
                 <Text size={20} weight={700}>
-                  크루 만들기
+                  {CREATE_CREW_STRINGS.TITLE}
                 </Text>
               </div>
             </StyledTitle>
             <ConditionalFormInput
-              title="크루 이름을 입력해 주세요!"
+              title={CREATE_CREW_STRINGS.CREW_NAME}
               isRequired={true}
               isContainModal={false}
               inputLabel="crew-name"
@@ -116,7 +79,7 @@ export const CreateCrewPage = () => {
               maxLength={20}
             />
             <ConditionalFormInput
-              title="크루의 최대 인원을 선택해 주세요!"
+              title={CREATE_CREW_STRINGS.CREW_MEMBER_COUNT}
               readOnly={true}
               isContainModal={true}
               inputLabel="crew-count"
@@ -132,7 +95,7 @@ export const CreateCrewPage = () => {
               />
             </ConditionalFormInput>
             <Text size={16} weight={300}>
-              주로 활동하는 지역을 선택해 주세요!
+              {CREATE_CREW_STRINGS.CREW_LOCATION}
             </Text>
             <StyledSelectedLocationButton
               min-width="72px"
@@ -143,7 +106,7 @@ export const CreateCrewPage = () => {
               isSelected={selectedLocation?.[0]}
               onClick={toggleAddressDepth2Modal}
             >
-              {selectedLocation ?? '지역'}
+              {selectedLocation ?? CREATE_CREW_STRINGS.DEFAULT_LOCATION}
             </StyledSelectedLocationButton>
             <Modal
               isOpen={isOpenAddressDepth2Modal}
@@ -152,16 +115,10 @@ export const CreateCrewPage = () => {
             >
               <StyledModalHeader>
                 <Text size={20} weight={700}>
-                  주로 활동하는 지역을 선택해 주세요!
+                  {}
                 </Text>
               </StyledModalHeader>
-              <Modal.Content
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignContent: 'center',
-                }}
-              >
+              <StyledModalContent>
                 <ScrollBox>
                   <StyledSelectBox border="none">
                     {Object.values(SEOUL).map((location) => (
@@ -175,10 +132,10 @@ export const CreateCrewPage = () => {
                     ))}
                   </StyledSelectBox>
                 </ScrollBox>
-              </Modal.Content>
+              </StyledModalContent>
             </Modal>
             <TextArea
-              title="상세설명을 입력해 주세요!"
+              title={CREATE_CREW_STRINGS.CREW_DESCRIPTION}
               inputLabel="content"
               inputOnChange={setContent}
             />
@@ -191,7 +148,7 @@ export const CreateCrewPage = () => {
               backgroundColor={theme.PALETTE.RED_600}
               type="submit"
             >
-              만들기
+              {CREATE_CREW_STRINGS.CREATE}
             </Button>
             <StyledEmptyContainer />
           </StyledCreateForm>

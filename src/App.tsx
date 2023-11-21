@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import { RouterProvider } from 'react-router-dom';
 
 import { ThemeProvider } from '@emotion/react';
@@ -21,6 +22,7 @@ function App() {
         <RouterProvider router={router} />
         <ReactQueryDevtools />
         <GlobalStyle />
+        <Toaster />
       </ThemeProvider>
     </QueryClientProvider>
   );
