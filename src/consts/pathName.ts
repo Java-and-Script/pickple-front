@@ -14,6 +14,7 @@ export const PATH_NAME = {
   CREWS_RECOMMEND: '/crews/recommend',
   CREWS_CHIEF: '/crews/chief',
   CREWS_PARTICIPATE: '/crews/participate',
+  CREWS_RANKING: '/crews/ranking',
   GET_CREWS_PATH: (id: string) => `/crews/${id}`,
   GET_CREWS_MANAGE_PATH: (id: string) => `/crews/${id}/manage`,
   CREATE: '/create',

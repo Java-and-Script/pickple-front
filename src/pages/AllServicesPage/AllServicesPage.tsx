@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Header } from '@components/Header';
 import { Text } from '@components/shared/Text';
 
+import { useTokenStore } from '@stores/accessToken.store';
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { PATH_NAME } from '@consts/pathName';
@@ -27,7 +28,8 @@ import {
 import { MenuItem } from './MenuItem';
 
 export const AllServicesPage = () => {
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+  const { loginInfo, setLoginInfo } = useLoginInfoStore();
+  const setAccessToken = useTokenStore((state) => state.setAccessToken);
   const myId = loginInfo?.id ? String(loginInfo?.id) : null;
 
   const navigate = useNavigate();
@@ -38,8 +40,9 @@ export const AllServicesPage = () => {
 
   const logout = () => {
     if (myId) {
-      localStorage.removeItem('LOGIN_INFO_PERSIST');
-      localStorage.removeItem('ACCESS_TOKEN_PERSIST');
+      setLoginInfo(null);
+      setAccessToken(null);
+      location.href = '/';
     }
   };
 
@@ -111,7 +114,11 @@ export const AllServicesPage = () => {
             pageName="내가 만든 크루"
             onClickMenuItem={() => myId && moveToPage(PATH_NAME.CREWS_CHIEF)}
           />
-          <MenuItem icon={<Medal />} pageName="크루 랭킹" />
+          <MenuItem
+            icon={<Medal />}
+            pageName="크루 랭킹"
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_RANKING)}
+          />
         </FieldContainer>
         <FieldContainer>
           <Text size="1rem" weight={700}>

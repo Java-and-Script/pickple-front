@@ -9,6 +9,7 @@ import { CrewsChiefPage } from '@pages/CrewsChiefPage';
 import { CrewsDetailPage } from '@pages/CrewsDetailPage';
 import { CrewsManageParticipatePage } from '@pages/CrewsManageParticipatePage';
 import { CrewsParticipatePage } from '@pages/CrewsParticipatePage';
+import { CrewsRankingPage } from '@pages/CrewsRankingPage';
 import { CrewsRecommendPage } from '@pages/CrewsRecommendPage';
 import { ErrorPage } from '@pages/ErrorPage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
@@ -21,6 +22,9 @@ import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
 import { MapPage } from '@pages/MapPage';
+import { MessageListPage } from '@pages/MessageListPage';
+import { MessageRoomPage } from '@pages/MessageRoomPage';
+import { NotFoundPage } from '@pages/NotFoundPage';
 import { NotificationPage } from '@pages/NotificationPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { RedirectPage } from '@pages/RedirectPage';
@@ -80,6 +84,10 @@ export const router = createBrowserRouter([
         element: <CrewsParticipatePage />,
       },
       {
+        path: 'crews/ranking',
+        element: <CrewsRankingPage />,
+      },
+      {
         path: 'crews/:id',
         element: <CrewsDetailPage />,
       },
@@ -110,11 +118,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'message',
-        element: <h3>message</h3>,
+        element: <MessageListPage />,
       },
       {
         path: 'message/:id',
-        element: <h3>message room</h3>,
+        element: <MessageRoomPage />,
       },
       {
         path: 'notification',
@@ -123,6 +131,10 @@ export const router = createBrowserRouter([
       {
         path: 'auth/kakao/callback',
         element: <RedirectPage />,
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },

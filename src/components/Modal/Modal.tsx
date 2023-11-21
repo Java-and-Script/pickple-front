@@ -21,7 +21,7 @@ const ModalContent = ({
 type ModalProps = {
   isOpen: boolean;
   close: VoidFunction;
-  header?: boolean;
+  header?: boolean | number;
 } & PropsWithChildren;
 
 const Modal = ({ children, isOpen, header = false, close }: ModalProps) => {
@@ -47,6 +47,9 @@ const Modal = ({ children, isOpen, header = false, close }: ModalProps) => {
           },
         },
         window: {
+          content: {
+            fontFamily: 'GmarketSans',
+          },
           wrap: {
             borderTopLeftRadius: '16px',
             borderTopRightRadius: '16px',
@@ -54,8 +57,8 @@ const Modal = ({ children, isOpen, header = false, close }: ModalProps) => {
         },
       }}
     >
-      {header && (
-        <ModalHeader>
+      {header !== false && (
+        <ModalHeader header={header === true ? 20 : header}>
           {/* TODO: svg fill 바꿔주기 */}
           <img
             src={Close}

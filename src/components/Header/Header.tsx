@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
-import { Button } from '@components/shared/Button';
 
 import { theme } from '@styles/theme';
 
@@ -19,6 +18,7 @@ import {
   BackwardWrapper,
   HeaderBackground,
   HeaderContainer,
+  LoginButton,
   LogoIcon,
   LogoWrapper,
   RightSideContainer,
@@ -108,7 +108,7 @@ export const Header = ({
               className={isRightContainer ? '' : 'invisible'}
               isLogin={true}
             >
-              <Button
+              <LoginButton
                 width="60px"
                 height="24px"
                 fontWeight={300}
@@ -119,7 +119,7 @@ export const Header = ({
                 onClick={handleLoginClick}
               >
                 로그인
-              </Button>
+              </LoginButton>
             </RightSideContainer>
           )}
         </HeaderContainer>
