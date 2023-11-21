@@ -12,7 +12,12 @@ import GlobalStyle from '@styles/globalStyle';
 import { theme } from '@styles/theme';
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { retry: false } },
+  defaultOptions: {
+    queries: {
+      retry: false,
+      staleTime: 10000,
+    },
+  },
 });
 
 function App() {
