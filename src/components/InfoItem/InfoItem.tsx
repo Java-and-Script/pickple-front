@@ -14,11 +14,11 @@ export const InfoItem = ({ text, title, children }: InfoItemProps) => {
   return (
     <>
       <StyledInfoItem>
-        <Text size={12} color={theme.PALETTE.GRAY_400}>
+        <Text size={12} color={theme.PALETTE.GRAY_400} nowrap>
           {title}
         </Text>
         {children}
-        <Text size="80%" lineHeight="1rem">
+        <Text size="80%" lineHeight="1rem" nowrap>
           {text}
         </Text>
       </StyledInfoItem>
