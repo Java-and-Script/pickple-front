@@ -9,7 +9,7 @@ import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
 
-export const MessageContainer = styled.div`
+export const MessagePageContainer = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
   min-height: 100dvh;
 `;
@@ -34,6 +34,7 @@ export const TabBarButton = styled.button<{ isSelected: boolean }>`
 
 export const ChatItemAvatar = styled(Image)`
   border-radius: 4px;
+  min-width: 40px;
   border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_400};
 `;
 
@@ -42,7 +43,8 @@ export const Nickname = styled(Text)`
 `;
 
 export const DateText = styled(Text)`
-  max-width: 70px;
+  max-width: 200px;
+  flex-grow: 0;
 `;
 
 export const ChatMatchStatus = styled(MatchStatus)`
@@ -60,4 +62,10 @@ export const ChatMatchDuration = styled(MatchDuration)`
 
 export const InformText = styled(Text)`
   padding: 16px;
+`;
+
+export const ChatMessage = styled(Text)``;
+
+export const MessageContainer = styled(Flex)`
+  flex-grow: 1;
 `;
