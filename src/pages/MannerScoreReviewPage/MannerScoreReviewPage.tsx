@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Profile } from '@pages/ProfilePage/Profile';
@@ -14,6 +14,8 @@ import { useMannerScoreReviewPatchMutation } from '@hooks/mutations/useMannerSco
 import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
 
 import { theme } from '@styles/theme';
+
+import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { PATH_NAME } from '@consts/pathName';
 
@@ -34,7 +36,15 @@ export const MannerScoreReviewPage = () => {
   const navigate = useNavigate();
   const gameId = Number(location.pathname.split('/')[2]);
   const { data } = useGameDetailQuery(gameId);
-  const teammateListInfo = data.members;
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+  const teammateListInfo = data.members.filter(({ id }) => {
+    return loginInfo?.id !== id;
+  });
+  const nowDate = new Date();
+  const gameDate = new Date(`${data.playDate}T${data.playEndTime}`);
+
+  const exitCode =
+    nowDate <= gameDate || !loginInfo || teammateListInfo.length === 0;
 
   const [currentSelectedMemberIndex, setCurrentSelectedMemberIndex] =
     useState(0);
@@ -77,6 +87,16 @@ export const MannerScoreReviewPage = () => {
       setCurrentSelectedMemberIndex(currentSelectedMemberIndex + 1);
     }
   };
+
+  useEffect(() => {
+    if (exitCode) {
+      navigate('/');
+    }
+  }, []);
+
+  if (exitCode) {
+    return <></>;
+  }
 
   return (
     <ReviewPageContainer>
@@ -202,7 +222,9 @@ export const MannerScoreReviewPage = () => {
       </Flex>
       <Modal isOpen={isOpen} close={() => setIsOpen(false)}>
         <Modal.Content>
-          <Profile memberId={1} />
+          <Profile
+            memberId={teammateList[currentSelectedMemberIndex].memberId}
+          />
         </Modal.Content>
       </Modal>
     </ReviewPageContainer>
