@@ -44,14 +44,14 @@ export const RankingModalContent = ({
 }: RankingModalContentProps) => {
   return (
     <ContentWrapper>
-      <Flex direction="column" gap={20}>
+      <Flex direction="column" gap={16}>
         <Flex gap={10}>
           <Avatar src={profileImageUrl} size={60} radius="5px" />
           <Flex direction="column" justify="space-around">
-            <Text size={24} weight={700}>
+            <Text size={24} weight={700} nowrap>
               {name}
             </Text>
-            <Text size={12} weight={500}>
+            <Text size={12} weight={500} nowrap>
               랭킹 {ranking}위
             </Text>
           </Flex>
@@ -63,7 +63,7 @@ export const RankingModalContent = ({
               {infoText}
             </Text>
           </Flex>
-          <Flex gap={20}>
+          <Flex gap={10}>
             <InfoContainer direction="column" gap={20}>
               <Flex direction="column" gap={5}>
                 <Text size={16} weight={700}>
