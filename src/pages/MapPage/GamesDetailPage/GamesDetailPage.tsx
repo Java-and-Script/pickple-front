@@ -29,7 +29,13 @@ import {
   UserDataWrapper,
 } from './GamesDetailPage.styles';
 
-export const GamesDetailPage = ({ match }: { match: Game | undefined }) => {
+export const GamesDetailPage = ({
+  match,
+  onNavigate,
+}: {
+  match: Game | undefined;
+  onNavigate?: VoidFunction;
+}) => {
   const navigate = useNavigate();
   if (match === undefined) {
     return <></>;
@@ -137,7 +143,10 @@ export const GamesDetailPage = ({ match }: { match: Game | undefined }) => {
             {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
             height="50px"
             width="100%"
-            onClick={() => navigate(PATH_NAME.GET_GAMES_PATH(String(match.id)))}
+            onClick={() => {
+              onNavigate?.();
+              navigate(PATH_NAME.GET_GAMES_PATH(String(match.id)));
+            }}
           >
             자세히보기
           </Button>

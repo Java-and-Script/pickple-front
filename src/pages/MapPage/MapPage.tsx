@@ -1,3 +1,4 @@
+import { flushSync } from 'react-dom';
 import { Map, Polygon } from 'react-kakao-maps-sdk';
 
 import { Modal } from '@components/Modal';
@@ -109,6 +110,7 @@ export const MapPage = () => {
         <Modal.Content>
           <GamesDetailPage
             match={games?.find((game) => game.id == currentMarkerId)}
+            onNavigate={() => flushSync(() => setCurrentMarkerId(0))}
           />
         </Modal.Content>
       </Modal>
