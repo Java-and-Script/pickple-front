@@ -7,7 +7,10 @@ import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
 
+import { useCreatePersonalChatRoomMutation } from '@hooks/mutations/useCreatePersonalChatRoomMutation';
+import { useAllChatRoomListQuery } from '@hooks/queries/useAllChatRoomListQuery';
 import { useMemberProfileQuery } from '@hooks/queries/useMemberProfileQuery';
+import { usePersonalChatRoomExistedQuery } from '@hooks/queries/usePersonalChatRoomExistedQuery';
 
 import { theme } from '@styles/theme';
 
@@ -15,6 +18,7 @@ import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { Member } from '@type/models';
 
+import { CHAT_ROOM_TAB_TITLE } from '@consts/chatRoomTabTitle';
 import { PATH_NAME } from '@consts/pathName';
 
 import Social from '@assets/follow.svg?react';
@@ -55,15 +59,36 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
   const navigate = useNavigate();
 
   const { data: profileData } = useMemberProfileQuery({ memberId });
+  const { data: isChatExisted } = usePersonalChatRoomExistedQuery({
+    receiverId: memberId,
+  });
+  const { data: individualRooms } = useAllChatRoomListQuery({
+    type: CHAT_ROOM_TAB_TITLE.INDIVIDUAL,
+  });
+  const { mutateAsync } = useCreatePersonalChatRoomMutation();
 
   const [isHeartClicked, setIsHeartClicked] = useState(false);
 
-  const onClickHeart = () => {
+  const handleClickHeart = () => {
     setIsHeartClicked((prev: boolean) => !prev);
   };
 
   const moveToPage = (path: string) => {
     navigate(path);
+  };
+
+  const handleClickChattingButton = async () => {
+    if (!isChatExisted?.existed) {
+      const { id: roomId } = await mutateAsync({ receiverId: memberId });
+
+      moveToPage(PATH_NAME.GET_MESSAGE_PATH(String(roomId)));
+    } else {
+      const { id: roomId } = individualRooms.find(
+        ({ roomName }) => roomName === profileData.nickname
+      )!;
+
+      moveToPage(PATH_NAME.GET_MESSAGE_PATH(String(roomId)));
+    }
   };
 
   return (
@@ -85,7 +110,7 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
           />
           <NumberedItemWrapper
             isClicked={isHeartClicked}
-            onClick={onClickHeart}
+            onClick={handleClickHeart}
           >
             <NumberedItem
               text="매너스코어"
@@ -111,12 +136,7 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
         ) : (
           <Flex justify="center" gap={10}>
             <EventButton text="팔로우" onClick={() => console.log('팔로우')} />
-            <EventButton
-              text="대화하기"
-              onClick={() =>
-                moveToPage(PATH_NAME.GET_MESSAGE_PATH(String(memberId)))
-              }
-            />
+            <EventButton text="대화하기" onClick={handleClickChattingButton} />
           </Flex>
         )}
         <ProfileField category="포지션">

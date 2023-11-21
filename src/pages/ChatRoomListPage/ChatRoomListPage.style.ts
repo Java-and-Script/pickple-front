@@ -32,7 +32,7 @@ export const TabBarButton = styled.button<{ isSelected: boolean }>`
   padding: 10px;
 `;
 
-export const MessageItemAvatar = styled(Image)`
+export const ChatItemAvatar = styled(Image)`
   border-radius: 4px;
   border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_400};
 `;
@@ -42,18 +42,22 @@ export const Nickname = styled(Text)`
 `;
 
 export const DateText = styled(Text)`
-  min-width: 70px;
+  max-width: 70px;
 `;
 
-export const MessageMatchStatus = styled(MatchStatus)`
+export const ChatMatchStatus = styled(MatchStatus)`
   width: 40px;
   height: 40px;
 `;
 
-export const MessageMatchStartTime = styled(MatchStartTime)`
+export const ChatMatchStartTime = styled(MatchStartTime)`
   font-size: ${({ theme }) => theme.FONT_SIZE.XXS};
 `;
 
-export const MessageMatchDuration = styled(MatchDuration)`
+export const ChatMatchDuration = styled(MatchDuration)`
   font-size: 8px;
+`;
+
+export const InformText = styled(Text)`
+  padding: 16px;
 `;
