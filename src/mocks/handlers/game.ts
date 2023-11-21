@@ -37,6 +37,8 @@ const mockPostGame = http.post<PathParams, PostGameRequest, PostGameResponse>(
     const newGame: Game = {
       id: gameId,
       ...data,
+      latitude: 127,
+      longitude: 30,
       playEndTime: '00:00',
       status: '모집 중',
       viewCount: 0,

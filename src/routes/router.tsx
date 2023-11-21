@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -16,13 +17,16 @@ import { ErrorPage } from '@pages/ErrorPage';
 import { GamesDetailPage } from '@pages/GamesDetailPage';
 import { GamesHostPage } from '@pages/GamesHostPage';
 import { GamesManageParticipatePage } from '@pages/GamesManageParticipatePage';
-import { GamesNearPage } from '@pages/GamesNearPage';
+import { GamesNearPage, GamesNearPageLoading } from '@pages/GamesNearPage';
 import { GamesParticipatePage } from '@pages/GamesParticipatePage';
 import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
 import { MainPage } from '@pages/MainPage';
 import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
+import { MapPage } from '@pages/MapPage';
 import { MessageListPage } from '@pages/MessageListPage';
+import { MessageRoomPage } from '@pages/MessageRoomPage';
+import { NotFoundPage } from '@pages/NotFoundPage'; 
 import { NotificationPage } from '@pages/NotificationPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { RedirectPage } from '@pages/RedirectPage';
@@ -47,7 +51,11 @@ export const router = createBrowserRouter([
       { path: 'players/:id', element: <h1>players</h1> },
       {
         path: 'games/near',
-        element: <GamesNearPage />,
+        element: (
+          <Suspense fallback={<GamesNearPageLoading />}>
+            <GamesNearPage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/host',
@@ -112,7 +120,7 @@ export const router = createBrowserRouter([
       { path: 'profile/update', element: <h1>프로필 수정 페이지</h1> },
       {
         path: 'map',
-        element: <h3>map</h3>,
+        element: <MapPage />,
       },
       {
         path: 'message',
@@ -129,6 +137,10 @@ export const router = createBrowserRouter([
       {
         path: 'auth/kakao/callback',
         element: <RedirectPage />,
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },
