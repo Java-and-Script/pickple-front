@@ -1,5 +1,7 @@
 import { MapMarker } from 'react-kakao-maps-sdk';
 
+import MapCurrentLocation from '@assets/mapCurrentLocation.svg';
+
 export const CurrentLocationMarker = ({
   location,
 }: {
@@ -15,7 +17,7 @@ export const CurrentLocationMarker = ({
         lng: location.longitude,
       }}
       image={{
-        src: 'src/assets/mapCurrentLocation.svg',
+        src: MapCurrentLocation,
         size: {
           width: 22,
           height: 22,
