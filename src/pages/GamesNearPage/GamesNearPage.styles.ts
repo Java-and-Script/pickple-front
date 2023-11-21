@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 export const PageLayout = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
+  min-height: 100dvh;
 `;
 
 export const PageContent = styled.div`
