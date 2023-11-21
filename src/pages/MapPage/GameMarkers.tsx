@@ -2,6 +2,8 @@ import { MapMarker, useMap } from 'react-kakao-maps-sdk';
 
 import { Game } from '@type/models';
 
+import Marker from '@assets/mapMarker.svg';
+
 export const GameMarkers = ({
   games,
   currentMarkerId,
@@ -23,7 +25,7 @@ export const GameMarkers = ({
             lng: longitude,
           }}
           image={{
-            src: 'src/assets/mapMarker.svg',
+            src: Marker,
             size: {
               width: currentMarkerId == id ? 60 : 48,
               height: currentMarkerId == id ? 80 : 68,

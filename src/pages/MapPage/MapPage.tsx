@@ -3,7 +3,7 @@ import { Map, Polygon } from 'react-kakao-maps-sdk';
 import { Modal } from '@components/Modal';
 
 import Logo from '@assets/logoSvg.svg?react';
-import MapMarker from '@assets/mapMarker.svg?react';
+import Marker from '@assets/mapMarker.svg?react';
 import MyLocation from '@assets/myLocation.svg?react';
 import Refresh from '@assets/refresh.svg?react';
 
@@ -125,7 +125,7 @@ export const MapPage = () => {
   ) : (
     <LoadingView>
       <Logo />
-      <MapMarker className="logo" />
+      <Marker className="logo" />
     </LoadingView>
   );
 };
