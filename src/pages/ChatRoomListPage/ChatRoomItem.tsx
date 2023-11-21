@@ -1,5 +1,5 @@
 import { Flex } from '@components/shared/Flex';
-import { Text } from '@components/shared/Text';
+import { Text } from '@components/shared/Text/Text.tsx';
 
 import { theme } from '@styles/theme';
 
@@ -13,6 +13,7 @@ import {
   ChatMatchStartTime,
   ChatMatchStatus,
   DateText,
+  MessageContainer,
   Nickname,
 } from './ChatRoomListPage.style.ts';
 
@@ -29,7 +30,7 @@ const GuestChatRoomProfile = ({
 
   return (
     <ChatMatchStatus>
-      <ChatMatchStartTime>{playStartTime}</ChatMatchStartTime>
+      <ChatMatchStartTime>{playStartTime?.slice(0, 5)}</ChatMatchStartTime>
       <ChatMatchDuration>{playTimeHours}h</ChatMatchDuration>
     </ChatMatchStatus>
   );
@@ -57,21 +58,21 @@ export const ChatRoomItem = ({
           ></GuestChatRoomProfile>
         ) : (
           <ChatItemAvatar
-            width="40"
+            width="40px"
             alt="avatar"
             src={roomIconImageUrl as string}
           />
         )}
-        <Flex direction="column">
+        <MessageContainer direction="column">
           <Nickname size={12} weight={500} ellipsis={1}>
             {roomName}
           </Nickname>
           <Text size={12} weight={300} ellipsis={1}>
             {lastMessageContent}
           </Text>
-        </Flex>
+        </MessageContainer>
       </Flex>
-      <DateText size={8} color={theme.PALETTE.GRAY_500}>
+      <DateText size={8} color={theme.PALETTE.GRAY_500} nowrap>
         {getTimeStamp(lastMessageCreatedAt)}
       </DateText>
     </Flex>

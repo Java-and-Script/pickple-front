@@ -10,7 +10,7 @@ import { ChatRoomItem } from './ChatRoomItem.tsx';
 import {
   InformText,
   Main,
-  MessageContainer,
+  MessagePageContainer,
   TabBar,
   TabBarButton,
 } from './ChatRoomListPage.style.ts';
@@ -21,7 +21,7 @@ export const ChatRoomListPage = () => {
     useChatRoomListPage();
 
   return (
-    <MessageContainer>
+    <MessagePageContainer>
       <Header isLogo={false} title="채팅" isRightContainer={true} />
       <Main>
         <TabBar>
@@ -53,6 +53,6 @@ export const ChatRoomListPage = () => {
           </Flex>
         )}
       </Main>
-    </MessageContainer>
+    </MessagePageContainer>
   );
 };

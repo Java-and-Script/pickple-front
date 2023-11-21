@@ -36,6 +36,7 @@ export const BalloonContainer = styled(Flex)<{ isOthersMessage: boolean }>`
   & > span {
     padding: 10px;
     white-space: pre-wrap;
+    word-break: break-all;
     ${({ isOthersMessage, theme }) =>
       isOthersMessage
         ? ` 
