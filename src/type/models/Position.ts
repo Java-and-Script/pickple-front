@@ -1,4 +1,4 @@
-export type Position = {
+export type PositionInfo = {
   name:
     | '센터'
     | '파워 포워드'
@@ -9,3 +9,5 @@ export type Position = {
   acronym: 'C' | 'PF' | 'SF' | 'PG' | 'SG' | '없음';
   description: string;
 };
+
+export type Position = PositionInfo['acronym'];
