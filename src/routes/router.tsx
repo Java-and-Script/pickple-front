@@ -3,6 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { AllServicesPage } from '@pages/AllServicesPage';
+import { ChattingPage } from '@pages/ChattingPage';
 import { CreateCrewPage } from '@pages/CreateCrewPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
@@ -25,7 +26,7 @@ import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
 import { MapPage } from '@pages/MapPage';
 import { MessageListPage } from '@pages/MessageListPage';
 import { MessageRoomPage } from '@pages/MessageRoomPage';
-import { NotFoundPage } from '@pages/NotFoundPage';
+import { NotFoundPage } from '@pages/NotFoundPage'; 
 import { NotificationPage } from '@pages/NotificationPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { RedirectPage } from '@pages/RedirectPage';
@@ -127,7 +128,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'message/:id',
-        element: <MessageRoomPage />,
+        element: <ChattingPage />,
       },
       {
         path: 'notification',
