@@ -26,7 +26,10 @@ export const Chat = ({
   const { type: chatType, createdAt, sender, content } = chatInfo;
 
   return chatType === '대화' ? (
-    <Flex key={createdAt} direction={isOthersMessage ? 'row' : 'row-reverse'}>
+    <Flex
+      key={String(createdAt)}
+      direction={isOthersMessage ? 'row' : 'row-reverse'}
+    >
       {isOthersMessage && (
         <Avatar
           src={sender.profileImageUrl}
@@ -52,7 +55,7 @@ export const Chat = ({
           {}
         </Text>
         <Text size={10} weight={300}>
-          {createdAt.slice(11, 16)}
+          {String(createdAt).slice(11, 16)}
         </Text>
       </BalloonInfo>
     </Flex>

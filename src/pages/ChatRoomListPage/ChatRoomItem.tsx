@@ -76,7 +76,7 @@ export const ChatRoomItem = ({
         </MessageContainer>
       </Flex>
       <DateText size={8} color={theme.PALETTE.GRAY_500} nowrap>
-        {createdAtToString(lastTime)}
+        {createdAtToString(new Date(lastTime))}
       </DateText>
     </Flex>
   );

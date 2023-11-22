@@ -12,5 +12,5 @@ export const convertUTCToKoreanTime = (utcTime: string | Date) => {
     '0'
   )}:${String(koreanDate.getSeconds()).padStart(2, '0')}`;
 
-  return new Date(formattedTime);
+  return formattedTime;
 };
