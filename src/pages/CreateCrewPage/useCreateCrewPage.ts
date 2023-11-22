@@ -8,6 +8,7 @@ import { AxiosError } from 'axios';
 import { useToggleButtons } from '@components/shared/ToggleButton';
 
 import { useCrewMutation } from '@hooks/mutations/useCrewMutation';
+import { useLocationsQuery } from '@hooks/queries/useLocationsQuery';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
@@ -23,6 +24,7 @@ export const useCreateCrewPage = () => {
   }
 
   const navigate = useNavigate();
+  const { data: locations } = useLocationsQuery();
 
   const { mutate } = useCrewMutation();
   const methods = useForm();
@@ -85,6 +87,7 @@ export const useCreateCrewPage = () => {
       isOpenAddressDepth2Modal,
     },
     methods,
+    locations,
     onSubmit,
     setName,
     setContent,

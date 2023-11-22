@@ -14,12 +14,12 @@ import {
 } from '@components/shared/ToggleButton';
 
 import { useRegistrationMutation } from '@hooks/mutations/useRegistrationMutation';
+import { useLocationsQuery } from '@hooks/queries/useLocationsQuery';
 
 import { theme } from '@styles/theme';
 
 import { Position } from '@type/models/Position';
 
-import { SEOUL } from '@consts/location';
 import { PATH_NAME } from '@consts/pathName';
 import { POSITIONS_BUTTON } from '@consts/positions';
 
@@ -64,7 +64,8 @@ export const RegisterPage = () => {
   });
 
   const { mutate } = useRegistrationMutation();
-
+  const { data: resLocations } = useLocationsQuery();
+  const locations = resLocations.addressDepth2List;
   const submitRegistration = () => {
     const { email, nickname, profileImageUrl, oauthId, oauthProvider } =
       loginInfo;
@@ -98,7 +99,7 @@ export const RegisterPage = () => {
           </Text>
           <ScrollBox>
             <SelectBox border="none">
-              {Object.values(SEOUL).map((location) => (
+              {locations.map((location) => (
                 <ToggleButton
                   key={location}
                   value={location}
