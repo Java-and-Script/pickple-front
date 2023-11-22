@@ -5,5 +5,5 @@ export type ChatMessage = {
   content: string;
   sender: ChatMember;
   roomId: number;
-  createdAt: string;
+  createdAt: Date;
 };
