@@ -9,20 +9,26 @@ import { CreateCrewPage } from '@pages/CreateCrewPage';
 import { CreateGamePage } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
 import { CrewsChiefPage } from '@pages/CrewsChiefPage';
-import { CrewsDetailPage } from '@pages/CrewsDetailPage';
+import {
+  CrewsDetailPage,
+  CrewsDetailPageLoading,
+} from '@pages/CrewsDetailPage';
 import { CrewsManageParticipatePage } from '@pages/CrewsManageParticipatePage';
 import { CrewsParticipatePage } from '@pages/CrewsParticipatePage';
 import { CrewsRankingPage } from '@pages/CrewsRankingPage';
 import { CrewsRecommendPage } from '@pages/CrewsRecommendPage';
 import { ErrorPage } from '@pages/ErrorPage';
-import { GamesDetailPage } from '@pages/GamesDetailPage';
+import {
+  GamesDetailPage,
+  GamesDetailPageLoading,
+} from '@pages/GamesDetailPage';
 import { GamesHostPage } from '@pages/GamesHostPage';
 import { GamesManageParticipatePage } from '@pages/GamesManageParticipatePage';
-import { GamesNearPage, GamesNearPageLoading } from '@pages/GamesNearPage';
+import { GamesNearPage } from '@pages/GamesNearPage';
 import { GamesParticipatePage } from '@pages/GamesParticipatePage';
 import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
-import { MainPage } from '@pages/MainPage';
+import { MainPage, MainPageLoading } from '@pages/MainPage';
 import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
 import { MapPage } from '@pages/MapPage';
 import { NotFoundPage } from '@pages/NotFoundPage';
@@ -30,6 +36,8 @@ import { NotificationPage } from '@pages/NotificationPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { RedirectPage } from '@pages/RedirectPage';
 import { RegisterPage } from '@pages/RegisterPage';
+import { CardListPageSkeleton } from '@pages/__components__/CardListPageSkeleton';
+import { ManagePageSkeleton } from '@pages/__components__/ManagePageSkeleton';
 
 export const router = createBrowserRouter([
   {
@@ -42,7 +50,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <MainPage />,
+        element: (
+          <Suspense fallback={<MainPageLoading />}>
+            <MainPage />
+          </Suspense>
+        ),
       },
       { path: 'login', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
@@ -51,26 +63,48 @@ export const router = createBrowserRouter([
       {
         path: 'games/near',
         element: (
-          <Suspense fallback={<GamesNearPageLoading />}>
+          <Suspense
+            fallback={<CardListPageSkeleton name="내 근처 게스트 매치" />}
+          >
             <GamesNearPage />
           </Suspense>
         ),
       },
       {
         path: 'games/host',
-        element: <GamesHostPage />,
+        element: (
+          <Suspense
+            fallback={<CardListPageSkeleton name="내가 만든 게스트 매치" />}
+          >
+            <GamesHostPage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/participate',
-        element: <GamesParticipatePage />,
+        element: (
+          <Suspense
+            fallback={<CardListPageSkeleton name="내가 참여한 게스트 매치" />}
+          >
+            <GamesParticipatePage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/:id',
-        element: <GamesDetailPage />,
+        element: (
+          <Suspense fallback={<GamesDetailPageLoading />}>
+            <GamesDetailPage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/:id/manage',
-        element: <GamesManageParticipatePage />,
+        element: (
+          <Suspense fallback={<ManagePageSkeleton />}>
+            <GamesManageParticipatePage />
+          </Suspense>
+        ),
       },
       {
         path: 'games/:id/review',
@@ -78,15 +112,27 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/recommend',
-        element: <CrewsRecommendPage />,
+        element: (
+          <Suspense fallback={<CardListPageSkeleton name="추천 크루" />}>
+            <CrewsRecommendPage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/chief',
-        element: <CrewsChiefPage />,
+        element: (
+          <Suspense fallback={<CardListPageSkeleton name="내가 만든 크루" />}>
+            <CrewsChiefPage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/participate',
-        element: <CrewsParticipatePage />,
+        element: (
+          <Suspense fallback={<CardListPageSkeleton name="내가 속한 크루" />}>
+            <CrewsParticipatePage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/ranking',
@@ -94,11 +140,19 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/:id',
-        element: <CrewsDetailPage />,
+        element: (
+          <Suspense fallback={<CrewsDetailPageLoading />}>
+            <CrewsDetailPage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/:id/manage',
-        element: <CrewsManageParticipatePage />,
+        element: (
+          <Suspense fallback={<ManagePageSkeleton />}>
+            <CrewsManageParticipatePage />
+          </Suspense>
+        ),
       },
       {
         path: 'create',
