@@ -5,7 +5,15 @@ import { theme } from '@styles/theme';
 
 import { SkeletonItemWrapper } from './SkeletonCardList.styles';
 
-export const SkeletonCardList = () => {
+type SkeletonCardListProps = {
+  count?: number;
+  gap?: number;
+};
+
+export const SkeletonCardList = ({
+  count = 10,
+  gap = 16,
+}: SkeletonCardListProps) => {
   return (
     <Skeleton
       width="100%"
@@ -14,8 +22,8 @@ export const SkeletonCardList = () => {
       defaultColor={theme.PALETTE.GRAY_100}
       gradientColor={theme.PALETTE.GRAY_200}
     >
-      <Flex direction="column" gap={16}>
-        {Array(10)
+      <Flex direction="column" gap={gap}>
+        {Array(count)
           .fill(null)
           .map((_, index) => (
             <SkeletonItemWrapper gap={10} key={index}>
