@@ -1,9 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { getLocations } from '@api/data/getLocations';
 
-export const useLocationQuery = () => {
-  return useQuery({
+export const useLocationsQuery = () => {
+  return useSuspenseQuery({
     queryKey: ['locations'],
     queryFn: () => getLocations(),
   });
