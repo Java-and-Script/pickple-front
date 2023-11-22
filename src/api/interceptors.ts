@@ -2,7 +2,7 @@ import { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 import { useTokenStore } from '@stores/accessToken.store';
 
-import { CommonErrorResponse } from '@type/api/error';
+import { isValidServerError } from '@utils/isValidServerError';
 
 import { axiosInstance } from './axiosInstance';
 import { postRefreshAccessToken } from './member/postRefreshAccessToken';
@@ -21,16 +21,15 @@ export const setAuthorization = (config: InternalAxiosRequestConfig) => {
   return config;
 };
 
-export const handleAuthError = async (
-  error: AxiosError<CommonErrorResponse>
-) => {
-  const data = error.response?.data;
+export const handleAuthError = async (error: AxiosError) => {
+  if (error.config && isValidServerError(error)) {
+    if (error.response?.data.code === 'AUT-002') {
+      const { accessToken } = await postRefreshAccessToken();
+      useTokenStore.getState().setAccessToken(accessToken);
 
-  if (data?.code === 'AUT-002') {
-    const { accessToken } = await postRefreshAccessToken();
-    useTokenStore.getState().setAccessToken(accessToken);
-    if (error.config) {
       return axiosInstance(error.config);
     }
   }
+
+  throw error;
 };
