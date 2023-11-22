@@ -1,5 +1,6 @@
 import { Header } from '@components/Header';
 import { MatchItem } from '@components/MatchItem';
+import { SkeletonCardList } from '@components/SkeletonCardList';
 import { Text } from '@components/shared/Text';
 
 import { useGamesQuery } from '@hooks/queries/useGamesQuery';
@@ -9,6 +10,7 @@ import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { DEFAULT_ADDRESS_DEPTHS } from '@consts/location';
+import { FETCH_SIZE } from '@consts/network';
 
 import { getGameStartDate } from '@utils/domain';
 
@@ -19,7 +21,7 @@ export const GamesNearPage = () => {
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
-  const { games, fetchNextPage } = useGamesQuery({
+  const { games, fetchNextPage, isFetchingNextPage } = useGamesQuery({
     category: 'location',
     value: `${
       loginInfo?.addressDepth1 || DEFAULT_ADDRESS_DEPTHS.addressDepth1
@@ -53,6 +55,7 @@ export const GamesNearPage = () => {
             />
           );
         })}
+        {isFetchingNextPage && <SkeletonCardList count={FETCH_SIZE} />}
         <div ref={lastElementRef} />
       </PageContent>
     </PageLayout>

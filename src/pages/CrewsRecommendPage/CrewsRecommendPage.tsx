@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { CrewItem } from '@components/CrewItem';
 import { Header } from '@components/Header';
+import { SkeletonCardList } from '@components/SkeletonCardList';
 import { Text } from '@components/shared/Text';
 
 import { useNearCrewListQuery } from '@hooks/queries/useNearCrewListQuery';
@@ -10,6 +11,7 @@ import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
+import { FETCH_SIZE } from '@consts/network';
 import { PATH_NAME } from '@consts/pathName';
 
 import { PageContent, PageWrapper } from './CrewsRecommendPage.styles';
@@ -22,7 +24,7 @@ const DEFAULT_ADDRESS_DEPTHS = {
 export const CrewsRecommendPage = () => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
-  const { nearCrews, fetchNextPage } = useNearCrewListQuery(
+  const { nearCrews, fetchNextPage, isFetchingNextPage } = useNearCrewListQuery(
     loginInfo && loginInfo.addressDepth1 !== null
       ? {
           addressDepth1: loginInfo.addressDepth1,
@@ -63,6 +65,7 @@ export const CrewsRecommendPage = () => {
             />
           );
         })}
+        {isFetchingNextPage && <SkeletonCardList count={FETCH_SIZE} />}
         <div ref={lastElementRef}></div>
       </PageContent>
     </PageWrapper>
