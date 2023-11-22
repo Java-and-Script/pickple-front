@@ -3,6 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { AllServicesPage } from '@pages/AllServicesPage';
+import { AuthErrorPage } from '@pages/AuthErrorPage';
 import { ChatRoomListPage } from '@pages/ChatRoomListPage';
 import { ChattingPage } from '@pages/ChattingPage';
 import { CreateCrewPage } from '@pages/CreateCrewPage';
@@ -36,7 +37,9 @@ export const router = createBrowserRouter([
     path: '/',
     element: (
       <ErrorBoundary FallbackComponent={ErrorPage}>
-        <Layout />
+        <ErrorBoundary FallbackComponent={AuthErrorPage}>
+          <Layout />
+        </ErrorBoundary>
       </ErrorBoundary>
     ),
     children: [
