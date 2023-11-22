@@ -7,10 +7,8 @@ import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
 
-import { useCreatePersonalChatRoomMutation } from '@hooks/mutations/useCreatePersonalChatRoomMutation';
-import { useAllChatRoomListQuery } from '@hooks/queries/useAllChatRoomListQuery';
 import { useMemberProfileQuery } from '@hooks/queries/useMemberProfileQuery';
-import { usePersonalChatRoomExistedQuery } from '@hooks/queries/usePersonalChatRoomExistedQuery';
+import { useChatOnButtonClick } from '@hooks/useChatOnButtonClick';
 
 import { theme } from '@styles/theme';
 
@@ -18,7 +16,6 @@ import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { Member } from '@type/models';
 
-import { CHAT_ROOM_TAB_TITLE } from '@consts/chatRoomTabTitle';
 import { PATH_NAME } from '@consts/pathName';
 
 import Social from '@assets/follow.svg?react';
@@ -55,17 +52,10 @@ type NumberedItemProps = {
 };
 
 export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
-  const myId = useLoginInfoStore((state) => state.loginInfo?.id);
+  const myId = useLoginInfoStore((state) => state.loginInfo?.id) ?? null;
   const navigate = useNavigate();
 
-  const { data: profileData } = useMemberProfileQuery({ memberId });
-  const { data: isChatExisted } = usePersonalChatRoomExistedQuery({
-    receiverId: memberId,
-  });
-  const { data: individualRooms } = useAllChatRoomListQuery({
-    type: CHAT_ROOM_TAB_TITLE.INDIVIDUAL,
-  });
-  const { mutateAsync } = useCreatePersonalChatRoomMutation();
+  const { data: profile } = useMemberProfileQuery({ memberId });
 
   const [isHeartClicked, setIsHeartClicked] = useState(false);
 
@@ -77,34 +67,27 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
     navigate(path);
   };
 
-  const handleClickChattingButton = async () => {
-    if (!isChatExisted?.existed) {
-      const { id: roomId } = await mutateAsync({ receiverId: memberId });
-
-      moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
-    } else {
-      const { id: roomId } = individualRooms.find(
-        ({ roomName }) => roomName === profileData.nickname
-      )!;
-
-      moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
-    }
-  };
+  const { handleClickChattingButton } = useChatOnButtonClick({
+    targetId: memberId,
+    targetNickname: profile.nickname,
+    navigate,
+    myId,
+  });
 
   return (
     <Main>
       <FlexItem>
         <Flex align="flex-end" gap={8}>
           <Text size={24} lineHeight="">
-            {profileData.nickname}
+            {profile.nickname}
           </Text>
           <Text size={12}>
-            {profileData.addressDepth1 + ' ' + profileData.addressDepth2}
+            {profile.addressDepth1 + ' ' + profile.addressDepth2}
           </Text>
         </Flex>
         <Flex justify="center" gap={40} align="center">
           <Avatar
-            src={profileData.profileImageUrl}
+            src={profile.profileImageUrl}
             size={100}
             border={`1px solid ${theme.PALETTE.GRAY_400}`}
           />
@@ -115,13 +98,13 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
             <NumberedItem
               text="매너스코어"
               icon={<Heart />}
-              count={profileData.mannerScore}
+              count={profile.mannerScore}
               color="pink"
             />
             <NumberedItem
               text="평가한 사람"
               icon={<HandHeart />}
-              count={profileData.mannerScoreCount}
+              count={profile.mannerScoreCount}
               color="black"
             />
           </NumberedItemWrapper>
@@ -140,16 +123,16 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
           </Flex>
         )}
         <ProfileField category="포지션">
-          {profileData.positions.length
-            ? profileData.positions.map((position) => (
+          {profile.positions.length
+            ? profile.positions.map((position) => (
                 <ItemBox key={position}>{position}</ItemBox>
               ))
             : '없음'}
         </ProfileField>
         <ProfileField category="소속 크루">
           <CrewGroup>
-            {profileData.crews.length
-              ? profileData.crews.map((crew) => (
+            {profile.crews.length
+              ? profile.crews.map((crew) => (
                   <ItemBox border="none" key={crew.id}>
                     <Image
                       src={crew.profileImageUrl}
@@ -164,7 +147,7 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
         <ProfileField category="획득한 뱃지">{'없음'}</ProfileField>
         <ProfileField category="자기소개">
           <Introduce>
-            <Text>{profileData.introduction}</Text>
+            <Text>{profile.introduction}</Text>
           </Introduce>
         </ProfileField>
       </FlexItem>
