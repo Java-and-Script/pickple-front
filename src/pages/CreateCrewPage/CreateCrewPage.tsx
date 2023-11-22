@@ -15,8 +15,6 @@ import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { theme } from '@styles/theme';
 
-import { SEOUL } from '@consts/location';
-
 import {
   PageLayout,
   PageWrapper,
@@ -37,6 +35,7 @@ export const CreateCrewPage = () => {
   const {
     state,
     methods,
+    locations,
     onSubmit,
     setName,
     setContent,
@@ -121,7 +120,7 @@ export const CreateCrewPage = () => {
               <StyledModalContent>
                 <ScrollBox>
                   <StyledSelectBox border="none">
-                    {Object.values(SEOUL).map((location) => (
+                    {locations.addressDepth2List.map((location) => (
                       <StyledToggleButton
                         key={location}
                         value={location}
