@@ -1,8 +1,8 @@
 import { axiosInstance } from '@api/axiosInstance';
 
-import { Position } from '@type/models/Position';
+import { PositionInfo } from '@type/models/Position';
 
 export const getPositions = async () => {
-  const { data } = await axiosInstance.get<Position>('/positions');
+  const { data } = await axiosInstance.get<PositionInfo[]>('/positions');
   return data;
 };
