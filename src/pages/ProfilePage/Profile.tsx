@@ -78,7 +78,7 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
   };
 
   const handleClickChattingButton = async () => {
-    if (!isChatExisted?.existed) {
+    if (!isChatExisted?.isRoomExisted) {
       const { id: roomId } = await mutateAsync({ receiverId: memberId });
 
       moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
