@@ -1,6 +1,9 @@
 name: Trigger repository_dispatch
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - dev
 
 jobs:
   trigger:
