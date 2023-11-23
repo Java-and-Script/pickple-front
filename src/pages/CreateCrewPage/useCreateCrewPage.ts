@@ -47,7 +47,7 @@ export const useCreateCrewPage = () => {
       onSuccess: ({ crewId }) => {
         navigate(PATH_NAME.GET_CREWS_PATH(String(crewId)));
       },
-      onError: async (error) => {
+      onError: (error) => {
         if (error instanceof AxiosError) {
           if (error.response?.data.code === 'CRE-012') {
             return toast.error('최대 크루 생성 횟수 3회를 초과했습니다.');
