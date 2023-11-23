@@ -3,6 +3,8 @@ import { Flex } from '@components/shared/Flex';
 
 import { theme } from '@styles/theme.ts';
 
+import { ChatRoom } from '@type/models/ChatRoom.ts';
+
 import { CHAT_ROOM_TAB_TITLE } from '@consts/chatRoomTabTitle.ts';
 import { PATH_NAME } from '@consts/pathName.ts';
 
@@ -17,7 +19,7 @@ import {
 import { useChatRoomListPage } from './useChatRoomListPage.ts';
 
 export const ChatRoomListPage = () => {
-  const { selectedData, chatRoomTab, moveToPage, handleClickTab } =
+  const { selectedTabChatRoomList, chatRoomTab, moveToPage, handleClickTab } =
     useChatRoomListPage();
 
   return (
@@ -35,13 +37,13 @@ export const ChatRoomListPage = () => {
             </TabBarButton>
           ))}
         </TabBar>
-        {selectedData.length !== 0 ? (
-          selectedData.map((messageItem, i) => (
+        {selectedTabChatRoomList.length !== 0 ? (
+          selectedTabChatRoomList.map((chatRoomItem: ChatRoom) => (
             <ChatRoomItem
-              chatRoomItem={messageItem}
-              key={i}
+              chatRoomItem={chatRoomItem}
+              key={chatRoomItem.id}
               onClickChatRoomItem={() =>
-                moveToPage(PATH_NAME.GET_CHAT_PATH(String(messageItem.id)))
+                moveToPage(PATH_NAME.GET_CHAT_PATH(String(chatRoomItem.id)))
               }
             />
           ))
