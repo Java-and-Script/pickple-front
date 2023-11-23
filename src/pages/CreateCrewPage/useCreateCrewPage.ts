@@ -35,7 +35,7 @@ export const useCreateCrewPage = () => {
   const [selectedLocation, setSelectedLocation] = useState<string[]>();
 
   const onSubmit = () => {
-    const data: PostCrewRequest = {
+    const crewData: PostCrewRequest = {
       name,
       content,
       maxMemberCount: parseInt(maxMemberCount),
@@ -43,13 +43,13 @@ export const useCreateCrewPage = () => {
       addressDepth2: selectedLocation![0],
     };
 
-    mutate(data, {
+    mutate(crewData, {
       onSuccess: ({ crewId }) => {
         navigate(PATH_NAME.GET_CREWS_PATH(String(crewId)));
       },
-      onError: (data) => {
-        if (data instanceof AxiosError) {
-          data.response?.data.code === 'CRE-002' &&
+      onError: async (error) => {
+        if (error instanceof AxiosError) {
+          error.response?.data.code === 'CRE-002' &&
             toast.error('중복된 크루 이름 입니다.');
         }
       },
