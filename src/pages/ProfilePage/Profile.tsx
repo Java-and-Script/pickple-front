@@ -25,7 +25,7 @@ import Social from '@assets/follow.svg?react';
 import HandHeart from '@assets/handHeart.svg?react';
 import Heart from '@assets/heart.svg?react';
 
-import { ModalItem } from './ProfilePage.style';
+import { ModalItem, PointerFlex } from './ProfilePage.style';
 import {
   ColoredSvgWrapper,
   CrewGroup,
@@ -233,7 +233,7 @@ const EventButton = ({ text, width, onClick }: EventButtonProps) => (
 
 const NumberedItem = ({ text, count, icon, color }: NumberedItemProps) => {
   return (
-    <Flex direction="column" align="center" gap={4}>
+    <PointerFlex direction="column" align="center" gap={4}>
       <Text size={12} color={theme.PALETTE.GRAY_400}>
         {text}
       </Text>
@@ -241,6 +241,6 @@ const NumberedItem = ({ text, count, icon, color }: NumberedItemProps) => {
       <Text size={16} color={theme.PALETTE.GRAY_400}>
         {count}
       </Text>
-    </Flex>
+    </PointerFlex>
   );
 };

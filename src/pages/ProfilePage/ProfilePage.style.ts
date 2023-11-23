@@ -36,6 +36,7 @@ export const ItemBox = styled.div<{ border?: string }>`
   color: ${({ theme }) => theme.PALETTE.GRAY_400};
   font-size: ${({ theme }) => theme.FONT_SIZE.XS};
   overflow: hidden;
+  cursor: pointer;
 `;
 
 export const ProfileFieldContainer = styled.div`
@@ -60,6 +61,10 @@ export const Introduce = styled.div`
   & > p {
     white-space: pre-wrap;
   }
+`;
+
+export const PointerFlex = styled(Flex)`
+  cursor: pointer;
 `;
 
 export const ColoredSvgWrapper = styled.div<{ color?: string }>`
