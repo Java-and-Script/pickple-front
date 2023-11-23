@@ -49,8 +49,12 @@ export const useCreateCrewPage = () => {
       },
       onError: async (error) => {
         if (error instanceof AxiosError) {
-          error.response?.data.code === 'CRE-002' &&
-            toast.error('중복된 크루 이름 입니다.');
+          if (error.response?.data.code === 'CRE-012') {
+            return toast.error('최대 크루 생성 횟수 3회를 초과했습니다.');
+          }
+          if (error.response?.data.code === 'CRE-002') {
+            return toast.error('중복된 크루 이름 입니다.');
+          }
         }
       },
     });
