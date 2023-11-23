@@ -1,6 +1,6 @@
+import { ErrorBoundary } from 'react-error-boundary';
+import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import { useQueryClient } from '@tanstack/react-query';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
@@ -33,6 +33,7 @@ import {
   PageWrapper,
   ProfileImage,
 } from './CrewsDetailPage.styles';
+import { ParticipateButton } from './ParticipateButton';
 
 export const CrewsDetailPage = () => {
   const { id } = useParams();
@@ -41,7 +42,6 @@ export const CrewsDetailPage = () => {
   }
 
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-  const queryClient = useQueryClient();
   const { data: crew } = useCrewDetailQuery({ crewId: Number(id) });
   const { mutate: participateMutate } = useCrewParticipateCreateMutation();
   const navigate = useNavigate();
@@ -57,12 +57,6 @@ export const CrewsDetailPage = () => {
     loginInfo.id !== null &&
     crew.leader.id !== loginInfo.id &&
     crew.members.every((member) => member.id !== loginInfo.id);
-
-  const onParticipateSuccess = () => {
-    queryClient.invalidateQueries({
-      queryKey: ['crew-detail', crew.id],
-    });
-  };
 
   return (
     <PageWrapper>
@@ -141,19 +135,16 @@ export const CrewsDetailPage = () => {
             </Button>
           )}
           {renderParticipateButton && (
-            <Button
-              {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
-              height="50px"
-              width="100%"
-              onClick={() =>
-                participateMutate(
-                  { crewId: crew.id },
-                  { onSuccess: onParticipateSuccess }
-                )
-              }
+            <ErrorBoundary
+              fallback={<></>}
+              onError={() => toast.error('경기 참여여부를 불러올 수 없습니다')}
             >
-              가입 신청하기
-            </Button>
+              <ParticipateButton
+                memberId={Number(loginInfo.id)}
+                crewId={crew.id}
+                onClick={() => participateMutate({ crewId: crew.id })}
+              />
+            </ErrorBoundary>
           )}
         </ButtonWrapper>
       </PageContent>
