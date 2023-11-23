@@ -11,6 +11,7 @@ import { Text } from '@components/shared/Text';
 
 import { useGameParticipateCreateMutation } from '@hooks/mutations/useGameParticipateCreateMutation';
 import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
+import { useChatOnButtonClick } from '@hooks/useChatOnButtonClick';
 
 import { theme } from '@styles/theme';
 
@@ -76,6 +77,13 @@ export const GamesDetailPage = () => {
   const handleClickMemberProfile = (id: number | string) =>
     navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
 
+  const { handleClickChattingButton } = useChatOnButtonClick({
+    targetId: match.host.id,
+    targetNickname: match.host.nickname,
+    navigate,
+    myId: loginInfo?.id ?? null,
+  });
+
   return (
     <PageLayout>
       <Header />
@@ -119,7 +127,7 @@ export const GamesDetailPage = () => {
               borderColor={theme.PALETTE.GRAY_400}
               backgroundColor="white"
               textColor={theme.PALETTE.GRAY_400}
-              onClick={() => {}}
+              onClick={handleClickChattingButton}
             >
               대화하기
             </Button>
