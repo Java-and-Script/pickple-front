@@ -7,6 +7,7 @@ import { ToggleButton } from '@components/shared/ToggleButton';
 
 export const PageLayout = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
+  min-height: 100dvh;
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
 `;
 

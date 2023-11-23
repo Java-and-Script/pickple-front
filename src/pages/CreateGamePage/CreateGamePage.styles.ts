@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 
 export const PageLayout = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
+  min-height: 100dvh;
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
 `;
 
 export const PageWrapper = styled.div`
   padding-top: 1rem;
-  display: flex;
-  flex-direction: column;
+  ${({ theme }) => theme.STYLES.FLEX_DIRECTION_COLUMN}
 `;
 
 export const StyledTitle = styled.div`
