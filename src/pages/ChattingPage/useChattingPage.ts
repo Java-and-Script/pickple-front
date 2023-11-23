@@ -10,9 +10,12 @@ import { useChatRoomDetails } from '@hooks/queries/useChatRoomDetails';
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { SendMessageRequest } from '@type/api/chat';
+import { ChatMember } from '@type/models/ChatMember';
 import { ChatMessage } from '@type/models/ChatMessage';
 
 import { PATH_NAME } from '@consts/pathName';
+
+import { convertUTCToKoreanTime } from '@utils/convertUTCToKoreanTime';
 
 import { connect, leave, send, stompConfig, subscribe } from './stompApi';
 
@@ -51,7 +54,27 @@ export const useChattingPage = () => {
   }, [chatMessages]);
 
   useEffect(() => {
-    setChatMessages(prevChatMessages);
+    const allChatMessagesWithDates = prevChatMessages.reduce(
+      (prevChats: ChatMessage[], chat: ChatMessage, idx) => {
+        if (idx === 0) {
+          const dateSystemMessage = createDateSystemMessage(chat);
+          return [...prevChats, dateSystemMessage, chat];
+        }
+
+        const prevCreatedAt = getKoreanDay(prevChatMessages[idx - 1].createdAt);
+        const curCreatedAt = getKoreanDay(chat.createdAt);
+
+        if (prevCreatedAt !== curCreatedAt) {
+          const dateSystemMessage = createDateSystemMessage(chat);
+          return [...prevChats, dateSystemMessage, chat];
+        }
+
+        return [...prevChats, chat];
+      },
+      []
+    );
+
+    setChatMessages(allChatMessagesWithDates);
   }, [prevChatMessages]);
 
   useEffect(() => {
@@ -75,7 +98,20 @@ export const useChattingPage = () => {
           stompClient,
           roomId,
           subscribeEvent: (received: ChatMessage) =>
-            setChatMessages((prev: ChatMessage[]) => [...prev, received]),
+            setChatMessages((prev: ChatMessage[]) => {
+              const prevCreatedAt = getKoreanDay(
+                prev[prev.length - 1].createdAt
+              );
+
+              const curCreatedAt = getKoreanDay(received.createdAt);
+
+              if (prevCreatedAt !== curCreatedAt) {
+                const dateSystemMessage = createDateSystemMessage(received);
+                return [...prev, dateSystemMessage, received];
+              }
+
+              return [...prev, received];
+            }),
         });
       },
     });
@@ -140,3 +176,30 @@ export const useChattingPage = () => {
     handleClickChattingMenu,
   };
 };
+
+function formatDateString(created: Date) {
+  const DAYS = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const date = new Date(created);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const daysOfWeek = DAYS[date.getDay()];
+
+  return `${year}년 ${month}월 ${day}일 ${daysOfWeek}요일`;
+}
+
+const createDateSystemMessage = (chat: ChatMessage) => ({
+  type: '날짜' as ChatMessage['type'],
+  content: formatDateString(chat.createdAt),
+  sender: {
+    id: 0,
+    nickname: 'system',
+    profileImageUrl: '',
+  } as ChatMember,
+  roomId: chat.roomId,
+  createdAt: new Date(),
+});
+
+const getKoreanDay = (date: Date) =>
+  String(convertUTCToKoreanTime(date)).slice(0, 10);
