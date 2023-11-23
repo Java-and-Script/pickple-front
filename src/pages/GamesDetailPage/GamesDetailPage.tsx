@@ -1,6 +1,6 @@
+import { ErrorBoundary } from 'react-error-boundary';
+import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import { useQueryClient } from '@tanstack/react-query';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
@@ -37,6 +37,7 @@ import {
   TextContainer,
   UserDataWrapper,
 } from './GamesDetailPage.styles';
+import { ParticipateButton } from './ParticipateButton';
 
 export const GamesDetailPage = () => {
   const { id } = useParams();
@@ -47,7 +48,7 @@ export const GamesDetailPage = () => {
 
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+
   const { data: match } = useGameDetailQuery(gameId);
 
   const isMyMatch = match.host.id === loginInfo?.id;
@@ -62,11 +63,6 @@ export const GamesDetailPage = () => {
   const isEnded = isGameEnded(startDate, match.playTimeMinutes);
 
   const { mutate: participateMutate } = useGameParticipateCreateMutation();
-  const onParticipateSuccess = () => {
-    queryClient.invalidateQueries({
-      queryKey: ['game-detail', gameId],
-    });
-  };
 
   const [year, month, day] = match.playDate.split('-');
   const [hour, min] = match.playStartTime.split(':');
@@ -193,23 +189,19 @@ export const GamesDetailPage = () => {
             ))}
           </Guests>
         </GuestsContainer>
-        {loginInfo && !isStarted && canParticipate && (
-          <Button
-            {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
-            height="50px"
-            onClick={() =>
-              participateMutate(
-                {
-                  gameId,
-                },
-                { onSuccess: onParticipateSuccess }
-              )
-            }
-          >
-            참여 신청하기
-          </Button>
-        )}
         <ButtonWrapper>
+          {loginInfo && !isStarted && canParticipate && (
+            <ErrorBoundary
+              fallback={<></>}
+              onError={() => toast.error('경기 참여여부를 불러올 수 없습니다')}
+            >
+              <ParticipateButton
+                memberId={Number(loginInfo.id)}
+                gameId={match.id}
+                onClick={() => participateMutate({ gameId })}
+              />
+            </ErrorBoundary>
+          )}
           {loginInfo && !isStarted && isMyMatch && (
             <Button
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
