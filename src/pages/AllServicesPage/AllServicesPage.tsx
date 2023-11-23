@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import { axiosInstance } from '@api/axiosInstance';
+
 import { Header } from '@components/Header';
 import { Text } from '@components/shared/Text';
 
@@ -40,9 +42,11 @@ export const AllServicesPage = () => {
 
   const logout = () => {
     if (myId) {
-      setLoginInfo(null);
-      setAccessToken(null);
-      location.href = '/';
+      axiosInstance.delete('/auth/logout').finally(() => {
+        setLoginInfo(null);
+        setAccessToken(null);
+        location.href = '/';
+      });
     }
   };
 
