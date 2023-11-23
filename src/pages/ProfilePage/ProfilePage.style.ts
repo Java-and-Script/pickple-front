@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { Flex } from '@components/shared/Flex';
+
 const MAX_WIDTH = '480px';
 
 export const ProfileContainer = styled.div`
@@ -96,4 +98,8 @@ export const NumberedItemWrapper = styled.div<{ isClicked: boolean }>`
       transform: rotateY(0deg);
     }
   `}
+`;
+
+export const ModalItem = styled(Flex)`
+  margin: 16px;
 `;
