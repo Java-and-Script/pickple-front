@@ -58,7 +58,6 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
   const { data: profile } = useMemberProfileQuery({ memberId });
 
   const [isHeartClicked, setIsHeartClicked] = useState(false);
-
   const handleClickHeart = () => {
     setIsHeartClicked((prev: boolean) => !prev);
   };
@@ -73,6 +72,10 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
     navigate,
     myId,
   });
+
+  const handleClickCrew = (id: Member['id']) => {
+    moveToPage(PATH_NAME.GET_CREWS_PATH(String(id)));
+  };
 
   return (
     <Main>
@@ -133,7 +136,11 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
           <CrewGroup>
             {profile.crews.length
               ? profile.crews.map((crew) => (
-                  <ItemBox border="none" key={crew.id}>
+                  <ItemBox
+                    border="none"
+                    key={crew.id}
+                    onClick={() => handleClickCrew(crew.id)}
+                  >
                     <Image
                       src={crew.profileImageUrl}
                       width="45"
