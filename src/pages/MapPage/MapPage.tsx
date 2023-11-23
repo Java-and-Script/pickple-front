@@ -55,6 +55,10 @@ export const MapPage = () => {
           });
         }}
         onBoundsChanged={(map) => {
+          setPosition({
+            latitude: map.getCenter().getLat(),
+            longitude: map.getCenter().getLng(),
+          });
           setLevel(map.getLevel());
           setInitializer(false);
           setIsDragEnd(true);
@@ -94,6 +98,7 @@ export const MapPage = () => {
         )}
         <MyLocationButton
           onClick={() => {
+            flushSync(() => setLevel(3));
             setPosition({ ...location });
           }}
           position={position}
