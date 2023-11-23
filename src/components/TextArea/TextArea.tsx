@@ -7,12 +7,14 @@ import { StyledSubTitle, StyledTextArea } from './TextArea.styles';
 type textAreaProps = {
   title: string;
   inputLabel: string;
+  defaultValue?: string;
   inputOnChange?: (item: string) => void;
 };
 
 export const TextArea = ({
   title,
   inputLabel,
+  defaultValue,
   inputOnChange,
 }: textAreaProps) => {
   const { register } = useForm();
@@ -27,6 +29,7 @@ export const TextArea = ({
       <StyledTextArea
         {...register(inputLabel)}
         maxLength={1000}
+        defaultValue={defaultValue}
         onChange={(event) => inputOnChange && inputOnChange(event.target.value)}
       />
     </>
