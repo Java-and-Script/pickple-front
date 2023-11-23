@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+
+import { AxiosError } from 'axios';
 
 import { useGameMutation } from '@hooks/mutations/useGameMutation';
 
@@ -55,6 +58,12 @@ export const useCreateGamePage = () => {
     mutate(gameData, {
       onSuccess: ({ gameId }) => {
         navigate(PATH_NAME.GET_GAMES_PATH(String(gameId)));
+      },
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          error.response?.data.code === 'ADD-001' &&
+            toast.error('서울시만 서비스중입니다.');
+        }
       },
     });
   };
