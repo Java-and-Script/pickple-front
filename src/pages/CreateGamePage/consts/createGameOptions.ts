@@ -1,5 +1,4 @@
 export const MAX_MEMBER_COUNT_LIST = [
-  '1명',
   '2명',
   '3명',
   '4명',
