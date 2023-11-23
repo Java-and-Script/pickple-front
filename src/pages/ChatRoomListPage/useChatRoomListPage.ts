@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAllChatRoomListQuery } from '@hooks/queries/useAllChatRoomListQuery.ts';
 
 import { useChatRoomTabStore } from '@stores/chatRoomTab.store';
+import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { ChatRoom } from '@type/models/ChatRoom.ts';
 
@@ -11,6 +12,11 @@ import { CHAT_ROOM_TAB_TITLE } from '@consts/chatRoomTabTitle.ts';
 
 export const useChatRoomListPage = () => {
   const navigate = useNavigate();
+
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+  if (!loginInfo?.id) {
+    throw new Error('로그인이 필요한 서비스입니다.');
+  }
 
   const { data: individualRooms } = useAllChatRoomListQuery({
     type: CHAT_ROOM_TAB_TITLE.INDIVIDUAL,

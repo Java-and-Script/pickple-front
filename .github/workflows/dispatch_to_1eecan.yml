@@ -1,0 +1,14 @@
+name: Trigger repository_dispatch
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh api /repos/1eecan/pickple-front/dispatches -f event_type='demo_event'
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}

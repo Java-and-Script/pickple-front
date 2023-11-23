@@ -65,29 +65,28 @@ export const useMapPage = () => {
       return;
     }
 
-    if (loginInfo?.addressDepth1 !== null) {
-      const { addressDepth1, addressDepth2 } = loginInfo!;
-      if (!addressDepth1) {
-        navigate(PATH_NAME.LOGIN);
-        return;
-      }
-      const serverGames = await getGamesByAddress({
-        addressDepth1,
-        addressDepth2,
-      });
-      if (!serverGames) {
-        navigate(PATH_NAME.LOGIN);
-        return;
-      }
-      const { games, location, polygon } = serverGames;
-      setLocation(() => location ?? DEFAULT_COORDINATE);
-      setPosition(() => location ?? DEFAULT_COORDINATE);
-      setLevel(() => (polygon ? 8 : 3));
-      setGames(games);
-      setPolygon(() => polygon ?? []);
-      setInitializer(true);
+    const { addressDepth1, addressDepth2 } = loginInfo;
+    if (!addressDepth1 || !addressDepth2) {
+      navigate(PATH_NAME.LOGIN);
       return;
     }
+    const serverGames = await getGamesByAddress({
+      addressDepth1,
+      addressDepth2,
+    });
+    if (!serverGames) {
+      setLocation(() => DEFAULT_COORDINATE);
+      setPosition(() => DEFAULT_COORDINATE);
+      return;
+    }
+    const { games, location, polygon } = serverGames;
+    setLocation(() => location ?? DEFAULT_COORDINATE);
+    setPosition(() => location ?? DEFAULT_COORDINATE);
+    setLevel(() => (polygon ? 8 : 3));
+    setGames(games);
+    setPolygon(() => polygon ?? []);
+    setInitializer(true);
+    return;
   };
 
   const fetchGames = async () => {

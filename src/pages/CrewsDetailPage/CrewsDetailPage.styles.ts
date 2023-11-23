@@ -13,6 +13,11 @@ export const PageContent = styled(Flex)`
   padding: 10px 0 70px 0;
 `;
 
+export const SkeletonPageContent = styled(Flex)`
+  position: relative;
+  padding: 80px 0 70px 0;
+`;
+
 export const CrewProfileInfo = styled(Flex)`
   height: calc(100dvw * 10 / 16 + 50px);
 `;
