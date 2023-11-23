@@ -2,7 +2,7 @@ name: Repository Dispatch
 
 on:
   repository_dispatch:
-    types: [ demo_event ]
+    types: [ dispatch_event ]
 
 jobs:
   sync:
