@@ -7,13 +7,24 @@ import { Text } from '@components/shared/Text';
 import { useCreatedCrewsQuery } from '@hooks/queries/useCreatedCrewsQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
+import { theme } from '@styles/theme';
+
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { Crew } from '@type/models';
 
 import { PATH_NAME } from '@consts/pathName';
 
-import { CrewsChiefContainer, Main } from './CrewsChiefPage.style';
+import Dots from '@assets/dots.svg?react';
+
+import { CrewChiefModal } from './CrewCheifModal';
+import {
+  CrewItemWrapper,
+  CrewsChiefContainer,
+  DotsWrapper,
+  Main,
+} from './CrewsChiefPage.style';
+import { useCrewChiefModal } from './useCrewChiefModal';
 
 export const CrewsChiefPage = () => {
   const navigate = useNavigate();
@@ -33,6 +44,13 @@ export const CrewsChiefPage = () => {
 
   const { data: crewsData } = useCreatedCrewsQuery({ memberId: myId });
 
+  const {
+    isOpen: isModalOpen,
+    open: openModal,
+    close: closeModal,
+    selectedCrewId,
+  } = useCrewChiefModal();
+
   return (
     <CrewsChiefContainer>
       <Header title={showHeaderTitle ? '내가 만든 크루' : ''} />
@@ -48,19 +66,29 @@ export const CrewsChiefPage = () => {
           );
 
           return (
-            <CrewItem
-              key={crew.id}
-              name={crew.name}
-              address={`${crew.addressDepth1} ${crew.addressDepth2}`}
-              imgSrc={crew.profileImageUrl}
-              membersProfileImageUrls={membersProfileImageUrls}
-              memberCount={crew.memberCount}
-              maxMemberCount={crew.maxMemberCount}
-              onClick={() => moveToManage(crew.id)}
-            />
+            <CrewItemWrapper key={crew.id}>
+              <CrewItem
+                name={crew.name}
+                address={`${crew.addressDepth1} ${crew.addressDepth2}`}
+                imgSrc={crew.profileImageUrl}
+                membersProfileImageUrls={membersProfileImageUrls}
+                memberCount={crew.memberCount}
+                maxMemberCount={crew.maxMemberCount}
+                onClick={() => moveToManage(crew.id)}
+              />
+              <DotsWrapper onClick={() => openModal(crew.id)}>
+                <Dots fill={theme.PALETTE.GRAY_600} />
+              </DotsWrapper>
+            </CrewItemWrapper>
           );
         })}
       </Main>
+
+      <CrewChiefModal
+        isOpen={isModalOpen}
+        close={closeModal}
+        crewId={selectedCrewId}
+      />
     </CrewsChiefContainer>
   );
 };
