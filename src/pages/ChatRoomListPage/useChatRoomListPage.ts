@@ -33,9 +33,19 @@ export const useChatRoomListPage = () => {
   };
 
   return {
-    selectedTabChatRoomList,
+    selectedTabChatRoomList: sortDate(selectedTabChatRoomList),
     chatRoomTab,
     moveToPage,
     handleClickTab,
   };
+};
+
+const sortDate = (chatRooms: ChatRoom[]) => {
+  chatRooms.sort(
+    (prev: ChatRoom, cur: ChatRoom) =>
+      new Date(cur.lastMessageCreatedAt).getTime() -
+      new Date(prev.lastMessageCreatedAt).getTime()
+  );
+
+  return chatRooms;
 };
