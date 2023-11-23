@@ -10,8 +10,8 @@ export type ChatRoom = {
   playStartTime: string | null;
   playTimeMinutes: number | null;
   lastMessageContent: string;
-  lastMessageCreatedAt: string;
-  createdAt: string;
+  lastMessageCreatedAt: Date;
+  createdAt: Date;
 };
 
 export type ChatRoomDetail = Omit<

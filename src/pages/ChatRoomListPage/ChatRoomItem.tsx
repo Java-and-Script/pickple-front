@@ -5,7 +5,8 @@ import { theme } from '@styles/theme';
 
 import { ChatRoom } from '@type/models/ChatRoom.ts';
 
-import { getTimeStamp } from '@utils/getTimeStamp.ts';
+import { convertUTCToKoreanTime } from '@utils/convertUTCToKoreanTime.ts';
+import { createdAtToString } from '@utils/createdAtToString.ts';
 
 import {
   ChatItemAvatar,
@@ -48,6 +49,8 @@ export const ChatRoomItem = ({
     roomIconImageUrl,
   } = chatRoomItem;
 
+  const lastTime = convertUTCToKoreanTime(lastMessageCreatedAt);
+
   return (
     <Flex justify="space-between" onClick={onClickChatRoomItem}>
       <Flex gap={8}>
@@ -73,7 +76,7 @@ export const ChatRoomItem = ({
         </MessageContainer>
       </Flex>
       <DateText size={8} color={theme.PALETTE.GRAY_500} nowrap>
-        {getTimeStamp(lastMessageCreatedAt)}
+        {createdAtToString(new Date(lastTime))}
       </DateText>
     </Flex>
   );
