@@ -32,10 +32,13 @@ export const useMapPage = () => {
   const [polygon, setPolygon] = useState<{ lat: number; lng: number }[]>([]);
 
   useEffect(() => {
-    timer();
-    navigator.geolocation.getCurrentPosition(successHandler, errorHandler, {
-      enableHighAccuracy: true,
-    });
+    const activateGeoLocationApi = async () => {
+      await timer(1500);
+      navigator.geolocation.getCurrentPosition(successHandler, errorHandler, {
+        enableHighAccuracy: true,
+      });
+    };
+    activateGeoLocationApi();
   }, []);
 
   const successHandler = async (response: GeolocationPosition) => {
@@ -95,7 +98,7 @@ export const useMapPage = () => {
       longitude: position!.longitude,
       distance: getDistance(level),
     });
-    await timer();
+    await timer(800);
     setGames(currentServerGames!);
   };
 
@@ -144,10 +147,10 @@ const DEFAULT_COORDINATE = {
   longitude: 127.02679632647265,
 };
 
-const timer = () => {
+const timer = (time: number) => {
   return new Promise<void>((resolve) => {
     setTimeout(() => {
       resolve();
-    }, 3000);
+    }, time);
   });
 };
