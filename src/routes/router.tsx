@@ -40,12 +40,15 @@ import { RegisterPage } from '@pages/RegisterPage';
 import { CardListPageSkeleton } from '@pages/__components__/CardListPageSkeleton';
 import { ManagePageSkeleton } from '@pages/__components__/ManagePageSkeleton';
 
+import { ScrollTop } from './ScrollTop';
+
 export const router = createBrowserRouter([
   {
     path: '/',
     element: (
       <ErrorBoundary FallbackComponent={ErrorPage}>
         <ErrorBoundary FallbackComponent={AuthErrorPage}>
+          <ScrollTop />
           <Layout />
         </ErrorBoundary>
       </ErrorBoundary>
