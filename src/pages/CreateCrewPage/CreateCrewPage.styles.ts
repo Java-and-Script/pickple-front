@@ -33,13 +33,6 @@ export const StyledModalHeader = styled.div`
   margin-bottom: 32px;
 `;
 
-export const ScrollBox = styled.div`
-  height: 300px;
-  width: 300px;
-  overflow: scroll;
-  border-radius: 30px;
-`;
-
 export const StyledSelectedLocationButton = styled(Button)<{
   isSelected?: boolean;
 }>`
@@ -59,6 +52,7 @@ export const StyledSelectBox = styled(SelectBox)`
   border-radius: 8%;
   border: 1px solid ${({ theme }) => theme.PALETTE.GRAY_900};
   overflow: scroll;
+  overflow-x: hidden;
 `;
 
 export const StyledToggleButton = styled(ToggleButton)<{
@@ -73,4 +67,5 @@ export const StyledToggleButton = styled(ToggleButton)<{
 
 export const StyledModalContent = styled(Modal.Content)`
   ${({ theme }) => theme.STYLES.FLEX_CENTER}
+  padding: 30px;
 `;
