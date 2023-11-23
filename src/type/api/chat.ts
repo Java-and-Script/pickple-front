@@ -11,7 +11,10 @@ export type GetPersonalChatRoomExistedRequest = {
   receiverId: number;
 };
 
-export type GetPersonalChatRoomExistedResponse = { existed: boolean };
+export type GetPersonalChatRoomExistedResponse = {
+  isRoomExisted: boolean;
+  isSenderActive: boolean;
+};
 
 export type GetAllChatRoomListRequest = {
   type: ChatRoom['type'];

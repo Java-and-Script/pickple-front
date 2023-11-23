@@ -1,0 +1,20 @@
+name: Repository Dispatch
+
+on:
+  repository_dispatch:
+    types: [ demo_event ]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Sync with Upstream
+      run: |
+        git remote add upstream https://github.com/Java-and-Script/pickple-front
+        git fetch upstream
+        git merge upstream/dev
+        git push origin dev

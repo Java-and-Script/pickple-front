@@ -30,6 +30,7 @@ export const TabBarButton = styled.button<{ isSelected: boolean }>`
   border-bottom: ${({ isSelected }) =>
     isSelected ? ' 1px solid black' : ' 1px solid white'};
   padding: 10px;
+  color: black;
 `;
 
 export const ChatItemAvatar = styled(Image)`

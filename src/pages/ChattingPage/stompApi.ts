@@ -57,6 +57,10 @@ export const subscribe = <T>({
   });
 };
 
+export const enter = <T>({ stompClient, roomId, sendData }: LeaveProps<T>) => {
+  stompClient.send(stompConfig.enter(roomId), {}, JSON.stringify(sendData));
+};
+
 export const send = <T>({ stompClient, roomId, sendData }: SendProps<T>) => {
   stompClient.send(stompConfig.send(roomId), {}, JSON.stringify(sendData));
 };
