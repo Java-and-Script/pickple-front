@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import SockJS from 'sockjs-client';
@@ -150,6 +151,8 @@ export const useChattingPage = () => {
     };
 
     leave({ stompClient, roomId, sendData });
+
+    flushSync(() => setIsModalOpen(false));
 
     navigate(PATH_NAME.CHAT);
   };
