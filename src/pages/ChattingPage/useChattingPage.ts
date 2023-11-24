@@ -161,7 +161,7 @@ export const useChattingPage = () => {
     if (exitCondition) {
       leave({ stompClient, roomId, sendData });
       flushSync(() => setIsModalOpen(false));
-      navigate(PATH_NAME.CHAT);
+      navigate(PATH_NAME.CHAT, { replace: true });
     }
   };
 

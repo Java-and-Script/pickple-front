@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
-import { getAllChatRoomList } from '@api/chat/getAllChatRoomList';
 import { getPersonalChatRoomExisted } from '@api/chat/getPersonalChatRoomExisted';
 
 import {
@@ -19,7 +19,6 @@ import { Member } from '@type/models';
 import { ChatMessage } from '@type/models/ChatMessage';
 import { ChatRoom } from '@type/models/ChatRoom';
 
-import { CHAT_ROOM_TAB_TITLE } from '@consts/chatRoomTabTitle';
 import { PATH_NAME } from '@consts/pathName';
 
 type useChatOnButtonClickProps = {
@@ -31,7 +30,6 @@ type useChatOnButtonClickProps = {
 
 export const useChatOnButtonClick = ({
   targetId,
-  targetNickname,
   myId = null,
   navigate: moveToPage,
 }: useChatOnButtonClickProps) => {
@@ -41,60 +39,38 @@ export const useChatOnButtonClick = ({
     enabled: false,
   });
 
-  const { refetch: fetchAllChatRoomList } = useQuery({
-    queryKey: ['all-chat-room-list', CHAT_ROOM_TAB_TITLE.INDIVIDUAL],
-    queryFn: () => getAllChatRoomList({ type: CHAT_ROOM_TAB_TITLE.INDIVIDUAL }),
-    enabled: false,
-  });
-
   const { mutateAsync } = useCreatePersonalChatRoomMutation();
 
-  const handleExistingRoom = async (
-    individualRooms: ChatRoom[],
-    isSenderActive: boolean
-  ) => {
-    const { id: roomId } =
-      individualRooms.find(
-        ({ roomName }: { roomName: string }) => roomName === targetNickname
-      ) || {};
-    if (!roomId) {
-      return;
-    }
+  const enterChatRoom = async (roomId: ChatRoom['id']) => {
+    const sock = new SockJS(stompConfig.webSocketEndpoint);
+    const stompClient = Stomp.over(sock);
 
-    if (isSenderActive) {
-      moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
-    } else {
-      const sock = new SockJS(stompConfig.webSocketEndpoint);
-      const stompClient = Stomp.over(sock);
+    connect({
+      stompClient,
+      connectEvent: () => {
+        subscribe({
+          stompClient,
+          roomId,
+          subscribeEvent: (received: ChatMessage) => {
+            const {
+              type,
+              sender: { id: senderId },
+            } = received;
 
-      connect({
-        stompClient,
-        connectEvent: () => {
-          subscribe({
-            stompClient,
-            roomId,
-            subscribeEvent: (received: ChatMessage) => {
-              const {
-                type,
-                sender: { id: senderId },
-              } = received;
+            if (type === '입장' && senderId === myId) {
+              sock.close();
+            }
+          },
+        });
 
-              if (type === '입장' && senderId === myId) {
-                moveToPage(PATH_NAME.GET_CHAT_PATH(String(received.roomId)));
-                sock.close();
-              }
-            },
-          });
+        const sendData: SendMessageRequest = {
+          senderId: myId!,
+          content: null,
+        };
 
-          const sendData: SendMessageRequest = {
-            senderId: myId!,
-            content: null,
-          };
-
-          enter({ stompClient, roomId, sendData });
-        },
-      });
-    }
+        enter({ stompClient, roomId, sendData });
+      },
+    });
   };
 
   const handleClickChattingButton = async () => {
@@ -103,21 +79,24 @@ export const useChatOnButtonClick = ({
       return;
     }
 
-    const { data } = await fetchPersonalChatRoomExisted();
-    if (!data) return;
+    const { data, error } = await fetchPersonalChatRoomExisted();
 
-    const { isRoomExisted, isSenderActive } = data;
+    if (data) {
+      const { roomId } = data;
 
-    if (isRoomExisted) {
-      const { data: individualRooms } = await fetchAllChatRoomList();
-      if (individualRooms) {
-        handleExistingRoom(individualRooms, isSenderActive);
-      }
-    } else {
-      const { id: roomId } = await mutateAsync({
-        receiverId: targetId,
-      });
+      await enterChatRoom(roomId);
+
       moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
+    } else {
+      if (error instanceof AxiosError) {
+        if (error.response?.data.code === 'CHT-003') {
+          const { id: roomId } = await mutateAsync({
+            receiverId: targetId,
+          });
+
+          moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
+        }
+      }
     }
   };
 
