@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { AxiosError } from 'axios';
 
+import { LoginRequireError } from '@routes/LoginRequireBoundary';
+
 import { useGameMutation } from '@hooks/mutations/useGameMutation';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
@@ -17,7 +19,7 @@ import { PATH_NAME } from '@consts/pathName';
 export const useCreateGamePage = () => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   if (!loginInfo?.id) {
-    throw new Error('로그인이 필요한 서비스입니다.');
+    throw new LoginRequireError();
   }
   const { mutate } = useGameMutation();
   const navigate = useNavigate();
