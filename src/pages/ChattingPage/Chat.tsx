@@ -62,7 +62,7 @@ export const Chat = ({
       </BalloonInfo>
     </Flex>
   ) : (
-    <SystemMessage>
+    <SystemMessage type={chatType}>
       <Text size={10} weight={300} color="white">
         {content}
       </Text>

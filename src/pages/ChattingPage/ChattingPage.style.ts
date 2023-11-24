@@ -55,14 +55,15 @@ export const BalloonInfo = styled(Flex)`
   padding-left: 4px;
 `;
 
-export const SystemMessage = styled.div`
+export const SystemMessage = styled.div<{ type: string }>`
   text-align: center;
   padding: 12px;
   & > span {
     display: inline;
     padding: 4px;
     border-radius: 4px;
-    background-color: ${({ theme }) => theme.PALETTE.GRAY_400};
+    background-color: ${({ theme, type }) =>
+      type === '날짜' ? theme.PALETTE.GRAY_300 : theme.PALETTE.GRAY_400};
   }
 `;
 
