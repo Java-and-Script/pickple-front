@@ -18,7 +18,6 @@ import { theme } from '@styles/theme';
 import {
   PageLayout,
   PageWrapper,
-  ScrollBox,
   StyledCreateForm,
   StyledEmptyContainer,
   StyledModalContent,
@@ -114,23 +113,21 @@ export const CreateCrewPage = () => {
             >
               <StyledModalHeader>
                 <Text size={20} weight={700}>
-                  {}
+                  {CREATE_CREW_STRINGS.CREW_LOCATION}
                 </Text>
               </StyledModalHeader>
               <StyledModalContent>
-                <ScrollBox>
-                  <StyledSelectBox border="none">
-                    {locations.addressDepth2List.map((location) => (
-                      <StyledToggleButton
-                        key={location}
-                        value={location}
-                        isActive={selectedLocations.includes(location)}
-                        border="none"
-                        onToggle={handleToggleLocation}
-                      />
-                    ))}
-                  </StyledSelectBox>
-                </ScrollBox>
+                <StyledSelectBox border="none">
+                  {locations.addressDepth2List.map((location) => (
+                    <StyledToggleButton
+                      key={location}
+                      value={location}
+                      isActive={selectedLocations.includes(location)}
+                      border="none"
+                      onToggle={handleToggleLocation}
+                    />
+                  ))}
+                </StyledSelectBox>
               </StyledModalContent>
             </Modal>
             <TextArea
