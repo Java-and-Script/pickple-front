@@ -40,6 +40,7 @@ import { RegisterPage } from '@pages/RegisterPage';
 import { CardListPageSkeleton } from '@pages/__components__/CardListPageSkeleton';
 import { ManagePageSkeleton } from '@pages/__components__/ManagePageSkeleton';
 
+import { LoginRequireBoundary } from './LoginRequireBoundary';
 import { ScrollTop } from './ScrollTop';
 
 export const router = createBrowserRouter([
@@ -48,8 +49,10 @@ export const router = createBrowserRouter([
     element: (
       <ErrorBoundary FallbackComponent={ErrorPage}>
         <ErrorBoundary FallbackComponent={AuthErrorPage}>
-          <ScrollTop />
-          <Layout />
+          <LoginRequireBoundary>
+            <ScrollTop />
+            <Layout />
+          </LoginRequireBoundary>
         </ErrorBoundary>
       </ErrorBoundary>
     ),
