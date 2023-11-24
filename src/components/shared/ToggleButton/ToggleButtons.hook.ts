@@ -21,9 +21,13 @@ export const useToggleButtons = <T>({
     }
 
     const updatedItems = isMultipleSelect
-      ? selectedItems.includes(value)
+      ? value === '없음'
+        ? [value]
+        : selectedItems.includes(value)
         ? selectedItems.filter((item) => item !== value)
-        : [...selectedItems, value]
+        : [...selectedItems.filter((item) => item !== '없음'), value]
+      : value === '없음'
+      ? []
       : [value];
 
     setSelectedItems(updatedItems);

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const StyledInput = styled.input<{ height?: number | string }>`
+  padding-left: 10px;
   width: 100%;
   height: 30px;
   height: ${({ height }) =>

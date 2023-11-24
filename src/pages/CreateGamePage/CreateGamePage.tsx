@@ -191,6 +191,7 @@ export const CreateGamePage = () => {
               title={CREATE_GAME_STRINGS.CONTENT}
               inputLabel="content"
               inputOnChange={setContent}
+              defaultValue="같이 즐거운 경기해요~!"
             />
             <Button
               width="100%"
