@@ -108,7 +108,7 @@ export const CrewsDetailPage = () => {
                   src={profileImageUrl}
                 />
                 <MemberName size={12}>{nickname}</MemberName>
-                <Crown isLeader={crew.leader.id === loginInfo?.id} />
+                <Crown isLeader={crew.leader.id === id} />
               </AvatarWrapper>
             ))}
           </MemberWrapper>
