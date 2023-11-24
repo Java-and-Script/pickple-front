@@ -11,6 +11,7 @@ import { Text } from '@components/shared/Text';
 
 import { useGameParticipateCreateMutation } from '@hooks/mutations/useGameParticipateCreateMutation';
 import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
+import { useChatOnButtonClick } from '@hooks/useChatOnButtonClick';
 
 import { theme } from '@styles/theme';
 
@@ -76,16 +77,23 @@ export const GamesDetailPage = () => {
   const handleClickMemberProfile = (id: number | string) =>
     navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
 
+  const { handleClickChattingButton } = useChatOnButtonClick({
+    targetId: match.host.id,
+    targetNickname: match.host.nickname,
+    navigate,
+    myId: loginInfo?.id ?? null,
+  });
+
   return (
     <PageLayout>
       <Header />
       <PageContent>
         <div>
           <TextContainer>
-            <Text size={24} weight={700}>
+            <Text size={24} weight={700} nowrap>
               {match.addressDepth1}
             </Text>
-            <Text size={24} weight={700}>
+            <Text size={24} weight={700} nowrap>
               {match.addressDepth2}
             </Text>
           </TextContainer>
@@ -111,7 +119,6 @@ export const GamesDetailPage = () => {
               <Text size={16}>{match.host.nickname}</Text>
             </Flex>
           </Flex>
-          {/* TODO: 버튼 클릭 핸들러 */}
           {loginInfo && !isMyMatch && (
             <Button
               fontWeight={500}
@@ -120,7 +127,7 @@ export const GamesDetailPage = () => {
               borderColor={theme.PALETTE.GRAY_400}
               backgroundColor="white"
               textColor={theme.PALETTE.GRAY_400}
-              onClick={() => {}}
+              onClick={handleClickChattingButton}
             >
               대화하기
             </Button>
@@ -131,20 +138,21 @@ export const GamesDetailPage = () => {
         </Text>
         <Flex direction="column" gap={5}>
           <Flex gap={20}>
-            <GrayText>위치</GrayText>
+            <GrayText nowrap>위치</GrayText>
             <Flex direction="column">
               <Text>{match.mainAddress}</Text>
               <Text>{match.detailAddress}</Text>
             </Flex>
           </Flex>
           <Flex gap={20}>
-            <GrayText>날짜</GrayText>
+            <GrayText nowrap>날짜</GrayText>
             <Text>{`${year}.${month}.${day} ${weekday}요일`}</Text>
           </Flex>
           <Flex gap={20}>
-            <GrayText>시간</GrayText>
+            <GrayText nowrap>시간</GrayText>
             <Text>
-              {`${match.playStartTime} ~ ${match.playEndTime} (${
+              {`${match.playStartTime.slice(0, 5)} ~ 
+              ${match.playEndTime.slice(0, 5)} (${
                 match.playTimeMinutes / 60
               }h)`}
             </Text>
