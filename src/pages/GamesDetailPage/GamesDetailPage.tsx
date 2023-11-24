@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useQueryClient } from '@tanstack/react-query';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
+import { Modal } from '@components/Modal';
 import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
@@ -11,11 +13,14 @@ import { Text } from '@components/shared/Text';
 
 import { useGameParticipateCreateMutation } from '@hooks/mutations/useGameParticipateCreateMutation';
 import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
+import { usePositionsQuery } from '@hooks/queries/usePositionsQuery';
 import { useChatOnButtonClick } from '@hooks/useChatOnButtonClick';
 
 import { theme } from '@styles/theme';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
+
+import { Position, PositionInfo } from '@type/models/Position';
 
 import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
@@ -33,11 +38,15 @@ import {
   Guests,
   GuestsContainer,
   InfoItem,
+  ModalItem,
   PageContent,
   PageLayout,
+  PositionItemBox,
   TextContainer,
   UserDataWrapper,
 } from './GamesDetailPage.styles';
+
+Modal;
 
 export const GamesDetailPage = () => {
   const { id } = useParams();
@@ -69,10 +78,14 @@ export const GamesDetailPage = () => {
     });
   };
 
+  const [isPositionModalOpen, setIsPositionModalOpen] = useState(false);
+  const { data: positions } = usePositionsQuery();
   const [year, month, day] = match.playDate.split('-');
   const [hour, min] = match.playStartTime.split(':');
   const date = new Date(Number(year), Number(month) - 1, Number(day));
   const weekday = WEEKDAY[date.getDay()];
+  const [clickedPositionInfo, setClickedPositionInfo] =
+    useState<PositionInfo | null>(null);
 
   const handleClickMemberProfile = (id: number | string) =>
     navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
@@ -83,6 +96,26 @@ export const GamesDetailPage = () => {
     navigate,
     myId: loginInfo?.id ?? null,
   });
+
+  const handleClickPosition = (myPosition: Position) => {
+    const positionInfo = positions.find(
+      (position) => position.acronym === myPosition
+    );
+
+    if (!positionInfo) {
+      return;
+    }
+    setClickedPositionInfo(positionInfo);
+    setIsPositionModalOpen(true);
+  };
+
+  const togglePositionModal = () => {
+    setIsPositionModalOpen((prev) => !prev);
+  };
+
+  const formatCost = (cost: number) => {
+    return String(cost).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+  };
 
   return (
     <PageLayout>
@@ -157,12 +190,37 @@ export const GamesDetailPage = () => {
               }h)`}
             </Text>
           </Flex>
+          <Flex>
+            <GrayText nowrap>선호 포지션</GrayText>
+          </Flex>
+          <Flex gap={10}>
+            {match.positions.map((position) => (
+              <PositionItemBox
+                key={position}
+                onClick={() => handleClickPosition(position)}
+              >
+                {position}
+              </PositionItemBox>
+            ))}
+          </Flex>
+          <Modal isOpen={isPositionModalOpen} close={togglePositionModal}>
+            {clickedPositionInfo && (
+              <Modal.Content>
+                <ModalItem direction="column" align="center" gap={8}>
+                  <Text size={24} weight={700}>
+                    {clickedPositionInfo.name}
+                  </Text>
+                  <Text>{clickedPositionInfo.description}</Text>
+                </ModalItem>
+              </Modal.Content>
+            )}
+          </Modal>
         </Flex>
         <Flex gap={10}>
           <InfoItem>
             <GrayText size={12}>참가비</GrayText>
             <Image width={40} src={Money} alt="money" />
-            <Text size={16}>{`${match.cost}원`}</Text>
+            <Text size={16}>{`${formatCost(match.cost)}원`}</Text>
           </InfoItem>
           <InfoItem>
             <GrayText size={12}>현재원</GrayText>
