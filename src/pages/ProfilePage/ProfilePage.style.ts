@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { Flex } from '@components/shared/Flex';
+
 const MAX_WIDTH = '480px';
 
 export const ProfileContainer = styled.div`
@@ -34,6 +36,7 @@ export const ItemBox = styled.div<{ border?: string }>`
   color: ${({ theme }) => theme.PALETTE.GRAY_400};
   font-size: ${({ theme }) => theme.FONT_SIZE.XS};
   overflow: hidden;
+  cursor: pointer;
 `;
 
 export const ProfileFieldContainer = styled.div`
@@ -58,6 +61,10 @@ export const Introduce = styled.div`
   & > p {
     white-space: pre-wrap;
   }
+`;
+
+export const PointerFlex = styled(Flex)`
+  cursor: pointer;
 `;
 
 export const ColoredSvgWrapper = styled.div<{ color?: string }>`
@@ -96,4 +103,8 @@ export const NumberedItemWrapper = styled.div<{ isClicked: boolean }>`
       transform: rotateY(0deg);
     }
   `}
+`;
+
+export const ModalItem = styled(Flex)`
+  margin: 16px;
 `;

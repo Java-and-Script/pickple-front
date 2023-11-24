@@ -2,12 +2,14 @@ import { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
+import { Modal } from '@components/Modal';
 import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
 
 import { useMemberProfileQuery } from '@hooks/queries/useMemberProfileQuery';
+import { usePositionsQuery } from '@hooks/queries/usePositionsQuery';
 import { useChatOnButtonClick } from '@hooks/useChatOnButtonClick';
 
 import { theme } from '@styles/theme';
@@ -15,6 +17,7 @@ import { theme } from '@styles/theme';
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { Member } from '@type/models';
+import { Position, PositionInfo } from '@type/models/Position';
 
 import { PATH_NAME } from '@consts/pathName';
 
@@ -22,6 +25,7 @@ import Social from '@assets/follow.svg?react';
 import HandHeart from '@assets/handHeart.svg?react';
 import Heart from '@assets/heart.svg?react';
 
+import { ModalItem, PointerFlex } from './ProfilePage.style';
 import {
   ColoredSvgWrapper,
   CrewGroup,
@@ -56,8 +60,12 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
   const navigate = useNavigate();
 
   const { data: profile } = useMemberProfileQuery({ memberId });
+  const { data: positions } = usePositionsQuery();
 
   const [isHeartClicked, setIsHeartClicked] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [clickedPositionInfo, setClickedPositionInfo] =
+    useState<PositionInfo | null>(null);
 
   const handleClickHeart = () => {
     setIsHeartClicked((prev: boolean) => !prev);
@@ -73,6 +81,24 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
     navigate,
     myId,
   });
+
+  const handleClickPosition = (myPosition: Position) => {
+    const positionInfo = positions.find(
+      (position) => position.acronym === myPosition
+    );
+
+    if (!positionInfo) {
+      return;
+    }
+
+    setClickedPositionInfo(positionInfo);
+
+    setIsModalOpen(true);
+  };
+
+  const handleClickCrew = (id: Member['id']) => {
+    moveToPage(PATH_NAME.GET_CREWS_PATH(String(id)));
+  };
 
   return (
     <Main>
@@ -125,7 +151,12 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
         <ProfileField category="포지션">
           {profile.positions.length
             ? profile.positions.map((position) => (
-                <ItemBox key={position}>{position}</ItemBox>
+                <ItemBox
+                  key={position}
+                  onClick={() => handleClickPosition(position)}
+                >
+                  {position}
+                </ItemBox>
               ))
             : '없음'}
         </ProfileField>
@@ -133,7 +164,11 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
           <CrewGroup>
             {profile.crews.length
               ? profile.crews.map((crew) => (
-                  <ItemBox border="none" key={crew.id}>
+                  <ItemBox
+                    border="none"
+                    key={crew.id}
+                    onClick={() => handleClickCrew(crew.id)}
+                  >
                     <Image
                       src={crew.profileImageUrl}
                       width="45"
@@ -151,6 +186,18 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
           </Introduce>
         </ProfileField>
       </FlexItem>
+      <Modal isOpen={isModalOpen} close={() => setIsModalOpen(false)}>
+        {clickedPositionInfo && (
+          <Modal.Content>
+            <ModalItem direction="column" align="center" gap={8}>
+              <Text size={24} weight={700}>
+                {clickedPositionInfo.name}
+              </Text>
+              <Text>{clickedPositionInfo.description}</Text>
+            </ModalItem>
+          </Modal.Content>
+        )}
+      </Modal>
     </Main>
   );
 };
@@ -186,7 +233,7 @@ const EventButton = ({ text, width, onClick }: EventButtonProps) => (
 
 const NumberedItem = ({ text, count, icon, color }: NumberedItemProps) => {
   return (
-    <Flex direction="column" align="center" gap={4}>
+    <PointerFlex direction="column" align="center" gap={4}>
       <Text size={12} color={theme.PALETTE.GRAY_400}>
         {text}
       </Text>
@@ -194,6 +241,6 @@ const NumberedItem = ({ text, count, icon, color }: NumberedItemProps) => {
       <Text size={16} color={theme.PALETTE.GRAY_400}>
         {count}
       </Text>
-    </Flex>
+    </PointerFlex>
   );
 };
