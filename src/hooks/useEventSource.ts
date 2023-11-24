@@ -18,9 +18,13 @@ export const useEventSource = (
 
     const EventSource = EventSourcePolyfill || NativeEventSource;
     const eventSource = new EventSource(subscribeUrl, {
-      headers: { Authorization: loginInfo.accessToken },
+      headers: {
+        Authorization: `Bearer ${loginInfo.accessToken}`,
+        'Content-type': 'text/event-stream',
+      },
     });
 
+    eventSource.onmessage = onmessage;
     onerror && (eventSource.onerror = onerror);
 
     return () => {

@@ -8,6 +8,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { router } from '@routes/router';
 
+import { useEventSource } from '@hooks/useEventSource';
+
 import GlobalStyle from '@styles/globalStyle';
 import { theme } from '@styles/theme';
 
@@ -21,6 +23,15 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  useEventSource(
+    '/api/alarms/subscribe',
+    () => {
+      queryClient.resetQueries({ queryKey: ['alarms'] });
+      queryClient.invalidateQueries({ queryKey: ['alarms-unread'] });
+    },
+    (error) => console.log(error)
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
