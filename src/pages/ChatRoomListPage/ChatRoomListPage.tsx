@@ -13,6 +13,7 @@ import {
   TabBar,
   TabBarButton,
 } from './ChatRoomListPage.style.ts';
+import { SkeletonChatRoomList } from './SkeletonChatRoomList.tsx';
 
 export const ChatRoomListPage = () => {
   const { chatRoomTab, setChatRoomTab } = useChatRoomTabStore();
@@ -32,7 +33,7 @@ export const ChatRoomListPage = () => {
             </TabBarButton>
           ))}
         </TabBar>
-        <Suspense fallback={null}>
+        <Suspense fallback={<SkeletonChatRoomList />}>
           <ChatRoomList />
         </Suspense>
       </Main>
