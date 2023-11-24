@@ -4,6 +4,8 @@ import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
 
+import CrownSvg from '@assets/crown.svg?react';
+
 export const PageWrapper = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
 `;
@@ -74,4 +76,15 @@ export const ButtonWrapper = styled.div`
   width: 100dvw;
   bottom: 70px;
   left: 0;
+`;
+
+export const AvatarWrapper = styled(Flex)`
+  position: relative;
+`;
+
+export const Crown = styled(CrownSvg)<{ isLeader: boolean }>`
+  display: ${({ isLeader }) => (isLeader ? '' : 'none')};
+  position: absolute;
+  top: 0;
+  right: 5px;
 `;

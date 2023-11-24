@@ -23,9 +23,11 @@ import CrewMember from '@assets/gameMember.svg?react';
 import Map from '@assets/map.svg?react';
 
 import {
+  AvatarWrapper,
   BackgoundImage,
   ButtonWrapper,
   CrewProfileInfo,
+  Crown,
   MemberName,
   MemberWrapper,
   MembersContainer,
@@ -89,12 +91,12 @@ export const CrewsDetailPage = () => {
           {crew.content}
         </Text>
         <Text size={20} weight={700}>
-          가입한 크루원
+          크루원
         </Text>
         <MembersContainer>
           <MemberWrapper gap={10}>
             {crew.members.map(({ id, profileImageUrl, nickname }) => (
-              <Flex
+              <AvatarWrapper
                 direction="column"
                 key={id}
                 onClick={() => handleClickMemberProfile(id)}
@@ -106,7 +108,8 @@ export const CrewsDetailPage = () => {
                   src={profileImageUrl}
                 />
                 <MemberName size={12}>{nickname}</MemberName>
-              </Flex>
+                <Crown isLeader={crew.leader.id === loginInfo?.id} />
+              </AvatarWrapper>
             ))}
           </MemberWrapper>
         </MembersContainer>
