@@ -18,6 +18,7 @@ import { PATH_NAME } from '@consts/pathName';
 
 import { convertUTCToKoreanTime } from '@utils/convertUTCToKoreanTime';
 
+import { useQuitCondition } from './quitChatCondition';
 import { connect, leave, send, stompConfig, subscribe } from './stompApi';
 
 export const useChattingPage = () => {
@@ -34,11 +35,16 @@ export const useChattingPage = () => {
   const { data: prevChatMessages } = useAllChatMessagesQuery({
     roomId: Number(roomId),
   });
-
   const myId = useLoginInfoStore((state) => state.loginInfo?.id);
   if (!myId || !roomDetails.members.find(({ id }) => id === myId)) {
     throw new Error('채팅방의 멤버가 아닙니다.');
   }
+
+  const { isChatroomExitAllowed } = useQuitCondition({
+    myId,
+    type: roomDetails.type,
+    domainId: roomDetails.domainId,
+  });
 
   const [sock, setSock] = useState<WebSocket | null>(null);
   const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
@@ -140,7 +146,7 @@ export const useChattingPage = () => {
     inputRef.current.value = '';
   };
 
-  const quitChatting = () => {
+  const quitChatting = async () => {
     if (!stompClient) {
       return;
     }
@@ -150,11 +156,13 @@ export const useChattingPage = () => {
       content: null,
     };
 
-    leave({ stompClient, roomId, sendData });
+    const exitCondition = await isChatroomExitAllowed();
 
-    flushSync(() => setIsModalOpen(false));
-
-    navigate(PATH_NAME.CHAT);
+    if (exitCondition) {
+      leave({ stompClient, roomId, sendData });
+      flushSync(() => setIsModalOpen(false));
+      navigate(PATH_NAME.CHAT);
+    }
   };
 
   const handleClickChattingMenu = () => {
