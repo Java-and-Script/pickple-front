@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAllChatRoomListQuery } from '@hooks/queries/useAllChatRoomListQuery.ts';
@@ -7,7 +8,7 @@ import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { ChatRoom } from '@type/models/ChatRoom.ts';
 
-export const useChatRoomListPage = () => {
+export const useChatRoomList = () => {
   const navigate = useNavigate();
 
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
@@ -15,9 +16,9 @@ export const useChatRoomListPage = () => {
     throw new Error('로그인이 필요한 서비스입니다.');
   }
 
-  const { chatRoomTab, setChatRoomTab } = useChatRoomTabStore();
+  const { chatRoomTab } = useChatRoomTabStore();
 
-  const { data: selectedTabChatRoomList, refetch: refetchChatList } =
+  const { data: selectedTabChatRoomList, refetch: refetchChatRoomList } =
     useAllChatRoomListQuery({
       type: chatRoomTab,
     });
@@ -26,17 +27,14 @@ export const useChatRoomListPage = () => {
     navigate(pathName);
   };
 
-  const handleClickTab = (tab: ChatRoom['type']) => {
-    setChatRoomTab(tab);
-
-    refetchChatList();
-  };
+  useEffect(() => {
+    refetchChatRoomList();
+  }, [refetchChatRoomList]);
 
   return {
     selectedTabChatRoomList: sortDate(selectedTabChatRoomList),
     chatRoomTab,
     moveToPage,
-    handleClickTab,
   };
 };
 
