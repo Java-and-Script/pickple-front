@@ -10,5 +10,6 @@ export const useAllChatMessagesQuery = ({
   return useSuspenseQuery({
     queryKey: ['all-messages', roomId],
     queryFn: () => getAllChatMessages({ roomId }),
+    refetchOnMount: 'always',
   });
 };
