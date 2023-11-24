@@ -11,8 +11,8 @@ const FallbackComponent = ({ error, resetErrorBoundary }: FallbackProps) => {
   if (!(error instanceof LoginRequireError)) {
     throw error;
   }
-  resetErrorBoundary();
   useEffect(() => {
+    resetErrorBoundary();
     toast.error('로그인이 필요한 서비스입니다');
   });
 
