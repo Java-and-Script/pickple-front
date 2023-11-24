@@ -158,6 +158,16 @@ export const CrewsDetailPage = () => {
               가입 신청하기
             </Button>
           )}
+          {loginInfo === null && (
+            <Button
+              {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
+              height="50px"
+              width="100%"
+              onClick={() => navigate(PATH_NAME.LOGIN)}
+            >
+              로그인 후 참여 신청하기
+            </Button>
+          )}
         </ButtonWrapper>
       </PageContent>
     </PageWrapper>
