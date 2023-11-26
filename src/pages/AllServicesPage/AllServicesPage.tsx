@@ -83,7 +83,9 @@ export const AllServicesPage = () => {
             icon={<Profile />}
             pageName="내 정보"
             color={myId ? null : theme.PALETTE.GRAY_300}
-            onClickMenuItem={() => moveToPage(PATH_NAME.CHAT)}
+            onClickMenuItem={() => {
+              myId && moveToPage(PATH_NAME.GET_PROFILE_PATH(myId));
+            }}
           />
 
           <MenuItem
@@ -100,13 +102,13 @@ export const AllServicesPage = () => {
             icon={<Ball />}
             pageName="내가 참여한 게스트 매치"
             color={myId ? null : theme.PALETTE.GRAY_300}
-            onClickMenuItem={() => moveToPage(PATH_NAME.CHAT)}
+            onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_PARTICIPATE)}
           />
           <MenuItem
             icon={<Whistle />}
             pageName="내가 만든 게스트 매치"
             color={myId ? null : theme.PALETTE.GRAY_300}
-            onClickMenuItem={() => moveToPage(PATH_NAME.CHAT)}
+            onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_HOST)}
           />
         </FieldContainer>
         <FieldContainer>
@@ -117,13 +119,13 @@ export const AllServicesPage = () => {
             icon={<CrewManage />}
             pageName="내가 속한 크루"
             color={myId ? null : theme.PALETTE.GRAY_300}
-            onClickMenuItem={() => moveToPage(PATH_NAME.CHAT)}
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_PARTICIPATE)}
           />
           <MenuItem
             icon={<CrewMember />}
             pageName="내가 만든 크루"
             color={myId ? null : theme.PALETTE.GRAY_300}
-            onClickMenuItem={() => moveToPage(PATH_NAME.CHAT)}
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_CHIEF)}
           />
           <MenuItem
             icon={<Medal />}
