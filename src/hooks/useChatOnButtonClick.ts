@@ -1,3 +1,5 @@
+import { toast } from 'react-hot-toast';
+
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import SockJS from 'sockjs-client';
@@ -81,6 +83,7 @@ export const useChatOnButtonClick = ({
 
   const handleClickChattingButton = async () => {
     if (!myId) {
+      toast.error('로그인이 필요한 서비스입니다');
       moveToPage(PATH_NAME.LOGIN);
       return;
     }
