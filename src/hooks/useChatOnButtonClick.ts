@@ -41,7 +41,7 @@ export const useChatOnButtonClick = ({
 
   const { mutateAsync } = useCreatePersonalChatRoomMutation();
 
-  const enterChatRoom = async (roomId: ChatRoom['id']) => {
+  const enterChatRoom = (roomId: ChatRoom['id']) => {
     const sock = new SockJS(stompConfig.webSocketEndpoint);
     const stompClient = Stomp.over(sock);
 
@@ -59,6 +59,7 @@ export const useChatOnButtonClick = ({
 
             if (type === '입장' && senderId === myId) {
               sock.close();
+              moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
             }
           },
         });
@@ -71,6 +72,11 @@ export const useChatOnButtonClick = ({
         enter({ stompClient, roomId, sendData });
       },
     });
+
+    setTimeout(() => {
+      sock.close();
+      moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
+    }, 300);
   };
 
   const handleClickChattingButton = async () => {
@@ -84,9 +90,7 @@ export const useChatOnButtonClick = ({
     if (data) {
       const { roomId } = data;
 
-      await enterChatRoom(roomId);
-
-      moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
+      enterChatRoom(roomId);
     } else {
       if (error instanceof AxiosError) {
         if (error.response?.data.code === 'CHT-003') {
