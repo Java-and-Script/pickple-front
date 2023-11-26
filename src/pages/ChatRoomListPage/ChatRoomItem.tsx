@@ -1,5 +1,4 @@
 import { Flex } from '@components/shared/Flex';
-import { Text } from '@components/shared/Text/Text.tsx';
 
 import { theme } from '@styles/theme';
 
@@ -14,6 +13,7 @@ import {
   ChatMatchStartTime,
   ChatMatchStatus,
   DateText,
+  LastMessage,
   MessageContainer,
   Nickname,
 } from './ChatRoomListPage.style.ts';
@@ -70,9 +70,9 @@ export const ChatRoomItem = ({
           <Nickname size={12} weight={500} ellipsis={1}>
             {roomName}
           </Nickname>
-          <Text size={12} weight={300} ellipsis={1}>
+          <LastMessage size={12} weight={300} ellipsis={1}>
             {lastMessageContent}
-          </Text>
+          </LastMessage>
         </MessageContainer>
       </Flex>
       <DateText size={8} color={theme.PALETTE.GRAY_500} nowrap>

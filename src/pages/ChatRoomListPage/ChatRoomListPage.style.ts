@@ -70,3 +70,8 @@ export const ChatMessage = styled(Text)``;
 export const MessageContainer = styled(Flex)`
   flex-grow: 1;
 `;
+
+export const LastMessage = styled(Text)`
+  white-space: pre-wrap;
+  word-break: break-all;
+`;
