@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-
+import { useVirtualScroll } from './VirtualScroll.hook';
 import {
   StyledCenterItem,
   StyledItem,
@@ -18,33 +17,12 @@ export const VirtualScroll = ({
   onItemSelected,
   width,
 }: VirtualScrollProps) => {
-  const scrollList = useMemo(() => [null, null, ...list, null, null], [list]);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [centerIndex, setCenterIndex] = useState(0);
-
-  useEffect(() => {
-    if (scrollRef.current) {
-      const scrollContainer = scrollRef.current as HTMLDivElement;
-      const updateCenterItemWithRef = () => {
-        const containerHeight = scrollContainer.clientHeight;
-        const itemHeight = 2.5 * 16;
-        const scrollTop = scrollContainer.scrollTop;
-        const centerScroll = containerHeight / 2;
-        const centerItemIndex = Math.floor(
-          (scrollTop + centerScroll) / itemHeight
-        );
-        setCenterIndex(centerItemIndex);
-        onItemSelected(scrollList[centerItemIndex] as string);
-      };
-      scrollContainer.addEventListener('scroll', updateCenterItemWithRef);
-
-      updateCenterItemWithRef();
-
-      return () => {
-        scrollContainer.removeEventListener('scroll', updateCenterItemWithRef);
-      };
-    }
-  }, [scrollList, onItemSelected]);
+  const {
+    state: { scrollList, scrollRef, centerIndex },
+  } = useVirtualScroll({
+    list,
+    onItemSelected,
+  });
 
   return (
     <StyledVirtualScrollContainer ref={scrollRef} width={width}>
