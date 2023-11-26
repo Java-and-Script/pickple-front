@@ -50,8 +50,6 @@ export const useChattingPage = () => {
   const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
   const [chatMessages, setChatMessages] = useState(prevChatMessages);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isConnected, setIsConnected] = useState(false);
-  console.log('connected: ', isConnected);
 
   const chattingEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -86,9 +84,13 @@ export const useChattingPage = () => {
 
   useEffect(() => {
     const newSock = new SockJS(stompConfig.webSocketEndpoint);
+    const client = Stomp.over(newSock);
+    client.debug = () => {
+      return null;
+    };
 
     setSock(newSock);
-    setStompClient(Stomp.over(newSock));
+    setStompClient(client);
   }, []);
 
   useEffect(() => {
@@ -99,8 +101,6 @@ export const useChattingPage = () => {
     connect({
       stompClient,
       connectEvent: () => {
-        setIsConnected(true);
-
         subscribe({
           stompClient,
           roomId,
@@ -124,7 +124,6 @@ export const useChattingPage = () => {
     });
 
     return () => {
-      setIsConnected(false);
       sock.close();
     };
   }, [roomId, sock, stompClient]);

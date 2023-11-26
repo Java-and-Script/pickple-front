@@ -46,6 +46,9 @@ export const useChatOnButtonClick = ({
   const enterChatRoom = (roomId: ChatRoom['id']) => {
     const sock = new SockJS(stompConfig.webSocketEndpoint);
     const stompClient = Stomp.over(sock);
+    stompClient.debug = () => {
+      return null;
+    };
 
     connect({
       stompClient,
