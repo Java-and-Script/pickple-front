@@ -20,8 +20,21 @@ export const WebViewPage = () => {
               <Light>번거로운 과정없이</Light>
               <Light>경기에만 집중하게 해드릴게요</Light>
             </FontWrapper>
-            <GithubIcon />
-            <NotionIcon />
+            <IconWrapper>
+              <GithubIcon
+                onClick={() =>
+                  window.open('https://github.com/Java-and-Script')
+                }
+              />
+              <NotionIcon
+                onClick={() =>
+                  window.open(
+                    'https://www.notion.so/prgrms/16-ffafb71245cb4369a0055080ee34ba67'
+                  )
+                }
+              />
+              <QRIcon />
+            </IconWrapper>
           </FontContainer>
           <PhoneMockup>
             <Carousel>
@@ -31,7 +44,10 @@ export const WebViewPage = () => {
             </Carousel>
           </PhoneMockup>
         </FirstRow>
-        <SecondRow>두번째행</SecondRow>
+        <SecondRow>
+          <BackEndContainer></BackEndContainer>
+          <FrontEndContainer></FrontEndContainer>
+        </SecondRow>
         <ThirdRow>세번째행</ThirdRow>
         <Logo />
       </WebViewContainer>
@@ -57,12 +73,13 @@ const FontWrapper = styled.div`
 `;
 
 const FirstRow = styled.div`
+  position: relative;
   height: 780px;
   background-color: #f4f5f6;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 40px;
   & > svg {
     width: calc(48 * 4px);
     height: calc(23 * 4px);
@@ -175,9 +192,38 @@ const Img = styled.img`
     }
   }
 `;
+const QRIcon = styled.div`
+  width: 56px;
+  height: 56px;
+  background-image: url('src/assets/qrIcon.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+`;
+const IconWrapper = styled.div`
+  position: absolute;
+  width: 320px;
+  bottom: 90px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  & > svg {
+    :hover {
+      transform: scale(0.95);
+      cursor: pointer;
+    }
+  }
+`;
 
 const SecondRow = styled.div`
   height: 400px;
+`;
+const BackEndContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const FrontEndContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 const ThirdRow = styled.div`
   height: 400px;
