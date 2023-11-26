@@ -4,6 +4,8 @@ import { theme } from '@styles/theme';
 
 import { ChatRoom } from '@type/models/ChatRoom.ts';
 
+import { CHAT_ROOM_TAB_TITLE } from '@consts/chat.ts';
+
 import { convertUTCToKoreanTime } from '@utils/convertUTCToKoreanTime.ts';
 import { createdAtToString } from '@utils/createdAtToString.ts';
 
@@ -47,6 +49,8 @@ export const ChatRoomItem = ({
     lastMessageCreatedAt,
     lastMessageContent,
     roomIconImageUrl,
+    playStartTime,
+    playTimeMinutes,
   } = chatRoomItem;
 
   const lastTime = convertUTCToKoreanTime(lastMessageCreatedAt);
@@ -54,10 +58,10 @@ export const ChatRoomItem = ({
   return (
     <Flex justify="space-between" onClick={onClickChatRoomItem}>
       <Flex gap={8}>
-        {roomType === '게스트' ? (
+        {roomType === CHAT_ROOM_TAB_TITLE.GUEST ? (
           <GuestChatRoomProfile
-            playStartTime={chatRoomItem.playStartTime}
-            playTimeMinutes={chatRoomItem.playTimeMinutes}
+            playStartTime={playStartTime}
+            playTimeMinutes={playTimeMinutes}
           ></GuestChatRoomProfile>
         ) : (
           <ChatItemAvatar

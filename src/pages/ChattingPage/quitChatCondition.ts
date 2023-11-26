@@ -8,6 +8,8 @@ import { getJoinedCrews } from '@api/member/getJoinedCrews';
 import { Crew, Game, Member } from '@type/models';
 import { ChatRoom } from '@type/models/ChatRoom';
 
+import { CHAT_ROOM_TAB_TITLE } from '@consts/chat';
+
 import { getGameStartDate, isGameEnded } from '@utils/domain';
 
 type UseQuitConditionProps = {
@@ -34,7 +36,7 @@ export const useQuitCondition = ({
   });
 
   const isChatroomExitAllowed = async () => {
-    if (type === '크루') {
+    if (type === CHAT_ROOM_TAB_TITLE.CREW) {
       const { data: crews } = await fetchJoinedCrews();
       if (!crews) {
         toast.error('크루 정보를 불러오는 데 실패했습니다. 다시 시도해주세요.');
@@ -51,7 +53,7 @@ export const useQuitCondition = ({
       }
 
       return !belongToCrew;
-    } else if (type === '게스트') {
+    } else if (type === CHAT_ROOM_TAB_TITLE.GUEST) {
       const { data: confirmedGames } = await fetchConfirmedGames();
       if (!confirmedGames) {
         toast.error('게임 정보를 불러오는 데 실패했습니다. 다시 시도해주세요.');

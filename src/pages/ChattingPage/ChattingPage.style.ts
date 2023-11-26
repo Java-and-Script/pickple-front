@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 
 import { Flex } from '@components/shared/Flex';
 
+import { CHAT_TYPE } from '@consts/chat';
+
 export const ChatRoomContainer = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
   min-height: 100dvh;
@@ -63,7 +65,9 @@ export const SystemMessage = styled.div<{ type: string }>`
     padding: 4px;
     border-radius: 4px;
     background-color: ${({ theme, type }) =>
-      type === '날짜' ? theme.PALETTE.GRAY_300 : theme.PALETTE.GRAY_400};
+      type === CHAT_TYPE.DATE
+        ? theme.PALETTE.GRAY_300
+        : theme.PALETTE.GRAY_400};
   }
 `;
 

@@ -14,6 +14,7 @@ import { SendMessageRequest } from '@type/api/chat';
 import { ChatMember } from '@type/models/ChatMember';
 import { ChatMessage } from '@type/models/ChatMessage';
 
+import { CHAT_TYPE } from '@consts/chat';
 import { PATH_NAME } from '@consts/pathName';
 
 import { convertUTCToKoreanTime } from '@utils/convertUTCToKoreanTime';
@@ -85,9 +86,7 @@ export const useChattingPage = () => {
   useEffect(() => {
     const newSock = new SockJS(stompConfig.webSocketEndpoint);
     const client = Stomp.over(newSock);
-    client.debug = () => {
-      return null;
-    };
+    client.debug = () => null;
 
     setSock(newSock);
     setStompClient(client);
@@ -200,7 +199,7 @@ function formatDateString(created: Date) {
 }
 
 const createDateSystemMessage = (chat: ChatMessage) => ({
-  type: '날짜' as ChatMessage['type'],
+  type: CHAT_TYPE.DATE,
   content: formatDateString(chat.createdAt),
   sender: {
     id: 0,

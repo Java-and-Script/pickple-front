@@ -22,6 +22,7 @@ import { Member } from '@type/models';
 import { ChatMessage } from '@type/models/ChatMessage';
 import { ChatRoom } from '@type/models/ChatRoom';
 
+import { CHAT_ROOM_TAB_TITLE } from '@consts/chat';
 import { PATH_NAME } from '@consts/pathName';
 
 type useChatOnButtonClickProps = {
@@ -42,8 +43,8 @@ export const useChatOnButtonClick = ({
     enabled: false,
   });
   const { refetch: fetchAllChatRoomList } = useQuery({
-    queryKey: ['all-chat-room-list', '개인'],
-    queryFn: () => getAllChatRoomList({ type: '개인' }),
+    queryKey: ['all-chat-room-list', CHAT_ROOM_TAB_TITLE.INDIVIDUAL],
+    queryFn: () => getAllChatRoomList({ type: CHAT_ROOM_TAB_TITLE.INDIVIDUAL }),
     refetchOnMount: 'always',
   });
 
@@ -58,9 +59,7 @@ export const useChatOnButtonClick = ({
 
     const sock = new SockJS(stompConfig.webSocketEndpoint);
     const stompClient = Stomp.over(sock);
-    stompClient.debug = () => {
-      return null;
-    };
+    stompClient.debug = () => null;
 
     connect({
       stompClient,
