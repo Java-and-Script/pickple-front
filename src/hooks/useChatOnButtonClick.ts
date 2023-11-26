@@ -5,6 +5,7 @@ import { AxiosError } from 'axios';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
+import { getAllChatRoomList } from '@api/chat/getAllChatRoomList';
 import { getPersonalChatRoomExisted } from '@api/chat/getPersonalChatRoomExisted';
 
 import {
@@ -40,10 +41,21 @@ export const useChatOnButtonClick = ({
     queryFn: () => getPersonalChatRoomExisted({ receiverId: targetId }),
     enabled: false,
   });
+  const { refetch: fetchAllChatRoomList } = useQuery({
+    queryKey: ['all-chat-room-list', '개인'],
+    queryFn: () => getAllChatRoomList({ type: '개인' }),
+    refetchOnMount: 'always',
+  });
 
   const { mutateAsync } = useCreatePersonalChatRoomMutation();
 
-  const enterChatRoom = (roomId: ChatRoom['id']) => {
+  const enterChatRoom = async (roomId: ChatRoom['id']) => {
+    const { data: chatRoomList } = await fetchAllChatRoomList();
+    if (chatRoomList?.some((chatRoom) => chatRoom.id === roomId)) {
+      moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
+      return;
+    }
+
     const sock = new SockJS(stompConfig.webSocketEndpoint);
     const stompClient = Stomp.over(sock);
     stompClient.debug = () => {
@@ -65,6 +77,9 @@ export const useChatOnButtonClick = ({
             if (type === '입장' && senderId === myId) {
               sock.close();
               moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
+            } else {
+              sock.close();
+              toast.error('새로고침 후 다시 시도해주세요.');
             }
           },
         });
@@ -77,11 +92,6 @@ export const useChatOnButtonClick = ({
         enter({ stompClient, roomId, sendData });
       },
     });
-
-    setTimeout(() => {
-      sock.close();
-      moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
-    }, 300);
   };
 
   const handleClickChattingButton = async () => {
