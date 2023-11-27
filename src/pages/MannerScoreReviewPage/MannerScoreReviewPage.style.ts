@@ -48,3 +48,7 @@ type BoxProps = {
 export const Box = styled.div<BoxProps>`
   height: ${(props) => props.height};
 `;
+
+export const ProfileWrapper = styled.div`
+  margin: 0 16px;
+`;

@@ -27,6 +27,7 @@ import {
   BackwardWrapper,
   Box,
   MemberListContainer,
+  ProfileWrapper,
   ReviewPageContainer,
   TextWrapper,
 } from './MannerScoreReviewPage.style';
@@ -222,9 +223,11 @@ export const MannerScoreReviewPage = () => {
       </Flex>
       <Modal isOpen={isOpen} close={() => setIsOpen(false)}>
         <Modal.Content>
-          <Profile
-            memberId={teammateList[currentSelectedMemberIndex].memberId}
-          />
+          <ProfileWrapper>
+            <Profile
+              memberId={teammateList[currentSelectedMemberIndex].memberId}
+            />
+          </ProfileWrapper>
         </Modal.Content>
       </Modal>
     </ReviewPageContainer>
