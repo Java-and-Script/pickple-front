@@ -1,12 +1,21 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Flex } from '@components/shared/Flex';
+import { Text } from '@components/shared/Text';
+
 import { useLoginQuery } from '@hooks/queries/useLoginQuery';
+
+import { theme } from '@styles/theme';
 
 import { useTokenStore } from '@stores/accessToken.store';
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { Authenticated, Registration } from '@type/models';
+
+import LOGO_SRC from '@assets/logoSvg.svg';
+
+import { LogoImage, PageContent, PageWrapper } from './RedirectPage.styles';
 
 export const RedirectPage = () => {
   const navigate = useNavigate();
@@ -49,5 +58,20 @@ export const RedirectPage = () => {
     fetchLoginInfo();
   }, [fetchLoginInfo]);
 
-  return <div>로그인 중입니다.</div>;
+  return (
+    <PageWrapper>
+      <PageContent direction="column" gap={20} align="center" justify="start">
+        <LogoImage src={LOGO_SRC} width="35%" height="auto" alt="pickle logo" />
+        <Flex direction="column" gap={10}>
+          <Text size={40} color={theme.PALETTE.RED_400}>
+            로그인중...
+          </Text>
+          <Flex direction="column">
+            <Text size={40}>잠시만</Text>
+            <Text size={40}>기다려주세요</Text>
+          </Flex>
+        </Flex>
+      </PageContent>
+    </PageWrapper>
+  );
 };
