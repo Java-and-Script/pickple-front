@@ -5,6 +5,8 @@ import { axiosInstance } from '@api/axiosInstance';
 import { Header } from '@components/Header';
 import { Text } from '@components/shared/Text';
 
+import { theme } from '@styles/theme';
+
 import { useTokenStore } from '@stores/accessToken.store';
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
@@ -74,16 +76,23 @@ export const AllServicesPage = () => {
           <MenuItem
             icon={<Chat />}
             pageName="채팅"
+            color={myId ? null : theme.PALETTE.GRAY_300}
             onClickMenuItem={() => moveToPage(PATH_NAME.CHAT)}
           />
           <MenuItem
             icon={<Profile />}
             pageName="내 정보"
-            onClickMenuItem={() =>
-              myId && moveToPage(PATH_NAME.GET_PROFILE_PATH(myId))
-            }
+            color={myId ? null : theme.PALETTE.GRAY_300}
+            onClickMenuItem={() => {
+              myId && moveToPage(PATH_NAME.GET_PROFILE_PATH(myId));
+            }}
           />
-          <MenuItem icon={<Social />} pageName="소셜링" />
+
+          <MenuItem
+            icon={<Social />}
+            color={theme.PALETTE.GRAY_300}
+            pageName="소셜링"
+          />
         </FieldContainer>
         <FieldContainer>
           <Text size="1rem" weight={700}>
@@ -92,14 +101,14 @@ export const AllServicesPage = () => {
           <MenuItem
             icon={<Ball />}
             pageName="내가 참여한 게스트 매치"
-            onClickMenuItem={() =>
-              myId && moveToPage(PATH_NAME.GAMES_PARTICIPATE)
-            }
+            color={myId ? null : theme.PALETTE.GRAY_300}
+            onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_PARTICIPATE)}
           />
           <MenuItem
             icon={<Whistle />}
             pageName="내가 만든 게스트 매치"
-            onClickMenuItem={() => myId && moveToPage(PATH_NAME.GAMES_HOST)}
+            color={myId ? null : theme.PALETTE.GRAY_300}
+            onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_HOST)}
           />
         </FieldContainer>
         <FieldContainer>
@@ -109,14 +118,14 @@ export const AllServicesPage = () => {
           <MenuItem
             icon={<CrewManage />}
             pageName="내가 속한 크루"
-            onClickMenuItem={() =>
-              myId && moveToPage(PATH_NAME.CREWS_PARTICIPATE)
-            }
+            color={myId ? null : theme.PALETTE.GRAY_300}
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_PARTICIPATE)}
           />
           <MenuItem
             icon={<CrewMember />}
             pageName="내가 만든 크루"
-            onClickMenuItem={() => myId && moveToPage(PATH_NAME.CREWS_CHIEF)}
+            color={myId ? null : theme.PALETTE.GRAY_300}
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_CHIEF)}
           />
           <MenuItem
             icon={<Medal />}
@@ -124,16 +133,18 @@ export const AllServicesPage = () => {
             onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_RANKING)}
           />
         </FieldContainer>
-        <FieldContainer>
-          <Text size="1rem" weight={700}>
-            설정
-          </Text>
-          <MenuItem
-            icon={<Exit />}
-            pageName="로그아웃"
-            onClickMenuItem={logout}
-          />
-        </FieldContainer>
+        {myId && (
+          <FieldContainer>
+            <Text size="1rem" weight={700}>
+              설정
+            </Text>
+            <MenuItem
+              icon={<Exit />}
+              pageName="로그아웃"
+              onClickMenuItem={logout}
+            />
+          </FieldContainer>
+        )}
       </Main>
     </AllServicesContainer>
   );

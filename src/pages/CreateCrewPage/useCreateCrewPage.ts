@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { AxiosError } from 'axios';
 
+import { LoginRequireError } from '@routes/LoginRequireBoundary';
+
 import { useToggleButtons } from '@components/shared/ToggleButton';
 
 import { useCrewMutation } from '@hooks/mutations/useCrewMutation';
@@ -20,7 +22,7 @@ export const useCreateCrewPage = () => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
   if (!loginInfo?.id) {
-    throw new Error('로그인이 필요한 서비스입니다.');
+    throw new LoginRequireError();
   }
 
   const navigate = useNavigate();

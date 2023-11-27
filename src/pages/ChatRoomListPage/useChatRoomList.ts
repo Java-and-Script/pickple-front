@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { LoginRequireError } from '@routes/LoginRequireBoundary';
+
 import { useAllChatRoomListQuery } from '@hooks/queries/useAllChatRoomListQuery.ts';
 
 import { useChatRoomTabStore } from '@stores/chatRoomTab.store';
@@ -13,7 +15,7 @@ export const useChatRoomList = () => {
 
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   if (!loginInfo?.id) {
-    throw new Error('로그인이 필요한 서비스입니다.');
+    throw new LoginRequireError();
   }
 
   const { chatRoomTab } = useChatRoomTabStore();

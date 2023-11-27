@@ -4,12 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { useLoginInfoStore } from '@/stores/loginInfo.store';
 
 import { AllowCard } from '@components/Participation/components/AllowCard';
+import { Flex } from '@components/shared/Flex';
+
+import { theme } from '@styles/theme';
 
 import { Member } from '@type/models';
 
 import { PATH_NAME } from '@consts/pathName';
 
-import { AllowCardGroup, Main } from './Participation.style';
+import { AllowCardGroup, InformText, Main } from './Participation.style';
 
 type ParticipationProps = {
   id: Member['id'];
@@ -36,7 +39,7 @@ export const Participation = ({
       navigate(PATH_NAME.LOGIN);
       return;
     }
-  }, [id, navigate]);
+  }, [id, loginInfo, navigate]);
 
   const moveToProfile = (memberId: number) => {
     navigate(PATH_NAME.GET_PROFILE_PATH(String(memberId)));
@@ -44,17 +47,25 @@ export const Participation = ({
 
   return (
     <Main>
-      <AllowCardGroup>
-        {waitingMembers.map(({ ...props }: Member) => (
-          <AllowCard
-            key={props.id}
-            member={props}
-            onClickProfile={() => moveToProfile(props.id)}
-            onClickAllowButton={() => handleGuestAction(props.id, '확정')}
-            onClickDisallowButton={() => handleGuestAction(props.id, '거절')}
-          />
-        ))}
-      </AllowCardGroup>{' '}
+      {waitingMembers.length > 0 ? (
+        <AllowCardGroup>
+          {waitingMembers.map(({ ...props }: Member) => (
+            <AllowCard
+              key={props.id}
+              member={props}
+              onClickProfile={() => moveToProfile(props.id)}
+              onClickAllowButton={() => handleGuestAction(props.id, '확정')}
+              onClickDisallowButton={() => handleGuestAction(props.id, '거절')}
+            />
+          ))}
+        </AllowCardGroup>
+      ) : (
+        <Flex justify="center" gap={16}>
+          <InformText size={theme.FONT_SIZE.XS} weight={300}>
+            수락 대기중인 인원이 없습니다
+          </InformText>
+        </Flex>
+      )}
     </Main>
   );
 };
