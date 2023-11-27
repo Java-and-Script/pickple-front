@@ -49,3 +49,17 @@ export type GetJoinedCrewsResponse = CrewProfile[];
 export type GetCreatedCrewsRequest = { memberId: Member['id'] };
 
 export type GetCreatedCrewsResponse = CrewProfile[];
+
+export type GetCrewRegistrationStatusRequest = {
+  memberId: Member['id'];
+  crewId: CrewProfile['id'];
+};
+
+export type GetGameRegistrationStatusRequest = {
+  memberId: Member['id'];
+  gameId: Game['id'];
+};
+
+export type GetRegistrationStatusResponse = {
+  registrationStatus: boolean;
+};
