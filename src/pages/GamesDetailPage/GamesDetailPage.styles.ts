@@ -74,6 +74,7 @@ export const ButtonWrapper = styled.div`
   width: 100dvw;
   bottom: 70px;
   left: 0;
+  z-index: 1;
 `;
 
 export const PositionItemBox = styled.div`
