@@ -1,20 +1,16 @@
 import styled from '@emotion/styled';
 
 import { Flex } from '@components/shared/Flex';
-
-const MAX_WIDTH = '480px';
+import { Text } from '@components/shared/Text';
 
 export const ProfileContainer = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
   min-height: 100dvh;
   display: flex;
-  justify-content: center;
 `;
 
 export const Main = styled.div`
   margin: 10px 0;
-  display: flex;
-  justify-content: center;
   width: 100%;
 `;
 
@@ -40,7 +36,6 @@ export const ItemBox = styled.div<{ border?: string }>`
 `;
 
 export const ProfileFieldContainer = styled.div`
-  max-width: ${MAX_WIDTH};
   width: 100%;
 `;
 
@@ -52,15 +47,13 @@ export const CrewGroup = styled.div`
   flex-wrap: wrap;
 `;
 
-export const Introduce = styled.div`
+export const Introduce = styled(Text)`
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
   border-radius: 20px;
   width: 100%;
   padding: 16px;
-  display: inline-block;
-  & > p {
-    white-space: pre-wrap;
-  }
+  white-space: pre-wrap;
+  word-break: break-all;
 `;
 
 export const PointerFlex = styled(Flex)`

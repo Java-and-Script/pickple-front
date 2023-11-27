@@ -181,9 +181,7 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
         </ProfileField>
         <ProfileField category="획득한 뱃지">{'없음'}</ProfileField>
         <ProfileField category="자기소개">
-          <Introduce>
-            <Text>{profile.introduction}</Text>
-          </Introduce>
+          <Introduce>{profile.introduction}</Introduce>
         </ProfileField>
       </FlexItem>
       <Modal isOpen={isModalOpen} close={() => setIsModalOpen(false)}>
@@ -217,7 +215,7 @@ const ProfileField = ({ category, children }: ProfileFieldProps) => {
 
 const EventButton = ({ text, width, onClick }: EventButtonProps) => (
   <Button
-    width={width ?? '160px'}
+    width={width ?? '50%'}
     height="32px"
     backgroundColor="white"
     textColor={theme.PALETTE.GRAY_400}
