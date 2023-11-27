@@ -3,7 +3,6 @@ import { Flex } from '@components/shared/Flex';
 
 import { theme } from '@styles/theme';
 
-import { ProfileField } from './Profile';
 import { FlexItem, Main } from './ProfilePage.style';
 
 export const ProfileSkeleton = () => (
@@ -17,8 +16,8 @@ export const ProfileSkeleton = () => (
     >
       <FlexItem>
         <Flex align="flex-end" gap={8}>
-          <Skeleton.Item width="40px" height="24px" />
-          <Skeleton.Item width="100px" height="17px" />
+          <Skeleton.Item width="70px" height="24px" />
+          <Skeleton.Item width="72px" height="17px" />
         </Flex>
         <Flex justify="center" gap={40} align="center">
           <Skeleton.Item width="100px" height="100px" radius="50px" />
@@ -30,24 +29,30 @@ export const ProfileSkeleton = () => (
           <Skeleton.Item width="50%" radius="0.75rem" height="32px" />
           <Skeleton.Item width="50%" radius="0.75rem" height="32px" />
         </Flex>
-
-        <ProfileField category="포지션">
-          {Array(5)
-            .fill(null)
-            .map((_, index) => (
-              <Skeleton.Item width="45px" height="45px" key={index} />
-            ))}
-        </ProfileField>
-        <ProfileField category="소속 크루">
-          {Array(3)
-            .fill(null)
-            .map((_, index) => (
-              <Skeleton.Item width="45px" height="45px" key={index} />
-            ))}
-        </ProfileField>
-        <ProfileField category="자기소개">
+        <Flex gap={7} direction="column">
+          <Skeleton.Item width="56px" height="20px" />
+          <Flex gap={10} flexWrap="wrap">
+            {Array(2)
+              .fill(null)
+              .map((_, index) => (
+                <Skeleton.Item width="45px" height="45px" key={index} />
+              ))}
+          </Flex>
+        </Flex>
+        <Flex gap={7} direction="column">
+          <Skeleton.Item width="80px" height="20px" />
+          <Flex gap={10} flexWrap="wrap">
+            {Array(3)
+              .fill(null)
+              .map((_, index) => (
+                <Skeleton.Item width="45px" height="45px" key={index} />
+              ))}
+          </Flex>
+        </Flex>
+        <Flex gap={7} direction="column">
+          <Skeleton.Item width="92px" height="20px" />
           <Skeleton.Item width="100%" height="32px" radius="20px" />
-        </ProfileField>
+        </Flex>
       </FlexItem>
     </Skeleton>
   </Main>
