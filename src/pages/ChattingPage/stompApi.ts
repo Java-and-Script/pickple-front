@@ -36,13 +36,7 @@ type LeaveProps<T> = {
 };
 
 export const connect = ({ stompClient, connectEvent }: ConnectProps) => {
-  stompClient.connect(
-    {},
-    () => {
-      connectEvent();
-    },
-    () => console.log('connect failed')
-  );
+  stompClient.connect({}, () => connectEvent());
 };
 
 export const subscribe = <T>({

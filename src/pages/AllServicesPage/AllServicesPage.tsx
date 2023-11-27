@@ -75,7 +75,7 @@ export const AllServicesPage = () => {
           />
           <MenuItem
             icon={<Chat />}
-            pageName="메세지"
+            pageName="채팅"
             color={myId ? null : theme.PALETTE.GRAY_300}
             onClickMenuItem={() => moveToPage(PATH_NAME.CHAT)}
           />
@@ -96,7 +96,7 @@ export const AllServicesPage = () => {
         </FieldContainer>
         <FieldContainer>
           <Text size="1rem" weight={700}>
-            경기
+            게스트 매치
           </Text>
           <MenuItem
             icon={<Ball />}

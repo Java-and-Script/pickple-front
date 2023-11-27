@@ -1,4 +1,4 @@
-import { CHAT_ROOM_TAB_TITLE } from '@consts/chatRoomTabTitle';
+import { CHAT_ROOM_TAB_TITLE } from '@consts/chat';
 import { PATH_NAME } from '@consts/pathName';
 
 export const getTitlePagePath = (roomType: string) => {
