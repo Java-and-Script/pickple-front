@@ -10,6 +10,7 @@ export const useAlarmsDeleteMutation = () => {
     mutationFn: deleteAlarms,
     onSuccess: () => {
       queryClient.resetQueries({ queryKey: ['alarms'] });
+      queryClient.resetQueries({ queryKey: ['alarms-unread'] });
     },
   });
 };
