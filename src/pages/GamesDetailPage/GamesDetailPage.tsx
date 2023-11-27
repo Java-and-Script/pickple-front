@@ -109,10 +109,6 @@ export const GamesDetailPage = () => {
     setIsPositionModalOpen((prev) => !prev);
   };
 
-  const formatCost = (cost: number) => {
-    return String(cost).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
-  };
-
   return (
     <PageLayout>
       <Header />
@@ -216,7 +212,7 @@ export const GamesDetailPage = () => {
           <InfoItem>
             <GrayText size={12}>참가비</GrayText>
             <Image width={40} src={Money} alt="money" />
-            <Text size={16}>{`${formatCost(match.cost)}원`}</Text>
+            <Text size={16}>{`${match.cost.toLocaleString()}원`}</Text>
           </InfoItem>
           <InfoItem>
             <GrayText size={12}>현재원</GrayText>
