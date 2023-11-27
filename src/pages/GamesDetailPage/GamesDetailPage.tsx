@@ -198,7 +198,16 @@ export const GamesDetailPage = () => {
               <ParticipateButton
                 memberId={Number(loginInfo.id)}
                 gameId={match.id}
-                onClick={() => participateMutate({ gameId })}
+                onClick={() =>
+                  participateMutate(
+                    { gameId },
+                    {
+                      onSuccess: () => {
+                        toast('참여 신청되었습니다');
+                      },
+                    }
+                  )
+                }
               />
             </ErrorBoundary>
           )}

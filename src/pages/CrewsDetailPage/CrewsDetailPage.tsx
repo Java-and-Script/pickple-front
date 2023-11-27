@@ -137,12 +137,21 @@ export const CrewsDetailPage = () => {
           {renderParticipateButton && (
             <ErrorBoundary
               fallback={<></>}
-              onError={() => toast.error('경기 참여여부를 불러올 수 없습니다')}
+              onError={() => toast.error('크루 가입여부를 불러올 수 없습니다')}
             >
               <ParticipateButton
                 memberId={Number(loginInfo.id)}
                 crewId={crew.id}
-                onClick={() => participateMutate({ crewId: crew.id })}
+                onClick={() =>
+                  participateMutate(
+                    { crewId: crew.id },
+                    {
+                      onSuccess: () => {
+                        toast('가입 신청되었습니다');
+                      },
+                    }
+                  )
+                }
               />
             </ErrorBoundary>
           )}
