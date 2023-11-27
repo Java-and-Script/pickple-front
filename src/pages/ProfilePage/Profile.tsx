@@ -200,7 +200,7 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
   );
 };
 
-const ProfileField = ({ category, children }: ProfileFieldProps) => {
+export const ProfileField = ({ category, children }: ProfileFieldProps) => {
   return (
     <ProfileFieldContainer>
       <Text size="1.2rem" weight={700}>
