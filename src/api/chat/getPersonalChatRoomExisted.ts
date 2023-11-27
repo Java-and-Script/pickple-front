@@ -9,7 +9,7 @@ export const getPersonalChatRoomExisted = async ({
   receiverId,
 }: GetPersonalChatRoomExistedRequest) => {
   const { data } = await axiosInstance.get<GetPersonalChatRoomExistedResponse>(
-    '/rooms/personal/existed',
+    '/rooms/personal',
     { params: { receiver: receiverId } }
   );
 
