@@ -25,6 +25,7 @@ export const CrewsDetailPage = lazyPage('CrewsDetailPage');
 export const CrewsManageParticipatePage = lazyPage(
   'CrewsManageParticipatePage'
 );
+export const CrewsParticipatePage = lazyPage('CrewsParticipatePage');
 export const CrewsRankingPage = lazyPage('CrewsRankingPage');
 export const CrewsRecommendPage = lazyPage('CrewsRecommendPage');
 export const ErrorPage = lazyPage('ErrorPage');

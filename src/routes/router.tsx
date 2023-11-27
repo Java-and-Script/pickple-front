@@ -21,6 +21,7 @@ import {
   CrewsChiefPage,
   CrewsDetailPage,
   CrewsManageParticipatePage,
+  CrewsParticipatePage,
   CrewsRankingPage,
   CrewsRecommendPage,
   ErrorPage,
@@ -134,7 +135,7 @@ export const router = createBrowserRouter([
         path: 'crews/participate',
         element: (
           <Suspense fallback={<CardListPageSkeleton name="내가 속한 크루" />}>
-            <CrewsManageParticipatePage />
+            <CrewsParticipatePage />
           </Suspense>
         ),
       },
