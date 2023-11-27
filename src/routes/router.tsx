@@ -2,45 +2,43 @@ import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { AllServicesPage } from '@pages/AllServicesPage';
-import { AuthErrorPage } from '@pages/AuthErrorPage';
-import { ChatRoomListPage } from '@pages/ChatRoomListPage';
-import { ChattingPage } from '@pages/ChattingPage';
-import { CreateCrewPage } from '@pages/CreateCrewPage';
-import { CreateGamePage } from '@pages/CreateGamePage';
-import { CreatePage } from '@pages/CreatePage';
-import { CrewsChiefPage } from '@pages/CrewsChiefPage';
-import {
-  CrewsDetailPage,
-  CrewsDetailPageLoading,
-} from '@pages/CrewsDetailPage';
-import { CrewsManageParticipatePage } from '@pages/CrewsManageParticipatePage';
-import { CrewsParticipatePage } from '@pages/CrewsParticipatePage';
-import { CrewsRankingPage } from '@pages/CrewsRankingPage';
-import { CrewsRecommendPage } from '@pages/CrewsRecommendPage';
-import { ErrorPage } from '@pages/ErrorPage';
-import {
-  GamesDetailPage,
-  GamesDetailPageLoading,
-} from '@pages/GamesDetailPage';
-import { GamesHostPage } from '@pages/GamesHostPage';
-import { GamesManageParticipatePage } from '@pages/GamesManageParticipatePage';
-import { GamesNearPage } from '@pages/GamesNearPage';
-import { GamesParticipatePage } from '@pages/GamesParticipatePage';
+import { CrewsDetailPageLoading } from '@pages/CrewsDetailPage';
+import { GamesDetailPageLoading } from '@pages/GamesDetailPage';
 import { Layout } from '@pages/Layout';
-import { LoginPage } from '@pages/LoginPage';
-import { MainPage, MainPageLoading } from '@pages/MainPage';
-import { MannerScoreReviewPage } from '@pages/MannerScoreReviewPage';
-import { MapPage } from '@pages/MapPage';
-import { NotFoundPage } from '@pages/NotFoundPage';
-import { NotificationPage } from '@pages/NotificationPage';
-import { ProfilePage } from '@pages/ProfilePage';
-import { RedirectPage } from '@pages/RedirectPage';
-import { RegisterPage } from '@pages/RegisterPage';
+import { MainPageLoading } from '@pages/MainPage';
 import { CardListPageSkeleton } from '@pages/__components__/CardListPageSkeleton';
 import { ManagePageSkeleton } from '@pages/__components__/ManagePageSkeleton';
 
 import { ScrollTop } from './ScrollTop';
+import {
+  AllServicesPage,
+  AuthErrorPage,
+  ChatRoomListPage,
+  ChattingPage,
+  CreateCrewPage,
+  CreateGamePage,
+  CreatePage,
+  CrewsChiefPage,
+  CrewsDetailPage,
+  CrewsManageParticipatePage,
+  CrewsRankingPage,
+  CrewsRecommendPage,
+  ErrorPage,
+  GamesDetailPage,
+  GamesHostPage,
+  GamesManageParticipatePage,
+  GamesNearPage,
+  GamesParticipatePage,
+  LoginPage,
+  MainPage,
+  MannerScoreReviewPage,
+  MapPage,
+  NotFoundPage,
+  NotificationPage,
+  ProfilePage,
+  RedirectPage,
+  RegisterPage,
+} from './lazyPage';
 
 export const router = createBrowserRouter([
   {
@@ -136,7 +134,7 @@ export const router = createBrowserRouter([
         path: 'crews/participate',
         element: (
           <Suspense fallback={<CardListPageSkeleton name="내가 속한 크루" />}>
-            <CrewsParticipatePage />
+            <CrewsManageParticipatePage />
           </Suspense>
         ),
       },
