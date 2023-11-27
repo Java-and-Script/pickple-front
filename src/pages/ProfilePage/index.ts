@@ -1,4 +1,4 @@
 export * from './ProfilePage';
-export * from './SkeletonProfilePage';
-export * from './SkeletonProfile';
+export * from './ProfilePageSkeleton';
+export * from './ProfileSkeleton';
 export * from './Profile';

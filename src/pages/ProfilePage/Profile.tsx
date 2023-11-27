@@ -179,7 +179,6 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
               : '없음'}
           </CrewGroup>
         </ProfileField>
-        <ProfileField category="획득한 뱃지">{'없음'}</ProfileField>
         <ProfileField category="자기소개">
           <Introduce>{profile.introduction}</Introduce>
         </ProfileField>

@@ -6,7 +6,7 @@ import { CrewsDetailPageLoading } from '@pages/CrewsDetailPage';
 import { GamesDetailPageLoading } from '@pages/GamesDetailPage';
 import { Layout } from '@pages/Layout';
 import { MainPageLoading } from '@pages/MainPage';
-import { SkeletonProfilePage } from '@pages/ProfilePage';
+import { ProfilePageSkeleton } from '@pages/ProfilePage';
 import { CardListPageSkeleton } from '@pages/__components__/CardListPageSkeleton';
 import { ManagePageSkeleton } from '@pages/__components__/ManagePageSkeleton';
 
@@ -178,7 +178,7 @@ export const router = createBrowserRouter([
       {
         path: 'profile/:id',
         element: (
-          <Suspense fallback={<SkeletonProfilePage />}>
+          <Suspense fallback={<ProfilePageSkeleton />}>
             <ProfilePage />
           </Suspense>
         ),

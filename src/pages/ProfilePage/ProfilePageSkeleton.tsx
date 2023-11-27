@@ -1,11 +1,11 @@
 import { Header } from '@components/Header';
 
 import { ProfileContainer } from './ProfilePage.style';
-import { SkeletonProfile } from './SkeletonProfile';
+import { ProfileSkeleton } from './ProfileSkeleton';
 
-export const SkeletonProfilePage = () => (
+export const ProfilePageSkeleton = () => (
   <ProfileContainer>
     <Header isLogo={false} isRightContainer={true} />
-    <SkeletonProfile />
+    <ProfileSkeleton />
   </ProfileContainer>
 );

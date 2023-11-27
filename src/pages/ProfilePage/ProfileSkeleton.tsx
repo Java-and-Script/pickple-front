@@ -6,7 +6,7 @@ import { theme } from '@styles/theme';
 import { ProfileField } from './Profile';
 import { FlexItem, Main } from './ProfilePage.style';
 
-export const SkeletonProfile = () => (
+export const ProfileSkeleton = () => (
   <Main>
     <Skeleton
       width="100%"
@@ -17,23 +17,18 @@ export const SkeletonProfile = () => (
     >
       <FlexItem>
         <Flex align="flex-end" gap={8}>
-          <Skeleton.Item width="40px" />
-          <Skeleton.Item width="100px" height="20px" />
+          <Skeleton.Item width="40px" height="24px" />
+          <Skeleton.Item width="100px" height="17px" />
         </Flex>
         <Flex justify="center" gap={40} align="center">
           <Skeleton.Item width="100px" height="100px" radius="50px" />
           <Skeleton.Item width="58px" height="78px" />
-          <Skeleton.Item width="58px" height="78px" />
-          {/* <Flex direction="column" align="center" gap={4}>
-            <Skeleton.Item width="58px" height="18px" />
-            <Skeleton.Item width="28px" height="24px" />
-            <Skeleton.Item width="18px" height="18px" />
-          </Flex> */}
+          <Skeleton.Item width="35px" height="78px" />
         </Flex>
 
         <Flex justify="center" gap={10}>
-          <Skeleton.Item width="50%" radius="0.75rem" />
-          <Skeleton.Item width="50%" radius="0.75rem" />
+          <Skeleton.Item width="50%" radius="0.75rem" height="32px" />
+          <Skeleton.Item width="50%" radius="0.75rem" height="32px" />
         </Flex>
 
         <ProfileField category="포지션">
