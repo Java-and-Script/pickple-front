@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { Text } from '@components/shared/Text';
+
 export const ManageContainer = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}
   min-height: 100dvh;
@@ -14,4 +16,8 @@ export const AllowCardGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+`;
+
+export const InformText = styled(Text)`
+  padding: 16px;
 `;

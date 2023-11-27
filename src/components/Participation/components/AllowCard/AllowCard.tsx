@@ -37,6 +37,7 @@ export const AllowCard = ({
           size={40}
           onClick={onClickProfile}
         />
+        &nbsp;
         <Text
           size={12}
           weight={500}
