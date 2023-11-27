@@ -7,7 +7,7 @@ import { useLoginInfoStore } from '@stores/loginInfo.store';
 export const useEventSource = (
   subscribeUrl: string,
   onmessage: EventSourcePolyfill['onmessage'],
-  onerror: EventSourcePolyfill['onerror']
+  onerror?: EventSourcePolyfill['onerror']
 ) => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
@@ -18,12 +18,14 @@ export const useEventSource = (
 
     const EventSource = EventSourcePolyfill || NativeEventSource;
     const eventSource = new EventSource(subscribeUrl, {
-      headers: { Authorization: loginInfo.accessToken },
+      headers: {
+        Authorization: `Bearer ${loginInfo.accessToken}`,
+        'Content-type': 'text/event-stream',
+      },
     });
 
     eventSource.onmessage = onmessage;
-
-    eventSource.onerror = onerror;
+    onerror && (eventSource.onerror = onerror);
 
     return () => {
       eventSource.close();

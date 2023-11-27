@@ -13,9 +13,11 @@ import leftArrowIcon from '@assets/leftArrow.svg';
 import logoSvg from '@assets/logoSvg.svg';
 import searchIcon from '@assets/search.svg';
 
+import { Badge } from './Badge';
 import {
   BackwardIcon,
   BackwardWrapper,
+  BellIcon,
   HeaderBackground,
   HeaderContainer,
   LoginButton,
@@ -97,9 +99,10 @@ export const Header = ({
                 </RightSideIcon>
               </RightSideIconWrapper>
               <RightSideIconWrapper>
-                <RightSideIcon onClick={() => handleBellIconClick()}>
+                <BellIcon onClick={() => handleBellIconClick()}>
                   <img src={bellIcon} alt="" />
-                </RightSideIcon>
+                  <Badge />
+                </BellIcon>
               </RightSideIconWrapper>
               <RightSideIconWrapper>
                 <RightSideIcon onClick={() => handleProfileIconClick()}>

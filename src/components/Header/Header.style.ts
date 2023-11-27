@@ -105,3 +105,17 @@ export const RightSideIcon = styled.button`
 export const LoginButton = styled(Button)`
   white-space: nowrap;
 `;
+
+export const BellIcon = styled(RightSideIcon)`
+  position: relative;
+`;
+
+export const BadgeIcon = styled.div`
+  background-color: ${({ theme }) => theme.PALETTE.RED_600};
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+`;

@@ -14,7 +14,7 @@ import { NotificationItemMatchStatus } from './components/NotificationItemMatchS
 type NotificationItemProps = {
   box: React.ReactNode;
   title: string;
-  content: React.ReactNode;
+  content: string;
   read?: boolean;
   createdAt: Date;
   onClick: VoidFunction;
@@ -33,15 +33,17 @@ const NotificationItem = ({
       {box}
       <Flex direction="column" gap={5}>
         <Flex gap={5}>
-          <Text size={12} weight={700}>
+          <Text size={12} weight={700} nowrap>
             {title}
           </Text>
-          <AgoText size={8} weight={300}>
+          <AgoText size={8} weight={300} nowrap>
             {createdAtToString(createdAt)}
-            {read && <Badge />}
+            {!read && <Badge />}
           </AgoText>
         </Flex>
-        {content}
+        <Text size={14} weight={300}>
+          {content}
+        </Text>
       </Flex>
     </NotificationItemWrapper>
   );

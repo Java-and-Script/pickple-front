@@ -14,6 +14,7 @@ export const MatchStartTime = styled.span`
   font-size: 12px;
   font-weight: 700;
   line-height: 143%;
+  white-space: nowrap;
 `;
 
 export const MatchDuration = styled.span`
