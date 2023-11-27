@@ -6,6 +6,8 @@ import { theme } from '@styles/theme';
 
 import { ChatMessage } from '@type/models/ChatMessage';
 
+import { CHAT_TYPE } from '@consts/chat';
+
 import { convertUTCToKoreanTime } from '@utils/convertUTCToKoreanTime';
 
 import {
@@ -27,7 +29,7 @@ export const Chat = ({
 }: ChatProps) => {
   const { type: chatType, createdAt, sender, content } = chatInfo;
 
-  return chatType === '대화' ? (
+  return chatType === CHAT_TYPE.MESSAGE ? (
     <Flex
       key={String(createdAt)}
       direction={isOthersMessage ? 'row' : 'row-reverse'}

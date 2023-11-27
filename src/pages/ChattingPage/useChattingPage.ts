@@ -14,6 +14,7 @@ import { SendMessageRequest } from '@type/api/chat';
 import { ChatMember } from '@type/models/ChatMember';
 import { ChatMessage } from '@type/models/ChatMessage';
 
+import { CHAT_TYPE } from '@consts/chat';
 import { PATH_NAME } from '@consts/pathName';
 
 import { convertUTCToKoreanTime } from '@utils/convertUTCToKoreanTime';
@@ -50,8 +51,6 @@ export const useChattingPage = () => {
   const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
   const [chatMessages, setChatMessages] = useState(prevChatMessages);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isConnected, setIsConnected] = useState(false);
-  console.log('connected: ', isConnected);
 
   const chattingEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -86,9 +85,13 @@ export const useChattingPage = () => {
 
   useEffect(() => {
     const newSock = new SockJS(stompConfig.webSocketEndpoint);
+    const client = Stomp.over(newSock);
+    client.debug = () => null;
 
     setSock(newSock);
-    setStompClient(Stomp.over(newSock));
+    setStompClient(client);
+
+    inputRef.current?.focus();
   }, []);
 
   useEffect(() => {
@@ -99,8 +102,6 @@ export const useChattingPage = () => {
     connect({
       stompClient,
       connectEvent: () => {
-        setIsConnected(true);
-
         subscribe({
           stompClient,
           roomId,
@@ -124,7 +125,6 @@ export const useChattingPage = () => {
     });
 
     return () => {
-      setIsConnected(false);
       sock.close();
     };
   }, [roomId, sock, stompClient]);
@@ -201,7 +201,7 @@ function formatDateString(created: Date) {
 }
 
 const createDateSystemMessage = (chat: ChatMessage) => ({
-  type: '날짜' as ChatMessage['type'],
+  type: CHAT_TYPE.DATE,
   content: formatDateString(chat.createdAt),
   sender: {
     id: 0,

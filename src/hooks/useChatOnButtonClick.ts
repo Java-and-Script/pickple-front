@@ -1,8 +1,11 @@
+import { toast } from 'react-hot-toast';
+
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
+import { getAllChatRoomList } from '@api/chat/getAllChatRoomList';
 import { getPersonalChatRoomExisted } from '@api/chat/getPersonalChatRoomExisted';
 
 import {
@@ -19,6 +22,7 @@ import { Member } from '@type/models';
 import { ChatMessage } from '@type/models/ChatMessage';
 import { ChatRoom } from '@type/models/ChatRoom';
 
+import { CHAT_ROOM_TAB_TITLE } from '@consts/chat';
 import { PATH_NAME } from '@consts/pathName';
 
 type useChatOnButtonClickProps = {
@@ -38,12 +42,24 @@ export const useChatOnButtonClick = ({
     queryFn: () => getPersonalChatRoomExisted({ receiverId: targetId }),
     enabled: false,
   });
+  const { refetch: fetchAllChatRoomList } = useQuery({
+    queryKey: ['all-chat-room-list', CHAT_ROOM_TAB_TITLE.INDIVIDUAL],
+    queryFn: () => getAllChatRoomList({ type: CHAT_ROOM_TAB_TITLE.INDIVIDUAL }),
+    refetchOnMount: 'always',
+  });
 
   const { mutateAsync } = useCreatePersonalChatRoomMutation();
 
   const enterChatRoom = async (roomId: ChatRoom['id']) => {
+    const { data: chatRoomList } = await fetchAllChatRoomList();
+    if (chatRoomList?.some((chatRoom) => chatRoom.id === roomId)) {
+      moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
+      return;
+    }
+
     const sock = new SockJS(stompConfig.webSocketEndpoint);
     const stompClient = Stomp.over(sock);
+    stompClient.debug = () => null;
 
     connect({
       stompClient,
@@ -59,6 +75,10 @@ export const useChatOnButtonClick = ({
 
             if (type === '입장' && senderId === myId) {
               sock.close();
+              moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
+            } else {
+              sock.close();
+              toast.error('새로고침 후 다시 시도해주세요.');
             }
           },
         });
@@ -75,6 +95,7 @@ export const useChatOnButtonClick = ({
 
   const handleClickChattingButton = async () => {
     if (!myId) {
+      toast.error('로그인이 필요한 서비스입니다');
       moveToPage(PATH_NAME.LOGIN);
       return;
     }
@@ -84,9 +105,7 @@ export const useChatOnButtonClick = ({
     if (data) {
       const { roomId } = data;
 
-      await enterChatRoom(roomId);
-
-      moveToPage(PATH_NAME.GET_CHAT_PATH(String(roomId)));
+      enterChatRoom(roomId);
     } else {
       if (error instanceof AxiosError) {
         if (error.response?.data.code === 'CHT-003') {

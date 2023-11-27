@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { ChatRoom } from '@type/models/ChatRoom.ts';
 
-import { CHAT_ROOM_TAB_TITLE } from '@consts/chatRoomTabTitle.ts';
+import { CHAT_ROOM_TAB_TITLE } from '@consts/chat';
 
 type UseChatRoomTabStore = {
   chatRoomTab: ChatRoom['type'];

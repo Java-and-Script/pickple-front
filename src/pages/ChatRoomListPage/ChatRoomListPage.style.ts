@@ -21,8 +21,6 @@ export const Main = styled.div`
   margin: 10px 0;
 `;
 
-export const TabBar = styled(Flex)``;
-
 export const TabBarButton = styled.button<{ isSelected: boolean }>`
   width: 50%;
   background-color: white;
@@ -65,8 +63,11 @@ export const InformText = styled(Text)`
   padding: 16px;
 `;
 
-export const ChatMessage = styled(Text)``;
-
 export const MessageContainer = styled(Flex)`
   flex-grow: 1;
+`;
+
+export const LastMessage = styled(Text)`
+  white-space: pre-wrap;
+  word-break: break-all;
 `;

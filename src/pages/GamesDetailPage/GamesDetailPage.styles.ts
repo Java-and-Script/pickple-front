@@ -75,3 +75,21 @@ export const ButtonWrapper = styled.div`
   bottom: 70px;
   left: 0;
 `;
+
+export const PositionItemBox = styled.div`
+  border: ${({ theme }) => `1px solid ${theme.PALETTE.GRAY_400}`};
+  box-sizing: border-box;
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  border-radius: 8px;
+  color: ${({ theme }) => theme.PALETTE.GRAY_900};
+  font-size: ${({ theme }) => theme.FONT_SIZE.XS};
+  overflow: hidden;
+  cursor: pointer;
+`;
+
+export const ModalItem = styled(Flex)`
+  padding: 16px;
+`;

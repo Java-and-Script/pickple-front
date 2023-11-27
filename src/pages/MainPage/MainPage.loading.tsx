@@ -12,7 +12,7 @@ export const MainPageLoading = () => {
     <MainPageContainer>
       <Header isLogo={true} />
       <MainPageSubContainer>
-        <Text children={'내 근처의 경기'} weight={700} size={'1.25rem'} />
+        <Text children={'내 근처 게스트 매치'} weight={700} size={'1.25rem'} />
         <SkeletonCardList count={3} gap={10} />
         <Button {...MAIN_PAGE_BUTTON_PROP} onClick={() => {}}>
           더보기
