@@ -11,7 +11,6 @@ import { PATH_NAME } from '@consts/pathName';
 import bellIcon from '@assets/bell.svg';
 import leftArrowIcon from '@assets/leftArrow.svg';
 import logoSvg from '@assets/logoSvg.svg';
-import searchIcon from '@assets/search.svg';
 
 import { Badge } from './Badge';
 import {
@@ -53,9 +52,9 @@ export const Header = ({
     navigate(-1);
   };
 
-  const handleSearchIconClick = () => {
-    navigate('/search');
-  };
+  // const handleSearchIconClick = () => {
+  //   navigate('/search');
+  // };
 
   const handleBellIconClick = () => {
     navigate('/notification');
@@ -94,9 +93,9 @@ export const Header = ({
           ) : loginInfo ? (
             <RightSideContainer className={isRightContainer ? '' : 'invisible'}>
               <RightSideIconWrapper>
-                <RightSideIcon onClick={() => handleSearchIconClick()}>
+                {/* <RightSideIcon onClick={() => handleSearchIconClick()}>
                   <img src={searchIcon} alt="" />
-                </RightSideIcon>
+                </RightSideIcon> */}
               </RightSideIconWrapper>
               <RightSideIconWrapper>
                 <BellIcon onClick={() => handleBellIconClick()}>
