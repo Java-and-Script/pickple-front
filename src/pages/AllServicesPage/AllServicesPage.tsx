@@ -87,7 +87,7 @@ export const AllServicesPage = () => {
         </FieldContainer>
         <FieldContainer>
           <Text size="1rem" weight={700}>
-            경기
+            게스트 매치
           </Text>
           <MenuItem
             icon={<Ball />}
