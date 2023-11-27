@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const MainPageContainer = styled.div`
-  width: 100vw;
+  width: 100%;
   margin-top: 0.6rem;
   ${({ theme }) => theme.STYLES.LAYOUT}
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
