@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { useNavigate } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
@@ -100,7 +102,11 @@ export const Header = ({
               <RightSideIconWrapper>
                 <BellIcon onClick={() => handleBellIconClick()}>
                   <img src={bellIcon} alt="" />
-                  <Badge />
+                  <ErrorBoundary fallback={<></>}>
+                    <Suspense fallback={null}>
+                      <Badge />
+                    </Suspense>
+                  </ErrorBoundary>
                 </BellIcon>
               </RightSideIconWrapper>
               <RightSideIconWrapper>
