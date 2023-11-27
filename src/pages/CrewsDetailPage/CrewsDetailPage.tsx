@@ -165,7 +165,7 @@ export const CrewsDetailPage = () => {
               width="100%"
               onClick={() => navigate(PATH_NAME.LOGIN)}
             >
-              로그인 후 참여 신청하기
+              로그인 후 가입 신청하기
             </Button>
           )}
         </ButtonWrapper>
