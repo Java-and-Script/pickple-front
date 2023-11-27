@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import { LoginRequireError } from '@routes/LoginRequireBoundary';
+
 import { CrewItem } from '@components/CrewItem';
 import { Header } from '@components/Header';
 import { Text } from '@components/shared/Text';
@@ -17,7 +19,7 @@ export const CrewsParticipatePage = () => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
   if (!loginInfo?.id) {
-    throw new Error('로그인이 필요한 서비스입니다.');
+    throw new LoginRequireError();
   }
 
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();

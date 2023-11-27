@@ -21,7 +21,7 @@ export const FieldContainer = styled.div`
   flex-direction: column;
 `;
 
-export const Item = styled.div`
+export const Item = styled.div<{ color?: string }>`
   background-color: white;
   width: 100%;
   display: flex;
@@ -39,7 +39,7 @@ export const Item = styled.div`
     width: 30px;
     height: 30px;
     path {
-      fill: ${({ theme }) => theme.PALETTE.GRAY_500};
+      fill: ${({ theme, color }) => color || theme.PALETTE.GRAY_500};
     }
   }
 `;
