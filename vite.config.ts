@@ -33,4 +33,7 @@ export default defineConfig({
       { find: '@mocks', replacement: '/src/mocks' },
     ],
   },
+  define: {
+    global: 'window',
+  },
 });
