@@ -31,6 +31,7 @@ import Ball from '@assets/ball.svg';
 import GameMember from '@assets/gameMember.svg';
 import Money from '@assets/money.svg';
 
+import { GameLocation } from './GameLocation';
 import {
   ButtonWrapper,
   GrayText,
@@ -251,6 +252,10 @@ export const GamesDetailPage = () => {
             ))}
           </Guests>
         </GuestsContainer>
+        <Text size={20} weight={700}>
+          지도로 보기
+        </Text>
+        <GameLocation match={match} />
         <ButtonWrapper>
           {loginInfo && !isStarted && canParticipate && (
             <ErrorBoundary
