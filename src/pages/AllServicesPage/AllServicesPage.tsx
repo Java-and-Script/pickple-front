@@ -73,7 +73,7 @@ export const AllServicesPage = () => {
           />
           <MenuItem
             icon={<Chat />}
-            pageName="메세지"
+            pageName="채팅"
             onClickMenuItem={() => moveToPage(PATH_NAME.CHAT)}
           />
           <MenuItem
