@@ -14,6 +14,7 @@ export type GetAlarmsRequest = {
 };
 
 export type GetAlarmsResponse = {
-  alarms: Alarm[];
+  alarmResponse: Alarm[];
   hasNext: boolean;
+  cursorId: number | null;
 };
