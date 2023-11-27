@@ -26,7 +26,7 @@ const queryClient = new QueryClient({
 
 function App() {
   useEventSource(
-    '/api/alarms/subscribe',
+    `${import.meta.env.VITE_BASE_URL}/alarms/subscribe`,
     () => {
       queryClient.resetQueries({ queryKey: ['alarms'] });
       queryClient
