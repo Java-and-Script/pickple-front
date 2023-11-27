@@ -47,6 +47,7 @@ export const DateText = styled(Text)`
 `;
 
 export const ChatMatchStatus = styled(MatchStatus)`
+  min-width: 40px;
   width: 40px;
   height: 40px;
 `;

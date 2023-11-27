@@ -21,6 +21,7 @@ export const MatchStatus = styled.div`
   flex-direction: column;
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
   padding: 10px;
+  min-width: 82px;
   width: 82px;
   height: 82px;
   border-radius: 8px;

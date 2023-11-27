@@ -1,6 +1,8 @@
 import { PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Text } from '@components/shared/Text';
+
 import { theme } from '@styles/theme';
 
 import { PATH_NAME } from '@consts/pathName';
@@ -12,14 +14,12 @@ import { Avatar } from '../Avatar';
 import { AvatarGroup } from '../AvatarGroup';
 import {
   MatchAddress,
-  MatchDate,
   MatchDescription,
   MatchDuration,
   MatchItemInnerWrapper,
   MatchItemWrapper,
   MatchPlayerInfo,
   MatchRecruitmentStatus,
-  MatchStartTime,
   MatchStatus,
 } from './MatchItem.styles';
 import { BottomButton } from './components/BottomButton';
@@ -34,7 +34,6 @@ type MatchItemProps = {
   membersProfileImageUrls: string[];
 } & PropsWithChildren;
 
-/** TODO: Text 컴포넌트로 대체해야함 */
 const MatchItem = ({
   children,
   matchId,
@@ -54,22 +53,24 @@ const MatchItem = ({
       >
         <MatchStatus>
           {isGameEnded(startTime, timeMinutes) ? (
-            <MatchStartTime>종료</MatchStartTime>
+            <Text size={20} weight={700} nowrap>
+              종료
+            </Text>
           ) : (
             <>
-              <MatchStartTime>
+              <Text size={20} weight={700} nowrap>
                 {`${startTime.toTimeString().slice(0, 5)}`}
-              </MatchStartTime>
+              </Text>
               <MatchDuration>{`${timeMinutes / 60}h`}</MatchDuration>
             </>
           )}
         </MatchStatus>
         <MatchDescription>
-          <MatchDate>
+          <Text size={20} nowrap>
             {`${startTime.toLocaleDateString()} ${
               WEEKDAY[startTime.getDay()]
             }요일`}
-          </MatchDate>
+          </Text>
           <MatchAddress>{mainAddress}</MatchAddress>
           <MatchPlayerInfo>
             <AvatarGroup
