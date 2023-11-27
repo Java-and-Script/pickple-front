@@ -10,6 +10,7 @@ export const CrewItemWrapper = styled(Flex)`
 `;
 
 export const CrewProfileImage = styled(Image)`
+  min-width: 82px;
   border-radius: 8px;
 `;
 
