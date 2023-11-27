@@ -90,6 +90,8 @@ export const useChattingPage = () => {
 
     setSock(newSock);
     setStompClient(client);
+
+    inputRef.current?.focus();
   }, []);
 
   useEffect(() => {
