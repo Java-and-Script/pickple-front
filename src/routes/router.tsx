@@ -40,7 +40,7 @@ import {
   ProfilePage,
   RedirectPage,
   RegisterPage,
-} from './lazyPage';
+} from './lazyPages';
 
 export const router = createBrowserRouter([
   {
