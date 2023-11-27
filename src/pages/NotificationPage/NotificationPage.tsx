@@ -7,12 +7,11 @@ import { Text } from '@components/shared/Text';
 import { useAlarmsDeleteMutation } from '@hooks/mutations/useAlarmsDeleteMutation';
 import { useCrewAlarmsPatchMutation } from '@hooks/mutations/useCrewAlarmsPatchMutation';
 import { useGameAlarmsPatchMutation } from '@hooks/mutations/useGameAlarmsPatchMutation';
+import { useAlarmsQuery } from '@hooks/queries/useAlarmsQuery';
 
 import { BUTTON_PROPS } from '@styles/button';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { Alarm } from '@type/models';
 
 import {
   ButtonWrapper,
@@ -22,35 +21,17 @@ import {
 import { CrewNotificationItem } from './components/CrewNotificationItem';
 import { GameNotificationItem } from './components/GameNotificationItem/GameNotificationItem';
 
-const ALARMS: Alarm[] = [
-  {
-    crewAlarmId: 1,
-    crewId: 1,
-    crewName: '민재크루',
-    isRead: false,
-    crewImageUrl: 'asd',
-    createdAt: '2023-10-19T17:46:14',
-    crewAlarmMessage: '크루 가입이 거절되었어요',
-  },
-  {
-    gameAlarmId: 1,
-    gameId: 1,
-    isRead: true,
-    createdAt: '2023-10-19T17:46:14',
-    mainAddress: '서울시 은평구 갈현동',
-    playDate: '2023-11-17',
-    playStartTime: '11:30:00',
-    playTimeMinutes: 60,
-    gameAlarmMessage: '게스트 참여가 수락되었어요',
-  },
-];
-
 export const NotificationPage = () => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const isLoggedIn = Boolean(loginInfo?.id);
   if (!isLoggedIn) {
     throw new LoginRequireError();
   }
+
+  const {
+    data: { pages },
+  } = useAlarmsQuery();
+  const alarms = pages.flatMap((page) => page.alarmResponse);
 
   const { mutate: deleteAlarmMutate } = useAlarmsDeleteMutation();
   const { mutate: readCrewAlarmMutate } = useCrewAlarmsPatchMutation();
@@ -72,11 +53,11 @@ export const NotificationPage = () => {
         </Button>
       </ButtonWrapper>
       <PageContent direction="column" gap={16}>
-        {ALARMS.map((alarm, index) => {
+        {alarms.map((alarm, index) => {
           if ('crewName' in alarm) {
             return (
               <CrewNotificationItem
-                key={index}
+                key={`alarm-key-${index}`}
                 alarm={alarm}
                 onClick={() => readCrewAlarmMutate(alarm.crewId)}
               />
@@ -84,7 +65,7 @@ export const NotificationPage = () => {
           }
           return (
             <GameNotificationItem
-              key={index}
+              key={`alarm-key-${index}`}
               alarm={alarm}
               onClick={() => readGameAlarmMutate(alarm.gameId)}
             />
