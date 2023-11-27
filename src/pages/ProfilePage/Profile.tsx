@@ -1,4 +1,5 @@
 import { ReactNode, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
@@ -53,6 +54,7 @@ type NumberedItemProps = {
   count: number;
   icon: ReactNode;
   color?: string;
+  onClick?: () => void;
 };
 
 export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
@@ -134,7 +136,12 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
               color="black"
             />
           </NumberedItemWrapper>
-          <NumberedItem text="팔로우" icon={<Social />} count={0} />
+          <NumberedItem
+            text="팔로우"
+            icon={<Social />}
+            count={0}
+            onClick={handleClickFollow}
+          />
         </Flex>
         {myId === memberId ? (
           <EventButton
@@ -144,7 +151,7 @@ export const Profile = ({ memberId }: { memberId: Member['id'] }) => {
           />
         ) : (
           <Flex justify="center" gap={10}>
-            <EventButton text="팔로우" onClick={() => console.log('팔로우')} />
+            <EventButton text="팔로우" onClick={handleClickFollow} />
             <EventButton text="대화하기" onClick={handleClickChattingButton} />
           </Flex>
         )}
@@ -228,9 +235,15 @@ const EventButton = ({ text, width, onClick }: EventButtonProps) => (
   </Button>
 );
 
-const NumberedItem = ({ text, count, icon, color }: NumberedItemProps) => {
+const NumberedItem = ({
+  text,
+  count,
+  icon,
+  color,
+  onClick,
+}: NumberedItemProps) => {
   return (
-    <PointerFlex direction="column" align="center" gap={4}>
+    <PointerFlex direction="column" align="center" gap={4} onClick={onClick}>
       <Text size={12} color={theme.PALETTE.GRAY_400}>
         {text}
       </Text>
@@ -240,4 +253,10 @@ const NumberedItem = ({ text, count, icon, color }: NumberedItemProps) => {
       </Text>
     </PointerFlex>
   );
+};
+
+const handleClickFollow = () => {
+  toast('차후에 업데이트될 기능입니다!', {
+    icon: '👏',
+  });
 };
