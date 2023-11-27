@@ -1,5 +1,3 @@
-export const POSITIONS = ['C', 'PF', 'SF', 'PG', 'SG', '없음'];
-
 export const POSITIONS_BUTTON = {
   C: 'C',
   PF: 'PF',
@@ -7,4 +5,4 @@ export const POSITIONS_BUTTON = {
   PG: 'PG',
   SG: 'SG',
   없음: '',
-};
+} as const;
