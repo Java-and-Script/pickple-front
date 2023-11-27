@@ -12,7 +12,7 @@ export type GetPersonalChatRoomExistedRequest = {
 };
 
 export type GetPersonalChatRoomExistedResponse = {
-  isRoomExisted: boolean;
+  roomId: number;
   isSenderActive: boolean;
 };
 

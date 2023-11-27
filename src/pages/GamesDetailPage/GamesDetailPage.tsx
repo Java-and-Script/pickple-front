@@ -1,9 +1,14 @@
-import { useNavigate, useParams } from 'react-router-dom';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+
+import { ErrorBoundary } from 'react-error-boundary';
+import toast from 'react-hot-toast';
+
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
+import { Modal } from '@components/Modal';
 import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
@@ -11,11 +16,14 @@ import { Text } from '@components/shared/Text';
 
 import { useGameParticipateCreateMutation } from '@hooks/mutations/useGameParticipateCreateMutation';
 import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
+import { usePositionsQuery } from '@hooks/queries/usePositionsQuery';
 import { useChatOnButtonClick } from '@hooks/useChatOnButtonClick';
 
 import { theme } from '@styles/theme';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
+
+import { Position, PositionInfo } from '@type/models/Position';
 
 import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
@@ -33,11 +41,16 @@ import {
   Guests,
   GuestsContainer,
   InfoItem,
+  ModalItem,
   PageContent,
   PageLayout,
+  PositionItemBox,
   TextContainer,
   UserDataWrapper,
 } from './GamesDetailPage.styles';
+import { ParticipateButton } from './ParticipateButton';
+
+Modal;
 
 export const GamesDetailPage = () => {
   const { id } = useParams();
@@ -48,7 +61,7 @@ export const GamesDetailPage = () => {
 
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+
   const { data: match } = useGameDetailQuery(gameId);
 
   const isMyMatch = match.host.id === loginInfo?.id;
@@ -63,16 +76,15 @@ export const GamesDetailPage = () => {
   const isEnded = isGameEnded(startDate, match.playTimeMinutes);
 
   const { mutate: participateMutate } = useGameParticipateCreateMutation();
-  const onParticipateSuccess = () => {
-    queryClient.invalidateQueries({
-      queryKey: ['game-detail', gameId],
-    });
-  };
 
+  const [isPositionModalOpen, setIsPositionModalOpen] = useState(false);
+  const { data: positions } = usePositionsQuery();
   const [year, month, day] = match.playDate.split('-');
   const [hour, min] = match.playStartTime.split(':');
   const date = new Date(Number(year), Number(month) - 1, Number(day));
   const weekday = WEEKDAY[date.getDay()];
+  const [clickedPositionInfo, setClickedPositionInfo] =
+    useState<PositionInfo | null>(null);
 
   const handleClickMemberProfile = (id: number | string) =>
     navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
@@ -83,6 +95,26 @@ export const GamesDetailPage = () => {
     navigate,
     myId: loginInfo?.id ?? null,
   });
+
+  const handleClickPosition = (myPosition: Position) => {
+    const positionInfo = positions.find(
+      (position) => position.acronym === myPosition
+    );
+
+    if (!positionInfo) {
+      return;
+    }
+    setClickedPositionInfo(positionInfo);
+    setIsPositionModalOpen(true);
+  };
+
+  const togglePositionModal = () => {
+    setIsPositionModalOpen((prev) => !prev);
+  };
+
+  const formatCost = (cost: number) => {
+    return String(cost).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+  };
 
   return (
     <PageLayout>
@@ -157,12 +189,37 @@ export const GamesDetailPage = () => {
               }h)`}
             </Text>
           </Flex>
+          <Flex>
+            <GrayText nowrap>선호 포지션</GrayText>
+          </Flex>
+          <Flex gap={10}>
+            {match.positions.map((position) => (
+              <PositionItemBox
+                key={position}
+                onClick={() => handleClickPosition(position)}
+              >
+                {position}
+              </PositionItemBox>
+            ))}
+          </Flex>
+          <Modal isOpen={isPositionModalOpen} close={togglePositionModal}>
+            {clickedPositionInfo && (
+              <Modal.Content>
+                <ModalItem direction="column" align="center" gap={8}>
+                  <Text size={24} weight={700}>
+                    {clickedPositionInfo.name}
+                  </Text>
+                  <Text>{clickedPositionInfo.description}</Text>
+                </ModalItem>
+              </Modal.Content>
+            )}
+          </Modal>
         </Flex>
         <Flex gap={10}>
           <InfoItem>
             <GrayText size={12}>참가비</GrayText>
             <Image width={40} src={Money} alt="money" />
-            <Text size={16}>{`${match.cost}원`}</Text>
+            <Text size={16}>{`${formatCost(match.cost)}원`}</Text>
           </InfoItem>
           <InfoItem>
             <GrayText size={12}>현재원</GrayText>
@@ -201,23 +258,28 @@ export const GamesDetailPage = () => {
             ))}
           </Guests>
         </GuestsContainer>
-        {loginInfo && !isStarted && canParticipate && (
-          <Button
-            {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
-            height="50px"
-            onClick={() =>
-              participateMutate(
-                {
-                  gameId,
-                },
-                { onSuccess: onParticipateSuccess }
-              )
-            }
-          >
-            참여 신청하기
-          </Button>
-        )}
         <ButtonWrapper>
+          {loginInfo && !isStarted && canParticipate && (
+            <ErrorBoundary
+              fallback={<></>}
+              onError={() => toast.error('경기 참여여부를 불러올 수 없습니다')}
+            >
+              <ParticipateButton
+                memberId={Number(loginInfo.id)}
+                gameId={match.id}
+                onClick={() =>
+                  participateMutate(
+                    { gameId },
+                    {
+                      onSuccess: () => {
+                        toast('참여 신청되었습니다');
+                      },
+                    }
+                  )
+                }
+              />
+            </ErrorBoundary>
+          )}
           {loginInfo && !isStarted && isMyMatch && (
             <Button
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
@@ -240,6 +302,16 @@ export const GamesDetailPage = () => {
               }
             >
               리뷰 남기기
+            </Button>
+          )}
+          {loginInfo === null && (
+            <Button
+              {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
+              height="50px"
+              width="100%"
+              onClick={() => navigate(PATH_NAME.LOGIN)}
+            >
+              로그인 후 참여 신청하기
             </Button>
           )}
         </ButtonWrapper>

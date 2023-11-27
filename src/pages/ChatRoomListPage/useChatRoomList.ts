@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { LoginRequireError } from '@routes/LoginRequireBoundary';
@@ -9,7 +10,7 @@ import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { ChatRoom } from '@type/models/ChatRoom.ts';
 
-export const useChatRoomListPage = () => {
+export const useChatRoomList = () => {
   const navigate = useNavigate();
 
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
@@ -17,9 +18,9 @@ export const useChatRoomListPage = () => {
     throw new LoginRequireError();
   }
 
-  const { chatRoomTab, setChatRoomTab } = useChatRoomTabStore();
+  const { chatRoomTab } = useChatRoomTabStore();
 
-  const { data: selectedTabChatRoomList, refetch: refetchChatList } =
+  const { data: selectedTabChatRoomList, refetch: refetchChatRoomList } =
     useAllChatRoomListQuery({
       type: chatRoomTab,
     });
@@ -28,17 +29,14 @@ export const useChatRoomListPage = () => {
     navigate(pathName);
   };
 
-  const handleClickTab = (tab: ChatRoom['type']) => {
-    setChatRoomTab(tab);
-
-    refetchChatList();
-  };
+  useEffect(() => {
+    refetchChatRoomList();
+  }, [refetchChatRoomList]);
 
   return {
     selectedTabChatRoomList: sortDate(selectedTabChatRoomList),
     chatRoomTab,
     moveToPage,
-    handleClickTab,
   };
 };
 
