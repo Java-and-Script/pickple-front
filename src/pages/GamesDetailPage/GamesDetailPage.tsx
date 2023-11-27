@@ -1,9 +1,6 @@
-
 import { useState } from 'react';
-
 import { ErrorBoundary } from 'react-error-boundary';
 import toast from 'react-hot-toast';
-
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
