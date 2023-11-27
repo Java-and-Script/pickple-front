@@ -6,6 +6,7 @@ import { CrewsDetailPageLoading } from '@pages/CrewsDetailPage';
 import { GamesDetailPageLoading } from '@pages/GamesDetailPage';
 import { Layout } from '@pages/Layout';
 import { MainPageLoading } from '@pages/MainPage';
+import { ProfilePageSkeleton } from '@pages/ProfilePage';
 import { CardListPageSkeleton } from '@pages/__components__/CardListPageSkeleton';
 import { ManagePageSkeleton } from '@pages/__components__/ManagePageSkeleton';
 
@@ -176,7 +177,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'profile/:id',
-        element: <ProfilePage />,
+        element: (
+          <Suspense fallback={<ProfilePageSkeleton />}>
+            <ProfilePage />
+          </Suspense>
+        ),
       },
       { path: 'profile/update', element: <h1>프로필 수정 페이지</h1> },
       {

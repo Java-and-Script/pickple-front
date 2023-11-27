@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Profile } from '@pages/ProfilePage/Profile';
+import { ProfileSkeleton } from '@pages/ProfilePage';
+import { Profile } from '@pages/ProfilePage';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
@@ -27,6 +28,7 @@ import {
   BackwardWrapper,
   Box,
   MemberListContainer,
+  ProfileWrapper,
   ReviewPageContainer,
   TextWrapper,
 } from './MannerScoreReviewPage.style';
@@ -222,9 +224,15 @@ export const MannerScoreReviewPage = () => {
       </Flex>
       <Modal isOpen={isOpen} close={() => setIsOpen(false)}>
         <Modal.Content>
-          <Profile
-            memberId={teammateList[currentSelectedMemberIndex].memberId}
-          />
+          <ProfileWrapper>
+            <Suspense fallback={<ProfileSkeleton />}>
+              {isOpen && (
+                <Profile
+                  memberId={teammateList[currentSelectedMemberIndex].memberId}
+                />
+              )}
+            </Suspense>
+          </ProfileWrapper>
         </Modal.Content>
       </Modal>
     </ReviewPageContainer>
