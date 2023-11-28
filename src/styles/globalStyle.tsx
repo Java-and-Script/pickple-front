@@ -4,6 +4,11 @@ const style = css`
   * {
     box-sizing: border-box;
   }
+  @media (min-width: 501px) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
 
   body {
     margin: 0;
