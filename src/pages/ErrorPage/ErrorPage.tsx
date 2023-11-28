@@ -56,10 +56,7 @@ export const ErrorPage = ({ resetErrorBoundary }: FallbackProps) => {
             height="auto"
             alt="pickle logo"
           />
-          <div>
-            <Text size={40}>예상치 못한 오류가</Text>
-            <Text size={40}>발생했습니다.</Text>
-          </div>
+          <Text size={40}>예상치 못한 오류가 발생했습니다.</Text>
           <ButtonContainer gap={16}>
             <Button {...buttonProps} onClick={reset}>
               페이지 다시 로드
