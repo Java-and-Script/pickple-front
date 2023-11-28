@@ -10,10 +10,16 @@ import { Position } from '@type/models/Position';
 export const usePositionToast = () => {
   const { data: positions } = usePositionsQuery();
 
-  const handleClickPosition = (myPosition: Position) => {
+  const getClickedPosition = (myPosition: Position) => {
     const positionInfo = positions.find(
       (position) => position.acronym === myPosition
     );
+
+    return positionInfo;
+  };
+
+  const handleClickPosition = (myPosition: Position) => {
+    const positionInfo = getClickedPosition(myPosition);
 
     if (!positionInfo) {
       return;
@@ -34,5 +40,5 @@ export const usePositionToast = () => {
     );
   };
 
-  return { handleClickPosition };
+  return { getClickedPosition, handleClickPosition };
 };

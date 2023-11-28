@@ -7,6 +7,7 @@ import { LogoImage } from '@pages/LoginPage/LoginPage.style';
 import { Header } from '@components/Header';
 import { SelectBox } from '@components/SelectBox';
 import { Button } from '@components/shared/Button';
+import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 import {
   ToggleButton,
@@ -15,10 +16,11 @@ import {
 
 import { useRegistrationMutation } from '@hooks/mutations/useRegistrationMutation';
 import { useLocationsQuery } from '@hooks/queries/useLocationsQuery';
+import { usePositionToast } from '@hooks/usePositionToast';
 
 import { theme } from '@styles/theme';
 
-import { Position } from '@type/models/Position';
+import { Position, PositionInfo } from '@type/models/Position';
 
 import { PATH_NAME } from '@consts/pathName';
 import { POSITIONS_BUTTON } from '@consts/positions';
@@ -63,6 +65,8 @@ export const RegisterPage = () => {
     isMultipleSelect: true,
   });
 
+  const { getClickedPosition } = usePositionToast();
+
   const { mutate } = useRegistrationMutation();
   const { data: resLocations } = useLocationsQuery();
   const locations = resLocations.addressDepth2List;
@@ -88,6 +92,13 @@ export const RegisterPage = () => {
 
     navigate(PATH_NAME.MAIN);
   };
+
+  const positionInfo =
+    selectedPosition &&
+    getClickedPosition(
+      selectedPosition[selectedPosition.length - 1] as PositionInfo['acronym']
+    );
+
   return (
     <RegisterContainer>
       <Header isLogo={false} title="정보 입력" isRightContainer={false} />
@@ -126,6 +137,15 @@ export const RegisterPage = () => {
               />
             ))}
           </PositionButtonGroup>
+          {positionInfo && (
+            <Flex>
+              <Text>{positionInfo.name}</Text>
+              <Text weight={300}>
+                {' : '}
+                {positionInfo.description}
+              </Text>
+            </Flex>
+          )}
         </FieldContainer>
         <FieldContainer>
           <Button
