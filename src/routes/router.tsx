@@ -2,45 +2,45 @@ import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { createBrowserRouter } from 'react-router-dom';
 
+import { AllServicesPage } from '@pages/AllServicesPage';
+import { AuthErrorPage } from '@pages/AuthErrorPage';
+import { CreatePage } from '@pages/CreatePage';
 import { CrewsDetailPageLoading } from '@pages/CrewsDetailPage';
+import { ErrorPage } from '@pages/ErrorPage';
 import { GamesDetailPageLoading } from '@pages/GamesDetailPage';
 import { Layout } from '@pages/Layout';
+import { LoginPage } from '@pages/LoginPage';
 import { MainPageLoading } from '@pages/MainPage';
+import { NotFoundPage } from '@pages/NotFoundPage';
 import { ProfilePageSkeleton } from '@pages/ProfilePage';
+import { RedirectPage } from '@pages/RedirectPage';
+import { RegisterPage } from '@pages/RegisterPage';
 import { CardListPageSkeleton } from '@pages/__components__/CardListPageSkeleton';
 import { ManagePageSkeleton } from '@pages/__components__/ManagePageSkeleton';
 
 import { LoginRequireBoundary } from './LoginRequireBoundary';
 import { ScrollTop } from './ScrollTop';
 import {
-  AllServicesPage,
-  AuthErrorPage,
   ChatRoomListPage,
   ChattingPage,
   CreateCrewPage,
   CreateGamePage,
-  CreatePage,
   CrewsChiefPage,
   CrewsDetailPage,
   CrewsManageParticipatePage,
   CrewsParticipatePage,
   CrewsRankingPage,
   CrewsRecommendPage,
-  ErrorPage,
   GamesDetailPage,
   GamesHostPage,
   GamesManageParticipatePage,
   GamesNearPage,
   GamesParticipatePage,
-  LoginPage,
   MainPage,
   MannerScoreReviewPage,
   MapPage,
-  NotFoundPage,
   NotificationPage,
   ProfilePage,
-  RedirectPage,
-  RegisterPage,
 } from './lazyPages';
 
 export const router = createBrowserRouter([
@@ -115,6 +115,7 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      /** TODO 스켈레톤 만들어야 함 */
       {
         path: 'games/:id/review',
         element: <MannerScoreReviewPage />,
@@ -167,10 +168,12 @@ export const router = createBrowserRouter([
         path: 'create',
         element: <CreatePage />,
       },
+      /** TODO 스켈레톤 만들어야 함 */
       {
         path: 'create/game',
         element: <CreateGamePage />,
       },
+      /** TODO 스켈레톤 만들어야 함 */
       {
         path: 'create/crew',
         element: <CreateCrewPage />,
@@ -188,10 +191,12 @@ export const router = createBrowserRouter([
         path: 'map',
         element: <MapPage />,
       },
+      /** TODO 스켈레톤 만들어야 함 */
       {
         path: 'chat',
         element: <ChatRoomListPage />,
       },
+      /** TODO 스켈레톤 만들어야 함 */
       {
         path: 'chat/:id',
         element: <ChattingPage />,
