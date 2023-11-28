@@ -5,6 +5,7 @@ import { Text } from '@components/shared/Text';
 
 export const TextContainer = styled.div`
   display: flex;
+  align-items: center;
   gap: 5px;
 `;
 
