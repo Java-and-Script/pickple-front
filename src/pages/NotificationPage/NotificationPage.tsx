@@ -59,7 +59,7 @@ export const NotificationPage = () => {
               <CrewNotificationItem
                 key={`alarm-key-${index}`}
                 alarm={alarm}
-                onClick={() => readCrewAlarmMutate(alarm.crewId)}
+                onClick={() => readCrewAlarmMutate(alarm.crewAlarmId)}
               />
             );
           }
@@ -67,7 +67,7 @@ export const NotificationPage = () => {
             <GameNotificationItem
               key={`alarm-key-${index}`}
               alarm={alarm}
-              onClick={() => readGameAlarmMutate(alarm.gameId)}
+              onClick={() => readGameAlarmMutate(alarm.gameAlarmId)}
             />
           );
         })}
