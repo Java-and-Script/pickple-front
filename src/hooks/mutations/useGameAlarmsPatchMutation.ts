@@ -25,10 +25,10 @@ export const useGameAlarmsPatchMutation = () => {
         const { pages, pageParams } = previousAlarms;
         const newPages: GetAlarmsResponse[] = pages.map((page) => {
           const alarm = page.alarmResponse.find((alarm) => {
-            if (!('gameId' in alarm)) {
+            if (!('gameAlarmId' in alarm)) {
               return false;
             }
-            return alarm.gameId === alarmId;
+            return alarm.gameAlarmId === alarmId;
           });
           if (!alarm) {
             return page;
@@ -36,11 +36,11 @@ export const useGameAlarmsPatchMutation = () => {
           return {
             ...page,
             alarmResponse: page.alarmResponse.map((alarm) => {
-              if (!('gameId' in alarm)) {
+              if (!('gameAlarmId' in alarm)) {
                 return alarm;
               }
-              if (alarm.gameId === alarmId) {
-                return { ...alarm, status: 'read' };
+              if (alarm.gameAlarmId === alarmId) {
+                return { ...alarm, isRead: true };
               }
               return alarm;
             }),

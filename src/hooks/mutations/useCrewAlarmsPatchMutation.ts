@@ -25,10 +25,10 @@ export const useCrewAlarmsPatchMutation = () => {
         const { pages, pageParams } = previousAlarms;
         const newPages: GetAlarmsResponse[] = pages.map((page) => {
           const alarm = page.alarmResponse.find((alarm) => {
-            if (!('crewId' in alarm)) {
+            if (!('crewAlarmId' in alarm)) {
               return false;
             }
-            return alarm.crewId === alarmId;
+            return alarm.crewAlarmId === alarmId;
           });
           if (!alarm) {
             return page;
@@ -36,11 +36,11 @@ export const useCrewAlarmsPatchMutation = () => {
           return {
             ...page,
             alarmResponse: page.alarmResponse.map((alarm) => {
-              if (!('crewId' in alarm)) {
+              if (!('crewAlarmId' in alarm)) {
                 return alarm;
               }
-              if (alarm.crewId === alarmId) {
-                return { ...alarm, status: 'read' };
+              if (alarm.crewAlarmId === alarmId) {
+                return { ...alarm, isRead: true };
               }
               return alarm;
             }),
