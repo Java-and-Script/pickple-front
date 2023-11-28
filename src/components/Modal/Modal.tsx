@@ -57,7 +57,7 @@ const Modal = ({ children, isOpen, header = false, close }: ModalProps) => {
         },
       }}
     >
-      {header !== false && (
+      {isOpen && header !== false && (
         <ModalHeader header={header === true ? 20 : header}>
           {/* TODO: svg fill 바꿔주기 */}
           <img
@@ -69,7 +69,7 @@ const Modal = ({ children, isOpen, header = false, close }: ModalProps) => {
           />
         </ModalHeader>
       )}
-      {children}
+      {isOpen && children}
     </BottomSheet>
   );
 };
