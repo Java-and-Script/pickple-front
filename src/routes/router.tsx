@@ -4,6 +4,8 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { AllServicesPage } from '@pages/AllServicesPage';
 import { AuthErrorPage } from '@pages/AuthErrorPage';
+import { CreateCrewPageSkeleton } from '@pages/CreateCrewPage';
+import { CreateGamePageSkeleton } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
 import { CrewsDetailPageLoading } from '@pages/CrewsDetailPage';
 import { ErrorPage } from '@pages/ErrorPage';
@@ -173,15 +175,21 @@ export const router = createBrowserRouter([
         path: 'create',
         element: <CreatePage />,
       },
-      /** TODO 스켈레톤 만들어야 함 */
       {
         path: 'create/game',
-        element: <CreateGamePage />,
+        element: (
+          <Suspense fallback={<CreateGamePageSkeleton />}>
+            <CreateGamePage />
+          </Suspense>
+        ),
       },
-      /** TODO 스켈레톤 만들어야 함 */
       {
         path: 'create/crew',
-        element: <CreateCrewPage />,
+        element: (
+          <Suspense fallback={<CreateCrewPageSkeleton />}>
+            <CreateCrewPage />
+          </Suspense>
+        ),
       },
       {
         path: 'profile/:id',
