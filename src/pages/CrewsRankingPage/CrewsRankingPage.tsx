@@ -79,7 +79,9 @@ export const CrewsRankingPage = () => {
               name={selectedCrewRank.name}
               ranking={selectedCrewRank.rank}
               infoText="랭킹은 활동점수와 매너지수를 기반으로 선정됩니다"
-              activityScore={selectedCrewRank.crewActivityScore}
+              activityScore={
+                selectedCrewRank.totalScore - selectedCrewRank.mannerScore
+              }
               mannerScore={selectedCrewRank.mannerScore}
               totalScore={selectedCrewRank.totalScore}
               addressDepth1={selectedCrewRank.addressDepth1}

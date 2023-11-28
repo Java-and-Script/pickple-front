@@ -2,7 +2,6 @@ import { CrewProfile } from '.';
 
 export type CrewRank = {
   rank: number;
-  crewActivityScore: number;
   mannerScore: number;
   totalScore: number;
 } & Pick<
