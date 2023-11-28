@@ -70,10 +70,9 @@ export const CrewsRankingPage = () => {
           />
         ))}
       </PageContent>
-
-      <Modal header={40} isOpen={isOpen} close={() => setIsOpen(false)}>
-        <Modal.Content>
-          {selectedCrewRank && (
+      {selectedCrewRank && (
+        <Modal header={40} isOpen={isOpen} close={() => setIsOpen(false)}>
+          <Modal.Content>
             <RankingModalContent
               profileImageUrl={selectedCrewRank.profileImageUrl}
               name={selectedCrewRank.name}
@@ -90,9 +89,9 @@ export const CrewsRankingPage = () => {
               maxMemberCount={selectedCrewRank.maxMemberCount}
               onDetailButtonClick={handleDetailButtonClick}
             />
-          )}
-        </Modal.Content>
-      </Modal>
+          </Modal.Content>
+        </Modal>
+      )}
     </PageWrapper>
   );
 };
