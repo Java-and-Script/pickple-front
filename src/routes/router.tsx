@@ -8,6 +8,7 @@ import { Layout } from '@pages/Layout';
 import { MainPageLoading } from '@pages/MainPage';
 import { ProfilePageSkeleton } from '@pages/ProfilePage';
 import { CardListPageSkeleton } from '@pages/__components__/CardListPageSkeleton';
+import { ItemListPageSkeleton } from '@pages/__components__/ItemListPageSkeleton';
 import { ManagePageSkeleton } from '@pages/__components__/ManagePageSkeleton';
 
 import { LoginRequireBoundary } from './LoginRequireBoundary';
@@ -145,7 +146,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'crews/ranking',
-        element: <CrewsRankingPage />,
+        element: (
+          <Suspense fallback={<ItemListPageSkeleton name="크루 랭킹" />}>
+            <CrewsRankingPage />
+          </Suspense>
+        ),
       },
       {
         path: 'crews/:id',
@@ -198,7 +203,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'notification',
-        element: <NotificationPage />,
+        element: (
+          <Suspense fallback={<ItemListPageSkeleton name="알림" />}>
+            <NotificationPage />
+          </Suspense>
+        ),
       },
       {
         path: 'auth/kakao/callback',
