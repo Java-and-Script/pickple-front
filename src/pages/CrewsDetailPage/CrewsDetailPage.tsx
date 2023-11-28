@@ -32,6 +32,7 @@ import {
   PageContent,
   PageWrapper,
   ProfileImage,
+  ToolTipWrapper,
 } from './CrewsDetailPage.styles';
 import { ParticipateButton } from './ParticipateButton';
 
@@ -50,15 +51,10 @@ export const CrewsDetailPage = () => {
     navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
 
   const vacancy = crew.maxMemberCount - crew.memberCount > 0;
-  const renderManageButton =
-    loginInfo !== null &&
-    loginInfo.id !== null &&
-    crew.leader.id === loginInfo.id;
-  const renderParticipateButton =
-    loginInfo !== null &&
-    loginInfo.id !== null &&
-    crew.leader.id !== loginInfo.id &&
-    crew.members.every((member) => member.id !== loginInfo.id);
+  const isMyCrew = crew.leader.id === loginInfo?.id;
+  const isParticipant = crew.members.some(
+    (member) => member.id === loginInfo?.id
+  );
 
   return (
     <PageWrapper>
@@ -77,6 +73,21 @@ export const CrewsDetailPage = () => {
             width={80}
           />
           <Text>{crew.name}</Text>
+          {isMyCrew && (
+            <ToolTipWrapper>
+              <Text>내가 만든 크루</Text>
+            </ToolTipWrapper>
+          )}
+          {!isMyCrew && isParticipant && (
+            <ToolTipWrapper>
+              <Text>내가 속한 크루</Text>
+            </ToolTipWrapper>
+          )}
+          {!isMyCrew && !isParticipant && (
+            <ToolTipWrapper>
+              <Text>모집중</Text>
+            </ToolTipWrapper>
+          )}
         </CrewProfileInfo>
         <Text size={20} weight={700}>
           크루 소개
@@ -125,7 +136,7 @@ export const CrewsDetailPage = () => {
           </InfoItem>
         </Flex>
         <ButtonWrapper>
-          {renderManageButton && (
+          {isMyCrew && (
             <Button
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
               height="50px"
@@ -137,10 +148,10 @@ export const CrewsDetailPage = () => {
               크루 관리
             </Button>
           )}
-          {renderParticipateButton && (
+          {loginInfo && !isMyCrew && (
             <ErrorBoundary fallback={<></>}>
               <ParticipateButton
-                loginId={Number(loginInfo.id)}
+                loginId={loginInfo.id!}
                 crewId={crew.id}
                 vacancy={vacancy}
               />
