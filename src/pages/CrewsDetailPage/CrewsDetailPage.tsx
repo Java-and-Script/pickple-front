@@ -35,6 +35,7 @@ import {
 } from './CrewsDetailPage.styles';
 import { ParticipateButton } from './ParticipateButton';
 
+/** TODO 좌측 상단에 모집중, 내가 속한 크루, 내가 만든 크루 툴팁 보여주기 */
 export const CrewsDetailPage = () => {
   const { id } = useParams();
   if (id === undefined || isNaN(Number(id))) {
