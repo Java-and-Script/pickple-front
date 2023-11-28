@@ -28,7 +28,6 @@ export const CrewNotificationItem = ({
       title={alarm.crewName}
       createdAt={new Date(alarm.createdAt)}
       content={alarm.crewAlarmMessage}
-      // content={<CrewNotificationContent alarmType={alarm.alarmType} />}
       read={alarm.isRead}
       onClick={() => {
         onClick();
