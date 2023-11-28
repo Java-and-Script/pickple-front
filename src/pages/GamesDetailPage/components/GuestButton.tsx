@@ -1,8 +1,12 @@
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
+import { Button } from '@components/shared/Button';
+
 import { useGameParticipateCreateMutation } from '@hooks/mutations/useGameParticipateCreateMutation';
 import { useGameRegistrationStatusQuery } from '@hooks/queries/useGameRegistrationStatusQuery';
+
+import { theme } from '@styles/theme';
 
 import { PATH_NAME } from '@consts/pathName';
 
@@ -31,10 +35,6 @@ export const GuestButton = ({
   } = useGameRegistrationStatusQuery({ memberId: loginId, gameId });
   const { mutate: participateMutate } = useGameParticipateCreateMutation();
 
-  if (isContinue) {
-    return null;
-  }
-
   const navigateReviewPage = () =>
     navigate(PATH_NAME.GET_GAMES_REVIEW_PATH(String(gameId)));
 
@@ -48,6 +48,10 @@ export const GuestButton = ({
       }
     );
 
+  if (isContinue) {
+    return null;
+  }
+
   if (isEnded) {
     if (memberRegistrationStatus === '확정') {
       return (
@@ -57,7 +61,19 @@ export const GuestButton = ({
     return null;
   }
 
-  if (vacancy && memberRegistrationStatus === '없음') {
+  if (memberRegistrationStatus === '없음' && !vacancy) {
+    return (
+      <Button
+        {...theme.BUTTON_PROPS.LARGE_GRAY_OUTLINED_BUTTON_PROPS}
+        height="50px"
+        width="100%"
+      >
+        신청 마감
+      </Button>
+    );
+  }
+
+  if (memberRegistrationStatus === '없음') {
     return (
       <BottomButton onClick={handleParticipateButtonClick}>
         참여 신청하기
@@ -65,7 +81,7 @@ export const GuestButton = ({
     );
   }
 
-  if (vacancy && memberRegistrationStatus === '대기') {
+  if (memberRegistrationStatus === '대기') {
     return (
       <BottomButton onClick={() => toast('준비중인 기능입니다')}>
         참여 취소하기
