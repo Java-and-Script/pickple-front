@@ -1,10 +1,9 @@
-import { Avatar } from '@components/Avatar';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 
 import { theme } from '@styles/theme';
 
-import { RankText, RankingItemWrapper } from './RankingItem.styles';
+import { CrewAvatar, RankText, RankingItemWrapper } from './RankingItem.styles';
 import { getRankingItemBackgroundColor } from './getRankingItemBackgroundColor';
 
 type RankingItemProps = {
@@ -33,8 +32,8 @@ export const RankingItem = ({
         <RankText size={14} nowrap>
           {rank}
         </RankText>
-        <Avatar size={40} src={profilImageUrl} radius="5px" />
-        <Text size={16} weight={700} nowrap>
+        <CrewAvatar size={40} src={profilImageUrl} radius="5px" />
+        <Text size={16} weight={700} ellipsis={1}>
           {name}
         </Text>
       </Flex>
