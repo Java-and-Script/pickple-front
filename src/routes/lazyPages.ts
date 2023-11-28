@@ -1,11 +1,5 @@
 import { lazy } from 'react';
 
-export const AllServicesPage = lazy(async () => ({
-  default: (await import('@pages/AllServicesPage')).AllServicesPage,
-}));
-export const AuthErrorPage = lazy(async () => ({
-  default: (await import('@pages/AuthErrorPage')).AuthErrorPage,
-}));
 export const ChatRoomListPage = lazy(async () => ({
   default: (await import('@pages/ChatRoomListPage')).ChatRoomListPage,
 }));
@@ -17,9 +11,6 @@ export const CreateCrewPage = lazy(async () => ({
 }));
 export const CreateGamePage = lazy(async () => ({
   default: (await import('@pages/CreateGamePage')).CreateGamePage,
-}));
-export const CreatePage = lazy(async () => ({
-  default: (await import('@pages/CreatePage')).CreatePage,
 }));
 export const CrewsChiefPage = lazy(async () => ({
   default: (await import('@pages/CrewsChiefPage')).CrewsChiefPage,
@@ -40,9 +31,6 @@ export const CrewsRankingPage = lazy(async () => ({
 export const CrewsRecommendPage = lazy(async () => ({
   default: (await import('@pages/CrewsRecommendPage')).CrewsRecommendPage,
 }));
-export const ErrorPage = lazy(async () => ({
-  default: (await import('@pages/ErrorPage')).ErrorPage,
-}));
 export const GamesDetailPage = lazy(async () => ({
   default: (await import('@pages/GamesDetailPage')).GamesDetailPage,
 }));
@@ -55,9 +43,6 @@ export const GamesNearPage = lazy(async () => ({
 export const GamesParticipatePage = lazy(async () => ({
   default: (await import('@pages/GamesParticipatePage')).GamesParticipatePage,
 }));
-export const LoginPage = lazy(async () => ({
-  default: (await import('@pages/LoginPage')).LoginPage,
-}));
 export const MainPage = lazy(async () => ({
   default: (await import('@pages/MainPage')).MainPage,
 }));
@@ -66,9 +51,6 @@ export const MannerScoreReviewPage = lazy(async () => ({
 }));
 export const MapPage = lazy(async () => ({
   default: (await import('@pages/MapPage')).MapPage,
-}));
-export const NotFoundPage = lazy(async () => ({
-  default: (await import('@pages/NotFoundPage')).NotFoundPage,
 }));
 export const NotificationPage = lazy(async () => ({
   default: (await import('@pages/NotificationPage')).NotificationPage,
@@ -79,10 +61,4 @@ export const GamesManageParticipatePage = lazy(async () => ({
 }));
 export const ProfilePage = lazy(async () => ({
   default: (await import('@pages/ProfilePage')).ProfilePage,
-}));
-export const RedirectPage = lazy(async () => ({
-  default: (await import('@pages/RedirectPage')).RedirectPage,
-}));
-export const RegisterPage = lazy(async () => ({
-  default: (await import('@pages/RegisterPage')).RegisterPage,
 }));
