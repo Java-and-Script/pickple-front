@@ -1,8 +1,5 @@
 import { lazy } from 'react';
 
-export const ChatRoomListPage = lazy(async () => ({
-  default: (await import('@pages/ChatRoomListPage')).ChatRoomListPage,
-}));
 export const ChattingPage = lazy(async () => ({
   default: (await import('@pages/ChattingPage')).ChattingPage,
 }));

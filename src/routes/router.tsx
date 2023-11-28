@@ -4,6 +4,8 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { AllServicesPage } from '@pages/AllServicesPage';
 import { AuthErrorPage } from '@pages/AuthErrorPage';
+import { ChatRoomListPage } from '@pages/ChatRoomListPage';
+import { ChattingPageSkeleton } from '@pages/ChattingPage';
 import { CreateCrewPageSkeleton } from '@pages/CreateCrewPage';
 import { CreateGamePageSkeleton } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
@@ -24,7 +26,6 @@ import { ManagePageSkeleton } from '@pages/__components__/ManagePageSkeleton';
 import { LoginRequireBoundary } from './LoginRequireBoundary';
 import { ScrollTop } from './ScrollTop';
 import {
-  ChatRoomListPage,
   ChattingPage,
   CreateCrewPage,
   CreateGamePage,
@@ -204,15 +205,17 @@ export const router = createBrowserRouter([
         path: 'map',
         element: <MapPage />,
       },
-      /** TODO 스켈레톤 만들어야 함 */
       {
         path: 'chat',
         element: <ChatRoomListPage />,
       },
-      /** TODO 스켈레톤 만들어야 함 */
       {
         path: 'chat/:id',
-        element: <ChattingPage />,
+        element: (
+          <Suspense fallback={<ChattingPageSkeleton />}>
+            <ChattingPage />
+          </Suspense>
+        ),
       },
       {
         path: 'notification',
