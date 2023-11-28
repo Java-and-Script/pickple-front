@@ -1,5 +1,4 @@
 import { ErrorBoundary } from 'react-error-boundary';
-import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
@@ -9,7 +8,6 @@ import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 
-import { useCrewParticipateCreateMutation } from '@hooks/mutations/useCrewParticipateCreateMutation';
 import { useCrewDetailQuery } from '@hooks/queries/useCrewDetailQuery';
 
 import { theme } from '@styles/theme';
@@ -45,11 +43,12 @@ export const CrewsDetailPage = () => {
 
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const { data: crew } = useCrewDetailQuery({ crewId: Number(id) });
-  const { mutate: participateMutate } = useCrewParticipateCreateMutation();
+
   const navigate = useNavigate();
   const handleClickMemberProfile = (id: number | string) =>
     navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
 
+  const vacancy = crew.maxMemberCount - crew.memberCount > 0;
   const renderManageButton =
     loginInfo !== null &&
     loginInfo.id !== null &&
@@ -138,27 +137,15 @@ export const CrewsDetailPage = () => {
             </Button>
           )}
           {renderParticipateButton && (
-            <ErrorBoundary
-              fallback={<></>}
-              onError={() => toast.error('크루 가입여부를 불러올 수 없습니다')}
-            >
+            <ErrorBoundary fallback={<></>}>
               <ParticipateButton
-                memberId={Number(loginInfo.id)}
+                loginId={Number(loginInfo.id)}
                 crewId={crew.id}
-                onClick={() =>
-                  participateMutate(
-                    { crewId: crew.id },
-                    {
-                      onSuccess: () => {
-                        toast('가입 신청되었습니다');
-                      },
-                    }
-                  )
-                }
+                vacancy={vacancy}
               />
             </ErrorBoundary>
           )}
-          {loginInfo === null && (
+          {loginInfo === null && vacancy && (
             <Button
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
               height="50px"
@@ -166,6 +153,15 @@ export const CrewsDetailPage = () => {
               onClick={() => navigate(PATH_NAME.LOGIN)}
             >
               로그인 후 가입 신청하기
+            </Button>
+          )}
+          {loginInfo === null && !vacancy && (
+            <Button
+              {...theme.BUTTON_PROPS.LARGE_GRAY_OUTLINED_BUTTON_PROPS}
+              height="50px"
+              width="100%"
+            >
+              신청 마감
             </Button>
           )}
         </ButtonWrapper>
