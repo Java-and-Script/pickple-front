@@ -7,7 +7,7 @@ export type CrewAlarm = DefaultAlarm & {
   crewAlarmId: number;
   crewId: number;
   crewName: string;
-  crewImageUrl: string;
+  crewProfileImageUrl: string;
   crewAlarmMessage:
     | '가입 수락을 기다리고 있어요'
     | '크루 가입이 수락되었어요'
