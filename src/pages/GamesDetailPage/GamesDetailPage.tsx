@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,14 +12,12 @@ import { Text } from '@components/shared/Text';
 
 import { useGameParticipateCreateMutation } from '@hooks/mutations/useGameParticipateCreateMutation';
 import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
-import { usePositionsQuery } from '@hooks/queries/usePositionsQuery';
 import { useChatOnButtonClick } from '@hooks/useChatOnButtonClick';
+import { usePositionToast } from '@hooks/usePositionToast';
 
 import { theme } from '@styles/theme';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { Position, PositionInfo } from '@type/models/Position';
 
 import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
@@ -39,7 +36,6 @@ import {
   Guests,
   GuestsContainer,
   InfoItem,
-  ModalItem,
   PageContent,
   PageLayout,
   PositionItemBox,
@@ -75,14 +71,10 @@ export const GamesDetailPage = () => {
 
   const { mutate: participateMutate } = useGameParticipateCreateMutation();
 
-  const [isPositionModalOpen, setIsPositionModalOpen] = useState(false);
-  const { data: positions } = usePositionsQuery();
   const [year, month, day] = match.playDate.split('-');
   const [hour, min] = match.playStartTime.split(':');
   const date = new Date(Number(year), Number(month) - 1, Number(day));
   const weekday = WEEKDAY[date.getDay()];
-  const [clickedPositionInfo, setClickedPositionInfo] =
-    useState<PositionInfo | null>(null);
 
   const handleClickMemberProfile = (id: number | string) =>
     navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
@@ -94,21 +86,7 @@ export const GamesDetailPage = () => {
     myId: loginInfo?.id ?? null,
   });
 
-  const handleClickPosition = (myPosition: Position) => {
-    const positionInfo = positions.find(
-      (position) => position.acronym === myPosition
-    );
-
-    if (!positionInfo) {
-      return;
-    }
-    setClickedPositionInfo(positionInfo);
-    setIsPositionModalOpen(true);
-  };
-
-  const togglePositionModal = () => {
-    setIsPositionModalOpen((prev) => !prev);
-  };
+  const { handleClickPosition } = usePositionToast();
 
   return (
     <PageLayout>
@@ -196,18 +174,6 @@ export const GamesDetailPage = () => {
               </PositionItemBox>
             ))}
           </Flex>
-          <Modal isOpen={isPositionModalOpen} close={togglePositionModal}>
-            {clickedPositionInfo && (
-              <Modal.Content>
-                <ModalItem direction="column" align="center" gap={8}>
-                  <Text size={24} weight={700}>
-                    {clickedPositionInfo.name}
-                  </Text>
-                  <Text>{clickedPositionInfo.description}</Text>
-                </ModalItem>
-              </Modal.Content>
-            )}
-          </Modal>
         </Flex>
         <Flex gap={10}>
           <InfoItem>
