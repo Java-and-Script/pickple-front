@@ -71,7 +71,7 @@ export const CrewsRankingPage = () => {
         ))}
       </PageContent>
 
-      <Modal header={20} isOpen={isOpen} close={() => setIsOpen(false)}>
+      <Modal header={40} isOpen={isOpen} close={() => setIsOpen(false)}>
         <Modal.Content>
           {selectedCrewRank && (
             <RankingModalContent
