@@ -11,3 +11,5 @@ export const PageWrapper = styled.div`
 export const PageContent = styled(Flex)`
   margin: 10px 0;
 `;
+
+export const SkeletonItemWrapper = styled.div``;

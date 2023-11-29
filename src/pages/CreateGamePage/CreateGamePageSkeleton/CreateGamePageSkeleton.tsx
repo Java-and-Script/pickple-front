@@ -3,7 +3,11 @@ import { Skeleton } from '@components/Skeleton';
 
 import { theme } from '@styles/theme';
 
-import { PageContent, PageWrapper } from './CreateGamePageSkeleton.styles';
+import {
+  PageContent,
+  PageWrapper,
+  SkeletonItemWrapper,
+} from './CreateGamePageSkeleton.styles';
 
 export const CreateGamePageSkeleton = () => {
   return (
@@ -25,15 +29,15 @@ export const CreateGamePageSkeleton = () => {
           />
           {Array(10)
             .fill(null)
-            .map(() => (
-              <>
+            .map((_, index) => (
+              <SkeletonItemWrapper key={index}>
                 <Skeleton.Item
                   width="200px"
                   defaultColor={theme.PALETTE.GRAY_200}
                   gradientColor={theme.PALETTE.GRAY_300}
                 />
                 <Skeleton.Item />
-              </>
+              </SkeletonItemWrapper>
             ))}
         </Skeleton>
       </PageContent>
