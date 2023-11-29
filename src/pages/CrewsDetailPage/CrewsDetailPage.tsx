@@ -1,5 +1,4 @@
 import { ErrorBoundary } from 'react-error-boundary';
-import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
@@ -9,7 +8,6 @@ import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 
-import { useCrewParticipateCreateMutation } from '@hooks/mutations/useCrewParticipateCreateMutation';
 import { useCrewDetailQuery } from '@hooks/queries/useCrewDetailQuery';
 
 import { theme } from '@styles/theme';
@@ -34,9 +32,11 @@ import {
   PageContent,
   PageWrapper,
   ProfileImage,
+  ToolTipWrapper,
 } from './CrewsDetailPage.styles';
 import { ParticipateButton } from './ParticipateButton';
 
+/** TODO 좌측 상단에 모집중, 내가 속한 크루, 내가 만든 크루 툴팁 보여주기 */
 export const CrewsDetailPage = () => {
   const { id } = useParams();
   if (id === undefined || isNaN(Number(id))) {
@@ -45,20 +45,16 @@ export const CrewsDetailPage = () => {
 
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const { data: crew } = useCrewDetailQuery({ crewId: Number(id) });
-  const { mutate: participateMutate } = useCrewParticipateCreateMutation();
+
   const navigate = useNavigate();
   const handleClickMemberProfile = (id: number | string) =>
     navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
 
-  const renderManageButton =
-    loginInfo !== null &&
-    loginInfo.id !== null &&
-    crew.leader.id === loginInfo.id;
-  const renderParticipateButton =
-    loginInfo !== null &&
-    loginInfo.id !== null &&
-    crew.leader.id !== loginInfo.id &&
-    crew.members.every((member) => member.id !== loginInfo.id);
+  const vacancy = crew.maxMemberCount - crew.memberCount > 0;
+  const isMyCrew = crew.leader.id === loginInfo?.id;
+  const isParticipant = crew.members.some(
+    (member) => member.id === loginInfo?.id
+  );
 
   return (
     <PageWrapper>
@@ -77,6 +73,21 @@ export const CrewsDetailPage = () => {
             width={80}
           />
           <Text>{crew.name}</Text>
+          {isMyCrew && (
+            <ToolTipWrapper>
+              <Text>내가 만든 크루</Text>
+            </ToolTipWrapper>
+          )}
+          {!isMyCrew && isParticipant && (
+            <ToolTipWrapper>
+              <Text>내가 속한 크루</Text>
+            </ToolTipWrapper>
+          )}
+          {vacancy && !isMyCrew && !isParticipant && (
+            <ToolTipWrapper>
+              <Text>모집중</Text>
+            </ToolTipWrapper>
+          )}
         </CrewProfileInfo>
         <Text size={20} weight={700}>
           크루 소개
@@ -125,7 +136,7 @@ export const CrewsDetailPage = () => {
           </InfoItem>
         </Flex>
         <ButtonWrapper>
-          {renderManageButton && (
+          {isMyCrew && (
             <Button
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
               height="50px"
@@ -137,28 +148,16 @@ export const CrewsDetailPage = () => {
               크루 관리
             </Button>
           )}
-          {renderParticipateButton && (
-            <ErrorBoundary
-              fallback={<></>}
-              onError={() => toast.error('크루 가입여부를 불러올 수 없습니다')}
-            >
+          {loginInfo && !isMyCrew && (
+            <ErrorBoundary fallback={<></>}>
               <ParticipateButton
-                memberId={Number(loginInfo.id)}
+                loginId={loginInfo.id!}
                 crewId={crew.id}
-                onClick={() =>
-                  participateMutate(
-                    { crewId: crew.id },
-                    {
-                      onSuccess: () => {
-                        toast('가입 신청되었습니다');
-                      },
-                    }
-                  )
-                }
+                vacancy={vacancy}
               />
             </ErrorBoundary>
           )}
-          {loginInfo === null && (
+          {loginInfo === null && vacancy && (
             <Button
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
               height="50px"
@@ -166,6 +165,15 @@ export const CrewsDetailPage = () => {
               onClick={() => navigate(PATH_NAME.LOGIN)}
             >
               로그인 후 가입 신청하기
+            </Button>
+          )}
+          {loginInfo === null && !vacancy && (
+            <Button
+              {...theme.BUTTON_PROPS.LARGE_GRAY_OUTLINED_BUTTON_PROPS}
+              height="50px"
+              width="100%"
+            >
+              신청 마감
             </Button>
           )}
         </ButtonWrapper>

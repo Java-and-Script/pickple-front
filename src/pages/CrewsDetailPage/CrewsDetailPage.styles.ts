@@ -88,3 +88,15 @@ export const Crown = styled(CrownSvg)<{ isLeader: boolean }>`
   top: 0;
   right: 5px;
 `;
+
+export const ToolTipWrapper = styled.div`
+  background-color: white;
+  padding: 0 2px;
+  margin-top: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: ${({ theme }) => theme.PALETTE.RED_400};
+  border: 1px solid ${({ theme }) => theme.PALETTE.RED_400};
+  border-radius: 5px;
+`;
