@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { Toaster } from 'react-hot-toast';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { AllServicesPage } from '@pages/AllServicesPage';
@@ -56,6 +57,7 @@ export const router = createBrowserRouter([
           <LoginRequireBoundary>
             <ScrollTop />
             <Layout />
+            <Toaster />
           </LoginRequireBoundary>
         </ErrorBoundary>
       </ErrorBoundary>
