@@ -32,8 +32,8 @@ export const MAX_MEMBER_COUNT_LIST = [
 ] as const;
 
 export const CREATE_CREW_STRINGS = {
-  TITLE: '크루 만들기',
-  CREW_NAME: '크루 이름을 입력해 주세요!',
+  TITLE: '크루 만들기',
+  CREW_NAME: '크루 이름을 입력해 주세요!',
   CREW_MEMBER_COUNT: '크루의 최대 인원을 선택해 주세요!',
   CREW_LOCATION: '주로 활동하는 지역을 선택해 주세요!',
   DEFAULT_LOCATION: '지역',
