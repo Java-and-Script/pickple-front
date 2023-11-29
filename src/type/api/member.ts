@@ -61,5 +61,5 @@ export type GetGameRegistrationStatusRequest = {
 };
 
 export type GetRegistrationStatusResponse = {
-  registrationStatus: boolean;
+  memberRegistrationStatus: '없음' | '대기' | '확정';
 };

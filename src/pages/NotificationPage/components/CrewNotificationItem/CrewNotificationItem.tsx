@@ -24,11 +24,10 @@ export const CrewNotificationItem = ({
 
   return (
     <NotificationItem
-      box={<NotificationItem.Image src={alarm.crewImageUrl} />}
+      box={<NotificationItem.Image src={alarm.crewProfileImageUrl} />}
       title={alarm.crewName}
       createdAt={new Date(alarm.createdAt)}
       content={alarm.crewAlarmMessage}
-      // content={<CrewNotificationContent alarmType={alarm.alarmType} />}
       read={alarm.isRead}
       onClick={() => {
         onClick();

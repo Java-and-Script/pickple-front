@@ -1,4 +1,3 @@
-import { Avatar } from '@components/Avatar';
 import { InfoItem } from '@components/InfoItem';
 import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
@@ -11,7 +10,11 @@ import CrewMember from '@assets/gameMember.svg?react';
 import Map from '@assets/map.svg?react';
 import Tooltip from '@assets/tooltip.svg?react';
 
-import { ContentWrapper, InfoContainer } from './RankingModalContent.styles';
+import {
+  ContentWrapper,
+  CrewAvatar,
+  InfoContainer,
+} from './RankingModalContent.styles';
 
 type RankingModalContentProps = {
   profileImageUrl: string;
@@ -46,9 +49,9 @@ export const RankingModalContent = ({
     <ContentWrapper>
       <Flex direction="column" gap={16}>
         <Flex gap={10}>
-          <Avatar src={profileImageUrl} size={60} radius="5px" />
+          <CrewAvatar src={profileImageUrl} size={60} radius="5px" />
           <Flex direction="column" justify="space-around">
-            <Text size={24} weight={700} nowrap>
+            <Text size={24} weight={700} ellipsis={1}>
               {name}
             </Text>
             <Text size={12} weight={500} nowrap>

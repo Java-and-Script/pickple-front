@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 
+import { Avatar } from '@components/Avatar';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 
@@ -12,4 +13,8 @@ export const RankingItemWrapper = styled(Flex)<{ backgroundColor: string }>`
 export const RankText = styled(Text)`
   width: 1.3rem;
   text-align: end;
+`;
+
+export const CrewAvatar = styled(Avatar)`
+  min-width: 40px;
 `;

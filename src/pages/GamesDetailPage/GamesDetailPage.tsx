@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import styled from '@emotion/styled';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
@@ -10,14 +12,15 @@ import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
 
-import { useGameParticipateCreateMutation } from '@hooks/mutations/useGameParticipateCreateMutation';
 import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
+import { usePositionsQuery } from '@hooks/queries/usePositionsQuery';
 import { useChatOnButtonClick } from '@hooks/useChatOnButtonClick';
-import { usePositionToast } from '@hooks/usePositionToast';
 
 import { theme } from '@styles/theme';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
+
+import { Position, PositionInfo } from '@type/models/Position';
 
 import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
@@ -36,40 +39,42 @@ import {
   Guests,
   GuestsContainer,
   InfoItem,
+  ModalItem,
   PageContent,
   PageLayout,
   PositionItemBox,
   TextContainer,
   UserDataWrapper,
 } from './GamesDetailPage.styles';
-import { ParticipateButton } from './ParticipateButton';
-
-Modal;
+import { GuestButton } from './components/GuestButton';
+import { HostButton } from './components/HostButton';
 
 export const GamesDetailPage = () => {
   const { id } = useParams();
   if (id === undefined) {
     throw new Error('"match id" is undefined');
   }
+
+  const navigate = useNavigate();
+  const [isPositionModalOpen, setIsPositionModalOpen] = useState(false);
+  const [clickedPositionInfo, setClickedPositionInfo] =
+    useState<PositionInfo | null>(null);
+
   const gameId = Number(id);
 
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-  const navigate = useNavigate();
-
   const { data: match } = useGameDetailQuery(gameId);
+  const { data: positions } = usePositionsQuery();
 
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const isMyMatch = match.host.id === loginInfo?.id;
-  const isParticipant = match.members.find(
-    (member) => member.id === loginInfo?.id
-  );
-  const canParticipate = !isMyMatch && !isParticipant;
-  const canReview = isMyMatch || isParticipant;
-
   const startDate = getGameStartDate(match.playDate, match.playStartTime);
   const isStarted = isGameStarted(startDate);
   const isEnded = isGameEnded(startDate, match.playTimeMinutes);
-
-  const { mutate: participateMutate } = useGameParticipateCreateMutation();
+  const isContinue = isStarted && !isEnded;
+  const isParticipant = match.members.some(
+    (member) => member.id === loginInfo?.id
+  );
+  const vacancy = match.maxMemberCount - match.memberCount > 0;
 
   const [year, month, day] = match.playDate.split('-');
   const [hour, min] = match.playStartTime.split(':');
@@ -86,7 +91,21 @@ export const GamesDetailPage = () => {
     myId: loginInfo?.id ?? null,
   });
 
-  const { handleClickPosition } = usePositionToast();
+  const handleClickPosition = (myPosition: Position) => {
+    const positionInfo = positions.find(
+      (position) => position.acronym === myPosition
+    );
+
+    if (!positionInfo) {
+      return;
+    }
+    setClickedPositionInfo(positionInfo);
+    setIsPositionModalOpen(true);
+  };
+
+  const togglePositionModal = () => {
+    setIsPositionModalOpen((prev) => !prev);
+  };
 
   return (
     <PageLayout>
@@ -100,6 +119,26 @@ export const GamesDetailPage = () => {
             <Text size={24} weight={700} nowrap>
               {match.addressDepth2}
             </Text>
+            {isContinue && (
+              <ToolTipText nowrap size={16} color={theme.PALETTE.RED_400}>
+                경기중
+              </ToolTipText>
+            )}
+            {!isStarted && !isMyMatch && isParticipant && (
+              <ToolTipText nowrap size={16} color={theme.PALETTE.RED_400}>
+                참여중
+              </ToolTipText>
+            )}
+            {vacancy && !isStarted && !isMyMatch && !isParticipant && (
+              <ToolTipText nowrap size={16} color={theme.PALETTE.RED_400}>
+                모집중
+              </ToolTipText>
+            )}
+            {isEnded && (
+              <ToolTipText nowrap size={16} color={theme.PALETTE.RED_400}>
+                종료
+              </ToolTipText>
+            )}
           </TextContainer>
           <TextContainer>
             <Text size={20} weight={700}>
@@ -174,6 +213,18 @@ export const GamesDetailPage = () => {
               </PositionItemBox>
             ))}
           </Flex>
+          <Modal isOpen={isPositionModalOpen} close={togglePositionModal}>
+            {clickedPositionInfo && (
+              <Modal.Content>
+                <ModalItem direction="column" align="center" gap={8}>
+                  <Text size={24} weight={700}>
+                    {clickedPositionInfo.name}
+                  </Text>
+                  <Text>{clickedPositionInfo.description}</Text>
+                </ModalItem>
+              </Modal.Content>
+            )}
+          </Modal>
         </Flex>
         <Flex gap={10}>
           <InfoItem>
@@ -222,53 +273,9 @@ export const GamesDetailPage = () => {
           지도로 보기
         </Text>
         <GameLocation match={match} />
+
         <ButtonWrapper>
-          {loginInfo && !isStarted && canParticipate && (
-            <ErrorBoundary
-              fallback={<></>}
-              onError={() => toast.error('경기 참여여부를 불러올 수 없습니다')}
-            >
-              <ParticipateButton
-                memberId={Number(loginInfo.id)}
-                gameId={match.id}
-                onClick={() =>
-                  participateMutate(
-                    { gameId },
-                    {
-                      onSuccess: () => {
-                        toast('참여 신청되었습니다');
-                      },
-                    }
-                  )
-                }
-              />
-            </ErrorBoundary>
-          )}
-          {loginInfo && !isStarted && isMyMatch && (
-            <Button
-              {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
-              height="50px"
-              width="100%"
-              onClick={() =>
-                navigate(PATH_NAME.GET_GAMES_MANAGE_PATH(String(gameId)))
-              }
-            >
-              매치 관리
-            </Button>
-          )}
-          {loginInfo && isEnded && canReview && (
-            <Button
-              {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
-              height="50px"
-              width="100%"
-              onClick={() =>
-                navigate(PATH_NAME.GET_GAMES_REVIEW_PATH(String(gameId)))
-              }
-            >
-              리뷰 남기기
-            </Button>
-          )}
-          {loginInfo === null && (
+          {loginInfo === null && !isStarted && vacancy && (
             <Button
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
               height="50px"
@@ -278,8 +285,41 @@ export const GamesDetailPage = () => {
               로그인 후 참여 신청하기
             </Button>
           )}
+          {loginInfo === null && !isStarted && !vacancy && (
+            <Button
+              {...theme.BUTTON_PROPS.LARGE_GRAY_OUTLINED_BUTTON_PROPS}
+              height="50px"
+              width="100%"
+            >
+              신청 마감
+            </Button>
+          )}
+          <ErrorBoundary fallback={<></>}>
+            {loginInfo?.id && isMyMatch && (
+              <HostButton
+                gameId={gameId}
+                isStarted={isStarted}
+                isEnded={isEnded}
+              />
+            )}
+            {loginInfo?.id && !isMyMatch && (
+              <GuestButton
+                loginId={loginInfo.id}
+                gameId={gameId}
+                isStarted={isStarted}
+                isEnded={isEnded}
+                vacancy={vacancy}
+              />
+            )}
+          </ErrorBoundary>
         </ButtonWrapper>
       </PageContent>
     </PageLayout>
   );
 };
+
+const ToolTipText = styled(Text)`
+  padding: 0 2px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.PALETTE.RED_400};
+`;

@@ -8,6 +8,7 @@ import { useAlarmsDeleteMutation } from '@hooks/mutations/useAlarmsDeleteMutatio
 import { useCrewAlarmsPatchMutation } from '@hooks/mutations/useCrewAlarmsPatchMutation';
 import { useGameAlarmsPatchMutation } from '@hooks/mutations/useGameAlarmsPatchMutation';
 import { useAlarmsQuery } from '@hooks/queries/useAlarmsQuery';
+import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
 
 import { BUTTON_PROPS } from '@styles/button';
 
@@ -30,8 +31,14 @@ export const NotificationPage = () => {
 
   const {
     data: { pages },
+    fetchNextPage,
+    hasNextPage,
   } = useAlarmsQuery();
   const alarms = pages.flatMap((page) => page.alarmResponse);
+
+  const entryRef = useInfiniteScroll<HTMLDivElement>(() => {
+    hasNextPage && fetchNextPage();
+  });
 
   const { mutate: deleteAlarmMutate } = useAlarmsDeleteMutation();
   const { mutate: readCrewAlarmMutate } = useCrewAlarmsPatchMutation();
@@ -71,6 +78,7 @@ export const NotificationPage = () => {
             />
           );
         })}
+        <div ref={entryRef} />
       </PageContent>
     </PageWrapper>
   );

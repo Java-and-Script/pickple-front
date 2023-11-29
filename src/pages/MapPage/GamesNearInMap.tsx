@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 
+import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
+
+import { theme } from '@styles/theme';
 
 import { Game } from '@type/models';
 
@@ -32,7 +35,13 @@ export const GamesNearInMap = ({
         <Text size={20} weight={700}>
           내 근처 게스트 매치
         </Text>
-        {games &&
+        {games && games.length === 0 ? (
+          <Flex justify="center" gap={16}>
+            <Text size={theme.FONT_SIZE.XS} weight={300}>
+              근처에 게스트 매치가 없습니다.
+            </Text>
+          </Flex>
+        ) : (
           games.map((game) => {
             const membersProfileImageUrls = game.members.map(
               (member) => member.profileImageUrl
@@ -53,7 +62,8 @@ export const GamesNearInMap = ({
                 setPosition={setPosition}
               />
             );
-          })}
+          })
+        )}
       </PageContent>
     </PageLayout>
   );
