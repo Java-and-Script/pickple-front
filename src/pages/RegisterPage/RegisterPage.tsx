@@ -27,7 +27,6 @@ import { POSITIONS_BUTTON } from '@consts/positions';
 
 import LOGO_SRC from '@assets/logoSvg.svg';
 
-// 1번 라인
 import {
   FieldContainer,
   Main,
@@ -35,6 +34,8 @@ import {
   RegisterContainer,
   ScrollBox,
 } from './RegisterPage.style';
+
+type Acronym = PositionInfo['acronym'];
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ export const RegisterPage = () => {
   }
 
   const [selectedLocation, setSelectedLocation] = useState<string[]>();
-  const [selectedPosition, setSelectedPosition] = useState<string[]>();
+  const [selectedPosition, setSelectedPosition] = useState<Acronym[]>();
 
   const {
     handleToggle: handleToggleLocation,
@@ -60,9 +61,11 @@ export const RegisterPage = () => {
   const {
     handleToggle: handleTogglePosition,
     selectedItems: selectedPositions,
+    selectedItem: selectedPositionItem,
   } = useToggleButtons({
     onToggle: setSelectedPosition,
     isMultipleSelect: true,
+    noValue: POSITIONS_BUTTON['없음'],
   });
 
   const { getClickedPosition } = usePositionToast();
@@ -94,10 +97,7 @@ export const RegisterPage = () => {
   };
 
   const positionInfo =
-    selectedPosition &&
-    getClickedPosition(
-      selectedPosition[selectedPosition.length - 1] as PositionInfo['acronym']
-    );
+    selectedPositionItem && getClickedPosition(selectedPositionItem);
 
   return (
     <RegisterContainer>
@@ -127,13 +127,13 @@ export const RegisterPage = () => {
             주 포지션
           </Text>
           <PositionButtonGroup>
-            {Object.entries(POSITIONS_BUTTON).map(([position, value]) => (
+            {Object.values(POSITIONS_BUTTON).map((position) => (
               <ToggleButton
                 key={position}
-                value={value}
+                value={position}
                 label={position}
                 isActive={selectedPositions.includes(position)}
-                onToggle={handleTogglePosition}
+                onToggle={() => handleTogglePosition(position)}
               />
             ))}
           </PositionButtonGroup>
