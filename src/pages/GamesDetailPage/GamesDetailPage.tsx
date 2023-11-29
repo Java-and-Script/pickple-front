@@ -129,7 +129,7 @@ export const GamesDetailPage = () => {
                 참여중
               </ToolTipText>
             )}
-            {!isStarted && !isMyMatch && !isParticipant && (
+            {vacancy && !isStarted && !isMyMatch && !isParticipant && (
               <ToolTipText nowrap size={16} color={theme.PALETTE.RED_400}>
                 모집중
               </ToolTipText>

@@ -83,7 +83,7 @@ export const CrewsDetailPage = () => {
               <Text>내가 속한 크루</Text>
             </ToolTipWrapper>
           )}
-          {!isMyCrew && !isParticipant && (
+          {vacancy && !isMyCrew && !isParticipant && (
             <ToolTipWrapper>
               <Text>모집중</Text>
             </ToolTipWrapper>
