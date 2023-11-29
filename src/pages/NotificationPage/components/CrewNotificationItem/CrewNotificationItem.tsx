@@ -2,11 +2,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { NotificationItem } from '@components/NotificationItem';
 
+import { useCrewAlarmsPatchMutation } from '@hooks/mutations/useCrewAlarmsPatchMutation';
+
 import { CrewAlarm } from '@type/models';
 
 import { PATH_NAME } from '@consts/pathName';
 
-type CrewNotificationItemProps = { alarm: CrewAlarm; onClick: VoidFunction };
+type CrewNotificationItemProps = { alarm: CrewAlarm; onClick?: VoidFunction };
 
 const getRedirectMap = (
   crewId: string
@@ -21,6 +23,7 @@ export const CrewNotificationItem = ({
   onClick,
 }: CrewNotificationItemProps) => {
   const navigate = useNavigate();
+  const { mutate: readCrewAlarmMutate } = useCrewAlarmsPatchMutation();
 
   return (
     <NotificationItem
@@ -30,7 +33,8 @@ export const CrewNotificationItem = ({
       content={alarm.crewAlarmMessage}
       read={alarm.isRead}
       onClick={() => {
-        onClick();
+        onClick?.();
+        readCrewAlarmMutate(alarm.crewAlarmId);
         navigate(getRedirectMap(String(alarm.crewId))[alarm.crewAlarmMessage]);
       }}
     />
