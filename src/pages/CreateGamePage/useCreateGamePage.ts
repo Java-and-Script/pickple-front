@@ -61,7 +61,7 @@ export const useCreateGamePage = () => {
     };
 
     if (!validateStartTime()) {
-      toast.error('현재시간 이전의 경기는 생성할 수 없습니다.');
+      toast.error('현재시간 이전의 경기는\n생성할 수 없습니다.');
       throw new Error();
     }
 
