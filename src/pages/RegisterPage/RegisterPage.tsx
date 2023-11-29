@@ -7,6 +7,7 @@ import { LogoImage } from '@pages/LoginPage/LoginPage.style';
 import { Header } from '@components/Header';
 import { SelectBox } from '@components/SelectBox';
 import { Button } from '@components/shared/Button';
+import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 import {
   ToggleButton,
@@ -15,17 +16,17 @@ import {
 
 import { useRegistrationMutation } from '@hooks/mutations/useRegistrationMutation';
 import { useLocationsQuery } from '@hooks/queries/useLocationsQuery';
+import { usePositionToast } from '@hooks/usePositionToast';
 
 import { theme } from '@styles/theme';
 
-import { Position } from '@type/models/Position';
+import { Position, PositionInfo } from '@type/models/Position';
 
 import { PATH_NAME } from '@consts/pathName';
 import { POSITIONS_BUTTON } from '@consts/positions';
 
 import LOGO_SRC from '@assets/logoSvg.svg';
 
-// 1번 라인
 import {
   FieldContainer,
   Main,
@@ -33,6 +34,8 @@ import {
   RegisterContainer,
   ScrollBox,
 } from './RegisterPage.style';
+
+type Acronym = PositionInfo['acronym'];
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -45,7 +48,7 @@ export const RegisterPage = () => {
   }
 
   const [selectedLocation, setSelectedLocation] = useState<string[]>();
-  const [selectedPosition, setSelectedPosition] = useState<string[]>();
+  const [selectedPosition, setSelectedPosition] = useState<Acronym[]>();
 
   const {
     handleToggle: handleToggleLocation,
@@ -58,10 +61,14 @@ export const RegisterPage = () => {
   const {
     handleToggle: handleTogglePosition,
     selectedItems: selectedPositions,
+    selectedItem: selectedPositionItem,
   } = useToggleButtons({
     onToggle: setSelectedPosition,
     isMultipleSelect: true,
+    noValue: POSITIONS_BUTTON['없음'],
   });
+
+  const { getClickedPosition } = usePositionToast();
 
   const { mutate } = useRegistrationMutation();
   const { data: resLocations } = useLocationsQuery();
@@ -88,6 +95,10 @@ export const RegisterPage = () => {
 
     navigate(PATH_NAME.MAIN);
   };
+
+  const positionInfo =
+    selectedPositionItem && getClickedPosition(selectedPositionItem);
+
   return (
     <RegisterContainer>
       <Header isLogo={false} title="정보 입력" isRightContainer={false} />
@@ -116,16 +127,25 @@ export const RegisterPage = () => {
             주 포지션
           </Text>
           <PositionButtonGroup>
-            {Object.entries(POSITIONS_BUTTON).map(([position, value]) => (
+            {Object.values(POSITIONS_BUTTON).map((position) => (
               <ToggleButton
                 key={position}
-                value={value}
+                value={position}
                 label={position}
                 isActive={selectedPositions.includes(position)}
-                onToggle={handleTogglePosition}
+                onToggle={() => handleTogglePosition(position)}
               />
             ))}
           </PositionButtonGroup>
+          {positionInfo && (
+            <Flex>
+              <Text>{positionInfo.name}</Text>
+              <Text weight={300}>
+                {' : '}
+                {positionInfo.description}
+              </Text>
+            </Flex>
+          )}
         </FieldContainer>
         <FieldContainer>
           <Button
