@@ -4,11 +4,19 @@ import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
-export const useEventSource = (
-  subscribeUrl: string,
-  onmessage: EventSourcePolyfill['onmessage'],
-  onerror?: EventSourcePolyfill['onerror']
-) => {
+export const useEventSource = ({
+  subscribeUrl,
+  eventListenerParameters = [],
+  onmessage,
+  onerror,
+}: {
+  subscribeUrl: string;
+  eventListenerParameters?: Parameters<
+    EventSourcePolyfill['addEventListener']
+  >[];
+  onmessage?: EventSourcePolyfill['onmessage'];
+  onerror?: EventSourcePolyfill['onerror'];
+}) => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
   useEffect(() => {
@@ -24,11 +32,15 @@ export const useEventSource = (
       },
     });
 
-    eventSource.onmessage = onmessage;
+    eventListenerParameters.map((eventListenerParameter) => {
+      eventSource.addEventListener(...eventListenerParameter);
+    });
+
+    onmessage && (eventSource.onmessage = onmessage);
     onerror && (eventSource.onerror = onerror);
 
     return () => {
       eventSource.close();
     };
-  }, [loginInfo, onmessage, onerror, subscribeUrl]);
+  }, [loginInfo, onmessage, onerror, subscribeUrl, eventListenerParameters]);
 };
