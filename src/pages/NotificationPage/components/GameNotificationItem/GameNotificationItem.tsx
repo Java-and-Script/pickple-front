@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { NotificationItem } from '@/components/NotificationItem';
 
+import { useGameAlarmsPatchMutation } from '@hooks/mutations/useGameAlarmsPatchMutation';
+
 import { GameAlarm } from '@type/models';
 
 import { PATH_NAME } from '@consts/pathName';
@@ -10,7 +12,7 @@ import { getGameStartDate } from '@utils/domain';
 
 import { getGameNotificationTitle } from './getGameNotificationTitle';
 
-type GameNotificationItemProps = { alarm: GameAlarm; onClick: VoidFunction };
+type GameNotificationItemProps = { alarm: GameAlarm; onClick?: VoidFunction };
 
 const getRedirectMap = (
   gameId: string
@@ -26,6 +28,7 @@ export const GameNotificationItem = ({
   onClick,
 }: GameNotificationItemProps) => {
   const navigate = useNavigate();
+  const { mutate: readGameAlarmMutate } = useGameAlarmsPatchMutation();
 
   return (
     <NotificationItem
@@ -38,10 +41,10 @@ export const GameNotificationItem = ({
       title={getGameNotificationTitle(alarm.playDate, alarm.mainAddress)}
       createdAt={new Date(alarm.createdAt)}
       content={alarm.gameAlarmMessage}
-      // content={<GameNotificationContent alarmType={alarm.alarmType} />}
       read={alarm.isRead}
       onClick={() => {
-        onClick();
+        onClick?.();
+        readGameAlarmMutate(alarm.gameAlarmId);
         navigate(getRedirectMap(String(alarm.gameId))[alarm.gameAlarmMessage]);
       }}
     />

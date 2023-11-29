@@ -5,8 +5,6 @@ import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 
 import { useAlarmsDeleteMutation } from '@hooks/mutations/useAlarmsDeleteMutation';
-import { useCrewAlarmsPatchMutation } from '@hooks/mutations/useCrewAlarmsPatchMutation';
-import { useGameAlarmsPatchMutation } from '@hooks/mutations/useGameAlarmsPatchMutation';
 import { useAlarmsQuery } from '@hooks/queries/useAlarmsQuery';
 import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
 
@@ -41,8 +39,6 @@ export const NotificationPage = () => {
   });
 
   const { mutate: deleteAlarmMutate } = useAlarmsDeleteMutation();
-  const { mutate: readCrewAlarmMutate } = useCrewAlarmsPatchMutation();
-  const { mutate: readGameAlarmMutate } = useGameAlarmsPatchMutation();
 
   return (
     <PageWrapper>
@@ -63,19 +59,11 @@ export const NotificationPage = () => {
         {alarms.map((alarm, index) => {
           if ('crewName' in alarm) {
             return (
-              <CrewNotificationItem
-                key={`alarm-key-${index}`}
-                alarm={alarm}
-                onClick={() => readCrewAlarmMutate(alarm.crewAlarmId)}
-              />
+              <CrewNotificationItem key={`alarm-key-${index}`} alarm={alarm} />
             );
           }
           return (
-            <GameNotificationItem
-              key={`alarm-key-${index}`}
-              alarm={alarm}
-              onClick={() => readGameAlarmMutate(alarm.gameAlarmId)}
-            />
+            <GameNotificationItem key={`alarm-key-${index}`} alarm={alarm} />
           );
         })}
         <div ref={entryRef} />
