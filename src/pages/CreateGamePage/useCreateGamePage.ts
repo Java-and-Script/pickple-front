@@ -16,6 +16,8 @@ import { Position } from '@type/models/Position';
 
 import { PATH_NAME } from '@consts/pathName';
 
+import { formatDateToString } from '@utils/formatDateToString';
+
 export const useCreateGamePage = () => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   if (!loginInfo?.id) {
@@ -35,6 +37,7 @@ export const useCreateGamePage = () => {
   const [detailAddress, setDetailAddress] = useState<string>('');
   const [cost, setCost] = useState<string>('0');
   const [content, setContent] = useState<string>('');
+
   const [isGuestCountModalOpen, setIsGuestCountModalOpen] =
     useState<boolean>(false);
   const [isMatchDateModalOpen, setIsMatchDateModalOpen] =
@@ -57,6 +60,11 @@ export const useCreateGamePage = () => {
       content: content,
     };
 
+    if (!validateStartTime()) {
+      toast.error('현재시간 이전의 경기는 생성할 수 없습니다.');
+      throw new Error();
+    }
+
     mutate(gameData, {
       onSuccess: ({ gameId }) => {
         navigate(PATH_NAME.GET_GAMES_PATH(String(gameId)));
@@ -68,6 +76,35 @@ export const useCreateGamePage = () => {
         }
       },
     });
+  };
+  const validateStartTime = () => {
+    const [playYear, playMonth, playDay] = playDate.split('-').map(Number);
+    const [currentYear, currentMonth, currentDay] = formatDateToString(
+      new Date()
+    )
+      .split('-')
+      .map(Number);
+    const currentHours = new Date().getHours();
+    const currentMinutes = new Date().getMinutes();
+
+    if (
+      playYear > currentYear ||
+      (playYear >= currentYear && playMonth > currentMonth) ||
+      (playYear >= currentYear &&
+        playMonth > currentMonth &&
+        playDay > currentDay)
+    ) {
+      return true;
+    }
+    if (
+      Number(playStartTimeHours) <= currentHours ||
+      (Number(playStartTimeHours) <= currentHours &&
+        Number(playStartTimeMinutes) <= currentMinutes)
+    ) {
+      return false;
+    }
+
+    return true;
   };
 
   const handleAddressSelect = () => {
