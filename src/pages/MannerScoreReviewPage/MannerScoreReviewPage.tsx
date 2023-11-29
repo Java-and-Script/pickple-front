@@ -37,13 +37,13 @@ import { ToggleButton } from './ToggleButton';
 export const MannerScoreReviewPage = () => {
   const navigate = useNavigate();
   const gameId = Number(location.pathname.split('/')[2]);
-  const { data } = useGameDetailQuery(gameId);
+  const { data: gameData } = useGameDetailQuery(gameId);
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-  const teammateListInfo = data.members.filter(({ id }) => {
+  const teammateListInfo = gameData.members.filter(({ id }) => {
     return loginInfo?.id !== id;
   });
   const nowDate = new Date();
-  const gameDate = new Date(`${data.playDate}T${data.playEndTime}`);
+  const gameDate = new Date(`${gameData.playDate}T${gameData.playEndTime}`);
 
   const exitCode =
     nowDate <= gameDate || !loginInfo || teammateListInfo.length === 0;
@@ -57,7 +57,7 @@ export const MannerScoreReviewPage = () => {
       mannerScore: -1 | 0 | 1;
     }[]
   >(
-    data.members.map(({ id }) => {
+    teammateListInfo.map(({ id }) => {
       return {
         memberId: id,
         mannerScore: 0,
@@ -66,7 +66,9 @@ export const MannerScoreReviewPage = () => {
   );
 
   const { mutate } = useMannerScoreReviewPatchMutation({
-    payload: { mannerScoreReviews: teammateList },
+    payload: {
+      mannerScoreReviews: teammateList,
+    },
     gameId: gameId,
   });
 
