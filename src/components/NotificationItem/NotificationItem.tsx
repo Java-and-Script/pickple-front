@@ -1,6 +1,7 @@
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 
+import { convertUTCToKoreanTime } from '@utils/convertUTCToKoreanTime';
 import { createdAtToString } from '@utils/createdAtToString';
 
 import {
@@ -37,7 +38,7 @@ const NotificationItem = ({
             {title}
           </Text>
           <AgoText size={8} weight={300} nowrap>
-            {createdAtToString(createdAt)}
+            {createdAtToString(new Date(convertUTCToKoreanTime(createdAt)))}
             {!read && <Badge />}
           </AgoText>
         </Flex>
