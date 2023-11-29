@@ -14,9 +14,6 @@ export const useAlarmsQuery = () => {
       }),
 
     getNextPageParam: (lastPage) => {
-      if (!lastPage.cursorId === null) {
-        return undefined;
-      }
       return lastPage.cursorId;
     },
     initialPageParam: 0,
