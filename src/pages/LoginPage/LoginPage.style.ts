@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 
+import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 
-export const LoginContainer = styled.div`
+export const LoginContainer = styled(Flex)`
   ${({ theme }) => theme.STYLES.LAYOUT}
   min-height: 100dvh;
   background-color: ${({ theme }) => theme.PALETTE.GRAY_100};
@@ -10,10 +11,11 @@ export const LoginContainer = styled.div`
 
 export const Main = styled.div`
   height: 100%;
+  flex-grow: 1;
   ${({ theme }) => theme.STYLES.FLEX_ALIGN_CENTER};
   flex-direction: column;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
 `;
 
 export const MainImage = styled(Image)`
@@ -28,4 +30,11 @@ export const LogoImage = styled(Image)`
 
 export const KakaoLoginImage = styled(Image)`
   max-width: 767px;
+`;
+
+export const KakaoLogin = styled(Flex)`
+  height: 60px;
+  width: 100%;
+  background-color: #ffe617;
+  border-radius: 10px;
 `;

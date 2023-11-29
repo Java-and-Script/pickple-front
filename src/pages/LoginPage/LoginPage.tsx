@@ -1,18 +1,9 @@
 import { Header } from '@components/Header';
+import { Text } from '@components/shared/Text';
 
-import KAKAO_LOGIN_SRC from '@assets/kakao_login_large_wide.png';
 import LOGO_SRC from '@assets/logoSvg.svg';
 
-import {
-  KakaoLoginImage,
-  LoginContainer,
-  LogoImage,
-  Main,
-  MainImage,
-} from './LoginPage.style';
-
-const LOGIN_MAIN =
-  'https://github.com/Java-and-Script/pickple-front/assets/87280835/1134921d-2e91-4b47-b99a-4095c91f0a6d';
+import { KakaoLogin, LoginContainer, LogoImage, Main } from './LoginPage.style';
 
 export const LoginPage = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -22,23 +13,19 @@ export const LoginPage = () => {
   };
 
   return (
-    <LoginContainer>
+    <LoginContainer direction="column">
       <Header isLogo={false} title="로그인" isRightContainer={false} />
       <Main>
-        <LogoImage src={LOGO_SRC} width="35%" height="auto" alt="pickle logo" />
-        <MainImage
-          src={LOGIN_MAIN}
-          width="100%"
-          height="55%"
-          alt="login main banner"
-        />
-        <KakaoLoginImage
-          src={KAKAO_LOGIN_SRC}
-          width="100%"
-          height="auto"
-          alt="kakao login"
+        <LogoImage src={LOGO_SRC} width="50%" height="auto" alt="pickle logo" />
+        <KakaoLogin
+          justify="center"
+          align="center"
           onClick={() => onClickKakaoLogin()}
-        />
+        >
+          <Text nowrap weight={700} color="#47292A">
+            카카오 아이디로 로그인
+          </Text>
+        </KakaoLogin>
       </Main>
     </LoginContainer>
   );
