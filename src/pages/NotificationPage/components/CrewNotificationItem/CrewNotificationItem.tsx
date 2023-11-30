@@ -13,7 +13,7 @@ type CrewNotificationItemProps = { alarm: CrewAlarm; onClick?: VoidFunction };
 const getRedirectMap = (
   crewId: string
 ): Record<CrewAlarm['crewAlarmMessage'], string> => ({
-  '가입 수락을 기다리고 있어요': PATH_NAME.GET_CREWS_MANAGE_PATH(crewId),
+  '크루 가입 수락을 기다리고 있어요': PATH_NAME.GET_CREWS_MANAGE_PATH(crewId),
   '크루 가입이 수락되었어요': PATH_NAME.GET_CREWS_PATH(crewId),
   '크루 가입이 거절되었어요': PATH_NAME.CREWS_RECOMMEND,
 });

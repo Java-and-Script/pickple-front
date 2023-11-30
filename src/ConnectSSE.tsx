@@ -47,7 +47,7 @@ const invalidateCrewQueries = (
   queryClient: QueryClient,
   newCrewAlarm: CrewAlarm
 ) => {
-  if (newCrewAlarm.crewAlarmMessage === '가입 수락을 기다리고 있어요') {
+  if (newCrewAlarm.crewAlarmMessage === '크루 가입 수락을 기다리고 있어요') {
     queryClient.invalidateQueries({
       queryKey: ['crew-members', newCrewAlarm.crewId, '대기'],
     });
