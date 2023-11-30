@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
           <LoginRequireBoundary>
             <ScrollTop />
             <Layout />
-            <Toaster />
+            <Toaster toastOptions={{ duration: 2000 }} />
           </LoginRequireBoundary>
         </ErrorBoundary>
       </ErrorBoundary>
