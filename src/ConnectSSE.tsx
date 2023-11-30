@@ -76,25 +76,15 @@ const invalidateGameQueries = (
 };
 
 const toastCrewAlarm = (newCrewAlarm: CrewAlarm) => {
-  toast(
-    (t) => (
-      <CrewNotificationItem
-        alarm={newCrewAlarm}
-        onClick={() => toast.dismiss(t.id)}
-      />
-    ),
-    { style: { padding: 0 }, duration: 4000 }
-  );
+  toast(() => <CrewNotificationItem alarm={newCrewAlarm} />, {
+    style: { padding: 0 },
+    duration: 4000,
+  });
 };
 
 const toastGameAlarm = (newGameAlarm: GameAlarm) => {
-  toast(
-    (t) => (
-      <GameNotificationItem
-        alarm={newGameAlarm}
-        onClick={() => toast.dismiss(t.id)}
-      />
-    ),
-    { style: { padding: 0 }, duration: 4000 }
-  );
+  toast(() => <GameNotificationItem alarm={newGameAlarm} />, {
+    style: { padding: 0 },
+    duration: 4000,
+  });
 };
