@@ -1,7 +1,6 @@
 import { LoginRequireError } from '@routes/LoginRequireBoundary';
 
 import { Header } from '@components/Header';
-import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 
 import { useAlarmsDeleteMutation } from '@hooks/mutations/useAlarmsDeleteMutation';
@@ -14,6 +13,7 @@ import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import {
   ButtonWrapper,
+  DeleteButton,
   PageContent,
   PageWrapper,
 } from './NotificationPage.styles';
@@ -44,7 +44,7 @@ export const NotificationPage = () => {
     <PageWrapper>
       <Header isLogo={false} title={'알림'} isRightContainer={false} />
       <ButtonWrapper>
-        <Button
+        <DeleteButton
           {...BUTTON_PROPS.SMALL_GRAY_OUTLINED_BUTTON_PROPS}
           width="80px"
           height="32px"
@@ -53,7 +53,7 @@ export const NotificationPage = () => {
           <Text size={12} nowrap>
             모두 지우기
           </Text>
-        </Button>
+        </DeleteButton>
       </ButtonWrapper>
       <PageContent direction="column" gap={16}>
         {alarms.map((alarm, index) => {
