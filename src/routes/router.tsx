@@ -26,6 +26,7 @@ import { ManagePageSkeleton } from '@pages/__components__/ManagePageSkeleton';
 
 import { LoginRequireBoundary } from './LoginRequireBoundary';
 import { ScrollTop } from './ScrollTop';
+import { ToastResume } from './ToastResume';
 import {
   ChattingPage,
   CreateCrewPage,
@@ -56,6 +57,7 @@ export const router = createBrowserRouter([
         <ErrorBoundary FallbackComponent={AuthErrorPage}>
           <LoginRequireBoundary>
             <ScrollTop />
+            <ToastResume />
             <Layout />
             <Toaster toastOptions={{ duration: 2000 }} />
           </LoginRequireBoundary>
