@@ -22,10 +22,12 @@ export const useAllowGameParticipateMutation = () => {
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
-        if (error.response?.data.code === 'GAM-013') {
+        const errorCode = error.response?.data.code;
+
+        if (errorCode === 'GAM-013' || errorCode === 'CHT-004') {
           return toast.error('게스트 모집 정원을 초과했습니다.');
         }
-        if (error.response?.data.code === 'GAM-010') {
+        if (errorCode === 'GAM-010') {
           return toast.error('권한이 없습니다.');
         }
       }

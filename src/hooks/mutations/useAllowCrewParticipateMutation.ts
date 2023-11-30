@@ -22,10 +22,12 @@ export const useAllowCrewParticipateMutation = () => {
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
-        if (error.response?.data.code === 'CRE-006') {
+        const errorCode = error.response?.data.code;
+
+        if (errorCode === 'CRE-006' || errorCode === 'CHT-004') {
           return toast.error('크루의 정원을 초과했습니다.');
         }
-        if (error.response?.data.code === 'CRE-009') {
+        if (errorCode === 'CRE-009') {
           return toast.error('권한이 없습니다.');
         }
       }
