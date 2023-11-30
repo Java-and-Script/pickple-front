@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
+import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import SockJS from 'sockjs-client';
@@ -134,6 +135,10 @@ export const useChattingPage = () => {
 
     if (!inputRef.current || inputRef.current.value === '' || !stompClient) {
       return;
+    }
+
+    if (inputRef.current.value.length > 500) {
+      return toast.error('채팅 메세지는 500자를 넘길 수 없습니다.');
     }
 
     const sendData: SendMessageRequest = {
