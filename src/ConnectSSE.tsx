@@ -31,7 +31,7 @@ export const ConnectSSE = () => {
                     onClick={() => toast.dismiss(t.id)}
                   />
                 ),
-                { style: { padding: 0 } }
+                { style: { padding: 0 }, duration: 4000 }
               );
             } else {
               toast(
@@ -41,7 +41,7 @@ export const ConnectSSE = () => {
                     onClick={() => toast.dismiss(t.id)}
                   />
                 ),
-                { style: { padding: 0 } }
+                { style: { padding: 0 }, duration: 4000 }
               );
             }
           }

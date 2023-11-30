@@ -30,6 +30,7 @@ export const useEventSource = ({
         Authorization: `Bearer ${loginInfo.accessToken}`,
         'Content-type': 'text/event-stream',
       },
+      heartbeatTimeout: 1000 * 60 * 60 * 6,
     });
 
     eventListenerParameters.map((eventListenerParameter) => {
