@@ -1,13 +1,13 @@
 import toast from 'react-hot-toast';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useQueryClient } from '@tanstack/react-query';
 
 import { CrewNotificationItem } from '@pages/NotificationPage/components/CrewNotificationItem';
 import { GameNotificationItem } from '@pages/NotificationPage/components/GameNotificationItem';
 
 import { useEventSource } from '@hooks/useEventSource';
 
-import { Alarm } from '@type/models';
+import { Alarm, CrewAlarm, GameAlarm } from '@type/models';
 
 export const ConnectSSE = () => {
   const queryClient = useQueryClient();
@@ -18,31 +18,15 @@ export const ConnectSSE = () => {
       [
         'AlarmEvent',
         (e) => {
-          queryClient.resetQueries({ queryKey: ['alarms'] });
-          queryClient.invalidateQueries({ queryKey: ['alarms-unread'] });
-
+          invalidateAlarmsQueries(queryClient);
           if ('data' in e) {
             const newAlarm: Alarm = JSON.parse(e.data as string);
             if ('crewId' in newAlarm) {
-              toast(
-                (t) => (
-                  <CrewNotificationItem
-                    alarm={newAlarm}
-                    onClick={() => toast.dismiss(t.id)}
-                  />
-                ),
-                { style: { padding: 0 }, duration: 4000 }
-              );
+              invalidateCrewQueries(queryClient, newAlarm);
+              toastCrewAlarm(newAlarm);
             } else {
-              toast(
-                (t) => (
-                  <GameNotificationItem
-                    alarm={newAlarm}
-                    onClick={() => toast.dismiss(t.id)}
-                  />
-                ),
-                { style: { padding: 0 }, duration: 4000 }
-              );
+              invalidateGameQueries(queryClient, newAlarm);
+              toastGameAlarm(newAlarm);
             }
           }
         },
@@ -50,5 +34,67 @@ export const ConnectSSE = () => {
     ],
     onerror: (error) => console.log(error),
   });
+
   return null;
+};
+
+const invalidateAlarmsQueries = (queryClient: QueryClient) => {
+  queryClient.resetQueries({ queryKey: ['alarms'] });
+  queryClient.invalidateQueries({ queryKey: ['alarms-unread'] });
+};
+
+const invalidateCrewQueries = (
+  queryClient: QueryClient,
+  newCrewAlarm: CrewAlarm
+) => {
+  if (newCrewAlarm.crewAlarmMessage === '가입 수락을 기다리고 있어요') {
+    queryClient.invalidateQueries({
+      queryKey: ['crew-members', newCrewAlarm.crewId, '대기'],
+    });
+  } else {
+    queryClient.invalidateQueries({
+      queryKey: ['crew-detail', newCrewAlarm.crewId],
+    });
+  }
+};
+
+const invalidateGameQueries = (
+  queryClient: QueryClient,
+  newGameAlarm: GameAlarm
+) => {
+  if (
+    newGameAlarm.gameAlarmMessage === '게스트 모집 참여 수락을 기다리고 있어요'
+  ) {
+    queryClient.invalidateQueries({
+      queryKey: ['game-members', newGameAlarm.gameId, '대기'],
+    });
+  } else {
+    queryClient.invalidateQueries({
+      queryKey: ['game-detail', newGameAlarm.gameId],
+    });
+  }
+};
+
+const toastCrewAlarm = (newCrewAlarm: CrewAlarm) => {
+  toast(
+    (t) => (
+      <CrewNotificationItem
+        alarm={newCrewAlarm}
+        onClick={() => toast.dismiss(t.id)}
+      />
+    ),
+    { style: { padding: 0 }, duration: 4000 }
+  );
+};
+
+const toastGameAlarm = (newGameAlarm: GameAlarm) => {
+  toast(
+    (t) => (
+      <GameNotificationItem
+        alarm={newGameAlarm}
+        onClick={() => toast.dismiss(t.id)}
+      />
+    ),
+    { style: { padding: 0 }, duration: 4000 }
+  );
 };
