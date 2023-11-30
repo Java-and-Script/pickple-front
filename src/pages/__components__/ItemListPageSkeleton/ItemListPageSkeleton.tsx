@@ -8,9 +8,13 @@ import { PageContent } from './ItemListPageSkeleton.styles';
 
 type ItemListPageSkeletonProps = {
   name: string;
+  isRightContainer?: boolean;
 };
 
-export const ItemListPageSkeleton = ({ name }: ItemListPageSkeletonProps) => {
+export const ItemListPageSkeleton = ({
+  name,
+  isRightContainer = true,
+}: ItemListPageSkeletonProps) => {
   return (
     <Skeleton
       width="100%"
@@ -20,7 +24,7 @@ export const ItemListPageSkeleton = ({ name }: ItemListPageSkeletonProps) => {
       gradientColor={theme.PALETTE.GRAY_300}
     >
       <ManageContainer>
-        <Header title={name} />
+        <Header title={name} isRightContainer={isRightContainer} />
         <PageContent direction="column" gap={10}>
           <Skeleton.Item />
           <Skeleton.Item />

@@ -225,7 +225,11 @@ export const router = createBrowserRouter([
       {
         path: 'notification',
         element: (
-          <Suspense fallback={<ItemListPageSkeleton name="알림" />}>
+          <Suspense
+            fallback={
+              <ItemListPageSkeleton name="알림" isRightContainer={false} />
+            }
+          >
             <NotificationPage />
           </Suspense>
         ),
