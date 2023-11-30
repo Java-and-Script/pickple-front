@@ -8,8 +8,6 @@ import { theme } from '@styles/theme';
 
 import { PATH_NAME } from '@consts/pathName';
 
-import { Chat } from './Chat';
-import { ChatTitle } from './ChatTitle';
 import {
   ChatRoomContainer,
   InputWrapper,
@@ -17,6 +15,8 @@ import {
   ModalItem,
   SendButton,
 } from './ChattingPage.style';
+import { Chat } from './components/Chat';
+import { ChatRoomTitle } from './components/ChatRoomTitle';
 import { useChattingPage } from './useChattingPage';
 
 export const ChattingPage = () => {
@@ -40,7 +40,7 @@ export const ChattingPage = () => {
         <Header
           isLogo={false}
           title={
-            <ChatTitle
+            <ChatRoomTitle
               type={roomType}
               domainId={domainId}
               roomName={roomName}
