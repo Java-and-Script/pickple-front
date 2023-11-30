@@ -47,6 +47,54 @@ export const useCreateGamePage = () => {
   const [isPlayTimeModalOpen, setIsPlayTimeModalOpen] =
     useState<boolean>(false);
 
+  const handleMaxMemberCount = (maxMemberCount: string) => {
+    isGuestCountModalOpen || setMaxMemberCount(maxMemberCount);
+  };
+
+  const handlePlayStartTimeHours = (playStartTimeHours: string) => {
+    isStartTimeModalOpen || setPlayStartTimeHours(playStartTimeHours);
+  };
+
+  const handlePlayStartTimeMinutes = (playStartTimeMinutes: string) => {
+    isStartTimeModalOpen || setPlayStartTimeMinutes(playStartTimeMinutes);
+  };
+
+  const handlePlayTimeMinutes = (playTimeMinutes: string) => {
+    isPlayTimeModalOpen || setPlayTimeMinutes(playTimeMinutes);
+  };
+
+  const handleAddressSelect = () => {
+    new daum.Postcode({
+      oncomplete: ({ address }: { address: string }) => {
+        setMainAddress(address);
+      },
+    }).open();
+  };
+
+  const handleCost = (item: string) => {
+    if (parseInt(item) < 0) {
+      setCost('0');
+    } else if (parseInt(item) > 100000) {
+      setCost('100000');
+    } else setCost(item);
+  };
+
+  const toggleGuestCountModal = () => {
+    setIsGuestCountModalOpen((prev) => !prev);
+  };
+
+  const toggleMatchDateModal = () => {
+    setIsMatchDateModalOpen((prev) => !prev);
+  };
+
+  const toggleStartTimeModal = () => {
+    setIsStartTimeModalOpen((prev) => !prev);
+  };
+
+  const togglePlayTimeModal = () => {
+    setIsPlayTimeModalOpen((prev) => !prev);
+  };
+
   const onSubmit = () => {
     const gameData: PostGameRequest = {
       maxMemberCount: parseInt(maxMemberCount),
@@ -107,38 +155,6 @@ export const useCreateGamePage = () => {
     return true;
   };
 
-  const handleAddressSelect = () => {
-    new daum.Postcode({
-      oncomplete: ({ address }: { address: string }) => {
-        setMainAddress(address);
-      },
-    }).open();
-  };
-
-  const handleCost = (item: string) => {
-    if (parseInt(item) < 0) {
-      setCost('0');
-    } else if (parseInt(item) > 100000) {
-      setCost('100000');
-    } else setCost(item);
-  };
-
-  const toggleGuestCountModal = () => {
-    setIsGuestCountModalOpen((prev) => !prev);
-  };
-
-  const toggleMatchDateModal = () => {
-    setIsMatchDateModalOpen((prev) => !prev);
-  };
-
-  const toggleStartTimeModal = () => {
-    setIsStartTimeModalOpen((prev) => !prev);
-  };
-
-  const togglePlayTimeModal = () => {
-    setIsPlayTimeModalOpen((prev) => !prev);
-  };
-
   return {
     state: {
       maxMemberCount,
@@ -161,16 +177,16 @@ export const useCreateGamePage = () => {
     toggleMatchDateModal,
     toggleStartTimeModal,
     togglePlayTimeModal,
-    setMaxMemberCount,
     setPlayDate,
-    setPlayStartTimeHours,
-    setPlayStartTimeMinutes,
-    setPlayTimeMinutes,
     setPositions,
     setDetailAddress,
     setContent,
     onSubmit,
     handleAddressSelect,
     handleCost,
+    handleMaxMemberCount,
+    handlePlayStartTimeHours,
+    handlePlayStartTimeMinutes,
+    handlePlayTimeMinutes,
   };
 };
