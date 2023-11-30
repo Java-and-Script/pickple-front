@@ -1,26 +1,20 @@
-import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import styled from '@emotion/styled';
-
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
-import { Modal } from '@components/Modal';
 import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
 
 import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
-import { usePositionsQuery } from '@hooks/queries/usePositionsQuery';
 import { useChatOnButtonClick } from '@hooks/useChatOnButtonClick';
+import { usePositionToast } from '@hooks/usePositionToast';
 
 import { theme } from '@styles/theme';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { Position, PositionInfo } from '@type/models/Position';
 
 import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
@@ -39,11 +33,11 @@ import {
   Guests,
   GuestsContainer,
   InfoItem,
-  ModalItem,
   PageContent,
   PageLayout,
   PositionItemBox,
   TextContainer,
+  ToolTipText,
   UserDataWrapper,
 } from './GamesDetailPage.styles';
 import { GuestButton } from './components/GuestButton';
@@ -56,14 +50,10 @@ export const GamesDetailPage = () => {
   }
 
   const navigate = useNavigate();
-  const [isPositionModalOpen, setIsPositionModalOpen] = useState(false);
-  const [clickedPositionInfo, setClickedPositionInfo] =
-    useState<PositionInfo | null>(null);
 
   const gameId = Number(id);
 
   const { data: match } = useGameDetailQuery(gameId);
-  const { data: positions } = usePositionsQuery();
 
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
   const isMyMatch = match.host.id === loginInfo?.id;
@@ -90,22 +80,7 @@ export const GamesDetailPage = () => {
     navigate,
     myId: loginInfo?.id ?? null,
   });
-
-  const handleClickPosition = (myPosition: Position) => {
-    const positionInfo = positions.find(
-      (position) => position.acronym === myPosition
-    );
-
-    if (!positionInfo) {
-      return;
-    }
-    setClickedPositionInfo(positionInfo);
-    setIsPositionModalOpen(true);
-  };
-
-  const togglePositionModal = () => {
-    setIsPositionModalOpen((prev) => !prev);
-  };
+  const { handleClickPosition } = usePositionToast();
 
   return (
     <PageLayout>
@@ -213,18 +188,6 @@ export const GamesDetailPage = () => {
               </PositionItemBox>
             ))}
           </Flex>
-          <Modal isOpen={isPositionModalOpen} close={togglePositionModal}>
-            {clickedPositionInfo && (
-              <Modal.Content>
-                <ModalItem direction="column" align="center" gap={8}>
-                  <Text size={24} weight={700}>
-                    {clickedPositionInfo.name}
-                  </Text>
-                  <Text>{clickedPositionInfo.description}</Text>
-                </ModalItem>
-              </Modal.Content>
-            )}
-          </Modal>
         </Flex>
         <Flex gap={10}>
           <InfoItem>
@@ -317,9 +280,3 @@ export const GamesDetailPage = () => {
     </PageLayout>
   );
 };
-
-const ToolTipText = styled(Text)`
-  padding: 0 2px;
-  border-radius: 5px;
-  border: 1px solid ${({ theme }) => theme.PALETTE.RED_400};
-`;

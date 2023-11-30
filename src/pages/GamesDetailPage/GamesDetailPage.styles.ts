@@ -95,3 +95,9 @@ export const PositionItemBox = styled.div`
 export const ModalItem = styled(Flex)`
   padding: 16px;
 `;
+
+export const ToolTipText = styled(Text)`
+  padding: 0 2px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.PALETTE.RED_400};
+`;
