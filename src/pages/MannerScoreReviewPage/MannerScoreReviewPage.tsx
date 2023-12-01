@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { ProfileSkeleton } from '@pages/ProfilePage';
 import { Profile } from '@pages/ProfilePage';
 
+import { LoginRequireError } from '@routes/LoginRequireBoundary';
+
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
@@ -13,12 +15,15 @@ import { Text } from '@components/shared/Text';
 
 import { useMannerScoreReviewPatchMutation } from '@hooks/mutations/useMannerScoreReviewPatchMutation';
 import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
+import { useGameRegistrationStatusQuery } from '@hooks/queries/useGameRegistrationStatusQuery';
 
 import { theme } from '@styles/theme';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { PATH_NAME } from '@consts/pathName';
+
+import { isReviewPeriod } from '@utils/domain';
 
 import leftArrowIcon from '@assets/leftArrow.svg';
 import rightArrowIcon from '@assets/rightArrow.svg';
@@ -37,16 +42,31 @@ import { ToggleButton } from './ToggleButton';
 export const MannerScoreReviewPage = () => {
   const navigate = useNavigate();
   const gameId = Number(location.pathname.split('/')[2]);
-  const { data: gameData } = useGameDetailQuery(gameId);
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+  if (!loginInfo?.id) {
+    throw new LoginRequireError();
+  }
+
+  const { data: gameData } = useGameDetailQuery(gameId);
+  const {
+    data: { isReviewDone },
+  } = useGameRegistrationStatusQuery({ memberId: loginInfo.id, gameId });
   const teammateListInfo = gameData.members.filter(({ id }) => {
     return loginInfo?.id !== id;
   });
+
   const nowDate = new Date();
   const gameDate = new Date(`${gameData.playDate}T${gameData.playEndTime}`);
-
+  const canReview = isReviewPeriod(
+    gameData.playDate,
+    gameData.playStartTime,
+    gameData.playTimeMinutes
+  );
   const exitCode =
-    nowDate <= gameDate || !loginInfo || teammateListInfo.length === 0;
+    !canReview ||
+    isReviewDone ||
+    nowDate <= gameDate ||
+    teammateListInfo.length === 0;
 
   const [currentSelectedMemberIndex, setCurrentSelectedMemberIndex] =
     useState(0);

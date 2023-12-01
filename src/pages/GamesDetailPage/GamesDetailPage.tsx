@@ -19,7 +19,12 @@ import { useLoginInfoStore } from '@stores/loginInfo.store';
 import { PATH_NAME } from '@consts/pathName';
 import { WEEKDAY } from '@consts/weekday';
 
-import { getGameStartDate, isGameEnded, isGameStarted } from '@utils/domain';
+import {
+  getGameStartDate,
+  isGameEnded,
+  isGameStarted,
+  isReviewPeriod,
+} from '@utils/domain';
 
 import Ball from '@assets/ball.svg';
 import GameMember from '@assets/gameMember.svg';
@@ -65,6 +70,11 @@ export const GamesDetailPage = () => {
     (member) => member.id === loginInfo?.id
   );
   const vacancy = match.maxMemberCount - match.memberCount > 0;
+  const canReview = isReviewPeriod(
+    match.playDate,
+    match.playStartTime,
+    match.playTimeMinutes
+  );
 
   const [year, month, day] = match.playDate.split('-');
   const [hour, min] = match.playStartTime.split(':');
@@ -260,9 +270,11 @@ export const GamesDetailPage = () => {
           <ErrorBoundary fallback={<></>}>
             {loginInfo?.id && isMyMatch && (
               <HostButton
+                loginId={loginInfo.id}
                 gameId={gameId}
                 isStarted={isStarted}
                 isEnded={isEnded}
+                isReviewPeriod={canReview}
               />
             )}
             {loginInfo?.id && !isMyMatch && (
@@ -272,6 +284,7 @@ export const GamesDetailPage = () => {
                 isStarted={isStarted}
                 isEnded={isEnded}
                 vacancy={vacancy}
+                isReviewPeriod={canReview}
               />
             )}
           </ErrorBoundary>

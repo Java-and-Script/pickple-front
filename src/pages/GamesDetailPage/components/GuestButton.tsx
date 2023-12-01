@@ -18,6 +18,7 @@ type GuestButtonProps = {
   isStarted: boolean;
   isEnded: boolean;
   vacancy: boolean;
+  isReviewPeriod: boolean;
 };
 
 export const GuestButton = ({
@@ -26,12 +27,13 @@ export const GuestButton = ({
   isStarted,
   isEnded,
   vacancy,
+  isReviewPeriod,
 }: GuestButtonProps) => {
   const isContinue = isStarted && !isEnded;
   const navigate = useNavigate();
 
   const {
-    data: { memberRegistrationStatus },
+    data: { memberRegistrationStatus, isReviewDone },
   } = useGameRegistrationStatusQuery({ memberId: loginId, gameId });
   const { mutate: participateMutate } = useGameParticipateCreateMutation();
 
@@ -53,7 +55,11 @@ export const GuestButton = ({
   }
 
   if (isEnded) {
-    if (memberRegistrationStatus === '확정') {
+    if (
+      isReviewPeriod &&
+      memberRegistrationStatus === '확정' &&
+      !isReviewDone
+    ) {
       return (
         <BottomButton onClick={navigateReviewPage}>리뷰 남기기</BottomButton>
       );
