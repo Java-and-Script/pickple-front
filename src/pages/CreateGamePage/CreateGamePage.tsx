@@ -44,14 +44,14 @@ export const CreateGamePage = () => {
     toggleMatchDateModal,
     toggleStartTimeModal,
     togglePlayTimeModal,
-    setMaxMemberCount,
     setPlayDate,
-    setPlayStartTimeHours,
-    setPlayStartTimeMinutes,
-    setPlayTimeMinutes,
     setPositions,
     setDetailAddress,
     setContent,
+    handleMaxMemberCount,
+    handlePlayStartTimeHours,
+    handlePlayStartTimeMinutes,
+    handlePlayTimeMinutes,
   } = useCreateGamePage();
 
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
@@ -97,7 +97,7 @@ export const CreateGamePage = () => {
               <VirtualScroll
                 width="100%"
                 list={[...MAX_MEMBER_COUNT_LIST]}
-                onItemSelected={setMaxMemberCount}
+                onItemSelected={handleMaxMemberCount}
               />
             </ConditionalFormInput>
             <ConditionalFormInput
@@ -126,13 +126,13 @@ export const CreateGamePage = () => {
                 <VirtualScroll
                   width="20%"
                   list={[...START_TIME_HOUR_LIST]}
-                  onItemSelected={setPlayStartTimeHours}
+                  onItemSelected={handlePlayStartTimeHours}
                 />
                 <StyledTimeColon>{':'}</StyledTimeColon>
                 <VirtualScroll
                   width="20%"
                   list={[...START_TIME_MINUTES_LIST]}
-                  onItemSelected={setPlayStartTimeMinutes}
+                  onItemSelected={handlePlayStartTimeMinutes}
                 />
               </StyledTimeSelector>
             </ConditionalFormInput>
@@ -149,7 +149,7 @@ export const CreateGamePage = () => {
               <VirtualScroll
                 width="100%"
                 list={[...PLAY_TIME_LIST]}
-                onItemSelected={setPlayTimeMinutes}
+                onItemSelected={handlePlayTimeMinutes}
               />
             </ConditionalFormInput>
             <Text size={16} weight={300}>
