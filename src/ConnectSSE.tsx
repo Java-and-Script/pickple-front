@@ -47,7 +47,8 @@ const invalidateCrewQueries = (
   queryClient: QueryClient,
   newCrewAlarm: CrewAlarm
 ) => {
-  if (newCrewAlarm.crewAlarmMessage === '가입 수락을 기다리고 있어요') {
+
+  if (newCrewAlarm.crewAlarmMessage === '크루 가입 수락을 기다리고 있어요') {
     queryClient.invalidateQueries({
       queryKey: ['crew-members', newCrewAlarm.crewId, '대기'],
     });
@@ -76,25 +77,15 @@ const invalidateGameQueries = (
 };
 
 const toastCrewAlarm = (newCrewAlarm: CrewAlarm) => {
-  toast(
-    (t) => (
-      <CrewNotificationItem
-        alarm={newCrewAlarm}
-        onClick={() => toast.dismiss(t.id)}
-      />
-    ),
-    { style: { padding: 0 }, duration: 4000 }
-  );
+  toast(() => <CrewNotificationItem alarm={newCrewAlarm} />, {
+    style: { padding: 0 },
+    duration: 4000,
+  });
 };
 
 const toastGameAlarm = (newGameAlarm: GameAlarm) => {
-  toast(
-    (t) => (
-      <GameNotificationItem
-        alarm={newGameAlarm}
-        onClick={() => toast.dismiss(t.id)}
-      />
-    ),
-    { style: { padding: 0 }, duration: 4000 }
-  );
+  toast(() => <GameNotificationItem alarm={newGameAlarm} />, {
+    style: { padding: 0 },
+    duration: 4000,
+  });
 };

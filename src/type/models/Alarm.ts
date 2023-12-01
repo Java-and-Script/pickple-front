@@ -9,7 +9,7 @@ export type CrewAlarm = DefaultAlarm & {
   crewName: string;
   crewProfileImageUrl: string;
   crewAlarmMessage:
-    | '가입 수락을 기다리고 있어요'
+    | '크루 가입 수락을 기다리고 있어요'
     | '크루 가입이 수락되었어요'
     | '크루 가입이 거절되었어요';
 };
