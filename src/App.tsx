@@ -1,9 +1,12 @@
 import { RouterProvider } from 'react-router-dom';
 
 import { ThemeProvider } from '@emotion/react';
+import styled from '@emotion/styled';
 import { QueryClient } from '@tanstack/react-query';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import { WebViewPage } from '@pages/WebViewPage/WebViewPage';
 
 import { router } from '@routes/router';
 
@@ -23,15 +26,34 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ConnectSSE />
-      <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools />
-        <GlobalStyle />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <>
+      <AppView>
+        <QueryClientProvider client={queryClient}>
+          <ConnectSSE />
+          <ThemeProvider theme={theme}>
+            <RouterProvider router={router} />
+            <ReactQueryDevtools />
+            <GlobalStyle />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </AppView>
+      <WebView>
+        <WebViewPage />
+      </WebView>
+    </>
   );
 }
 
 export default App;
+
+const AppView = styled.div`
+  @media (min-width: 501px) {
+    display: none;
+  }
+`;
+
+const WebView = styled.div`
+  @media (max-width: 500px) {
+    display: none;
+  }
+`;
