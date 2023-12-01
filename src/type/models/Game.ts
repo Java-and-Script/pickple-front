@@ -23,3 +23,5 @@ export type Game = {
   positions: Position[];
   members: Member[];
 };
+
+export type MemberGame = Game & { isReviewDone: boolean };

@@ -3,6 +3,7 @@ import {
   CrewProfile,
   Game,
   Member,
+  MemberGame,
   MemberProfile,
   Registration,
 } from '@type/models';
@@ -37,12 +38,12 @@ export type GetConfirmedGamesRequest = {
   memberId: Member['id'];
 };
 
-export type GetConfirmedGamesResponse = Game[];
+export type GetConfirmedGamesResponse = MemberGame[];
 
 export type GetCreatedGamesRequest = {
   memberId: Member['id'];
 };
-export type GetCreatedGamesResponse = Game[];
+export type GetCreatedGamesResponse = MemberGame[];
 
 export type GetJoinedCrewsResponse = CrewProfile[];
 
@@ -63,3 +64,6 @@ export type GetGameRegistrationStatusRequest = {
 export type GetRegistrationStatusResponse = {
   memberRegistrationStatus: '없음' | '대기' | '확정';
 };
+
+export type GetGameRegistrationStatusResponse =
+  GetRegistrationStatusResponse & { isReviewDone: boolean };
