@@ -4,7 +4,12 @@ import {
   PostRefreshAccessTokenResponse,
   PostRegistrationResponse,
 } from '@type/api/member';
-import { Authenticated, CrewProfile, Game, Registration } from '@type/models';
+import {
+  Authenticated,
+  CrewProfile,
+  MemberGame,
+  Registration,
+} from '@type/models';
 
 export const AUTH_LOGIN_MEMBER: Authenticated = {
   accessToken:
@@ -129,7 +134,7 @@ export const MEMBERS_MEMBERID: GetMemberProfileResponse = {
   ],
 };
 
-export const MEMBERS_MEMBERID_CONFIRMED_GAMES: Game[] = [
+export const MEMBERS_MEMBERID_CONFIRMED_GAMES: MemberGame[] = [
   {
     id: 1,
     content: '같이 즐거운 게임 해요~',
@@ -146,6 +151,7 @@ export const MEMBERS_MEMBERID_CONFIRMED_GAMES: Game[] = [
     cost: 0,
     memberCount: 3,
     maxMemberCount: 5,
+    isReviewDone: false,
     host: {
       id: 1,
       email: 'james123@pickple.kr',
@@ -190,7 +196,7 @@ export const MEMBERS_MEMBERID_CONFIRMED_GAMES: Game[] = [
   },
 ];
 
-export const MEMBERS_MEMBERID_CREATED_GAMES: Game[] = [
+export const MEMBERS_MEMBERID_CREATED_GAMES: MemberGame[] = [
   {
     id: 1,
     content: '같이 즐거운 게임 해요~',
@@ -207,6 +213,7 @@ export const MEMBERS_MEMBERID_CREATED_GAMES: Game[] = [
     cost: 0,
     memberCount: 3,
     maxMemberCount: 5,
+    isReviewDone: false,
     host: {
       id: 1,
       email: 'james123@pickple.kr',

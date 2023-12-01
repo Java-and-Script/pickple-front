@@ -13,7 +13,7 @@ import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { PATH_NAME } from '@consts/pathName';
 
-import { getGameStartDate } from '@utils/domain';
+import { getGameStartDate, isReviewPeriod } from '@utils/domain';
 
 import { PageContent, PageWrapper } from './GamesParticipatePage.styles';
 
@@ -47,6 +47,14 @@ export const GamesParticipatePage = () => {
           const endTimeNumber =
             startTime.getTime() + game.playTimeMinutes * 60000;
           const isMatchEnd = endTimeNumber <= new Date().getTime();
+          const canReview =
+            isReviewPeriod(
+              game.playDate,
+              game.playStartTime,
+              game.playTimeMinutes
+            ) &&
+            isMatchEnd &&
+            !game.isReviewDone;
 
           return (
             <MatchItem
@@ -59,7 +67,7 @@ export const GamesParticipatePage = () => {
               maxMemberCount={game.maxMemberCount}
               membersProfileImageUrls={membersProfileImageUrls}
             >
-              {isMatchEnd && (
+              {canReview && (
                 <MatchItem.BottomButton
                   onClick={() =>
                     navigate(PATH_NAME.GET_GAMES_REVIEW_PATH(String(game.id)))

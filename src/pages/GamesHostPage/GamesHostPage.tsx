@@ -13,7 +13,12 @@ import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import { PATH_NAME } from '@consts/pathName';
 
-import { getGameStartDate, isGameEnded, isGameStarted } from '@utils/domain';
+import {
+  getGameStartDate,
+  isGameEnded,
+  isGameStarted,
+  isReviewPeriod,
+} from '@utils/domain';
 
 import { PageContent, PageWrapper } from './GamesHostPage.styles';
 
@@ -44,6 +49,14 @@ export const GamesHostPage = () => {
             (member) => member.profileImageUrl
           );
           const startTime = getGameStartDate(game.playDate, game.playStartTime);
+          const canReview =
+            isReviewPeriod(
+              game.playDate,
+              game.playStartTime,
+              game.playTimeMinutes
+            ) &&
+            isGameEnded(startTime, game.playTimeMinutes) &&
+            !game.isReviewDone;
 
           return (
             <MatchItem
@@ -65,7 +78,7 @@ export const GamesHostPage = () => {
                   매치 관리
                 </MatchItem.BottomButton>
               )}
-              {isGameEnded(startTime, game.playTimeMinutes) && (
+              {canReview && (
                 <MatchItem.BottomButton
                   onClick={() =>
                     navigate(PATH_NAME.GET_GAMES_REVIEW_PATH(String(game.id)))
