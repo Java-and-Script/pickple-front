@@ -2,6 +2,7 @@ import toast from 'react-hot-toast';
 
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 import { deleteCrewParticipate } from '@api/crews/deleteCrewParticipate';
 
@@ -19,8 +20,16 @@ export const useDisallowCrewParticipateMutation = () => {
         queryKey: ['crew-members', crewId, '대기'],
       });
     },
-    onError: () => {
-      toast.error('크루 가입를 거절하지 못 했습니다. 다시 한 번 시도해주세요.');
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        if (error.response?.data.code === 'CRE-009') {
+          return toast.error('권한이 없습니다.');
+        }
+      }
+
+      toast.error(
+        '크루 가입 거절에 실패했어요.\n새로고침 후, 다시 한 번 시도해주세요.'
+      );
     },
   });
 };
