@@ -47,33 +47,24 @@ const invalidateCrewQueries = (
   queryClient: QueryClient,
   newCrewAlarm: CrewAlarm
 ) => {
-
-  if (newCrewAlarm.crewAlarmMessage === '크루 가입 수락을 기다리고 있어요') {
-    queryClient.invalidateQueries({
-      queryKey: ['crew-members', newCrewAlarm.crewId, '대기'],
-    });
-  } else {
-    queryClient.invalidateQueries({
-      queryKey: ['crew-detail', newCrewAlarm.crewId],
-    });
-  }
+  queryClient.invalidateQueries({
+    queryKey: ['crew-members', newCrewAlarm.crewId, '대기'],
+  });
+  queryClient.invalidateQueries({
+    queryKey: ['crew-detail', newCrewAlarm.crewId],
+  });
 };
 
 const invalidateGameQueries = (
   queryClient: QueryClient,
   newGameAlarm: GameAlarm
 ) => {
-  if (
-    newGameAlarm.gameAlarmMessage === '게스트 모집 참여 수락을 기다리고 있어요'
-  ) {
-    queryClient.invalidateQueries({
-      queryKey: ['game-members', newGameAlarm.gameId, '대기'],
-    });
-  } else {
-    queryClient.invalidateQueries({
-      queryKey: ['game-detail', newGameAlarm.gameId],
-    });
-  }
+  queryClient.invalidateQueries({
+    queryKey: ['game-members', newGameAlarm.gameId, '대기'],
+  });
+  queryClient.invalidateQueries({
+    queryKey: ['game-detail', newGameAlarm.gameId],
+  });
 };
 
 const toastCrewAlarm = (newCrewAlarm: CrewAlarm) => {
