@@ -38,7 +38,7 @@ export const CreateCrewPage = () => {
     onSubmit,
     setName,
     setContent,
-    setMaxMemberCount,
+    handleMaxMemberCount,
     handleToggleLocation,
     toggleMaxMemberCountModal,
     toggleAddressDepth2Modal,
@@ -89,7 +89,7 @@ export const CreateCrewPage = () => {
               <VirtualScroll
                 width="100%"
                 list={[...MAX_MEMBER_COUNT_LIST]}
-                onItemSelected={setMaxMemberCount}
+                onItemSelected={handleMaxMemberCount}
               />
             </ConditionalFormInput>
             <Text size={16} weight={300}>

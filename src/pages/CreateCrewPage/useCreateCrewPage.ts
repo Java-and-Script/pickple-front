@@ -83,6 +83,10 @@ export const useCreateCrewPage = () => {
     setIsOpenAddressDepth2Modal((prev) => !prev);
   };
 
+  const handleMaxMemberCount = (maxMemberCount: string) => {
+    isOpenMaxMemberCountModal || setMaxMemberCount(maxMemberCount);
+  };
+
   return {
     state: {
       name,
@@ -97,7 +101,7 @@ export const useCreateCrewPage = () => {
     onSubmit,
     setName,
     setContent,
-    setMaxMemberCount,
+    handleMaxMemberCount,
     handleToggleLocation,
     toggleMaxMemberCountModal,
     toggleAddressDepth2Modal,

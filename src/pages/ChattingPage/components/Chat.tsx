@@ -14,7 +14,7 @@ import {
   BalloonContainer,
   BalloonInfo,
   SystemMessage,
-} from './ChattingPage.style';
+} from '../ChattingPage.style';
 
 type ChatProps = {
   chatInfo: ChatMessage;
