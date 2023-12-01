@@ -1,2 +1,2 @@
 export * from './GamesDetailPage';
-export * from './GamesDetailPage.loading';
+export * from './skeletons';

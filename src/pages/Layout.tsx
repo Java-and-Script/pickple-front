@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { Navbar } from '@components/Navbar/Navbar';
 
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import { FallbackPage } from './FallbackPage';
 

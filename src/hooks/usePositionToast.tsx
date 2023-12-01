@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 
-import { usePositionsQuery } from '@hooks/queries/usePositionsQuery';
+import { usePositionsQuery } from '@hooks/data/usePositionsQuery';
 
 import { Position } from '@type/models/Position';
 

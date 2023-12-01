@@ -1,2 +1,2 @@
 export * from './CreateCrewPage';
-export * from './CreateCrewPageSkeleton';
+export * from './skeletons';

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { Flex } from '@components/shared/Flex';
 
-import { CHAT_TYPE } from '@consts/chat';
+import { CHAT_TYPE } from '@constants/chat';
 
 export const ChatRoomContainer = styled.div`
   ${({ theme }) => theme.STYLES.LAYOUT}

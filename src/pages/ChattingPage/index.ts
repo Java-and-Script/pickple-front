@@ -1,2 +1,2 @@
 export * from './ChattingPage';
-export * from './ChattingPageSkeleton';
+export * from './skeletons';

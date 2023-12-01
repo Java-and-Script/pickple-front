@@ -14,7 +14,7 @@ import { theme } from '@styles/theme';
 
 import { FallbackProps } from '@type/FallbackProps';
 
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import LOGO_SRC from '@assets/logoSvg.svg';
 

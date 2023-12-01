@@ -6,7 +6,7 @@ import {
   PLAY_TIME_LIST,
   START_TIME_HOUR_LIST,
   START_TIME_MINUTES_LIST,
-} from '@pages/CreateGamePage/consts/createGameOptions';
+} from '@pages/CreateGamePage/constants/createGameOptions';
 
 import { CalendarComponent } from '@components/Calendar';
 import { ConditionalFormInput } from '@components/ConditionalFormInput';
@@ -31,7 +31,7 @@ import {
   StyledTimeSelector,
   StyledTitle,
 } from './CreateGamePage.styles';
-import { useCreateGamePage } from './useCreateGamePage';
+import { useCreateGamePage } from './hooks/useCreateGamePage';
 
 export const CreateGamePage = () => {
   const {

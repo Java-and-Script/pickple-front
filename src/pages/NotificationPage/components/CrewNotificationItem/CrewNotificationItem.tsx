@@ -2,11 +2,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { NotificationItem } from '@components/NotificationItem';
 
-import { useCrewAlarmsPatchMutation } from '@hooks/mutations/useCrewAlarmsPatchMutation';
+import { useCrewAlarmsPatchMutation } from '@hooks/alarms/useCrewAlarmsPatchMutation';
 
 import { CrewAlarm } from '@type/models';
 
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 type CrewNotificationItemProps = { alarm: CrewAlarm; onClick?: VoidFunction };
 

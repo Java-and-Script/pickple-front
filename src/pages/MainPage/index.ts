@@ -1,2 +1,2 @@
 export * from './MainPage';
-export * from './MainPage.loading';
+export * from './skeletons';

@@ -5,14 +5,14 @@ import { Header } from '@components/Header';
 import { SkeletonCardList } from '@components/SkeletonCardList';
 import { Text } from '@components/shared/Text';
 
-import { useNearCrewListQuery } from '@hooks/queries/useNearCrewListQuery';
+import { useNearCrewListQuery } from '@hooks/crews/useNearCrewListQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
-import { FETCH_SIZE } from '@consts/network';
-import { PATH_NAME } from '@consts/pathName';
+import { FETCH_SIZE } from '@constants/network';
+import { PATH_NAME } from '@constants/pathName';
 
 import { PageContent, PageWrapper } from './CrewsRecommendPage.styles';
 

@@ -1,7 +1,3 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-
 import { LogoImage } from '@pages/LoginPage/LoginPage.style';
 
 import { Header } from '@components/Header';
@@ -9,21 +5,11 @@ import { SelectBox } from '@components/SelectBox';
 import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
-import {
-  ToggleButton,
-  useToggleButtons,
-} from '@components/shared/ToggleButton';
-
-import { useRegistrationMutation } from '@hooks/mutations/useRegistrationMutation';
-import { useLocationsQuery } from '@hooks/queries/useLocationsQuery';
-import { usePositionToast } from '@hooks/usePositionToast';
+import { ToggleButton } from '@components/shared/ToggleButton';
 
 import { theme } from '@styles/theme';
 
-import { Position, PositionInfo } from '@type/models/Position';
-
-import { PATH_NAME } from '@consts/pathName';
-import { POSITIONS_BUTTON } from '@consts/positions';
+import { POSITIONS_BUTTON } from '@constants/positions';
 
 import LOGO_SRC from '@assets/logoSvg.svg';
 
@@ -34,70 +20,18 @@ import {
   RegisterContainer,
   ScrollBox,
 } from './RegisterPage.style';
-
-type Acronym = PositionInfo['acronym'];
+import { useRegisterPage } from './hooks/useRegisterPage';
 
 export const RegisterPage = () => {
-  const navigate = useNavigate();
-
-  const { state } = useLocation();
-  const loginInfo = state;
-
-  if (!loginInfo) {
-    throw new Error('no login info available');
-  }
-
-  const [selectedLocation, setSelectedLocation] = useState<string[]>();
-  const [selectedPosition, setSelectedPosition] = useState<Acronym[]>();
-
   const {
-    handleToggle: handleToggleLocation,
-    selectedItems: selectedLocations,
-  } = useToggleButtons({
-    onToggle: setSelectedLocation,
-    isMultipleSelect: false,
-  });
-
-  const {
-    handleToggle: handleTogglePosition,
-    selectedItems: selectedPositions,
-    selectedItem: selectedPositionItem,
-  } = useToggleButtons({
-    onToggle: setSelectedPosition,
-    isMultipleSelect: true,
-    noValue: POSITIONS_BUTTON['없음'],
-  });
-
-  const { getClickedPosition } = usePositionToast();
-
-  const { mutate } = useRegistrationMutation();
-  const { data: resLocations } = useLocationsQuery();
-  const locations = resLocations.addressDepth2List;
-  const submitRegistration = () => {
-    const { email, nickname, profileImageUrl, oauthId, oauthProvider } =
-      loginInfo;
-
-    if (!selectedLocation) {
-      window.alert('지역을 선택해주세요');
-      return;
-    }
-
-    mutate({
-      email,
-      nickname,
-      profileImageUrl,
-      positions: selectedPosition as Position[],
-      addressDepth1: '서울시',
-      addressDepth2: selectedLocation[0],
-      oauthId,
-      oauthProvider,
-    });
-
-    navigate(PATH_NAME.MAIN);
-  };
-
-  const positionInfo =
-    selectedPositionItem && getClickedPosition(selectedPositionItem);
+    handleToggleLocation,
+    selectedLocations,
+    handleTogglePosition,
+    selectedPositions,
+    locations,
+    positionInfo,
+    submitRegistration,
+  } = useRegisterPage();
 
   return (
     <RegisterContainer>

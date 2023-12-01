@@ -11,12 +11,12 @@ import { ChattingPageSkeleton } from '@pages/ChattingPage';
 import { CreateCrewPageSkeleton } from '@pages/CreateCrewPage';
 import { CreateGamePageSkeleton } from '@pages/CreateGamePage';
 import { CreatePage } from '@pages/CreatePage';
-import { CrewsDetailPageLoading } from '@pages/CrewsDetailPage';
+import { CrewsDetailPageSkeleton } from '@pages/CrewsDetailPage';
 import { ErrorPage } from '@pages/ErrorPage';
-import { GamesDetailPageLoading } from '@pages/GamesDetailPage';
+import { GamesDetailPageSkeleton } from '@pages/GamesDetailPage';
 import { Layout } from '@pages/Layout';
 import { LoginPage } from '@pages/LoginPage';
-import { MainPageLoading } from '@pages/MainPage';
+import { MainPageSkeleton } from '@pages/MainPage';
 import { NotFoundPage } from '@pages/NotFoundPage';
 import { ProfilePageSkeleton } from '@pages/ProfilePage';
 import { RedirectPage } from '@pages/RedirectPage';
@@ -69,7 +69,7 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: (
-          <Suspense fallback={<MainPageLoading />}>
+          <Suspense fallback={<MainPageSkeleton />}>
             <MainPage />
           </Suspense>
         ),
@@ -111,7 +111,7 @@ export const router = createBrowserRouter([
       {
         path: 'games/:id',
         element: (
-          <Suspense fallback={<GamesDetailPageLoading />}>
+          <Suspense fallback={<GamesDetailPageSkeleton />}>
             <GamesDetailPage />
           </Suspense>
         ),
@@ -164,7 +164,7 @@ export const router = createBrowserRouter([
       {
         path: 'crews/:id',
         element: (
-          <Suspense fallback={<CrewsDetailPageLoading />}>
+          <Suspense fallback={<CrewsDetailPageSkeleton />}>
             <CrewsDetailPage />
           </Suspense>
         ),

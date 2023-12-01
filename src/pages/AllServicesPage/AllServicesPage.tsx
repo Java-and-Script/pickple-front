@@ -1,16 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-
-import { axiosInstance } from '@api/axiosInstance';
-
 import { Header } from '@components/Header';
 import { Text } from '@components/shared/Text';
 
 import { theme } from '@styles/theme';
 
-import { useTokenStore } from '@stores/accessToken.store';
-import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import Ball from '@assets/ball.svg?react';
 import Chat from '@assets/chat.svg?react';
@@ -29,28 +22,11 @@ import {
   FieldContainer,
   Main,
 } from './AllServicesPage.style';
-import { MenuItem } from './MenuItem';
+import { MenuItem } from './components/MenuItem';
+import { useAllServicesPage } from './hooks/useAllServicesPage';
 
 export const AllServicesPage = () => {
-  const { loginInfo, setLoginInfo } = useLoginInfoStore();
-  const setAccessToken = useTokenStore((state) => state.setAccessToken);
-  const myId = loginInfo?.id ? String(loginInfo?.id) : null;
-
-  const navigate = useNavigate();
-
-  const moveToPage = (pathName: string) => {
-    navigate(pathName);
-  };
-
-  const logout = () => {
-    if (myId) {
-      axiosInstance.delete('/auth/logout').finally(() => {
-        setLoginInfo(null);
-        setAccessToken(null);
-        location.href = '/';
-      });
-    }
-  };
+  const { myId, moveToPage, logout } = useAllServicesPage();
 
   return (
     <AllServicesContainer>

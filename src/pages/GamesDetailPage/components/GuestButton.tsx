@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@components/shared/Button';
 
-import { useGameParticipateCreateMutation } from '@hooks/mutations/useGameParticipateCreateMutation';
-import { useGameRegistrationStatusQuery } from '@hooks/queries/useGameRegistrationStatusQuery';
+import { useGameParticipateCreateMutation } from '@hooks/games/useGameParticipateCreateMutation';
+import { useGameRegistrationStatusQuery } from '@hooks/member/useGameRegistrationStatusQuery';
 
 import { theme } from '@styles/theme';
 
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import { BottomButton } from './BottomButton';
 

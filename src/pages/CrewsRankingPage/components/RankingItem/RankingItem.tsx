@@ -8,7 +8,7 @@ import { getRankingItemBackgroundColor } from './getRankingItemBackgroundColor';
 
 type RankingItemProps = {
   rank: number;
-  profilImageUrl: string;
+  profileImageUrl: string;
   name: string;
   rating: number;
   onClick: VoidFunction;
@@ -16,7 +16,7 @@ type RankingItemProps = {
 
 export const RankingItem = ({
   rank,
-  profilImageUrl,
+  profileImageUrl,
   name,
   rating,
   onClick,
@@ -32,7 +32,7 @@ export const RankingItem = ({
         <RankText size={14} nowrap>
           {rank}
         </RankText>
-        <CrewAvatar size={40} src={profilImageUrl} radius="5px" />
+        <CrewAvatar size={40} src={profileImageUrl} radius="5px" />
         <Text size={16} weight={700} ellipsis={1}>
           {name}
         </Text>

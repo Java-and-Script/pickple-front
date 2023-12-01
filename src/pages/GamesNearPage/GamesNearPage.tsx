@@ -3,14 +3,14 @@ import { MatchItem } from '@components/MatchItem';
 import { SkeletonCardList } from '@components/SkeletonCardList';
 import { Text } from '@components/shared/Text';
 
-import { useGamesQuery } from '@hooks/queries/useGamesQuery';
+import { useGamesQuery } from '@hooks/games/useGamesQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
-import { DEFAULT_ADDRESS_DEPTHS } from '@consts/location';
-import { FETCH_SIZE } from '@consts/network';
+import { DEFAULT_ADDRESS_DEPTHS } from '@constants/location';
+import { FETCH_SIZE } from '@constants/network';
 
 import { getGameStartDate } from '@utils/domain';
 

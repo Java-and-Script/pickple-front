@@ -1,0 +1,9 @@
+export const DEFAULT_COORDINATE = {
+  latitude: 37.49927504333466,
+  longitude: 127.02679632647265,
+};
+
+export const WEST = 123.44885503809954;
+export const EAST = 132.72943114930797;
+export const NORTH = 38.95052791927258;
+export const SOUTH = 31.100696230892495;

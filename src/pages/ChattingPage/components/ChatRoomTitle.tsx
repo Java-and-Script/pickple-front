@@ -1,7 +1,7 @@
 import { ChatRoomDetail } from '@type/models/ChatRoom';
 
-import { CHAT_ROOM_TAB_TITLE } from '@consts/chat';
-import { PATH_NAME } from '@consts/pathName';
+import { CHAT_ROOM_TAB_TITLE } from '@constants/chat';
+import { PATH_NAME } from '@constants/pathName';
 
 import { Pointer } from '../ChattingPage.style';
 

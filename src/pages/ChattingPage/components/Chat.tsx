@@ -6,7 +6,7 @@ import { theme } from '@styles/theme';
 
 import { ChatMessage } from '@type/models/ChatMessage';
 
-import { CHAT_TYPE } from '@consts/chat';
+import { CHAT_TYPE } from '@constants/chat';
 
 import { convertUTCToKoreanTime } from '@utils/convertUTCToKoreanTime';
 

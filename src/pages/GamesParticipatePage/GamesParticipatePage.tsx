@@ -6,12 +6,12 @@ import { Header } from '@components/Header';
 import { MatchItem } from '@components/MatchItem';
 import { Text } from '@components/shared/Text';
 
-import { useConfirmGamesQuery } from '@hooks/queries/useConfirmGamesQuery';
+import { useConfirmGamesQuery } from '@hooks/member/useConfirmGamesQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
 import { useLoginInfoStore } from '@stores/loginInfo.store';
 
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import { getGameStartDate, isReviewPeriod } from '@utils/domain';
 

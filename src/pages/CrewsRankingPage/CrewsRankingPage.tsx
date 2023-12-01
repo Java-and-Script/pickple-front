@@ -1,18 +1,8 @@
-import { useState } from 'react';
-import { flushSync } from 'react-dom';
-import { useNavigate } from 'react-router-dom';
-
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
 import { RankingModalContent } from '@components/RankingModalContent';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
-
-import { useCrewsRankingQuery } from '@hooks/queries/useCrewsRankingQuery';
-
-import { CrewRank } from '@type/models/CrewRank';
-
-import { PATH_NAME } from '@consts/pathName';
 
 import {
   PageContent,
@@ -20,27 +10,17 @@ import {
   RankingHeader,
 } from './CrewsRankingPage.styles';
 import { RankingItem } from './components/RankingItem';
+import { useCrewsRankingPage } from './hooks/useCrewsRankingPage';
 
 export const CrewsRankingPage = () => {
-  const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedCrewRank, setSelectedCrewRank] = useState<CrewRank | null>(
-    null
-  );
-
-  const { data: crewsRanking } = useCrewsRankingQuery();
-
-  const openModal = (crewRank: CrewRank) => {
-    setIsOpen(true);
-    setSelectedCrewRank(crewRank);
-  };
-
-  const handleDetailButtonClick = () => {
-    if (selectedCrewRank) {
-      flushSync(() => setIsOpen(false));
-      navigate(PATH_NAME.GET_CREWS_PATH(String(selectedCrewRank.id)));
-    }
-  };
+  const {
+    isOpen,
+    setIsOpen,
+    selectedCrewRank,
+    crewsRanking,
+    openModal,
+    handleDetailButtonClick,
+  } = useCrewsRankingPage();
 
   return (
     <PageWrapper>
@@ -64,7 +44,7 @@ export const CrewsRankingPage = () => {
             key={crewRank.id}
             rank={crewRank.rank}
             name={crewRank.name}
-            profilImageUrl={crewRank.profileImageUrl}
+            profileImageUrl={crewRank.profileImageUrl}
             rating={crewRank.totalScore}
             onClick={() => openModal(crewRank)}
           />

@@ -10,7 +10,7 @@ import { theme } from '@styles/theme';
 
 import { Member } from '@type/models';
 
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import { AllowCardGroup, InformText, Main } from './Participation.style';
 
