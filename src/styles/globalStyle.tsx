@@ -9,6 +9,12 @@ const style = css`
     height: 100dvh;
   }
 
+  @media (min-width: 501px) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
   #root {
     font-family: 'GmarketSans';
     height: 100%;
