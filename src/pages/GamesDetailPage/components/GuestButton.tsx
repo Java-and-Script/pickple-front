@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@components/shared/Button';
 
 import { useGameParticipateCreateMutation } from '@hooks/games/useGameParticipateCreateMutation';
+import { useGameParticipateDeleteMutation } from '@hooks/games/useGameParticipateDeleteMutation';
 import { useGameRegistrationStatusQuery } from '@hooks/member/useGameRegistrationStatusQuery';
 
 import { theme } from '@styles/theme';
@@ -35,13 +36,16 @@ export const GuestButton = ({
   const {
     data: { memberRegistrationStatus, isReviewDone },
   } = useGameRegistrationStatusQuery({ memberId: loginId, gameId });
-  const { mutate: participateMutate } = useGameParticipateCreateMutation();
+  const { mutate: participateCreateMutate } =
+    useGameParticipateCreateMutation();
+  const { mutate: participateDeleteMutate } =
+    useGameParticipateDeleteMutation();
 
   const navigateReviewPage = () =>
     navigate(PATH_NAME.GET_GAMES_REVIEW_PATH(String(gameId)));
 
-  const handleParticipateButtonClick = () =>
-    participateMutate(
+  const handleParticipateCreateButtonClick = () =>
+    participateCreateMutate(
       { gameId },
       {
         onSuccess: () => {
@@ -49,6 +53,17 @@ export const GuestButton = ({
         },
       }
     );
+
+  const handleParticipateDeleteButtonClick = () => {
+    participateDeleteMutate(
+      { memberId: loginId, gameId },
+      {
+        onSuccess: () => {
+          toast('참여 신청이 취소되었습니다');
+        },
+      }
+    );
+  };
 
   if (isContinue) {
     return null;
@@ -81,7 +96,7 @@ export const GuestButton = ({
 
   if (memberRegistrationStatus === '없음') {
     return (
-      <BottomButton onClick={handleParticipateButtonClick}>
+      <BottomButton onClick={handleParticipateCreateButtonClick}>
         참여 신청하기
       </BottomButton>
     );
@@ -89,7 +104,7 @@ export const GuestButton = ({
 
   if (memberRegistrationStatus === '대기') {
     return (
-      <BottomButton onClick={() => toast('준비중인 기능입니다')}>
+      <BottomButton onClick={handleParticipateDeleteButtonClick}>
         참여 취소하기
       </BottomButton>
     );
