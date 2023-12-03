@@ -16,16 +16,16 @@ export const Main = styled(Flex)`
 
 export const SendButton = styled.button`
   width: 48px;
-  height: 32px;
+  height: 40px;
   font-size: ${({ theme }) => theme.FONT_SIZE.XS};
   background-color: ${({ theme }) => theme.PALETTE.RED_500};
   color: white;
   outline: none;
-  border-radius: 10%;
+  border-radius: 40%;
   border: none;
   & > svg {
     width: 100%;
-    height: 100%;
+    height: inherit;
     path {
       fill: white;
     }

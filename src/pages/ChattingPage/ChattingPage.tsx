@@ -1,4 +1,5 @@
 import Hamburger from '@/assets/hamburger.svg?react';
+import PaperPlane from '@/assets/paperPlane.svg?react';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
@@ -82,7 +83,7 @@ export const ChattingPage = () => {
           ref={inputRef}
         >
           <SendButton>
-            <Text nowrap>전송</Text>
+            <PaperPlane />
           </SendButton>
         </Input>
       </InputWrapper>
