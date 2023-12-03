@@ -3,20 +3,19 @@ import { Suspense } from 'react';
 import { Header } from '@components/Header';
 import { Flex } from '@components/shared/Flex';
 
-import { useChatRoomTabStore } from '@stores/chatRoomTab.store.ts';
+import { CHAT_ROOM_TAB_TITLE } from '@constants/chat.ts';
 
-import { CHAT_ROOM_TAB_TITLE } from '@consts/chat.ts';
-
-import { ChatRoomList } from './ChatRoomList.tsx';
 import {
   Main,
   MessagePageContainer,
   TabBarButton,
 } from './ChatRoomListPage.style.ts';
-import { SkeletonChatRoomList } from './SkeletonChatRoomList.tsx';
+import { ChatRoomList } from './components/ChatRoomList.tsx';
+import { useChatRoomListPage } from './hooks/useChatRoomListPage.ts';
+import { ChatRoomListSkeleton } from './skeletons/ChatRoomListSkeleton.tsx';
 
 export const ChatRoomListPage = () => {
-  const { chatRoomTab, setChatRoomTab } = useChatRoomTabStore();
+  const { chatRoomTab, setChatRoomTab } = useChatRoomListPage();
 
   return (
     <MessagePageContainer>
@@ -33,7 +32,7 @@ export const ChatRoomListPage = () => {
             </TabBarButton>
           ))}
         </Flex>
-        <Suspense fallback={<SkeletonChatRoomList />}>
+        <Suspense fallback={<ChatRoomListSkeleton />}>
           <ChatRoomList />
         </Suspense>
       </Main>

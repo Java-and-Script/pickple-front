@@ -7,7 +7,7 @@ import { Text } from '@components/shared/Text';
 
 import { theme } from '@styles/theme';
 
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import LOGO_SRC from '@assets/logoSvg.svg';
 

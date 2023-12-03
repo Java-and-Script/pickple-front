@@ -6,7 +6,7 @@ import { Input } from '@components/shared/Input';
 
 import { theme } from '@styles/theme';
 
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import {
   ChatRoomContainer,
@@ -17,7 +17,7 @@ import {
 } from './ChattingPage.style';
 import { Chat } from './components/Chat';
 import { ChatRoomTitle } from './components/ChatRoomTitle';
-import { useChattingPage } from './useChattingPage';
+import { useChattingPage } from './hooks/useChattingPage';
 
 export const ChattingPage = () => {
   const {

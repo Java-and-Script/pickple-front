@@ -1,17 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-
-import { LoginRequireError } from '@routes/LoginRequireBoundary';
-
 import { Header } from '@components/Header';
 import { MatchItem } from '@components/MatchItem';
 import { Text } from '@components/shared/Text';
 
-import { useCreatedGamesQuery } from '@hooks/queries/useCreatedGamesQuery';
-import { useHeaderTitle } from '@hooks/useHeaderTitle';
-
-import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import {
   getGameStartDate,
@@ -21,19 +12,11 @@ import {
 } from '@utils/domain';
 
 import { PageContent, PageWrapper } from './GamesHostPage.styles';
+import { useGamesHostPage } from './hooks/useGamesHostPage';
 
 export const GamesHostPage = () => {
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-  if (!loginInfo?.id) {
-    throw new LoginRequireError();
-  }
-  const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
-
-  const { data: createdGames } = useCreatedGamesQuery({
-    memberId: loginInfo.id,
-  });
-
-  const navigate = useNavigate();
+  const { entryRef, showHeaderTitle, createdGames, navigate } =
+    useGamesHostPage();
 
   return (
     <PageWrapper>

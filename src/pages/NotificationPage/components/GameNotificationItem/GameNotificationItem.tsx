@@ -2,11 +2,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { NotificationItem } from '@/components/NotificationItem';
 
-import { useGameAlarmsPatchMutation } from '@hooks/mutations/useGameAlarmsPatchMutation';
+import { useGameAlarmsPatchMutation } from '@hooks/alarms/useGameAlarmsPatchMutation';
 
 import { GameAlarm } from '@type/models';
 
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import { getGameStartDate } from '@utils/domain';
 

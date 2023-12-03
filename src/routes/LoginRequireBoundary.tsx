@@ -3,7 +3,7 @@ import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { toast } from 'react-hot-toast';
 import { Navigate } from 'react-router-dom';
 
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 export class LoginRequireError extends Error {}
 

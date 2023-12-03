@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useGameRegistrationStatusQuery } from '@hooks/queries/useGameRegistrationStatusQuery';
+import { useGameRegistrationStatusQuery } from '@hooks/member/useGameRegistrationStatusQuery';
 
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import { BottomButton } from './BottomButton';
 

@@ -1,2 +1,2 @@
 export * from './CrewsDetailPage';
-export * from './CrewsDetailPage.loading';
+export * from './skeletons';

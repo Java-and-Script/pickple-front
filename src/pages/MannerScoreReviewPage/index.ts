@@ -1,1 +1,1 @@
-export { MannerScoreReviewPage } from './MannerScoreReviewPage';
+export * from './MannerScoreReviewPage';

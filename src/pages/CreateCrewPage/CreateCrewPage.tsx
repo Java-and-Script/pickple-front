@@ -1,7 +1,7 @@
 import { FormProvider } from 'react-hook-form';
 
-import { MAX_MEMBER_COUNT_LIST } from '@pages/CreateCrewPage/consts/createCrewOptions';
-import { CREATE_CREW_STRINGS } from '@pages/CreateCrewPage/consts/createCrewOptions';
+import { MAX_MEMBER_COUNT_LIST } from '@pages/CreateCrewPage/constants/createCrewOptions';
+import { CREATE_CREW_STRINGS } from '@pages/CreateCrewPage/constants/createCrewOptions';
 
 import { ConditionalFormInput } from '@components/ConditionalFormInput';
 import { Header } from '@components/Header';
@@ -27,7 +27,7 @@ import {
   StyledTitle,
   StyledToggleButton,
 } from './CreateCrewPage.styles';
-import { useCreateCrewPage } from './useCreateCrewPage';
+import { useCreateCrewPage } from './hooks/useCreateCrewPage';
 
 export const CreateCrewPage = () => {
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();

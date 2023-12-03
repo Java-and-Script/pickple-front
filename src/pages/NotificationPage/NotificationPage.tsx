@@ -1,15 +1,7 @@
-import { LoginRequireError } from '@routes/LoginRequireBoundary';
-
 import { Header } from '@components/Header';
 import { Text } from '@components/shared/Text';
 
-import { useAlarmsDeleteMutation } from '@hooks/mutations/useAlarmsDeleteMutation';
-import { useAlarmsQuery } from '@hooks/queries/useAlarmsQuery';
-import { useInfiniteScroll } from '@hooks/useInfiniteScroll';
-
 import { BUTTON_PROPS } from '@styles/button';
-
-import { useLoginInfoStore } from '@stores/loginInfo.store';
 
 import {
   ButtonWrapper,
@@ -19,26 +11,10 @@ import {
 } from './NotificationPage.styles';
 import { CrewNotificationItem } from './components/CrewNotificationItem';
 import { GameNotificationItem } from './components/GameNotificationItem/GameNotificationItem';
+import { useNotificationPage } from './hooks/useNotificationPage';
 
 export const NotificationPage = () => {
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-  const isLoggedIn = Boolean(loginInfo?.id);
-  if (!isLoggedIn) {
-    throw new LoginRequireError();
-  }
-
-  const {
-    data: { pages },
-    fetchNextPage,
-    hasNextPage,
-  } = useAlarmsQuery();
-  const alarms = pages.flatMap((page) => page.alarmResponse);
-
-  const entryRef = useInfiniteScroll<HTMLDivElement>(() => {
-    hasNextPage && fetchNextPage();
-  });
-
-  const { mutate: deleteAlarmMutate } = useAlarmsDeleteMutation();
+  const { alarms, deleteAlarmMutate, entryRef } = useNotificationPage();
 
   return (
     <PageWrapper>

@@ -1,4 +1,4 @@
 export * from './ProfilePage';
-export * from './ProfilePageSkeleton';
-export * from './ProfileSkeleton';
-export * from './Profile';
+export * from './skeletons/ProfilePageSkeleton';
+export * from './skeletons/ProfileSkeleton';
+export * from './components/Profile';

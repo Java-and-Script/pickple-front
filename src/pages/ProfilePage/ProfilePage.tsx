@@ -1,18 +1,15 @@
-import { useParams } from 'react-router-dom';
-
 import { Header } from '@components/Header';
 
-import { Profile } from './Profile';
 import { ProfileContainer } from './ProfilePage.style';
+import { Profile } from './components/Profile';
+import { useProfilePage } from './hooks/useProfilePage';
 
 export const ProfilePage = () => {
-  const { id } = useParams();
-  const memberId = Number(id);
-
+  const { memberId } = useProfilePage();
   return (
     <ProfileContainer>
       <Header isLogo={false} isRightContainer={true} />
-      <Profile memberId={memberId} />
+      <Profile memberId={Number(memberId)} />
     </ProfileContainer>
   );
 };

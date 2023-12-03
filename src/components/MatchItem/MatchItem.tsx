@@ -5,8 +5,8 @@ import { Text } from '@components/shared/Text';
 
 import { theme } from '@styles/theme';
 
-import { PATH_NAME } from '@consts/pathName';
-import { WEEKDAY } from '@consts/weekday';
+import { PATH_NAME } from '@constants/pathName';
+import { WEEKDAY } from '@constants/weekday';
 
 import { isGameEnded } from '@utils/domain';
 

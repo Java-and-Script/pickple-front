@@ -32,7 +32,7 @@
       "@stores/*": ["src/stores/*"],
       "@contexts/*": ["src/contexts/*"],
       "@type/*": ["src/type/*"],
-      "@consts/*": ["src/consts/*"],
+      "@constants/*": ["src/constants/*"],
       "@utils/*": ["src/utils/*"],
       "@assets/*": ["src/assets/*"],
       "@tests/*": ["src/tests/*"],

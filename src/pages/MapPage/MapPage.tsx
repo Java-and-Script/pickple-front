@@ -8,10 +8,6 @@ import Marker from '@assets/mapMarker.svg?react';
 import MyLocation from '@assets/myLocation.svg?react';
 import Refresh from '@assets/refresh.svg?react';
 
-import { CurrentLocationMarker } from './CurrentLocationMarker';
-import { GameMarkers } from './GameMarkers';
-import { GamesDetailPage } from './GamesDetailPage';
-import { GamesNearInMap } from './GamesNearInMap';
 import {
   LoadingButton,
   LoadingView,
@@ -20,7 +16,11 @@ import {
   MapSubContainer,
   MyLocationButton,
 } from './MapPage.style';
-import { useMapPage } from './useMapPage';
+import { CurrentLocationMarker } from './components/CurrentLocationMarker';
+import { GameMarkers } from './components/GameMarkers';
+import { GamesDetailPage } from './components/GamesDetailPage';
+import { GamesNearInMap } from './components/GamesNearInMap';
+import { useMapPage } from './hooks/useMapPage';
 
 export const MapPage = () => {
   const {

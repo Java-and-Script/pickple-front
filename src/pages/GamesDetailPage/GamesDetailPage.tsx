@@ -1,5 +1,4 @@
 import { ErrorBoundary } from 'react-error-boundary';
-import { useNavigate, useParams } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
@@ -8,29 +7,14 @@ import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
 
-import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
-import { useChatOnButtonClick } from '@hooks/useChatOnButtonClick';
-import { usePositionToast } from '@hooks/usePositionToast';
-
 import { theme } from '@styles/theme';
 
-import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { PATH_NAME } from '@consts/pathName';
-import { WEEKDAY } from '@consts/weekday';
-
-import {
-  getGameStartDate,
-  isGameEnded,
-  isGameStarted,
-  isReviewPeriod,
-} from '@utils/domain';
+import { WEEKDAY } from '@constants/weekday';
 
 import Ball from '@assets/ball.svg';
 import GameMember from '@assets/gameMember.svg';
 import Money from '@assets/money.svg';
 
-import { GameLocation } from './GameLocation';
 import {
   ButtonWrapper,
   GrayText,
@@ -45,52 +29,33 @@ import {
   ToolTipText,
   UserDataWrapper,
 } from './GamesDetailPage.styles';
+import { GameLocation } from './components/GameLocation';
 import { GuestButton } from './components/GuestButton';
 import { HostButton } from './components/HostButton';
+import { useGamesDetailPage } from './hooks/useGamesDetailPage';
 
 export const GamesDetailPage = () => {
-  const { id } = useParams();
-  if (id === undefined) {
-    throw new Error('"match id" is undefined');
-  }
-
-  const navigate = useNavigate();
-
-  const gameId = Number(id);
-
-  const { data: match } = useGameDetailQuery(gameId);
-
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-  const isMyMatch = match.host.id === loginInfo?.id;
-  const startDate = getGameStartDate(match.playDate, match.playStartTime);
-  const isStarted = isGameStarted(startDate);
-  const isEnded = isGameEnded(startDate, match.playTimeMinutes);
-  const isContinue = isStarted && !isEnded;
-  const isParticipant = match.members.some(
-    (member) => member.id === loginInfo?.id
-  );
-  const vacancy = match.maxMemberCount - match.memberCount > 0;
-  const canReview = isReviewPeriod(
-    match.playDate,
-    match.playStartTime,
-    match.playTimeMinutes
-  );
+  const {
+    gameId,
+    match,
+    loginInfo,
+    handleClickMemberProfile,
+    handleClickChattingButton,
+    handleClickPosition,
+    navigateToLoginPage,
+    isMyMatch,
+    isStarted,
+    isEnded,
+    isContinue,
+    isParticipant,
+    vacancy,
+    canReview,
+  } = useGamesDetailPage();
 
   const [year, month, day] = match.playDate.split('-');
   const [hour, min] = match.playStartTime.split(':');
   const date = new Date(Number(year), Number(month) - 1, Number(day));
   const weekday = WEEKDAY[date.getDay()];
-
-  const handleClickMemberProfile = (id: number | string) =>
-    navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
-
-  const { handleClickChattingButton } = useChatOnButtonClick({
-    targetId: match.host.id,
-    targetNickname: match.host.nickname,
-    navigate,
-    myId: loginInfo?.id ?? null,
-  });
-  const { handleClickPosition } = usePositionToast();
 
   return (
     <PageLayout>
@@ -253,7 +218,7 @@ export const GamesDetailPage = () => {
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
               height="50px"
               width="100%"
-              onClick={() => navigate(PATH_NAME.LOGIN)}
+              onClick={navigateToLoginPage}
             >
               로그인 후 참여 신청하기
             </Button>

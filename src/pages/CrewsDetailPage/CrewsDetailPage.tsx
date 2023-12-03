@@ -1,5 +1,4 @@
 import { ErrorBoundary } from 'react-error-boundary';
-import { useNavigate, useParams } from 'react-router-dom';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
@@ -8,13 +7,7 @@ import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 
-import { useCrewDetailQuery } from '@hooks/queries/useCrewDetailQuery';
-
 import { theme } from '@styles/theme';
-
-import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { PATH_NAME } from '@consts/pathName';
 
 import Ball from '@assets/ball.svg?react';
 import CrewMember from '@assets/gameMember.svg?react';
@@ -34,27 +27,21 @@ import {
   ProfileImage,
   ToolTipWrapper,
 } from './CrewsDetailPage.styles';
-import { ParticipateButton } from './ParticipateButton';
+import { ParticipateButton } from './components/ParticipateButton';
+import { useCrewsDetailPage } from './hooks/useCrewsDetailPage';
 
 /** TODO 좌측 상단에 모집중, 내가 속한 크루, 내가 만든 크루 툴팁 보여주기 */
 export const CrewsDetailPage = () => {
-  const { id } = useParams();
-  if (id === undefined || isNaN(Number(id))) {
-    throw new Error('"crew id" is invalid');
-  }
-
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-  const { data: crew } = useCrewDetailQuery({ crewId: Number(id) });
-
-  const navigate = useNavigate();
-  const handleClickMemberProfile = (id: number | string) =>
-    navigate(PATH_NAME.GET_PROFILE_PATH(String(id)));
-
-  const vacancy = crew.maxMemberCount - crew.memberCount > 0;
-  const isMyCrew = crew.leader.id === loginInfo?.id;
-  const isParticipant = crew.members.some(
-    (member) => member.id === loginInfo?.id
-  );
+  const {
+    loginInfo,
+    crew,
+    isMyCrew,
+    isParticipant,
+    vacancy,
+    handleClickMemberProfile,
+    navigateToManagePage,
+    navigateToLoginPage,
+  } = useCrewsDetailPage();
 
   return (
     <PageWrapper>
@@ -141,9 +128,7 @@ export const CrewsDetailPage = () => {
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
               height="50px"
               width="100%"
-              onClick={() =>
-                navigate(PATH_NAME.GET_CREWS_MANAGE_PATH(String(crew.id)))
-              }
+              onClick={navigateToManagePage}
             >
               크루 관리
             </Button>
@@ -162,7 +147,7 @@ export const CrewsDetailPage = () => {
               {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
               height="50px"
               width="100%"
-              onClick={() => navigate(PATH_NAME.LOGIN)}
+              onClick={navigateToLoginPage}
             >
               로그인 후 가입 신청하기
             </Button>

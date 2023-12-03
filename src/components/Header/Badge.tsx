@@ -1,4 +1,4 @@
-import { useAlarmsUnreadQuery } from '@hooks/queries/useAlarmsUnreadQuery';
+import { useAlarmsUnreadQuery } from '@hooks/alarms/useAlarmsUnreadQuery';
 
 import { BadgeIcon } from './Header.style';
 

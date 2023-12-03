@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import { PATH_NAME } from '@/consts/pathName';
-
 import { Header } from '@components/Header';
+
+import { PATH_NAME } from '@constants/pathName';
 
 import { CreatePageContainer } from './CreatePage.style';
 import { CreatePageCard } from './CreatePageCard';

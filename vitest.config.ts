@@ -27,7 +27,7 @@ export default defineConfig({
       { find: '@stores', replacement: '/src/stores' },
       { find: '@contexts', replacement: '/src/contexts' },
       { find: '@type', replacement: '/src/type' },
-      { find: '@consts', replacement: '/src/consts' },
+      { find: '@constants', replacement: '/src/constants' },
       { find: '@utils', replacement: '/src/utils' },
       { find: '@assets', replacement: '/src/assets' },
       { find: '@tests', replacement: '/src/tests' },

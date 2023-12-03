@@ -1,34 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 
-import { LoginRequireError } from '@routes/LoginRequireBoundary';
-
 import { CrewItem } from '@components/CrewItem';
 import { Header } from '@components/Header';
 import { Text } from '@components/shared/Text';
 
-import { useJoinedCrewsQuery } from '@hooks/queries/useJoinedCrewsQuery';
 import { useHeaderTitle } from '@hooks/useHeaderTitle';
 
-import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { PATH_NAME } from '@consts/pathName';
+import { PATH_NAME } from '@constants/pathName';
 
 import { PageContent, PageWrapper } from './CrewsParticipatePage.styles';
+import { useCrewsParticipatePage } from './hooks/useCrewsParticipatePage';
 
 export const CrewsParticipatePage = () => {
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-
-  if (!loginInfo?.id) {
-    throw new LoginRequireError();
-  }
-
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
-
-  const { data: crews } = useJoinedCrewsQuery({
-    memberId: loginInfo.id,
-    status: '확정',
-  });
-
+  const { crews } = useCrewsParticipatePage();
   const navigate = useNavigate();
 
   return (

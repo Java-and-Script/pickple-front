@@ -1,10 +1,7 @@
-import { Suspense, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Suspense } from 'react';
 
 import { ProfileSkeleton } from '@pages/ProfilePage';
 import { Profile } from '@pages/ProfilePage';
-
-import { LoginRequireError } from '@routes/LoginRequireBoundary';
 
 import { Avatar } from '@components/Avatar';
 import { Header } from '@components/Header';
@@ -13,17 +10,9 @@ import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Text } from '@components/shared/Text';
 
-import { useMannerScoreReviewPatchMutation } from '@hooks/mutations/useMannerScoreReviewPatchMutation';
-import { useGameDetailQuery } from '@hooks/queries/useGameDetailQuery';
-import { useGameRegistrationStatusQuery } from '@hooks/queries/useGameRegistrationStatusQuery';
-
 import { theme } from '@styles/theme';
 
-import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { PATH_NAME } from '@consts/pathName';
-
-import { isReviewPeriod } from '@utils/domain';
+import { PATH_NAME } from '@constants/pathName';
 
 import leftArrowIcon from '@assets/leftArrow.svg';
 import rightArrowIcon from '@assets/rightArrow.svg';
@@ -37,86 +26,25 @@ import {
   ReviewPageContainer,
   TextWrapper,
 } from './MannerScoreReviewPage.style';
-import { ToggleButton } from './ToggleButton';
+import { ToggleButton } from './components/ToggleButton';
+import { useMannerScoreReviewPage } from './hooks/useMannerScoreReviewPage';
 
 export const MannerScoreReviewPage = () => {
-  const navigate = useNavigate();
-  const gameId = Number(location.pathname.split('/')[2]);
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-  if (!loginInfo?.id) {
-    throw new LoginRequireError();
-  }
-
-  const { data: gameData } = useGameDetailQuery(gameId);
   const {
-    data: { isReviewDone },
-  } = useGameRegistrationStatusQuery({ memberId: loginInfo.id, gameId });
-  const teammateListInfo = gameData.members.filter(({ id }) => {
-    return loginInfo?.id !== id;
-  });
-
-  const nowDate = new Date();
-  const gameDate = new Date(`${gameData.playDate}T${gameData.playEndTime}`);
-  const canReview = isReviewPeriod(
-    gameData.playDate,
-    gameData.playStartTime,
-    gameData.playTimeMinutes
-  );
-  const exitCode =
-    !canReview ||
-    isReviewDone ||
-    nowDate <= gameDate ||
-    teammateListInfo.length === 0;
-
-  const [currentSelectedMemberIndex, setCurrentSelectedMemberIndex] =
-    useState(0);
-  const [isOpen, setIsOpen] = useState(false);
-  const [teammateList, setTeammateList] = useState<
-    {
-      memberId: number;
-      mannerScore: -1 | 0 | 1;
-    }[]
-  >(
-    teammateListInfo.map(({ id }) => {
-      return {
-        memberId: id,
-        mannerScore: 0,
-      };
-    })
-  );
-
-  const { mutate } = useMannerScoreReviewPatchMutation({
-    payload: {
-      mannerScoreReviews: teammateList,
-    },
-    gameId: gameId,
-  });
-
-  const handleToggle = (value: string) => {
-    teammateList.splice(currentSelectedMemberIndex, 1, {
-      memberId: teammateList[currentSelectedMemberIndex].memberId,
-      mannerScore: value === '좋았어요' ? 1 : -1,
-    });
-    setTeammateList([...teammateList]);
-  };
-
-  const handleLeftArrowIconClick = () => {
-    if (currentSelectedMemberIndex > 0) {
-      setCurrentSelectedMemberIndex(currentSelectedMemberIndex - 1);
-    }
-  };
-
-  const handleRightArrowIconClick = () => {
-    if (currentSelectedMemberIndex < teammateList.length - 1) {
-      setCurrentSelectedMemberIndex(currentSelectedMemberIndex + 1);
-    }
-  };
-
-  useEffect(() => {
-    if (exitCode) {
-      navigate('/');
-    }
-  }, []);
+    exitCode,
+    teammateList,
+    teammateListInfo,
+    currentSelectedMemberIndex,
+    setCurrentSelectedMemberIndex,
+    handleLeftArrowIconClick,
+    handleRightArrowIconClick,
+    isOpen,
+    setIsOpen,
+    handleToggle,
+    mutate,
+    navigate,
+    gameId,
+  } = useMannerScoreReviewPage();
 
   if (exitCode) {
     return <></>;
