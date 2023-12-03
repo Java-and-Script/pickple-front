@@ -11,6 +11,6 @@ export const useAllChatRoomListQuery = ({
     queryKey: ['all-chat-room-list', type],
     queryFn: () => getAllChatRoomList({ type }),
     refetchOnMount: 'always',
-    refetchInterval: 10000,
+    refetchInterval: 3000,
   });
 };

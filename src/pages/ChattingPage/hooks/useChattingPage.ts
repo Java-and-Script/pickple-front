@@ -182,6 +182,7 @@ export const useChattingPage = () => {
   };
 
   const moveToPage = (path: string) => {
+    flushSync(() => setIsModalOpen(false));
     navigate(path);
   };
 
