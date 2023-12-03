@@ -8,8 +8,6 @@ import { ChatMessage } from '@type/models/ChatMessage';
 
 import { CHAT_TYPE } from '@constants/chat';
 
-import { convertUTCToKoreanTime } from '@utils/convertUTCToKoreanTime';
-
 import {
   BalloonContainer,
   BalloonInfo,
@@ -59,7 +57,7 @@ export const Chat = ({
           {}
         </Text>
         <Text size={10} weight={300}>
-          {String(convertUTCToKoreanTime(createdAt)).slice(11, 16)}
+          {String(createdAt).slice(11, 16)}
         </Text>
       </BalloonInfo>
     </Flex>

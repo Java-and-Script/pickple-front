@@ -19,7 +19,7 @@ import { CHAT_TYPE } from '@constants/chat';
 import { PATH_NAME } from '@constants/pathName';
 
 import { MODAL_CONTENTS } from '../constants/modalContents';
-import { formatDateString, getKoreanDay } from '../services/formatDate';
+import { formatDateString, getSlicedTime } from '../services/formatDate';
 import { useQuitCondition } from '../services/quitChatCondition';
 import {
   connect,
@@ -75,8 +75,10 @@ export const useChattingPage = () => {
           return [...prevChats, dateSystemMessage, chat];
         }
 
-        const prevCreatedAt = getKoreanDay(prevChatMessages[idx - 1].createdAt);
-        const curCreatedAt = getKoreanDay(chat.createdAt);
+        const prevCreatedAt = getSlicedTime(
+          prevChatMessages[idx - 1].createdAt
+        );
+        const curCreatedAt = getSlicedTime(chat.createdAt);
 
         if (prevCreatedAt !== curCreatedAt) {
           const dateSystemMessage = createDateSystemMessage(chat);
@@ -115,11 +117,11 @@ export const useChattingPage = () => {
           roomId,
           subscribeEvent: (received: ChatMessage) =>
             setChatMessages((prev: ChatMessage[]) => {
-              const prevCreatedAt = getKoreanDay(
+              const prevCreatedAt = getSlicedTime(
                 prev[prev.length - 1].createdAt
               );
 
-              const curCreatedAt = getKoreanDay(received.createdAt);
+              const curCreatedAt = getSlicedTime(received.createdAt);
 
               if (prevCreatedAt !== curCreatedAt) {
                 const dateSystemMessage = createDateSystemMessage(received);
