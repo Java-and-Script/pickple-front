@@ -100,3 +100,8 @@ export const ToolTipWrapper = styled.div`
   border: 1px solid ${({ theme }) => theme.PALETTE.RED_400};
   border-radius: 5px;
 `;
+
+export const ContentText = styled(Text)`
+  white-space: pre-wrap;
+  word-break: break-all;
+`;
