@@ -53,7 +53,7 @@ export const InfoItem = styled.div`
 export const GuestsContainer = styled.div`
   width: 100%;
   padding-bottom: 10px;
-  overflow: scroll;
+  overflow-x: scroll;
 `;
 
 export const Guests = styled(Flex)`
@@ -100,4 +100,9 @@ export const ToolTipText = styled(Text)`
   padding: 0 2px;
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme.PALETTE.RED_400};
+`;
+
+export const ContentText = styled(Text)`
+  white-space: pre-wrap;
+  word-break: break-all;
 `;
