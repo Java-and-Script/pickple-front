@@ -15,14 +15,21 @@ export const Main = styled(Flex)`
 `;
 
 export const SendButton = styled.button`
-  width: 48px;
+  width: 32px;
   height: 32px;
   font-size: ${({ theme }) => theme.FONT_SIZE.XS};
   background-color: ${({ theme }) => theme.PALETTE.RED_500};
   color: white;
   outline: none;
-  border-radius: 8px;
+  border-radius: 50%;
   border: none;
+  & > svg {
+    width: 100%;
+    height: 100%;
+    path {
+      fill: white;
+    }
+  }
 `;
 
 export const InputWrapper = styled.div`
