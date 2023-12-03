@@ -2,5 +2,7 @@ export const getGameNotificationTitle = (
   playDate: string,
   mainAddress: string
 ) => {
-  return `${playDate.split('-').slice(1)} ${mainAddress.split(' ')[0]}`;
+  return `${playDate.split('-').slice(1).join('.')} ${
+    mainAddress.split(' ')[0]
+  }`;
 };
