@@ -1,10 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 
+import { PositionItemBox } from '@pages/GamesDetailPage/GamesDetailPage.styles';
+
 import { Avatar } from '@components/Avatar';
 import { Button } from '@components/shared/Button';
 import { Flex } from '@components/shared/Flex';
 import { Image } from '@components/shared/Image';
 import { Text } from '@components/shared/Text';
+
+import { usePositionToast } from '@hooks/usePositionToast';
 
 import { theme } from '@styles/theme';
 
@@ -37,6 +41,7 @@ export const GamesDetailPage = ({
   onNavigate?: VoidFunction;
 }) => {
   const navigate = useNavigate();
+  const { handleClickPosition } = usePositionToast();
   if (match === undefined) {
     return <></>;
   }
@@ -94,17 +99,31 @@ export const GamesDetailPage = ({
             <Flex gap={20}>
               <GrayText>시간</GrayText>
               <Text>
-                {`${match.playStartTime} ~ ${match.playEndTime} (${
-                  match.playTimeMinutes / 60
-                }h)`}
+                {`${match.playStartTime.slice(0, 5)}
+                 ~ ${match.playEndTime.slice(0, 5)} (${
+                   match.playTimeMinutes / 60
+                 }h)`}
               </Text>
+            </Flex>
+            <Flex>
+              <GrayText nowrap>선호 포지션</GrayText>
+            </Flex>
+            <Flex gap={10}>
+              {match.positions.map((position) => (
+                <PositionItemBox
+                  key={position}
+                  onClick={() => handleClickPosition(position)}
+                >
+                  {position}
+                </PositionItemBox>
+              ))}
             </Flex>
           </Flex>
           <Flex gap={10}>
             <InfoItem>
               <GrayText size={12}>참가비</GrayText>
               <Image width={40} src={Money} alt="money" />
-              <Text size={16}>{`${match.cost}원`}</Text>
+              <Text size={16}>{`${match.cost.toLocaleString()}원`}</Text>
             </InfoItem>
             <InfoItem>
               <GrayText size={12}>현재원</GrayText>
