@@ -80,12 +80,12 @@ export const AllServicesPage = () => {
           <MenuItem
             icon={<Pen />}
             pageName="게스트 모집하기"
+            color={myId ? null : theme.PALETTE.GRAY_300}
             onClickMenuItem={() => moveToPage(PATH_NAME.CREATE_GAME)}
           />
           <MenuItem
             icon={<Foot />}
             pageName="내 근처 게스트 매치"
-            color={myId ? null : theme.PALETTE.GRAY_300}
             onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_NEAR)}
           />
           <MenuItem
@@ -108,6 +108,7 @@ export const AllServicesPage = () => {
           <MenuItem
             icon={<Pen />}
             pageName="크루 만들기"
+            color={myId ? null : theme.PALETTE.GRAY_300}
             onClickMenuItem={() => moveToPage(PATH_NAME.CREATE_CREW)}
           />
           <MenuItem
