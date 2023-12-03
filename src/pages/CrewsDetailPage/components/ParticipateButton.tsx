@@ -56,14 +56,16 @@ export const ParticipateButton = ({
   }
 
   if (memberRegistrationStatus === '대기') {
-    <Button
-      {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
-      height="50px"
-      width="100%"
-      onClick={() => toast('준비중인 기능입니다')}
-    >
-      참여 취소하기
-    </Button>;
+    return (
+      <Button
+        {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
+        height="50px"
+        width="100%"
+        onClick={() => toast('준비중인 기능입니다')}
+      >
+        참여 취소하기
+      </Button>
+    );
   }
 
   return null;
