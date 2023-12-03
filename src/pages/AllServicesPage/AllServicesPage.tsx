@@ -66,6 +66,7 @@ export const AllServicesPage = () => {
 
           <MenuItem
             icon={<Social />}
+            color={theme.PALETTE.GRAY_300}
             onClickMenuItem={toastNextUpdate}
             pageName="소셜링"
           />
