@@ -10,6 +10,8 @@ import { theme } from '@styles/theme';
 
 import { PATH_NAME } from '@constants/pathName';
 
+import PaperPlane from '@assets/paperPlane.svg?react';
+
 import {
   AlignedCenteredText,
   ChatRoomContainer,
@@ -81,7 +83,9 @@ export const ChattingPage = () => {
           backgroundColor={theme.PALETTE.GRAY_200}
           ref={inputRef}
         >
-          <SendButton>전송</SendButton>
+          <SendButton>
+            <PaperPlane />
+          </SendButton>
         </Input>
       </InputWrapper>
       <Modal isOpen={isModalOpen} close={() => setIsModalOpen(false)}>

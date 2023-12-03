@@ -30,7 +30,7 @@ export const ChattingPageSkeleton = () => {
       />
       <InputWrapper>
         <Input height="48px" backgroundColor={theme.PALETTE.GRAY_200}>
-          <SendButton>전송</SendButton>
+          <SendButton></SendButton>
         </Input>
       </InputWrapper>
     </Skeleton>
