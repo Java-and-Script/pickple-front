@@ -129,43 +129,43 @@ export const LoadingView = styled.div`
 
   @keyframes bounce {
     0% {
-      transform: translateY(0%) scaleY(0.6);
+      transform: translateY(-30%) scaleY(0.6);
     }
     60% {
-      transform: translateY(-100%) scaleY(1.1);
+      transform: translateY(-130%) scaleY(1.1);
     }
     70% {
-      transform: translateY(0%) scaleY(0.95) scaleX(1.05);
+      transform: translateY(-30%) scaleY(0.95) scaleX(1.05);
     }
     80% {
-      transform: translateY(0%) scaleY(1.05) scaleX(1);
+      transform: translateY(-30%) scaleY(1.05) scaleX(1);
     }
     90% {
-      transform: translateY(0%) scaleY(0.95) scaleX(1);
+      transform: translateY(-30%) scaleY(0.95) scaleX(1);
     }
     100% {
-      transform: translateY(0%) scaleY(1) scaleX(1);
+      transform: translateY(-30%) scaleY(1) scaleX(1);
     }
   }
 
   @-webkit-keyframes bounce {
     0% {
-      -webkit-transform: translateY(0%) scaleY(0.6);
+      -webkit-transform: translateY(-30%) scaleY(0.6);
     }
     60% {
-      -webkit-transform: translateY(-100%) scaleY(1.1);
+      -webkit-transform: translateY(-130%) scaleY(1.1);
     }
     70% {
-      -webkit-transform: translateY(0%) scaleY(0.95) scaleX(1.05);
+      -webkit-transform: translateY(-30%) scaleY(0.95) scaleX(1.05);
     }
     80% {
-      -webkit-transform: translateY(0%) scaleY(1.05) scaleX(1);
+      -webkit-transform: translateY(-30%) scaleY(1.05) scaleX(1);
     }
     90% {
-      -webkit-transform: translateY(0%) scaleY(0.95) scaleX(1);
+      -webkit-transform: translateY(-30%) scaleY(0.95) scaleX(1);
     }
     100% {
-      -webkit-transform: translateY(0%) scaleY(1) scaleX(1);
+      -webkit-transform: translateY(-30%) scaleY(1) scaleX(1);
     }
   }
 `;
