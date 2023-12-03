@@ -15,13 +15,13 @@ export const Main = styled(Flex)`
 `;
 
 export const SendButton = styled.button`
-  width: 32px;
+  width: 48px;
   height: 32px;
   font-size: ${({ theme }) => theme.FONT_SIZE.XS};
   background-color: ${({ theme }) => theme.PALETTE.RED_500};
   color: white;
   outline: none;
-  border-radius: 50%;
+  border-radius: 10%;
   border: none;
   & > svg {
     width: 100%;
@@ -33,6 +33,7 @@ export const SendButton = styled.button`
 `;
 
 export const InputWrapper = styled.div`
+  z-index: 1000;
   position: fixed;
   bottom: 0px;
   width: 100%;

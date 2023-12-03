@@ -10,8 +10,6 @@ import { theme } from '@styles/theme';
 
 import { PATH_NAME } from '@constants/pathName';
 
-import PaperPlane from '@assets/paperPlane.svg?react';
-
 import {
   AlignedCenteredText,
   ChatRoomContainer,
@@ -84,7 +82,7 @@ export const ChattingPage = () => {
           ref={inputRef}
         >
           <SendButton>
-            <PaperPlane />
+            <Text nowrap>전송</Text>
           </SendButton>
         </Input>
       </InputWrapper>
