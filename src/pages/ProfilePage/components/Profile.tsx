@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import toast from 'react-hot-toast';
 
 import { Avatar } from '@components/Avatar';
 import { Button } from '@components/shared/Button';
@@ -10,8 +9,6 @@ import { Text } from '@components/shared/Text';
 import { theme } from '@styles/theme';
 
 import { Member } from '@type/models';
-
-import { PATH_NAME } from '@constants/pathName';
 
 import Social from '@assets/follow.svg?react';
 import HandHeart from '@assets/handHeart.svg?react';
@@ -58,11 +55,11 @@ export const Profile = ({ memberId }: ProfileProps) => {
     myId,
     profile,
     isHeartClicked,
+    toastNextUpdate,
     handleClickHeart,
     handleClickChattingButton,
     handleClickPosition,
     handleClickCrew,
-    moveToPage,
   } = useProfile({ memberId });
 
   return (
@@ -103,18 +100,18 @@ export const Profile = ({ memberId }: ProfileProps) => {
             text="팔로우"
             icon={<Social />}
             count={0}
-            onClick={handleClickFollow}
+            onClick={toastNextUpdate}
           />
         </Flex>
         {myId === memberId ? (
           <EventButton
             text="내 정보 수정"
             width="100%"
-            onClick={() => moveToPage(PATH_NAME.PROFILE_UPDATE)}
+            onClick={toastNextUpdate}
           />
         ) : (
           <Flex justify="center" gap={10}>
-            <EventButton text="팔로우" onClick={handleClickFollow} />
+            <EventButton text="팔로우" onClick={toastNextUpdate} />
             <EventButton text="대화하기" onClick={handleClickChattingButton} />
           </Flex>
         )}
@@ -204,10 +201,4 @@ const NumberedItem = ({
       </Text>
     </PointerFlex>
   );
-};
-
-const handleClickFollow = () => {
-  toast('차후에 업데이트될 기능입니다!', {
-    icon: '👏',
-  });
 };

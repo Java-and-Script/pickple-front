@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import { useMemberProfileQuery } from '@hooks/member/useMemberProfileQuery';
@@ -44,14 +45,20 @@ export const useProfile = ({ memberId }: ProfileProps) => {
 
   const { handleClickPosition } = usePositionToast();
 
+  const toastNextUpdate = () => {
+    toast('차후에 업데이트될 기능입니다!', {
+      icon: '👏',
+    });
+  };
+
   return {
     myId,
     profile,
     isHeartClicked,
+    toastNextUpdate,
     handleClickHeart,
     handleClickChattingButton,
     handleClickPosition,
     handleClickCrew,
-    moveToPage,
   };
 };
