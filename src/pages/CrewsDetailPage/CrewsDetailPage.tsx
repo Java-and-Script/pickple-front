@@ -17,6 +17,7 @@ import {
   AvatarWrapper,
   BackgoundImage,
   ButtonWrapper,
+  ContentText,
   CrewProfileInfo,
   Crown,
   MemberName,
@@ -79,9 +80,9 @@ export const CrewsDetailPage = () => {
         <Text size={20} weight={700}>
           크루 소개
         </Text>
-        <Text size={16} weight={300}>
+        <ContentText size={16} weight={300}>
           {crew.content}
-        </Text>
+        </ContentText>
         <Text size={20} weight={700}>
           크루원
         </Text>
