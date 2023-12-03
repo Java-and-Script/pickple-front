@@ -1,40 +1,21 @@
-import { useNavigate } from 'react-router-dom';
-
-import { LoginRequireError } from '@routes/LoginRequireBoundary';
-
 import { Header } from '@components/Header';
 import { MatchItem } from '@components/MatchItem';
 import { Text } from '@components/shared/Text';
 
-import { useConfirmGamesQuery } from '@hooks/member/useConfirmGamesQuery';
-import { useHeaderTitle } from '@hooks/useHeaderTitle';
-
-import { useLoginInfoStore } from '@stores/loginInfo.store';
-
-import { PATH_NAME } from '@constants/pathName';
-
 import { getGameStartDate, isReviewPeriod } from '@utils/domain';
 
 import { PageContent, PageWrapper } from './GamesParticipatePage.styles';
+import { useGamesParticipatePage } from './hooks/useGamesParticipatePage';
 
 export const GamesParticipatePage = () => {
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
-  if (!loginInfo?.id) {
-    throw new LoginRequireError();
-  }
-  const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
-
-  const { data: confirmedGames } = useConfirmGamesQuery({
-    memberId: loginInfo.id,
-  });
-
-  const navigate = useNavigate();
+  const { titleRef, showHeaderTitle, confirmedGames, navigateToDetailPage } =
+    useGamesParticipatePage();
 
   return (
     <PageWrapper>
       <Header title={showHeaderTitle ? '내가 참여한 매치' : ''} />
       <PageContent direction="column" gap={16}>
-        <div ref={entryRef}>
+        <div ref={titleRef}>
           <Text size={20} weight={700}>
             내가 참여한 게스트 매치
           </Text>
@@ -69,9 +50,7 @@ export const GamesParticipatePage = () => {
             >
               {canReview && (
                 <MatchItem.BottomButton
-                  onClick={() =>
-                    navigate(PATH_NAME.GET_GAMES_REVIEW_PATH(String(game.id)))
-                  }
+                  onClick={() => navigateToDetailPage(game.id)}
                 >
                   리뷰 남기기
                 </MatchItem.BottomButton>
