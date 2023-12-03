@@ -55,7 +55,7 @@ export const InfoItem = styled.div`
 export const GuestsContainer = styled.div`
   width: 100%;
   padding-bottom: 10px;
-  overflow: scroll;
+  overflow-x: scroll;
 `;
 
 export const Guests = styled(Flex)`
@@ -77,4 +77,9 @@ export const ButtonWrapper = styled.div`
   width: 100dvw;
   bottom: 70px;
   left: 0;
+`;
+
+export const ContentText = styled(Text)`
+  white-space: pre-wrap;
+  word-break: break-all;
 `;
