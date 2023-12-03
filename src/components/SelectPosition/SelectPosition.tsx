@@ -3,13 +3,13 @@ import { useToggleButtons } from '@components/shared/ToggleButton';
 
 import { Position } from '@type/models/Position';
 
+import { POSITIONS_BUTTON } from '@constants/positions';
+
 export const SelectPosition = ({
   setPositions,
 }: {
   setPositions: (value: Position[]) => void;
 }) => {
-  const positions = ['C', 'PF', 'SF', 'PG', 'SG', '없음'];
-
   const handledToggle = (value: string[]) => {
     setPositions(value as Position[]);
   };
@@ -17,11 +17,12 @@ export const SelectPosition = ({
   const { handleToggle, selectedItems } = useToggleButtons({
     onToggle: handledToggle,
     isMultipleSelect: true,
+    noValue: POSITIONS_BUTTON['없음'],
   });
 
   return (
     <>
-      {positions.map((position) => (
+      {Object.values(POSITIONS_BUTTON).map((position) => (
         <ToggleButton
           type="button"
           fontSize="12px"
@@ -30,7 +31,7 @@ export const SelectPosition = ({
           key={position}
           value={position}
           isActive={selectedItems.includes(position)}
-          onToggle={handleToggle}
+          onToggle={() => handleToggle(position)}
         />
       ))}
     </>
