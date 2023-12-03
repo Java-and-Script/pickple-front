@@ -18,6 +18,7 @@ import { ChatMessage } from '@type/models/ChatMessage';
 import { CHAT_TYPE } from '@constants/chat';
 import { PATH_NAME } from '@constants/pathName';
 
+import { MODAL_CONTENTS } from '../constants/modalContents';
 import { formatDateString, getKoreanDay } from '../services/formatDate';
 import { useQuitCondition } from '../services/quitChatCondition';
 import {
@@ -57,6 +58,7 @@ export const useChattingPage = () => {
   const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
   const [chatMessages, setChatMessages] = useState(prevChatMessages);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContents, setModalContents] = useState(MODAL_CONTENTS.DEFAULT);
 
   const chattingEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -190,6 +192,8 @@ export const useChattingPage = () => {
     isModalOpen,
     inputRef,
     chattingEndRef,
+    modalContents,
+    setModalContents,
     setIsModalOpen,
     moveToPage,
     sendChatMessage,

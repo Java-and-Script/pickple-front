@@ -1,35 +1,26 @@
 import { ChatRoomDetail } from '@type/models/ChatRoom';
 
-import { CHAT_ROOM_TAB_TITLE } from '@constants/chat';
-import { PATH_NAME } from '@constants/pathName';
+import { RoomNameWrapper } from '../ChattingPage.style';
+import { PAGE_PATH_BY_ROOM_TYPE } from '../constants/chatRoomTypeOptions';
 
-import { Pointer } from '../ChattingPage.style';
+type ChatRoomTitleProps = Pick<
+  ChatRoomDetail,
+  'type' | 'domainId' | 'roomName'
+> & {
+  onClick: (path: string) => void;
+};
 
 export const ChatRoomTitle = ({
-  type,
+  type: roomType,
   domainId,
   roomName,
   onClick: moveToPage,
-}: Pick<ChatRoomDetail, 'type' | 'domainId' | 'roomName'> & {
-  onClick: (path: string) => void;
-}) => {
-  const titlePagePath = getTitlePagePath(type);
+}: ChatRoomTitleProps) => {
+  const path = PAGE_PATH_BY_ROOM_TYPE[roomType](String(domainId));
 
   return (
-    <Pointer onClick={() => moveToPage(titlePagePath(String(domainId)))}>
+    <RoomNameWrapper onClick={() => moveToPage(path)}>
       {roomName}
-    </Pointer>
+    </RoomNameWrapper>
   );
-};
-
-const getTitlePagePath = (roomType: string) => {
-  if (roomType === CHAT_ROOM_TAB_TITLE.INDIVIDUAL) {
-    return PATH_NAME.GET_PROFILE_PATH;
-  }
-
-  if (roomType === CHAT_ROOM_TAB_TITLE.GUEST) {
-    return PATH_NAME.GET_GAMES_PATH;
-  }
-
-  return PATH_NAME.GET_CREWS_PATH;
 };
