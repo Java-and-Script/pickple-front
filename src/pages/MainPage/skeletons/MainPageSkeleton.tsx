@@ -31,9 +31,8 @@ export const MainPageSkeleton = () => {
 
 const MAIN_PAGE_BUTTON_PROP = {
   width: '100%',
-  height: '3.5rem',
-  text: '더보기',
-  fontSize: `${theme.FONT_SIZE.LG}`,
+  height: '2.5rem',
+  fontSize: `${theme.FONT_SIZE.MD}`,
   fontWeight: theme.FONT_WEIGHT.BOLD,
   lineHeight: 0,
   textColor: `${theme.PALETTE.RED_400}`,
