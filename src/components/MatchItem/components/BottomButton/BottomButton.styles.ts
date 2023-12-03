@@ -6,5 +6,4 @@ export const StyledButton = styled(Button)`
   border-radius: 8px;
   padding: 10px;
   font-size: 1rem;
-  font-family: 'GmarketSans';
 `;
