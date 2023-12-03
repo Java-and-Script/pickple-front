@@ -7,6 +7,7 @@ import { theme } from '@styles/theme';
 import GithubIcon from '@assets/githubIcon.svg?react';
 import Logo from '@assets/logoSvg.svg?react';
 import NotionIcon from '@assets/notionIcon.svg?react';
+import QRIconPng from '@assets/qrIcon.png';
 import * as webViewImg from '@assets/webView';
 import Filter from '@assets/webView/solvingProblem/filter.svg?react';
 import Lock from '@assets/webView/solvingProblem/lock.svg?react';
@@ -71,7 +72,7 @@ export const WebViewPage = () => {
                   )
                 }
               />
-              <QRIcon />
+              <QRIcon url={QRIconPng} />
             </IconWrapper>
           </FontContainer>
           <PhoneMockup>
@@ -418,10 +419,10 @@ const Img = styled.img`
     }
   }
 `;
-const QRIcon = styled.div`
+const QRIcon = styled.div<{ url: string }>`
   width: 56px;
   height: 56px;
-  background-image: url('src/assets/qrIcon.png');
+  background-image: url(${({ url }) => url});
   background-repeat: no-repeat;
   background-size: contain;
 `;
