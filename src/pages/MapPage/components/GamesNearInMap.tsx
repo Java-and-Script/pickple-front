@@ -33,7 +33,7 @@ export const GamesNearInMap = ({
     <PageLayout>
       <PageContent>
         <Text size={20} weight={700}>
-          내 근처 게스트 매치
+          지도 내 게스트 매치
         </Text>
         {games && games.length === 0 ? (
           <Flex justify="center" gap={16}>
