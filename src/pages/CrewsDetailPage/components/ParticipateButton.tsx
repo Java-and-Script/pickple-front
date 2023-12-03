@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { Button } from '@components/shared/Button';
 
 import { useCrewParticipateCreateMutation } from '@hooks/crews/useCrewParticipateCreateMutation';
+import { useCrewParticipateDeleteMutation } from '@hooks/crews/useCrewParticipateDeleteMutation';
 import { useCrewRegistrationStatusQuery } from '@hooks/member/useCrewRegistrationStatusQuery';
 
 import { theme } from '@styles/theme';
@@ -19,8 +20,10 @@ export const ParticipateButton = ({
   const {
     data: { memberRegistrationStatus },
   } = useCrewRegistrationStatusQuery({ memberId: loginId, crewId });
-  const { mutate: participateMutate } = useCrewParticipateCreateMutation();
-
+  const { mutate: participateCreateMutate } =
+    useCrewParticipateCreateMutation();
+  const { mutate: participateDeleteMutate } =
+    useCrewParticipateDeleteMutation();
   if (memberRegistrationStatus === '없음' && !vacancy) {
     return (
       <Button
@@ -40,7 +43,7 @@ export const ParticipateButton = ({
         height="50px"
         width="100%"
         onClick={() =>
-          participateMutate(
+          participateCreateMutate(
             { crewId },
             {
               onSuccess: () => {
@@ -61,7 +64,16 @@ export const ParticipateButton = ({
         {...theme.BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
         height="50px"
         width="100%"
-        onClick={() => toast('준비중인 기능입니다')}
+        onClick={() =>
+          participateDeleteMutate(
+            { memberId: loginId, crewId },
+            {
+              onSuccess: () => {
+                toast('가입 신청이 취소되었습니다');
+              },
+            }
+          )
+        }
       >
         참여 취소하기
       </Button>
