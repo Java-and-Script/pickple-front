@@ -139,20 +139,21 @@ export const useCreateGamePage = () => {
       playYear > currentYear ||
       (playYear >= currentYear && playMonth > currentMonth) ||
       (playYear >= currentYear &&
-        playMonth > currentMonth &&
+        playMonth >= currentMonth &&
         playDay > currentDay)
     ) {
       return true;
     }
+
     if (
-      Number(playStartTimeHours) <= currentHours ||
-      (Number(playStartTimeHours) <= currentHours &&
-        Number(playStartTimeMinutes) <= currentMinutes)
+      Number(playStartTimeHours) > currentHours ||
+      (Number(playStartTimeHours) >= currentHours &&
+        Number(playStartTimeMinutes) > currentMinutes)
     ) {
-      return false;
+      return true;
     }
 
-    return true;
+    return false;
   };
 
   return {
