@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { Flex } from '@components/shared/Flex';
+import { Text } from '@components/shared/Text';
 
 import { CHAT_TYPE } from '@constants/chat';
 
@@ -76,6 +77,20 @@ export const ModalItem = styled.div`
   cursor: pointer;
 `;
 
-export const Pointer = styled.div`
+export const RoomNameWrapper = styled.div`
   cursor: pointer;
+`;
+
+export const FlexModalItem = styled(Flex)`
+  padding: 14px 20px;
+  cursor: pointer;
+`;
+
+export const AlignedCenteredText = styled(Text)`
+  text-align: center;
+  width: 100%;
+`;
+
+export const ProfileListContainer = styled.div`
+  max-height: 60vh;
 `;
