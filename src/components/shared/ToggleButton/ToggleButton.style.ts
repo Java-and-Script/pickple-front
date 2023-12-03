@@ -7,6 +7,7 @@ export const StyledToggleButton = styled('button')<{
   fontSize: string;
   border?: string;
 }>(({ width, height, fontSize, theme, isActive, border }) => ({
+  whiteSpace: 'nowrap',
   backgroundColor: 'white',
   width: width,
   height: height,
