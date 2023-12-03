@@ -7,6 +7,7 @@ import { theme } from '@styles/theme';
 import GithubIcon from '@assets/githubIcon.svg?react';
 import Logo from '@assets/logoSvg.svg?react';
 import NotionIcon from '@assets/notionIcon.svg?react';
+import * as webViewImg from '@assets/webView';
 import Filter from '@assets/webView/solvingProblem/filter.svg?react';
 import Lock from '@assets/webView/solvingProblem/lock.svg?react';
 import Smile from '@assets/webView/solvingProblem/smile.svg?react';
@@ -75,9 +76,9 @@ export const WebViewPage = () => {
           </FontContainer>
           <PhoneMockup>
             <Carousel>
-              <Img src="src/assets/homeSample.png" />
-              <Img src="src/assets/mapSample.png" />
-              <Img src="src/assets/chatSample.png" />
+              <Img src={webViewImg.homeSample} />
+              <Img src={webViewImg.mapSample} />
+              <Img src={webViewImg.chatSample} />
             </Carousel>
           </PhoneMockup>
         </FirstRow>
@@ -90,47 +91,27 @@ export const WebViewPage = () => {
               }
             >
               <StackSubContainer>
-                <StackIcon
-                  url={'src/assets/webView/techStack/back/springBoot.png'}
-                />
+                <StackIcon url={webViewImg.springBoot} />
               </StackSubContainer>
               <StackSubContainer>
-                <StackIcon
-                  url={'src/assets/webView/techStack/back/java17.png'}
-                />
+                <StackIcon url={webViewImg.java17} />
               </StackSubContainer>
               <StackSubContainer>
-                <StackIcon url={'src/assets/webView/techStack/back/jpa.png'} />
-                <StackIcon
-                  url={'src/assets/webView/techStack/back/mySql.png'}
-                />
-                <StackIcon
-                  url={'src/assets/webView/techStack/back/redis.png'}
-                />
+                <StackIcon url={webViewImg.jpa} />
+                <StackIcon url={webViewImg.mySql} />
+                <StackIcon url={webViewImg.redis} />
               </StackSubContainer>
               <StackSubContainer>
-                <StackIcon
-                  url={'src/assets/webView/techStack/back/awsEc2.png'}
-                />
-                <StackIcon
-                  url={'src/assets/webView/techStack/back/awsRds.png'}
-                />
-                <StackIcon
-                  url={'src/assets/webView/techStack/back/awsElastiCache.png'}
-                />
+                <StackIcon url={webViewImg.awsEc2} />
+                <StackIcon url={webViewImg.awsRds} />
+                <StackIcon url={webViewImg.awsElastiCache} />
               </StackSubContainer>
               <StackSubContainer>
-                <StackIcon
-                  url={'src/assets/webView/techStack/back/nginx.png'}
-                />
-                <StackIcon
-                  url={'src/assets/webView/techStack/back/docker.png'}
-                />
+                <StackIcon url={webViewImg.nginx} />
+                <StackIcon url={webViewImg.docker} />
               </StackSubContainer>
               <StackSubContainer>
-                <StackIcon
-                  url={'src/assets/webView/techStack/back/githubActions.png'}
-                />
+                <StackIcon url={webViewImg.githubActions} />
               </StackSubContainer>
             </StackContainer>
             <FontWrapper>
@@ -140,9 +121,10 @@ export const WebViewPage = () => {
               <Light>•SpringBoot 3.1</Light>
               <Light>•Java 17</Light>
               <Light>•JPA, MySQL8, Redis</Light>
-              <Light>•AWS EC2, RDS, ElasticCache</Light>
+              <Light>•AWS EC2, RDS, ElastiCache</Light>
               <Light>•Nginx, Docker</Light>
               <Light>•Github Actions</Light>
+              <Light>•And more...</Light>
             </FontWrapper>
           </SecondRowSubContainer>
           <SecondRowSubContainer>
@@ -156,6 +138,7 @@ export const WebViewPage = () => {
               <Light>•Tanstack-Query, Zustand, React-Router-Dom</Light>
               <Light>•Vite, Vercel</Light>
               <Light>•npm, Github Actions</Light>
+              <Light>•And more...</Light>
             </FontWrapper>
             <StackContainer
               ref={refFrontEnd}
@@ -164,56 +147,30 @@ export const WebViewPage = () => {
               }
             >
               <StackSubContainer>
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/react.png'}
-                />
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/typeScript.png'}
-                />
+                <StackIcon url={webViewImg.react} />
+                <StackIcon url={webViewImg.typeScript} />
               </StackSubContainer>
               <StackSubContainer>
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/prettier.png'}
-                />
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/eslint.png'}
-                />
+                <StackIcon url={webViewImg.prettier} />
+                <StackIcon url={webViewImg.eslint} />
               </StackSubContainer>
               <StackSubContainer>
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/axios.png'}
-                />
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/emotion.png'}
-                />
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/reactHookForm.png'}
-                />
+                <StackIcon url={webViewImg.axios} />
+                <StackIcon url={webViewImg.emotion} />
+                <StackIcon url={webViewImg.reactHookForm} />
               </StackSubContainer>
               <StackSubContainer>
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/tanstackQuery.png'}
-                />
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/zustand.png'}
-                />
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/reactRouterDom.svg'}
-                />
+                <StackIcon url={webViewImg.tanstackQuery} />
+                <StackIcon url={webViewImg.zustand} />
+                <StackIcon url={webViewImg.reactRouterDom} />
               </StackSubContainer>
               <StackSubContainer>
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/vite.png'}
-                />
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/vercel.png'}
-                />
+                <StackIcon url={webViewImg.vite} />
+                <StackIcon url={webViewImg.vercel} />
               </StackSubContainer>
               <StackSubContainer>
-                <StackIcon url={'src/assets/webView/techStack/front/npm.png'} />
-                <StackIcon
-                  url={'src/assets/webView/techStack/front/githubActions.png'}
-                />
+                <StackIcon url={webViewImg.npm} />
+                <StackIcon url={webViewImg.githubActions} />
               </StackSubContainer>
             </StackContainer>
           </SecondRowSubContainer>
