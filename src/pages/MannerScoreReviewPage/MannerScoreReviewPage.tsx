@@ -74,7 +74,7 @@ export const MannerScoreReviewPage = () => {
                 size={50}
                 border={
                   index === currentSelectedMemberIndex
-                    ? `10px solid ${theme.PALETTE.RED_600}`
+                    ? `3px solid ${theme.PALETTE.RED_600}`
                     : `1px solid ${theme.PALETTE.GRAY_400}`
                 }
                 radius={'5px'}
