@@ -1,6 +1,6 @@
 import { Text } from '@components/shared/Text';
 
-import { StyledCard } from './CreatePage.style.ts';
+import { StyledCard } from '../CreatePage.style.ts';
 
 type CreatePageCardProps = {
   title: string;

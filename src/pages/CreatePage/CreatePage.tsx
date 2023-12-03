@@ -5,7 +5,7 @@ import { Header } from '@components/Header';
 import { PATH_NAME } from '@constants/pathName';
 
 import { CreatePageContainer } from './CreatePage.style';
-import { CreatePageCard } from './CreatePageCard';
+import { CreatePageCard } from './components/CreatePageCard';
 
 export const CreatePage = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export const CreatePage = () => {
 
   return (
     <>
-      <Header title="글 작성" />
+      <Header title="글쓰기" />
       <CreatePageContainer direction="column" gap={10}>
         <CreatePageCard
           onClick={moveToCreateGame}

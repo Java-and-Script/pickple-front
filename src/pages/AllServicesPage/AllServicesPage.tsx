@@ -10,11 +10,13 @@ import Chat from '@assets/chat.svg?react';
 import CrewManage from '@assets/crewManage.svg?react';
 import CrewMember from '@assets/crewMember.svg?react';
 import Exit from '@assets/exit.svg?react';
+import Foot from '@assets/foot.svg?react';
 import Map from '@assets/map.svg?react';
 import Medal from '@assets/medal.svg?react';
 import Pen from '@assets/pen.svg?react';
 import Profile from '@assets/profile.svg?react';
 import Social from '@assets/social.svg?react';
+import Star from '@assets/star.svg?react';
 import Whistle from '@assets/whistle.svg?react';
 
 import {
@@ -76,6 +78,17 @@ export const AllServicesPage = () => {
             게스트 매치
           </Text>
           <MenuItem
+            icon={<Pen />}
+            pageName="게스트 모집하기"
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREATE_GAME)}
+          />
+          <MenuItem
+            icon={<Foot />}
+            pageName="내 근처 게스트 매치"
+            color={myId ? null : theme.PALETTE.GRAY_300}
+            onClickMenuItem={() => moveToPage(PATH_NAME.GAMES_NEAR)}
+          />
+          <MenuItem
             icon={<Ball />}
             pageName="내가 참여한 게스트 매치"
             color={myId ? null : theme.PALETTE.GRAY_300}
@@ -92,6 +105,16 @@ export const AllServicesPage = () => {
           <Text size="1rem" weight={700}>
             크루
           </Text>
+          <MenuItem
+            icon={<Pen />}
+            pageName="크루 만들기"
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREATE_CREW)}
+          />
+          <MenuItem
+            icon={<Star />}
+            pageName="추천 크루"
+            onClickMenuItem={() => moveToPage(PATH_NAME.CREWS_RECOMMEND)}
+          />
           <MenuItem
             icon={<CrewManage />}
             pageName="내가 속한 크루"
