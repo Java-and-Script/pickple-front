@@ -17,6 +17,7 @@ import Money from '@assets/money.svg';
 
 import {
   ButtonWrapper,
+  ContentText,
   GrayText,
   GuestName,
   Guests,
@@ -184,7 +185,7 @@ export const GamesDetailPage = () => {
         <Text size={20} weight={700}>
           경기 소개
         </Text>
-        <Text weight={300}>{match.content}</Text>
+        <ContentText weight={300}>{match.content}</ContentText>
         <Text size={20} weight={700}>
           참여한 게스트
         </Text>

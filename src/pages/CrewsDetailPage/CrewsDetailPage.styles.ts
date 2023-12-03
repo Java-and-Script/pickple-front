@@ -40,7 +40,7 @@ export const ProfileImage = styled(Image)`
 export const MembersContainer = styled.div`
   width: 100%;
   padding-bottom: 10px;
-  overflow: scroll;
+  overflow-x: scroll;
 `;
 
 export const MemberWrapper = styled(Flex)`
