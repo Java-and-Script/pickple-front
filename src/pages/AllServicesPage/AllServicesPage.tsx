@@ -26,7 +26,7 @@ import { MenuItem } from './components/MenuItem';
 import { useAllServicesPage } from './hooks/useAllServicesPage';
 
 export const AllServicesPage = () => {
-  const { myId, moveToPage, logout } = useAllServicesPage();
+  const { myId, moveToPage, logout, toastNextUpdate } = useAllServicesPage();
 
   return (
     <AllServicesContainer>
@@ -66,7 +66,7 @@ export const AllServicesPage = () => {
 
           <MenuItem
             icon={<Social />}
-            color={theme.PALETTE.GRAY_300}
+            onClickMenuItem={toastNextUpdate}
             pageName="소셜링"
           />
         </FieldContainer>

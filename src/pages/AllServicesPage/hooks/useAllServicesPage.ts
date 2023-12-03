@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import { axiosInstance } from '@api/axiosInstance';
@@ -27,9 +28,16 @@ export const useAllServicesPage = () => {
     }
   };
 
+  const toastNextUpdate = () => {
+    toast('차후에 업데이트될 기능입니다!', {
+      icon: '👏',
+    });
+  };
+
   return {
     moveToPage,
     logout,
+    toastNextUpdate,
     myId,
   };
 };
