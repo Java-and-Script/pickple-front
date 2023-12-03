@@ -7,10 +7,13 @@ import { GameNotificationItem } from '@pages/NotificationPage/components/GameNot
 
 import { useEventSource } from '@hooks/useEventSource';
 
+import { useLoginInfoStore } from '@stores/loginInfo.store';
+
 import { Alarm, CrewAlarm, GameAlarm } from '@type/models';
 
 export const ConnectSSE = () => {
   const queryClient = useQueryClient();
+  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
 
   useEventSource({
     subscribeUrl: `${import.meta.env.VITE_BASE_URL}/alarms/subscribe`,
@@ -18,14 +21,17 @@ export const ConnectSSE = () => {
       [
         'AlarmEvent',
         (e) => {
+          if (!loginInfo?.id) {
+            return;
+          }
           invalidateAlarmsQueries(queryClient);
           if ('data' in e) {
             const newAlarm: Alarm = JSON.parse(e.data as string);
             if ('crewId' in newAlarm) {
-              invalidateCrewQueries(queryClient, newAlarm);
+              invalidateCrewQueries(loginInfo?.id, queryClient, newAlarm);
               toastCrewAlarm(newAlarm);
             } else {
-              invalidateGameQueries(queryClient, newAlarm);
+              invalidateGameQueries(loginInfo?.id, queryClient, newAlarm);
               toastGameAlarm(newAlarm);
             }
           }
@@ -44,6 +50,7 @@ const invalidateAlarmsQueries = (queryClient: QueryClient) => {
 };
 
 const invalidateCrewQueries = (
+  loginId: number,
   queryClient: QueryClient,
   newCrewAlarm: CrewAlarm
 ) => {
@@ -53,9 +60,13 @@ const invalidateCrewQueries = (
   queryClient.invalidateQueries({
     queryKey: ['crew-detail', newCrewAlarm.crewId],
   });
+  queryClient.invalidateQueries({
+    queryKey: ['crew-registration', loginId, newCrewAlarm.crewId],
+  });
 };
 
 const invalidateGameQueries = (
+  loginId: number,
   queryClient: QueryClient,
   newGameAlarm: GameAlarm
 ) => {
@@ -64,6 +75,9 @@ const invalidateGameQueries = (
   });
   queryClient.invalidateQueries({
     queryKey: ['game-detail', newGameAlarm.gameId],
+  });
+  queryClient.invalidateQueries({
+    queryKey: ['game-registration', loginId, newGameAlarm.gameId],
   });
 };
 
