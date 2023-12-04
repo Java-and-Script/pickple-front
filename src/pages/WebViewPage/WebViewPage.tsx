@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
 
+import { Button } from '@components/shared/Button';
+
 import { useIntersectionObserver } from '@hooks/useIntersectionObserver';
 
+import { BUTTON_PROPS } from '@styles/button';
 import { theme } from '@styles/theme';
 
 import GithubIcon from '@assets/githubIcon.svg?react';
@@ -59,6 +62,20 @@ export const WebViewPage = () => {
               <Light>번거로운 과정없이</Light>
               <Light>경기에만 집중하게 해드릴게요</Light>
             </FontWrapper>
+            <Button
+              {...BUTTON_PROPS.LARGE_RED_BUTTON_PROPS}
+              height="50px"
+              width="100%"
+              onClick={() => {
+                window.open(
+                  'https://pickple.kr',
+                  '_blank',
+                  'width=500, height=700'
+                );
+              }}
+            >
+              체험해보기
+            </Button>
             <IconWrapper>
               <GithubIcon
                 onClick={() =>
