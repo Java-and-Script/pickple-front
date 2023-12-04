@@ -70,12 +70,15 @@ export const GuestName = styled(Text)`
 
 export const ButtonWrapper = styled.div`
   position: fixed;
-  padding: 5px 16px;
   background-color: white;
   width: 100dvw;
   bottom: 70px;
   left: 0;
   z-index: 1;
+  & > button {
+    width: calc(100% - 32px);
+    margin: 5px 16px;
+  }
 `;
 
 export const PositionItemBox = styled.div`
