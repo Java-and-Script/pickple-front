@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill';
 
-import { useLoginInfoStore } from '@stores/loginInfo.store';
+import { useTokenStore } from '@stores/accessToken.store';
 
 export const useEventSource = ({
   subscribeUrl,
@@ -17,17 +17,17 @@ export const useEventSource = ({
   onmessage?: EventSourcePolyfill['onmessage'];
   onerror?: EventSourcePolyfill['onerror'];
 }) => {
-  const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+  const accessToken = useTokenStore((state) => state.accessToken);
 
   useEffect(() => {
-    if (!loginInfo?.id) {
+    if (!accessToken) {
       return;
     }
 
     const EventSource = EventSourcePolyfill || NativeEventSource;
     const eventSource = new EventSource(subscribeUrl, {
       headers: {
-        Authorization: `Bearer ${loginInfo.accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         'Content-type': 'text/event-stream',
       },
       heartbeatTimeout: 1000 * 60 * 60 * 6,
@@ -43,5 +43,5 @@ export const useEventSource = ({
     return () => {
       eventSource.close();
     };
-  }, [loginInfo, onmessage, onerror, subscribeUrl, eventListenerParameters]);
+  }, [accessToken, onmessage, onerror, subscribeUrl, eventListenerParameters]);
 };

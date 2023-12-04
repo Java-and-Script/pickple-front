@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
@@ -14,6 +15,8 @@ import { Alarm, CrewAlarm, GameAlarm } from '@type/models';
 export const ConnectSSE = () => {
   const queryClient = useQueryClient();
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+  const [, set] = useState(new Date());
+  const reconnectSSE = () => set(new Date());
 
   useEventSource({
     subscribeUrl: `${import.meta.env.VITE_BASE_URL}/alarms/subscribe`,
@@ -38,7 +41,11 @@ export const ConnectSSE = () => {
         },
       ],
     ],
-    onerror: (error) => console.log(error),
+    onerror: (error) => {
+      if ('status' in error && error.status === 500) {
+        setTimeout(() => reconnectSSE(), 3000);
+      }
+    },
   });
 
   return null;
