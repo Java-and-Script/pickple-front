@@ -85,7 +85,7 @@ export const WebViewPage = () => {
               <NotionIcon
                 onClick={() =>
                   window.open(
-                    'https://www.notion.so/prgrms/16-ffafb71245cb4369a0055080ee34ba67'
+                    'https://dear-industry-95c.notion.site/0b08e54feec14164bb0856621c3f6746?pvs=4'
                   )
                 }
               />
