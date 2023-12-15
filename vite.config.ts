@@ -5,6 +5,29 @@ import svgr from 'vite-plugin-svgr';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), svgr()],
+  build: {
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react'],
+          router: ['react-router-dom'],
+          dom: ['react-dom'],
+          style: ['@emotion/react', '@emotion/styled'],
+          fetch: ['axios'],
+          state: ['@tanstack/react-query', 'zustand'],
+          map: ['react-kakao-maps-sdk'],
+          socket: ['sockjs-client', 'stompjs'],
+          form: ['react-hook-form'],
+          ui: [
+            'react-hot-toast',
+            'react-draggable-bottom-sheet',
+            'react-calendar',
+          ],
+        },
+      },
+    },
+  },
   server: {
     proxy: {
       '/api': {

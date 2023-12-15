@@ -21,9 +21,6 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@tanstack/react-query": "^5.0.5",
-    "@types/daum-postcode": "^2.0.2",
-    "@types/sockjs-client": "^1.5.4",
-    "@types/stompjs": "^2.3.8",
     "axios": "^1.5.1",
     "env-cmd": "^10.1.0",
     "event-source-polyfill": "^1.0.31",
@@ -41,6 +38,9 @@
     "zustand": "^4.4.6"
   },
   "devDependencies": {
+    "@types/daum-postcode": "^2.0.2",
+    "@types/sockjs-client": "^1.5.4",
+    "@types/stompjs": "^2.3.8",
     "@tanstack/react-query-devtools": "^5.1.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
