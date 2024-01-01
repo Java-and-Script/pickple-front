@@ -6,7 +6,6 @@ import { CREATE_CREW_STRINGS } from '@pages/CreateCrewPage/constants/createCrewO
 import { ConditionalFormInput } from '@components/ConditionalFormInput';
 import { Header } from '@components/Header';
 import { Modal } from '@components/Modal';
-import { TextArea } from '@components/TextArea';
 import { Button } from '@components/shared/Button';
 import { Text } from '@components/shared/Text';
 import { VirtualScroll } from '@components/shared/VirtualScroll';
@@ -20,10 +19,13 @@ import {
   PageWrapper,
   StyledCreateForm,
   StyledEmptyContainer,
+  StyledInput,
   StyledModalContent,
   StyledModalHeader,
   StyledSelectBox,
   StyledSelectedLocationButton,
+  StyledSubTitle,
+  StyledTextArea,
   StyledTitle,
   StyledToggleButton,
 } from './CreateCrewPage.styles';
@@ -36,8 +38,6 @@ export const CreateCrewPage = () => {
     methods,
     locations,
     onSubmit,
-    setName,
-    setContent,
     handleMaxMemberCount,
     handleToggleLocation,
     toggleMaxMemberCountModal,
@@ -45,7 +45,6 @@ export const CreateCrewPage = () => {
   } = useCreateCrewPage();
 
   const {
-    name,
     maxMemberCount,
     selectedLocation,
     selectedLocations,
@@ -58,7 +57,7 @@ export const CreateCrewPage = () => {
       <PageWrapper>
         <Header title={showHeaderTitle ? CREATE_CREW_STRINGS.TITLE : ''} />
         <FormProvider {...methods}>
-          <StyledCreateForm onSubmit={methods.handleSubmit(onSubmit)}>
+          <StyledCreateForm onSubmit={onSubmit}>
             <StyledTitle>
               <div ref={entryRef}>
                 <Text size={20} weight={700}>
@@ -66,13 +65,15 @@ export const CreateCrewPage = () => {
                 </Text>
               </div>
             </StyledTitle>
-            <ConditionalFormInput
-              title={CREATE_CREW_STRINGS.CREW_NAME}
-              isRequired={true}
-              isContainModal={false}
-              inputLabel="crew-name"
-              inputOnChange={setName}
-              value={name}
+            <StyledSubTitle>
+              <Text size={16} weight={300}>
+                {CREATE_CREW_STRINGS.CREW_NAME}
+              </Text>
+            </StyledSubTitle>
+            <StyledInput
+              {...methods.register('name', {
+                required: true,
+              })}
               minLength={1}
               maxLength={20}
             />
@@ -80,7 +81,7 @@ export const CreateCrewPage = () => {
               title={CREATE_CREW_STRINGS.CREW_MEMBER_COUNT}
               readOnly={true}
               isContainModal={true}
-              inputLabel="crew-count"
+              inputLabel="maxMemberCount"
               onClick={toggleMaxMemberCountModal}
               value={maxMemberCount}
               isModalOpen={isOpenMaxMemberCountModal}
@@ -130,11 +131,12 @@ export const CreateCrewPage = () => {
                 </StyledSelectBox>
               </StyledModalContent>
             </Modal>
-            <TextArea
-              title={CREATE_CREW_STRINGS.CREW_DESCRIPTION}
-              inputLabel="content"
-              inputOnChange={setContent}
-            />
+            <StyledSubTitle>
+              <Text size={16} weight={300}>
+                {CREATE_CREW_STRINGS.CREW_DESCRIPTION}
+              </Text>
+            </StyledSubTitle>
+            <StyledTextArea {...methods.register('content')} maxLength={1000} />
             <Button
               width="100%"
               height="50px"
