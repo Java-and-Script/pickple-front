@@ -39,15 +39,12 @@ export const CreateGamePage = () => {
     methods,
     onSubmit,
     handleAddressSelect,
-    handleCost,
     toggleGuestCountModal,
     toggleMatchDateModal,
     toggleStartTimeModal,
     togglePlayTimeModal,
     setPlayDate,
     setPositions,
-    setDetailAddress,
-    setContent,
     handleMaxMemberCount,
     handlePlayStartTimeHours,
     handlePlayStartTimeMinutes,
@@ -63,8 +60,6 @@ export const CreateGamePage = () => {
     playStartTimeMinutes,
     playTimeMinutes,
     mainAddress,
-    detailAddress,
-    cost,
     isGuestCountModalOpen,
     isMatchDateModalOpen,
     isStartTimeModalOpen,
@@ -76,7 +71,7 @@ export const CreateGamePage = () => {
       <PageWrapper>
         <Header title={showHeaderTitle ? CREATE_GAME_STRINGS.TITLE : ''} />
         <FormProvider {...methods}>
-          <StyledCreateForm onSubmit={methods.handleSubmit(onSubmit)}>
+          <StyledCreateForm onSubmit={onSubmit}>
             <StyledTitle>
               <div ref={entryRef}>
                 <Text size={20} weight={700}>
@@ -85,14 +80,15 @@ export const CreateGamePage = () => {
               </div>
             </StyledTitle>
             <ConditionalFormInput
-              title={CREATE_GAME_STRINGS.GUEST_COUNT}
+              label={CREATE_GAME_STRINGS.GUEST_COUNT}
               readOnly={true}
               isContainModal={true}
-              inputLabel="guest-count"
+              name="maxMemberCount"
               onClick={toggleGuestCountModal}
               value={maxMemberCount}
               isModalOpen={isGuestCountModalOpen}
               closeModal={toggleGuestCountModal}
+              register={methods.register}
             >
               <VirtualScroll
                 width="100%"
@@ -101,26 +97,28 @@ export const CreateGamePage = () => {
               />
             </ConditionalFormInput>
             <ConditionalFormInput
-              title={CREATE_GAME_STRINGS.MATCH_DATE}
+              label={CREATE_GAME_STRINGS.MATCH_DATE}
               readOnly={true}
               isContainModal={true}
-              inputLabel="match-date"
+              name="playDate"
               onClick={toggleMatchDateModal}
               value={playDate}
               isModalOpen={isMatchDateModalOpen}
               closeModal={toggleMatchDateModal}
+              register={methods.register}
             >
               <CalendarComponent setDate={setPlayDate} />
             </ConditionalFormInput>
             <ConditionalFormInput
-              title={CREATE_GAME_STRINGS.START_TIME}
+              label={CREATE_GAME_STRINGS.START_TIME}
               readOnly={true}
               isContainModal={true}
-              inputLabel="start-time"
+              name="playStartTime"
               onClick={toggleStartTimeModal}
               value={`${playStartTimeHours}:${playStartTimeMinutes}`}
               isModalOpen={isStartTimeModalOpen}
               closeModal={toggleStartTimeModal}
+              register={methods.register}
             >
               <StyledTimeSelector>
                 <VirtualScroll
@@ -137,14 +135,15 @@ export const CreateGamePage = () => {
               </StyledTimeSelector>
             </ConditionalFormInput>
             <ConditionalFormInput
-              title={CREATE_GAME_STRINGS.PLAY_TIME}
+              label={CREATE_GAME_STRINGS.PLAY_TIME}
               readOnly={true}
               isContainModal={true}
-              inputLabel="play-time"
+              name="playTimeMinutes"
               onClick={togglePlayTimeModal}
               value={playTimeMinutes}
               isModalOpen={isPlayTimeModalOpen}
               closeModal={togglePlayTimeModal}
+              register={methods.register}
             >
               <VirtualScroll
                 width="100%"
@@ -159,38 +158,34 @@ export const CreateGamePage = () => {
               <SelectPosition setPositions={setPositions} />
             </StyledPositionsWrapper>
             <ConditionalFormInput
-              title={CREATE_GAME_STRINGS.MAIN_ADDRESS}
-              isRequired={true}
+              label={CREATE_GAME_STRINGS.MAIN_ADDRESS}
+              required={true}
               readOnly={true}
-              isContainModal={false}
-              inputLabel="address"
+              name="mainAddress"
               onClick={handleAddressSelect}
               value={mainAddress}
+              register={methods.register}
             />
             <ConditionalFormInput
-              isRequired={true}
-              title={CREATE_GAME_STRINGS.DETAIL_ADDRESS}
-              isContainModal={false}
-              inputLabel="address-detail"
-              inputOnChange={setDetailAddress}
-              value={detailAddress}
+              required={true}
+              label={CREATE_GAME_STRINGS.DETAIL_ADDRESS}
+              name="detailAddress"
+              register={methods.register}
             />
             <ConditionalFormInput
-              title={CREATE_GAME_STRINGS.COST}
-              isContainModal={false}
-              inputLabel="cost"
-              inputOnChange={handleCost}
-              value={cost}
+              label={CREATE_GAME_STRINGS.COST}
+              name="cost"
               type="number"
               pattern="\d*"
-              min={'0'}
+              min={0}
               step={1000}
-              max={'100000'}
+              max={100000}
+              register={methods.register}
             />
             <TextArea
-              title={CREATE_GAME_STRINGS.CONTENT}
-              inputLabel="content"
-              inputOnChange={setContent}
+              label={CREATE_GAME_STRINGS.CONTENT}
+              name="content"
+              register={methods.register}
             />
             <Button
               width="100%"
