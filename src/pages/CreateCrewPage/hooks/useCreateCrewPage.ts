@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import { AxiosError } from 'axios';
+
+import { CREATE_CREW_ERROR_MESSAGE } from '@pages/CreateCrewPage/constants/createCrewOptions';
 
 import { LoginRequireError } from '@routes/LoginRequireBoundary';
 
@@ -27,41 +29,13 @@ export const useCreateCrewPage = () => {
 
   const navigate = useNavigate();
   const { data: locations } = useLocationsQuery();
-
   const { mutate } = useCrewMutation();
-  const methods = useForm();
 
-  const [name, setName] = useState<string>('');
-  const [content, setContent] = useState<string>('');
+  const methods = useForm();
+  const { handleSubmit } = methods;
+
   const [maxMemberCount, setMaxMemberCount] = useState<string>('');
   const [selectedLocation, setSelectedLocation] = useState<string[]>();
-
-  const onSubmit = () => {
-    const crewData: PostCrewRequest = {
-      name,
-      content,
-      maxMemberCount: parseInt(maxMemberCount),
-      addressDepth1: '서울시',
-      addressDepth2: selectedLocation![0],
-    };
-
-    mutate(crewData, {
-      onSuccess: ({ crewId }) => {
-        navigate(PATH_NAME.GET_CREWS_PATH(String(crewId)));
-      },
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          if (error.response?.data.code === 'CRE-012') {
-            return toast.error('최대 크루 생성 횟수 3회를 초과했습니다.');
-          }
-          if (error.response?.data.code === 'CRE-002') {
-            return toast.error('중복된 크루 이름 입니다.');
-          }
-        }
-      },
-    });
-  };
-
   const [isOpenMaxMemberCountModal, setIsOpenMaxMemberCountModal] =
     useState(false);
   const [isOpenAddressDepth2Modal, setIsOpenAddressDepth2Modal] =
@@ -87,20 +61,46 @@ export const useCreateCrewPage = () => {
     isOpenMaxMemberCountModal || setMaxMemberCount(maxMemberCount);
   };
 
+  const onSubmit = handleSubmit((data: FieldValues) => {
+    const addressDepth2 = selectedLocation![0];
+    const { name, content } = data;
+    const crewData: PostCrewRequest = {
+      name,
+      content,
+      maxMemberCount: parseInt(maxMemberCount),
+      addressDepth1: '서울시',
+      addressDepth2,
+    };
+    mutate(crewData, {
+      onSuccess: ({ crewId }) => {
+        navigate(PATH_NAME.GET_CREWS_PATH(String(crewId)));
+      },
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          if (error.response?.data.code === 'CRE-012') {
+            return toast.error(
+              CREATE_CREW_ERROR_MESSAGE.MAX_CREW_LIMIT_EXCEEDED
+            );
+          }
+          if (error.response?.data.code === 'CRE-002') {
+            return toast.error(CREATE_CREW_ERROR_MESSAGE.DUPLICATE_CREW_NAME);
+          }
+        }
+      },
+    });
+  });
+
   return {
     state: {
-      name,
       maxMemberCount,
       selectedLocation,
       selectedLocations,
       isOpenMaxMemberCountModal,
       isOpenAddressDepth2Modal,
     },
-    methods,
     locations,
+    methods,
     onSubmit,
-    setName,
-    setContent,
     handleMaxMemberCount,
     handleToggleLocation,
     toggleMaxMemberCountModal,

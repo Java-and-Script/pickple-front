@@ -40,3 +40,8 @@ export const CREATE_CREW_STRINGS = {
   CREW_DESCRIPTION: '상세설명을 입력해 주세요!',
   CREATE: '만들기',
 } as const;
+
+export const CREATE_CREW_ERROR_MESSAGE = {
+  MAX_CREW_LIMIT_EXCEEDED: '최대 크루 생성 횟수 3회를 초과했습니다.',
+  DUPLICATE_CREW_NAME: '중복된 크루 이름 입니다.',
+};

@@ -36,8 +36,6 @@ export const CreateCrewPage = () => {
     methods,
     locations,
     onSubmit,
-    setName,
-    setContent,
     handleMaxMemberCount,
     handleToggleLocation,
     toggleMaxMemberCountModal,
@@ -45,7 +43,6 @@ export const CreateCrewPage = () => {
   } = useCreateCrewPage();
 
   const {
-    name,
     maxMemberCount,
     selectedLocation,
     selectedLocations,
@@ -58,7 +55,7 @@ export const CreateCrewPage = () => {
       <PageWrapper>
         <Header title={showHeaderTitle ? CREATE_CREW_STRINGS.TITLE : ''} />
         <FormProvider {...methods}>
-          <StyledCreateForm onSubmit={methods.handleSubmit(onSubmit)}>
+          <StyledCreateForm onSubmit={onSubmit}>
             <StyledTitle>
               <div ref={entryRef}>
                 <Text size={20} weight={700}>
@@ -67,24 +64,22 @@ export const CreateCrewPage = () => {
               </div>
             </StyledTitle>
             <ConditionalFormInput
-              title={CREATE_CREW_STRINGS.CREW_NAME}
-              isRequired={true}
-              isContainModal={false}
-              inputLabel="crew-name"
-              inputOnChange={setName}
-              value={name}
+              label={CREATE_CREW_STRINGS.CREW_NAME}
+              name="name"
+              register={methods.register}
+              required={true}
               minLength={1}
               maxLength={20}
             />
             <ConditionalFormInput
-              title={CREATE_CREW_STRINGS.CREW_MEMBER_COUNT}
-              readOnly={true}
+              label={CREATE_CREW_STRINGS.CREW_MEMBER_COUNT}
+              name="maxMemberCount"
+              register={methods.register}
               isContainModal={true}
-              inputLabel="crew-count"
-              onClick={toggleMaxMemberCountModal}
-              value={maxMemberCount}
               isModalOpen={isOpenMaxMemberCountModal}
               closeModal={toggleMaxMemberCountModal}
+              value={maxMemberCount}
+              onClick={toggleMaxMemberCountModal}
             >
               <VirtualScroll
                 width="100%"
@@ -131,9 +126,9 @@ export const CreateCrewPage = () => {
               </StyledModalContent>
             </Modal>
             <TextArea
-              title={CREATE_CREW_STRINGS.CREW_DESCRIPTION}
-              inputLabel="content"
-              inputOnChange={setContent}
+              label={CREATE_CREW_STRINGS.CREW_DESCRIPTION}
+              register={methods.register}
+              name="content"
             />
             <Button
               width="100%"
