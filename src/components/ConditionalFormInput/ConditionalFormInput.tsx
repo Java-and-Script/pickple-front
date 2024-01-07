@@ -1,4 +1,4 @@
-import { useFormContext } from 'react-hook-form';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 import { Modal } from '@components/Modal';
 import { Text } from '@components/shared/Text';
@@ -10,55 +10,68 @@ import {
 } from './ConditionalFormInput.styles';
 
 export type ConditionalFormInputProps = {
-  title: string;
-  inputLabel: string;
-  inputValue?: string;
+  label: string;
+  name: string;
+  register: UseFormRegister<FieldValues>;
+  required?: boolean;
+  isContainModal?: boolean;
   isModalOpen?: boolean;
-  isContainModal: boolean;
-  isRequired?: boolean;
-  children?: React.ReactNode;
-  inputOnChange?: (item: string) => void;
   closeModal?: () => void;
+  children?: React.ReactNode;
 };
 
 export const ConditionalFormInput = ({
-  title,
+  label,
+  name,
+  register,
+  required = false,
   isContainModal = false,
-  inputLabel,
-  inputOnChange,
   isModalOpen,
   closeModal,
-  isRequired,
   children,
   ...inputProps
 }: React.ComponentProps<'input'> & ConditionalFormInputProps) => {
-  const { register } = useFormContext();
   return (
     <>
-      <StyledSubTitle>
-        <Text size={16} weight={300}>
-          {title}
-        </Text>
-      </StyledSubTitle>
-      <StyledInput
-        {...register(inputLabel, { required: isRequired })}
-        {...inputProps}
-        onChange={(event) => inputOnChange && inputOnChange(event.target.value)}
-        onWheel={(event) => event.currentTarget.blur()}
-      />
-      {isContainModal && (
-        <Modal
-          isOpen={isModalOpen as boolean}
-          close={closeModal as VoidFunction}
-          header={true}
-        >
-          <StyledModalHeader>
-            <Text size={20} weight={700}>
-              {title}
+      {isContainModal ? (
+        <>
+          <StyledSubTitle>
+            <Text size={16} weight={300}>
+              {label}
             </Text>
-          </StyledModalHeader>
-          <Modal.Content>{children}</Modal.Content>
-        </Modal>
+          </StyledSubTitle>
+          <StyledInput
+            {...register(name, { required: required })}
+            {...inputProps}
+            onWheel={(event) => event.currentTarget.blur()}
+            readOnly={true}
+          />
+          <Modal
+            isOpen={isModalOpen as boolean}
+            close={closeModal as VoidFunction}
+            header={true}
+          >
+            <StyledModalHeader>
+              <Text size={20} weight={700}>
+                {label}
+              </Text>
+            </StyledModalHeader>
+            <Modal.Content>{children}</Modal.Content>
+          </Modal>
+        </>
+      ) : (
+        <>
+          <StyledSubTitle>
+            <Text size={16} weight={300}>
+              {label}
+            </Text>
+          </StyledSubTitle>
+          <StyledInput
+            {...register(name, { required: required })}
+            {...inputProps}
+            onWheel={(event) => event.currentTarget.blur()}
+          />
+        </>
       )}
     </>
   );
