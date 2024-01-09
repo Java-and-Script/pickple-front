@@ -1,36 +1,33 @@
-import { useForm } from 'react-hook-form';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 import { Text } from '@components/shared/Text';
 
 import { StyledSubTitle, StyledTextArea } from './TextArea.styles';
 
 type textAreaProps = {
-  title: string;
-  inputLabel: string;
+  label: string;
+  name: string;
   defaultValue?: string;
-  inputOnChange?: (item: string) => void;
+  register: UseFormRegister<FieldValues>;
 };
 
 export const TextArea = ({
-  title,
-  inputLabel,
+  label,
+  register,
+  name,
   defaultValue,
-  inputOnChange,
 }: textAreaProps) => {
-  const { register } = useForm();
-
   return (
     <>
       <StyledSubTitle>
         <Text size={16} weight={300}>
-          {title}
+          {label}
         </Text>
       </StyledSubTitle>
       <StyledTextArea
-        {...register(inputLabel)}
+        {...register(name)}
         maxLength={1000}
         defaultValue={defaultValue}
-        onChange={(event) => inputOnChange && inputOnChange(event.target.value)}
       />
     </>
   );

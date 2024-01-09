@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,16 +16,20 @@ import { Position } from '@type/models/Position';
 
 import { PATH_NAME } from '@constants/pathName';
 
-import { formatDateToString } from '@utils/formatDateToString';
+import { validateStartTime } from '../utils/validateStartTime';
 
 export const useCreateGamePage = () => {
   const loginInfo = useLoginInfoStore((state) => state.loginInfo);
+
   if (!loginInfo?.id) {
     throw new LoginRequireError();
   }
+
   const { mutate } = useGameMutation();
   const navigate = useNavigate();
+
   const methods = useForm();
+  const { handleSubmit } = methods;
 
   const [maxMemberCount, setMaxMemberCount] = useState<string>('');
   const [playDate, setPlayDate] = useState<string>('');
@@ -34,10 +38,6 @@ export const useCreateGamePage = () => {
   const [playTimeMinutes, setPlayTimeMinutes] = useState<string>('');
   const [positions, setPositions] = useState<Position[]>([]);
   const [mainAddress, setMainAddress] = useState<string>('');
-  const [detailAddress, setDetailAddress] = useState<string>('');
-  const [cost, setCost] = useState<string>('0');
-  const [content, setContent] = useState<string>('');
-
   const [isGuestCountModalOpen, setIsGuestCountModalOpen] =
     useState<boolean>(false);
   const [isMatchDateModalOpen, setIsMatchDateModalOpen] =
@@ -71,14 +71,6 @@ export const useCreateGamePage = () => {
     }).open();
   };
 
-  const handleCost = (item: string) => {
-    if (parseInt(item) < 0) {
-      setCost('0');
-    } else if (parseInt(item) > 100000) {
-      setCost('100000');
-    } else setCost(item);
-  };
-
   const toggleGuestCountModal = () => {
     setIsGuestCountModalOpen((prev) => !prev);
   };
@@ -95,20 +87,23 @@ export const useCreateGamePage = () => {
     setIsPlayTimeModalOpen((prev) => !prev);
   };
 
-  const onSubmit = () => {
+  const onSubmit = handleSubmit((data: FieldValues) => {
+    const { detailAddress, cost, content } = data;
     const gameData: PostGameRequest = {
       maxMemberCount: parseInt(maxMemberCount),
-      playDate: playDate,
+      playDate,
       playStartTime: `${playStartTimeHours}:${playStartTimeMinutes}`,
       playTimeMinutes: parseInt(playTimeMinutes),
-      positions: positions,
-      mainAddress: mainAddress,
-      detailAddress: detailAddress,
+      positions,
+      mainAddress,
+      detailAddress,
       cost: parseInt(cost),
-      content: content,
+      content,
     };
 
-    if (!validateStartTime()) {
+    if (
+      !validateStartTime({ playDate, playStartTimeHours, playStartTimeMinutes })
+    ) {
       toast.error('현재시간 이전의 경기는\n생성할 수 없습니다.');
       throw new Error();
     }
@@ -124,37 +119,7 @@ export const useCreateGamePage = () => {
         }
       },
     });
-  };
-  const validateStartTime = () => {
-    const [playYear, playMonth, playDay] = playDate.split('-').map(Number);
-    const [currentYear, currentMonth, currentDay] = formatDateToString(
-      new Date()
-    )
-      .split('-')
-      .map(Number);
-    const currentHours = new Date().getHours();
-    const currentMinutes = new Date().getMinutes();
-
-    if (
-      playYear > currentYear ||
-      (playYear >= currentYear && playMonth > currentMonth) ||
-      (playYear >= currentYear &&
-        playMonth >= currentMonth &&
-        playDay > currentDay)
-    ) {
-      return true;
-    }
-
-    if (
-      Number(playStartTimeHours) > currentHours ||
-      (Number(playStartTimeHours) >= currentHours &&
-        Number(playStartTimeMinutes) > currentMinutes)
-    ) {
-      return true;
-    }
-
-    return false;
-  };
+  });
 
   return {
     state: {
@@ -164,8 +129,6 @@ export const useCreateGamePage = () => {
       playStartTimeMinutes,
       playTimeMinutes,
       mainAddress,
-      detailAddress,
-      cost,
       isGuestCountModalOpen,
       isMatchDateModalOpen,
       isStartTimeModalOpen,
@@ -174,15 +137,12 @@ export const useCreateGamePage = () => {
     methods,
     onSubmit,
     handleAddressSelect,
-    handleCost,
     toggleGuestCountModal,
     toggleMatchDateModal,
     toggleStartTimeModal,
     togglePlayTimeModal,
     setPlayDate,
     setPositions,
-    setDetailAddress,
-    setContent,
     handleMaxMemberCount,
     handlePlayStartTimeHours,
     handlePlayStartTimeMinutes,
