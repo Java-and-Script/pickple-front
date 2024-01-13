@@ -1,7 +1,5 @@
 import { FormProvider } from 'react-hook-form';
 
-import { DevTool } from '@hookform/devtools';
-
 import {
   CREATE_GAME_STRINGS,
   MAX_MEMBER_COUNT_LIST,
@@ -192,7 +190,6 @@ export const CreateGamePage = () => {
             <StyledEmptyContainer />
           </StyledCreateForm>
         </FormProvider>
-        <DevTool control={methods.control} />
       </PageWrapper>
     </PageLayout>
   );
