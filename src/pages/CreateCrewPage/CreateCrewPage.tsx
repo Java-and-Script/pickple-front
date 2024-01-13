@@ -1,7 +1,5 @@
 import { FormProvider } from 'react-hook-form';
 
-import { DevTool } from '@hookform/devtools';
-
 import { MAX_MEMBER_COUNT_LIST } from '@pages/CreateCrewPage/constants/createCrewOptions';
 import { CREATE_CREW_STRINGS } from '@pages/CreateCrewPage/constants/createCrewOptions';
 
@@ -144,7 +142,6 @@ export const CreateCrewPage = () => {
             <StyledEmptyContainer />
           </StyledCreateForm>
         </FormProvider>
-        <DevTool control={methods.control} />
       </PageWrapper>
     </PageLayout>
   );
