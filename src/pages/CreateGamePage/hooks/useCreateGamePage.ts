@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -29,15 +29,9 @@ export const useCreateGamePage = () => {
   const navigate = useNavigate();
 
   const methods = useForm();
-  const { handleSubmit } = methods;
-
-  const [maxMemberCount, setMaxMemberCount] = useState<string>('');
-  const [playDate, setPlayDate] = useState<string>('');
-  const [playStartTimeHours, setPlayStartTimeHours] = useState<string>('');
-  const [playStartTimeMinutes, setPlayStartTimeMinutes] = useState<string>('');
-  const [playTimeMinutes, setPlayTimeMinutes] = useState<string>('');
+  const { handleSubmit, setValue, getValues } = methods;
   const [positions, setPositions] = useState<Position[]>([]);
-  const [mainAddress, setMainAddress] = useState<string>('');
+
   const [isGuestCountModalOpen, setIsGuestCountModalOpen] =
     useState<boolean>(false);
   const [isMatchDateModalOpen, setIsMatchDateModalOpen] =
@@ -48,25 +42,30 @@ export const useCreateGamePage = () => {
     useState<boolean>(false);
 
   const handleMaxMemberCount = (maxMemberCount: string) => {
-    isGuestCountModalOpen || setMaxMemberCount(maxMemberCount);
+    isGuestCountModalOpen || setValue('maxMemberCount', maxMemberCount);
   };
 
   const handlePlayStartTimeHours = (playStartTimeHours: string) => {
-    isStartTimeModalOpen || setPlayStartTimeHours(playStartTimeHours);
+    isStartTimeModalOpen || setValue('playStartTimeHours', playStartTimeHours);
   };
 
   const handlePlayStartTimeMinutes = (playStartTimeMinutes: string) => {
-    isStartTimeModalOpen || setPlayStartTimeMinutes(playStartTimeMinutes);
+    isStartTimeModalOpen ||
+      setValue('playStartTimeMinutes', playStartTimeMinutes);
   };
 
   const handlePlayTimeMinutes = (playTimeMinutes: string) => {
-    isPlayTimeModalOpen || setPlayTimeMinutes(playTimeMinutes);
+    isPlayTimeModalOpen || setValue('playTimeMinutes', playTimeMinutes);
+  };
+
+  const handlePlayDate = (playDate: string) => {
+    setValue('playDate', playDate);
   };
 
   const handleAddressSelect = () => {
     new daum.Postcode({
       oncomplete: ({ address }: { address: string }) => {
-        setMainAddress(address);
+        setValue('mainAddress', address);
       },
     }).open();
   };
@@ -87,8 +86,28 @@ export const useCreateGamePage = () => {
     setIsPlayTimeModalOpen((prev) => !prev);
   };
 
+  useEffect(() => {
+    isStartTimeModalOpen ||
+      setValue(
+        'playStartTime',
+        `${getValues('playStartTimeHours')}:${getValues(
+          'playStartTimeMinutes'
+        )}`
+      );
+  }, [getValues, setValue, isStartTimeModalOpen]);
+
   const onSubmit = handleSubmit((data: FieldValues) => {
-    const { detailAddress, cost, content } = data;
+    const {
+      detailAddress,
+      cost,
+      content,
+      maxMemberCount,
+      playDate,
+      playStartTimeHours,
+      playStartTimeMinutes,
+      mainAddress,
+      playTimeMinutes,
+    } = data;
     const gameData: PostGameRequest = {
       maxMemberCount: parseInt(maxMemberCount),
       playDate,
@@ -123,12 +142,6 @@ export const useCreateGamePage = () => {
 
   return {
     state: {
-      maxMemberCount,
-      playDate,
-      playStartTimeHours,
-      playStartTimeMinutes,
-      playTimeMinutes,
-      mainAddress,
       isGuestCountModalOpen,
       isMatchDateModalOpen,
       isStartTimeModalOpen,
@@ -141,11 +154,11 @@ export const useCreateGamePage = () => {
     toggleMatchDateModal,
     toggleStartTimeModal,
     togglePlayTimeModal,
-    setPlayDate,
     setPositions,
     handleMaxMemberCount,
     handlePlayStartTimeHours,
     handlePlayStartTimeMinutes,
     handlePlayTimeMinutes,
+    handlePlayDate,
   };
 };

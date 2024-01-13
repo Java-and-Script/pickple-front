@@ -1,5 +1,7 @@
 import { FormProvider } from 'react-hook-form';
 
+import { DevTool } from '@hookform/devtools';
+
 import {
   CREATE_GAME_STRINGS,
   MAX_MEMBER_COUNT_LIST,
@@ -43,7 +45,7 @@ export const CreateGamePage = () => {
     toggleMatchDateModal,
     toggleStartTimeModal,
     togglePlayTimeModal,
-    setPlayDate,
+    handlePlayDate,
     setPositions,
     handleMaxMemberCount,
     handlePlayStartTimeHours,
@@ -54,12 +56,6 @@ export const CreateGamePage = () => {
   const { entryRef, showHeaderTitle } = useHeaderTitle<HTMLDivElement>();
 
   const {
-    maxMemberCount,
-    playDate,
-    playStartTimeHours,
-    playStartTimeMinutes,
-    playTimeMinutes,
-    mainAddress,
     isGuestCountModalOpen,
     isMatchDateModalOpen,
     isStartTimeModalOpen,
@@ -85,7 +81,6 @@ export const CreateGamePage = () => {
               isContainModal={true}
               name="maxMemberCount"
               onClick={toggleGuestCountModal}
-              value={maxMemberCount}
               isModalOpen={isGuestCountModalOpen}
               closeModal={toggleGuestCountModal}
               register={methods.register}
@@ -102,12 +97,11 @@ export const CreateGamePage = () => {
               isContainModal={true}
               name="playDate"
               onClick={toggleMatchDateModal}
-              value={playDate}
               isModalOpen={isMatchDateModalOpen}
               closeModal={toggleMatchDateModal}
               register={methods.register}
             >
-              <CalendarComponent setDate={setPlayDate} />
+              <CalendarComponent setDate={handlePlayDate} />
             </ConditionalFormInput>
             <ConditionalFormInput
               label={CREATE_GAME_STRINGS.START_TIME}
@@ -115,7 +109,6 @@ export const CreateGamePage = () => {
               isContainModal={true}
               name="playStartTime"
               onClick={toggleStartTimeModal}
-              value={`${playStartTimeHours}:${playStartTimeMinutes}`}
               isModalOpen={isStartTimeModalOpen}
               closeModal={toggleStartTimeModal}
               register={methods.register}
@@ -140,7 +133,6 @@ export const CreateGamePage = () => {
               isContainModal={true}
               name="playTimeMinutes"
               onClick={togglePlayTimeModal}
-              value={playTimeMinutes}
               isModalOpen={isPlayTimeModalOpen}
               closeModal={togglePlayTimeModal}
               register={methods.register}
@@ -163,7 +155,6 @@ export const CreateGamePage = () => {
               readOnly={true}
               name="mainAddress"
               onClick={handleAddressSelect}
-              value={mainAddress}
               register={methods.register}
             />
             <ConditionalFormInput
@@ -201,6 +192,7 @@ export const CreateGamePage = () => {
             <StyledEmptyContainer />
           </StyledCreateForm>
         </FormProvider>
+        <DevTool control={methods.control} />
       </PageWrapper>
     </PageLayout>
   );
