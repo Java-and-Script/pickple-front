@@ -32,9 +32,8 @@ export const useCreateCrewPage = () => {
   const { mutate } = useCrewMutation();
 
   const methods = useForm();
-  const { handleSubmit } = methods;
+  const { handleSubmit, setValue } = methods;
 
-  const [maxMemberCount, setMaxMemberCount] = useState<string>('');
   const [selectedLocation, setSelectedLocation] = useState<string[]>();
   const [isOpenMaxMemberCountModal, setIsOpenMaxMemberCountModal] =
     useState(false);
@@ -58,12 +57,12 @@ export const useCreateCrewPage = () => {
   };
 
   const handleMaxMemberCount = (maxMemberCount: string) => {
-    isOpenMaxMemberCountModal || setMaxMemberCount(maxMemberCount);
+    isOpenMaxMemberCountModal || setValue('maxMemberCount', maxMemberCount);
   };
 
   const onSubmit = handleSubmit((data: FieldValues) => {
     const addressDepth2 = selectedLocation![0];
-    const { name, content } = data;
+    const { name, content, maxMemberCount } = data;
     const crewData: PostCrewRequest = {
       name,
       content,
@@ -92,7 +91,6 @@ export const useCreateCrewPage = () => {
 
   return {
     state: {
-      maxMemberCount,
       selectedLocation,
       selectedLocations,
       isOpenMaxMemberCountModal,
